@@ -1,0 +1,270 @@
+@import url("../../styles/fonts.css");
+@import url("../../styles/tokens.css");
+
+:root {
+  --font-family: "MADE TOMMY", system-ui, -apple-system, sans-serif;
+  --font-accent: "Taprom", system-ui;
+}
+
+/* Scoped to the layout wrapper */
+.merchant_kyb_layout {
+  margin: 0;
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  column-gap: 1rem;
+  padding: 0.5rem;
+  background-color: var(--bg-weak-50);
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+/* Sidebar Styles - These will be used by the shared Sidebar component */
+.merchant_kyb_layout .sidebar {
+  width: 20rem;
+  height: calc(100vh - 1rem);
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-white-0);
+  align-items: stretch;
+  border-radius: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.merchant_kyb_layout .top_section,
+.merchant_kyb_layout .buttom_section {
+  width: 100%;
+  height: 6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0.75rem;
+}
+
+.merchant_kyb_layout .company_name_content {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  column-gap: 0.5rem;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.75rem;
+  border-bottom: 2px solid var(--bg-weak-50);
+}
+
+.merchant_kyb_layout .company_logo {
+  min-width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.merchant_kyb_layout .company_logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.merchant_kyb_layout .top_section_title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-strong-950);
+}
+
+.merchant_kyb_layout .top_section_slogan {
+  font-size: 0.75rem;
+  font-weight: 300;
+  color: var(--text-soft-400);
+}
+
+.merchant_kyb_layout .nav_contents {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.merchant_kyb_layout .nav_content_wrapper {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.merchant_kyb_layout .nav_main_title {
+  display: flex;
+  flex-direction: row;
+  column-gap: 0.5rem;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+}
+
+.merchant_kyb_layout .nav_main_title p {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--text-soft-400);
+}
+
+.merchant_kyb_layout .nav_main_links {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.25rem;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.merchant_kyb_layout .active_tab {
+  text-decoration: none;
+  display: flex;
+  flex-direction: row;
+  column-gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-strong-950);
+}
+
+.merchant_kyb_layout .active_tab .tab-link {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  column-gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background-color: var(--bg-weak-50);
+  margin-right: 1rem;
+}
+
+.merchant_kyb_layout .active_tab .tab-link p {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-strong-950);
+}
+
+.merchant_kyb_layout .active_tab .tab-link:hover {
+  cursor: pointer;
+}
+
+.merchant_kyb_layout .indicator {
+  width: 0.4rem;
+  height: auto;
+  align-self: center;
+  justify-self: center;
+}
+
+.merchant_kyb_layout .indicator img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.merchant_kyb_layout .inactive_tab {
+  text-decoration: none;
+  display: flex;
+  flex-direction: row;
+  column-gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-soft-400);
+  margin-right: 1rem;
+}
+
+.merchant_kyb_layout .inactive_tab .tab-link {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  column-gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background-color: var(--bg-white-0);
+}
+
+.merchant_kyb_layout .inactive_tab .tab-link p {
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--text-soft-400);
+}
+
+.merchant_kyb_layout .inactive_tab .tab-link:hover {
+  cursor: pointer;
+  background-color: var(--bg-weak-50);
+}
+
+.merchant_kyb_layout .user_content {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  column-gap: 0.5rem;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.75rem;
+  border-top: 1px solid var(--bg-weak-50);
+}
+
+.merchant_kyb_layout .avatar {
+  min-width: 3rem;
+  min-height: 3rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.merchant_kyb_layout .avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.merchant_kyb_layout .main_content {
+  flex: 1;
+  width: 0;
+  min-height: calc(100vh - 1rem);
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border-radius: 1rem;
+  background-color: var(--bg-white-0);
+  overflow-y: auto;
+}
+
+.merchant_kyb_layout .page_title {
+  display: flex;
+  flex-direction: row;
+  column-gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  border-bottom: 2px solid var(--bg-weak-50);
+  width: 100%;
+}
+
+.merchant_kyb_layout .title_summary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.merchant_kyb_layout .page_title_bg {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-strong-950);
+}
+
+.merchant_kyb_layout .page_title_sm {
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--text-soft-400);
+}
