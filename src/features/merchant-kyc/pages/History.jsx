@@ -1,15 +1,92 @@
 import React from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
+import VerificationTable from "../../../shared/components/VerificationTable";
 
 const History = () => {
+  const verifications = [
+    {
+      id: "#KYC20240915001",
+      type: "Passport",
+      name: "John Doe",
+      status: "Approved",
+      batch: "#BATCH1001",
+      date: "15 Sep 2024",
+      time: "10:30 AM",
+    },
+    {
+      id: "#KYC20240915002",
+      type: "Driver License",
+      name: "Jane Smith",
+      status: "Pending",
+      batch: "#BATCH1002",
+      date: "16 Sep 2024",
+      time: "11:45 AM",
+    },
+    {
+      id: "#KYC20240915003",
+      type: "National ID",
+      name: "Mike Johnson",
+      status: "Rejected",
+      batch: "#BATCH1003",
+      date: "17 Sep 2024",
+      time: "09:15 AM",
+    },
+    {
+      id: "#KYC20240915004",
+      type: "National ID",
+      name: "Sarah Williams",
+      status: "Approved",
+      batch: "#BATCH1004",
+      date: "17 Sep 2024",
+      time: "09:15 AM",
+    },
+    {
+      id: "#KYC20240915005",
+      type: "Passport",
+      name: "Chris Brown",
+      status: "Approved",
+      batch: "#BATCH1005",
+      date: "17 Sep 2024",
+      time: "09:15 AM",
+    },
+  ];
+
   return (
-    <div className="content_wrapper">
+    <div className="content_area">
       <PageHeader
         title="Verification History"
         description="View and manage past verification requests"
       />
-      <div className="content_area">
-        <p>History Content</p>
+
+      <div className="recent_verifications">
+        <div className="top_area">
+          <p className="section_title">Recent Verifications</p>
+
+          <div className="search_box">
+            <span className="material-symbols-outlined search_icon">
+              search
+            </span>
+            <input
+              type="text"
+              placeholder="Search by name, email, or ID"
+              className="search_input"
+            />
+          </div>
+
+          <div className="button_wrapper">
+            <button className="secondary_button">
+              <span className="material-symbols-outlined">filter_list</span>
+              <p>Filter Records</p>
+            </button>
+
+            <button className="secondary_button">
+              <span className="material-symbols-outlined">download</span>
+              <p>Download as CSV</p>
+            </button>
+          </div>
+        </div>
+
+        <VerificationTable data={verifications} />
       </div>
     </div>
   );

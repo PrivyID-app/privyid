@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
+import VerificationTable from "../../../shared/components/VerificationTable";
 import {
   LineChart,
   Line,
@@ -84,31 +85,6 @@ const DashboardOverview = () => {
       time: "09:15 AM",
     },
   ];
-
-  const [selectedRows, setSelectedRows] = useState(new Set());
-  const [selectAll, setSelectAll] = useState(false);
-
-  const toggleSelectAll = () => {
-    if (selectAll) {
-      setSelectedRows(new Set());
-      setSelectAll(false);
-      return;
-    }
-
-    const all = new Set(verifications.map((_, i) => i));
-    setSelectedRows(all);
-    setSelectAll(true);
-  };
-
-  const toggleRow = (index) => {
-    setSelectedRows((prev) => {
-      const next = new Set(prev);
-      if (next.has(index)) next.delete(index);
-      else next.add(index);
-      setSelectAll(next.size === verifications.length);
-      return next;
-    });
-  };
 
   return (
     <>
@@ -309,128 +285,7 @@ const DashboardOverview = () => {
             </a>
           </div>
 
-          <div className="merchant_table">
-            <div className="table_header">
-              <div className="cell checkbox_cell">
-                <img
-                  src={selectAll ? CheckboxActiveIcon : CheckboxIcon}
-                  alt="Select all"
-                  onClick={toggleSelectAll}
-                  style={{ cursor: "pointer" }}
-                />
-              </div>
-              <div className="cell">
-                <p>Verification No.</p>
-              </div>
-              <div className="cell">
-                <p>ID Type</p>
-              </div>
-              <div className="cell">
-                <p>User Name</p>
-              </div>
-              <div className="cell">
-                <p>Status</p>
-              </div>
-              <div className="cell">
-                <p>Batch No.</p>
-              </div>
-              <div className="cell">
-                <p>Date</p>
-              </div>
-              <div className="cell">
-                <p>Time</p>
-              </div>
-              <div className="cell action_cell">
-                <p>Action</p>
-              </div>
-            </div>
-
-            <div className="table_body">
-              {verifications.map((item, index) => (
-                <div className="table_row" key={index}>
-                  <div className="cell checkbox_cell">
-                    <img
-                      src={
-                        selectedRows.has(index)
-                          ? CheckboxActiveIcon
-                          : CheckboxIcon
-                      }
-                      alt={selectedRows.has(index) ? "Selected" : "Select"}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleRow(index);
-                      }}
-                      style={{ cursor: "pointer" }}
-                    />
-                  </div>
-                  <div className="cell">
-                    <p>{item.id}</p>
-                  </div>
-                  <div className="cell">
-                    <p>{item.type}</p>
-                  </div>
-                  <div className="cell">
-                    <p>{item.name}</p>
-                  </div>
-                  <div className="cell">
-                    <p className={`status ${item.status.toLowerCase()}`}>
-                      {item.status}
-                    </p>
-                  </div>
-                  <div className="cell">
-                    <p>{item.batch}</p>
-                  </div>
-                  <div className="cell">
-                    <p>{item.date}</p>
-                  </div>
-                  <div className="cell">
-                    <p>{item.time}</p>
-                  </div>
-                  <div className="cell action_cell">
-                    <button className="action_button">
-                      <span className="material-symbols-outlined">
-                        more_horiz
-                      </span>
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="pagination">
-              <p className="pagination_title">Page 1 of 5</p>
-              <div className="pagination_buttons">
-                <button className="pagination_button">
-                  <span className="material-symbols-outlined">
-                    chevron_left
-                  </span>
-                </button>
-                <div className="page">
-                  <button className="page_button active_page">1</button>
-                  <button className="page_button">2</button>
-                  <button className="page_button">3</button>
-                  <button className="page_button">4</button>
-                  <button className="page_button">5</button>
-                </div>
-                <button className="pagination_button">
-                  <span className="material-symbols-outlined">
-                    chevron_right
-                  </span>
-                </button>
-              </div>
-              <select
-                name="page_dropdown"
-                id="page_dropdown"
-                className="page_dropdown styled_select"
-              >
-                <option value="1">1/Page 5</option>
-                <option value="2">2/Page 5</option>
-                <option value="3">3/Page 5</option>
-                <option value="4">4/Page 5</option>
-                <option value="5">5/Page 5</option>
-              </select>
-            </div>
-          </div>
+          <VerificationTable data={verifications} />
         </div>
       </div>
     </>
