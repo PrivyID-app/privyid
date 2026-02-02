@@ -1,7 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const PageHeader = ({ title, description }) => {
+const PageHeader = ({
+  title,
+  description,
+  notificationLink = "notifications",
+}) => {
   return (
     <div className="page_title">
       <div className="title_summary">
@@ -9,7 +13,7 @@ const PageHeader = ({ title, description }) => {
         <p className="page_title_sm">{description}</p>
       </div>
 
-      <Link to="notifications" className="settings_icon_link">
+      <Link to={notificationLink} className="settings_icon_link">
         <span className="material-symbols-outlined settings_icon">
           notifications
         </span>

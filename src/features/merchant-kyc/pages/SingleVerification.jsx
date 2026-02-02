@@ -87,60 +87,69 @@ const SingleVerification = () => {
                 handleNext();
               }}
             >
-              <div className="input_group">
-                <label className="input_label" htmlFor="userName">
-                  User Name
-                </label>
-                <div className="input_wrapper">
-                  <input
-                    className="input"
-                    type="text"
-                    id="userName"
-                    name="userName"
-                    placeholder="Enter your user name"
-                    value={formData.userName}
-                    onChange={updateFormData}
-                    required
-                  />
-                  <span className="material-symbols-outlined icon">badge</span>
+              <div className="merch_kyc_service">
+                <div className="report_container_title">
+                  <p>Personal Information</p>
                 </div>
-              </div>
-
-              <div className="input_group">
-                <label className="input_label" htmlFor="userEmail">
-                  User Email
-                </label>
-                <div className="input_wrapper">
-                  <input
-                    className="input"
-                    type="email"
-                    id="userEmail"
-                    name="userEmail"
-                    placeholder="Enter your user email"
-                    value={formData.userEmail}
-                    onChange={updateFormData}
-                    required
-                  />
-                  <span className="material-symbols-outlined icon">mail</span>
+                <div className="input_group">
+                  <label className="input_label" htmlFor="userName">
+                    User Name
+                  </label>
+                  <div className="input_wrapper">
+                    <input
+                      className="input"
+                      type="text"
+                      id="userName"
+                      name="userName"
+                      placeholder="Enter your user name"
+                      value={formData.userName}
+                      onChange={updateFormData}
+                      required
+                    />
+                    <span className="material-symbols-outlined icon">
+                      badge
+                    </span>
+                  </div>
                 </div>
-              </div>
 
-              <div className="input_group">
-                <label className="input_label" htmlFor="idNumber">
-                  ID Number
-                </label>
-                <div className="input_wrapper">
-                  <input
-                    className="input"
-                    type="text"
-                    id="idNumber"
-                    name="idNumber"
-                    placeholder="Enter your id number"
-                    value={formData.idNumber}
-                    onChange={updateFormData}
-                    required
-                  />
-                  <span className="material-symbols-outlined icon">badge</span>
+                <div className="input_group">
+                  <label className="input_label" htmlFor="userEmail">
+                    User Email
+                  </label>
+                  <div className="input_wrapper">
+                    <input
+                      className="input"
+                      type="email"
+                      id="userEmail"
+                      name="userEmail"
+                      placeholder="Enter your user email"
+                      value={formData.userEmail}
+                      onChange={updateFormData}
+                      required
+                    />
+                    <span className="material-symbols-outlined icon">mail</span>
+                  </div>
+                </div>
+
+                <div className="input_group">
+                  <label className="input_label" htmlFor="idNumber">
+                    ID Number
+                  </label>
+                  <div className="input_wrapper">
+                    <input
+                      className="input"
+                      type="text"
+                      id="idNumber"
+                      name="idNumber"
+                      placeholder="Enter your id number"
+                      value={formData.idNumber}
+                      onChange={updateFormData}
+                      required
+                    />
+                    <span className="material-symbols-outlined icon">
+                      badge
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -161,6 +170,9 @@ const SingleVerification = () => {
         ];
         return (
           <div className="verification_type_content">
+            <div className="report_container_title">
+              <p>Verification Type</p>
+            </div>
             <div className="kyc_service_list">
               {idTypes.map((type) => (
                 <div
@@ -214,7 +226,7 @@ const SingleVerification = () => {
         return (
           <div className="verification_details_content">
             <div className="report">
-              <div className="container_title">
+              <div className="report_container_title">
                 <p>Verified Details</p>
               </div>
               <div className="details_report">
@@ -222,7 +234,7 @@ const SingleVerification = () => {
                   <p>Verified Details</p>
                   <button className="secondary_button">
                     Export as CSV
-                    <span className="material-symbols-outlined">export</span>
+                    <span className="material-symbols-outlined">upload</span>
                   </button>
                 </div>
                 <div className="report_content">
@@ -269,6 +281,7 @@ const SingleVerification = () => {
       <PageHeader
         title="Single Verification"
         description="Verify individual user details quickly and securely"
+        notificationLink="/merchant-kyc/notifications"
       />
 
       <div className="content_area">

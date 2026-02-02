@@ -1,40 +1,44 @@
 .single_verification_indicator {
   display: flex;
   flex-direction: column;
-  gap: 24px;
 }
 
 .step_container {
   display: flex;
-  justify-content: space-between;
   align-items: flex-start;
   width: 100%;
+  align-items: end;
 }
 
 .personal_info_step {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 1rem;
+  /* border: solid 1px black; */
 }
 
 .step_title {
   display: flex;
   flex-direction: column;
+  row-gap: 0.2rem;
+  align-items: end;
 }
 
 .step_title_bg {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 400;
   color: var(--text-main-900);
 }
 
 .step_title_bg.inactive_step {
   color: var(--text-soft-400);
+  font-weight: 400;
 }
 
 .step_title_sm {
-  font-size: 12px;
-  color: var(--text-soft-400);
+  font-size: 0.875rem;
+  font-weight: 300;
+  color: var(--stroke-sub-300);
 }
 
 .step_title_sm.active_step {
@@ -42,51 +46,53 @@
 }
 
 .service_card_icon_sm {
-  width: 32px;
-  height: 32px;
+  width: 5rem;
+  min-height: 3.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--bg-soft-100);
-  border-radius: 8px;
+  border-radius: 50rem;
+  border: solid 1px var(--stroke-sub-300);
+  box-shadow: 0px 1px 2px 0px rgba(15, 23, 42, 0.06);
 }
 
 .service_card_icon_sm img {
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 .bar {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 0 16px;
+  gap: 8px; /* This is actually row-gap if flex-column */
   position: relative;
-}
-
-.bar::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: var(--border-soft-200);
-  z-index: 0;
+  width: 2px;
+  background-color: var(--border-soft-200);
 }
 
 .dot_wrapper {
+  min-height: 8rem;
   position: relative;
   z-index: 1;
-  background: var(--white);
   padding: 0 4px;
+  background: var(--white);
+  position: relative;
+  /* border: solid 1px black; */
 }
 
 .dot {
-  width: 8px;
-  height: 8px;
+  width: 1rem;
+  height: 1rem;
   border-radius: 50%;
   background: var(--border-soft-200);
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  position: absolute;
+  z-index: 2;
+  border: 2px solid var(--white); /* Make it pop */
 }
 
 .dot.active_dot {

@@ -89,6 +89,7 @@ const DashboardOverview = () => {
       <PageHeader
         title="KYB Dashboard Overview"
         description="Monitor your business verification activity and performance"
+        notificationLink="/merchant-kyb/notifications"
       />
 
       <div className="content_area">
@@ -96,7 +97,7 @@ const DashboardOverview = () => {
         <div className="quick_actions">
           <p className="section_title">Quick Actions</p>
 
-          <div className="button_wrapper">
+          <div className="filter_wrapper">
             <button className="secondary_button">
               <span className="material-symbols-outlined">add</span>
               <p>Single Business</p>

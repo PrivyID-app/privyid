@@ -7,6 +7,7 @@ const DashboardOverview = () => {
       <PageHeader
         title="Dashboard Overview"
         description="Monitor your verification activity and performance"
+        notificationLink="/super-admin/notifications"
       />
       <div className="content_area">
         <p>Enter your contents here</p>

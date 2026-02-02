@@ -101,6 +101,7 @@ const History = () => {
       <PageHeader
         title="Verification History"
         description="View and manage past verification requests"
+        notificationLink="/merchant-kyc/notifications"
       />
 
       <div className="content_area">

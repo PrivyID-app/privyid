@@ -87,62 +87,69 @@ const SingleVerification = () => {
                 handleNext();
               }}
             >
-              <div className="input_group">
-                <label className="input_label" htmlFor="businessName">
-                  Business Name
-                </label>
-                <div className="input_wrapper">
-                  <input
-                    className="input"
-                    type="text"
-                    id="businessName"
-                    name="businessName"
-                    placeholder="Enter business name"
-                    value={formData.businessName}
-                    onChange={updateFormData}
-                    required
-                  />
-                  <span className="material-symbols-outlined icon">
-                    corporate_fare
-                  </span>
+              <div className="merch_kyc_service">
+                <div className="report_container_title">
+                  <p>Business Information</p>
                 </div>
-              </div>
-
-              <div className="input_group">
-                <label className="input_label" htmlFor="businessEmail">
-                  Business Email
-                </label>
-                <div className="input_wrapper">
-                  <input
-                    className="input"
-                    type="email"
-                    id="businessEmail"
-                    name="businessEmail"
-                    placeholder="Enter business email"
-                    value={formData.businessEmail}
-                    onChange={updateFormData}
-                    required
-                  />
-                  <span className="material-symbols-outlined icon">mail</span>
+                <div className="input_group">
+                  <label className="input_label" htmlFor="businessName">
+                    Business Name
+                  </label>
+                  <div className="input_wrapper">
+                    <input
+                      className="input"
+                      type="text"
+                      id="businessName"
+                      name="businessName"
+                      placeholder="Enter business name"
+                      value={formData.businessName}
+                      onChange={updateFormData}
+                      required
+                    />
+                    <span className="material-symbols-outlined icon">
+                      corporate_fare
+                    </span>
+                  </div>
                 </div>
-              </div>
 
-              <div className="input_group">
-                <label className="input_label" htmlFor="regNumber">
-                  Registration Number
-                </label>
-                <div className="input_wrapper">
-                  <input
-                    className="input"
-                    type="text"
-                    id="regNumber"
-                    name="regNumber"
-                    placeholder="Enter registration number"
-                    value={formData.regNumber}
-                    onChange={updateFormData}
-                    required
-                  />
-                  <span className="material-symbols-outlined icon">badge</span>
+                <div className="input_group">
+                  <label className="input_label" htmlFor="businessEmail">
+                    Business Email
+                  </label>
+                  <div className="input_wrapper">
+                    <input
+                      className="input"
+                      type="email"
+                      id="businessEmail"
+                      name="businessEmail"
+                      placeholder="Enter business email"
+                      value={formData.businessEmail}
+                      onChange={updateFormData}
+                      required
+                    />
+                    <span className="material-symbols-outlined icon">mail</span>
+                  </div>
+                </div>
+
+                <div className="input_group">
+                  <label className="input_label" htmlFor="regNumber">
+                    Registration Number
+                  </label>
+                  <div className="input_wrapper">
+                    <input
+                      className="input"
+                      type="text"
+                      id="regNumber"
+                      name="regNumber"
+                      placeholder="Enter registration number"
+                      value={formData.regNumber}
+                      onChange={updateFormData}
+                      required
+                    />
+                    <span className="material-symbols-outlined icon">
+                      badge
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -163,6 +170,9 @@ const SingleVerification = () => {
         ];
         return (
           <div className="verification_type_content">
+            <div className="report_container_title">
+              <p>Business Verification</p>
+            </div>
             <div className="kyb_service_list">
               {idTypes.map((type) => (
                 <div
@@ -216,7 +226,7 @@ const SingleVerification = () => {
         return (
           <div className="verification_details_content">
             <div className="report">
-              <div className="container_title">
+              <div className="report_container_title">
                 <p>Business Verified Details</p>
               </div>
               <div className="details_report">
@@ -224,7 +234,7 @@ const SingleVerification = () => {
                   <p>Verified Details</p>
                   <button className="secondary_button">
                     Export as CSV
-                    <span className="material-symbols-outlined">export</span>
+                    <span className="material-symbols-outlined">upload</span>
                   </button>
                 </div>
                 <div className="report_content">
@@ -271,6 +281,7 @@ const SingleVerification = () => {
       <PageHeader
         title="Single Business Verification"
         description="Verify individual business records quickly and securely"
+        notificationLink="/merchant-kyb/notifications"
       />
 
       <div className="content_area">
