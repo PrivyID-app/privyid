@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const PageHeader = ({ title, description }) => {
   return (
@@ -8,9 +9,11 @@ const PageHeader = ({ title, description }) => {
         <p className="page_title_sm">{description}</p>
       </div>
 
-      <span className="material-symbols-outlined settings_icon">
-        notifications
-      </span>
+      <Link to="notifications" className="settings_icon_link">
+        <span className="material-symbols-outlined settings_icon">
+          notifications
+        </span>
+      </Link>
     </div>
   );
 };

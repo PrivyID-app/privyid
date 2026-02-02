@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import CompanyLogo from "../../assets/images/company-logo-empty.svg";
 import NavTabIndicator from "../../assets/images/nav-tab-rectangle.svg";
 import DefaultAvatar from "../../assets/images/Avatar [1.0].svg";
@@ -94,10 +94,12 @@ const Sidebar = ({
       </div>
 
       <div className="buttom_section">
-        <div
-          className="user_content"
-          onClick={() => setIsUserExpanded(!isUserExpanded)}
-          style={{ cursor: "pointer" }}
+        <NavLink
+          to="user-profile"
+          className={({ isActive }) =>
+            `user_content ${isActive ? "active_tab" : ""}`
+          }
+          style={{ textDecoration: "none" }}
         >
           <div className="avatar">
             <img src={user.avatar || DefaultAvatar} alt="Avatar" />
@@ -111,7 +113,7 @@ const Sidebar = ({
           <span className="material-symbols-outlined expand_icon">
             chevron_right
           </span>
-        </div>
+        </NavLink>
       </div>
     </nav>
   );

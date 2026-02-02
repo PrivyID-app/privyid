@@ -2,6 +2,8 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import "../merchant-kyc.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";
+import UserProfile from "../pages/UserProfile";
+import Notifications from "../pages/Notifications";
 
 const MerchantKycLayout = () => {
   const kycLinks = [

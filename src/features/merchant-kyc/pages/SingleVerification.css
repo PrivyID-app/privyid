@@ -1,0 +1,222 @@
+.single_verification_wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 800px;
+}
+
+/* Step 1: Personal Info Form */
+.user_info_form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  background: var(--white);
+  padding: 32px;
+  border-radius: 12px;
+  border: 1px solid var(--border-soft-200);
+}
+
+.user_info_form .input_group:nth-child(3) {
+  grid-column: span 2;
+}
+
+.user_info_form .submit_button {
+  grid-column: span 2;
+  justify-self: end;
+  background: var(--primary-color-600);
+  color: var(--white);
+  border: none;
+  padding: 12px 32px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Step 2: KYC Service Selector */
+.kyc_service_list,
+.kyb_service_list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.kyc_service_item,
+.kyb_service_item {
+  position: relative;
+  background: var(--bg-soft-100);
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid var(--border-soft-200);
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  flex: 1 1 calc(50% - 1rem); /* Unified flex behavior as requested */
+}
+
+.kyc_service_item.active,
+.kyb_service_item.active {
+  background: var(--primary-color-600);
+  border-color: var(--primary-color-600);
+}
+
+.kyc_service_item_title,
+.kyb_service_item_title {
+  font-weight: 600;
+  color: var(--text-main-900);
+  margin-bottom: 32px;
+  position: relative;
+  z-index: 1;
+}
+
+.kyc_service_item.active .kyc_service_item_title,
+.kyb_service_item.active .kyb_service_item_title {
+  color: var(--white);
+}
+
+/* Shared Pattern and Icon styles */
+.card_pattern {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.card-pattern-white {
+  display: block;
+}
+
+.card-pattern-black {
+  display: none;
+}
+
+.kyc_service_item.active .card-pattern-white,
+.kyb_service_item.active .card-pattern-white {
+  display: none;
+}
+
+.kyc_service_item.active .card-pattern-black,
+.kyb_service_item.active .card-pattern-black {
+  display: block;
+  opacity: 0.1;
+}
+
+.kyc_service_item_icon,
+.kyb_service_item_icon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.kyc_service_item_icon span,
+.kyb_service_item_icon span {
+  color: var(--text-soft-400);
+}
+
+.kyc_service_item.active .kyc_service_item_icon span,
+.kyb_service_item.active .kyb_service_item_icon span {
+  color: var(--white);
+}
+
+.checkbox_icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* Step 3: Report */
+.report {
+  background: var(--white);
+  border-radius: 12px;
+  border: 1px solid var(--border-soft-200);
+  overflow: hidden;
+}
+
+.container_title {
+  background: var(--bg-soft-100);
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border-soft-200);
+  font-weight: 600;
+}
+
+.details_report {
+  padding: 24px;
+}
+
+.report_title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.report_title p {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.report_content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.report_row {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-soft-100);
+}
+
+.report_label {
+  color: var(--text-soft-400);
+}
+
+.report_value {
+  font-weight: 500;
+}
+
+.report_value.status.verified {
+  color: #10b981;
+  background: #ecfdf5;
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-size: 12px;
+}
+
+/* Common Buttons */
+.button_wrapper {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.back_button,
+.next_button {
+  padding: 12px 32px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.back_button {
+  background: transparent;
+  border: 1px solid var(--border-soft-200);
+  color: var(--text-main-900);
+}
+
+.next_button {
+  background: var(--primary-color-600);
+  color: var(--white);
+  border: none;
+}
+
+.next_button:disabled {
+  background: var(--bg-soft-200);
+  color: var(--text-soft-400);
+  cursor: not-allowed;
+}

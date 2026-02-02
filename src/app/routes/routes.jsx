@@ -13,6 +13,8 @@ import KycApi from "../../features/merchant-kyc/pages/ApiPage";
 import KycTokens from "../../features/merchant-kyc/pages/TokensPage";
 import KycSettings from "../../features/merchant-kyc/pages/SettingsPage";
 import KycSupport from "../../features/merchant-kyc/pages/SupportPage";
+import KycProfile from "../../features/merchant-kyc/pages/UserProfile";
+import KycNotifications from "../../features/merchant-kyc/pages/Notifications";
 
 // Merchant KYB Imports
 import MerchantKybLayout from "../../features/merchant-kyb/layouts/MerchantKybLayout";
@@ -24,6 +26,8 @@ import KybApi from "../../features/merchant-kyb/pages/ApiPage";
 import KybTokens from "../../features/merchant-kyb/pages/TokensPage";
 import KybSettings from "../../features/merchant-kyb/pages/SettingsPage";
 import KybSupport from "../../features/merchant-kyb/pages/SupportPage";
+import KybProfile from "../../features/merchant-kyb/pages/UserProfile";
+import KybNotifications from "../../features/merchant-kyb/pages/Notifications";
 
 // Merchant Combined Imports
 import MerchantCombinedLayout from "../../features/merchant-combined/layouts/MerchantCombinedLayout";
@@ -73,6 +77,8 @@ const router = createBrowserRouter([
       { path: "tokens", element: <KycTokens /> },
       { path: "settings", element: <KycSettings /> },
       { path: "support", element: <KycSupport /> },
+      { path: "user-profile", element: <KycProfile /> },
+      { path: "notifications", element: <KycNotifications /> },
     ],
   },
 
@@ -89,6 +95,8 @@ const router = createBrowserRouter([
       { path: "tokens", element: <KybTokens /> },
       { path: "settings", element: <KybSettings /> },
       { path: "support", element: <KybSupport /> },
+      { path: "user-profile", element: <KybProfile /> },
+      { path: "notifications", element: <KybNotifications /> },
     ],
   },
 
