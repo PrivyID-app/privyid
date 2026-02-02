@@ -49,46 +49,93 @@ const History = () => {
       date: "17 Sep 2024",
       time: "09:15 AM",
     },
+    {
+      id: "#KYC20240915006",
+      type: "Driver License",
+      name: "Emma Wilson",
+      status: "Approved",
+      batch: "#BATCH1006",
+      date: "18 Sep 2024",
+      time: "02:30 PM",
+    },
+    {
+      id: "#KYC20240915007",
+      type: "National ID",
+      name: "Daniel Garcia",
+      status: "Pending",
+      batch: "#BATCH1007",
+      date: "18 Sep 2024",
+      time: "03:45 PM",
+    },
+    {
+      id: "#KYC20240915008",
+      type: "Passport",
+      name: "Olivia Martinez",
+      status: "Approved",
+      batch: "#BATCH1008",
+      date: "19 Sep 2024",
+      time: "10:15 AM",
+    },
+    {
+      id: "#KYC20240915009",
+      type: "National ID",
+      name: "James Lee",
+      status: "Rejected",
+      batch: "#BATCH1009",
+      date: "19 Sep 2024",
+      time: "11:30 AM",
+    },
+    {
+      id: "#KYC20240915010",
+      type: "Driver License",
+      name: "Sophia Taylor",
+      status: "Approved",
+      batch: "#BATCH1010",
+      date: "20 Sep 2024",
+      time: "01:45 PM",
+    },
   ];
 
   return (
-    <div className="content_area">
+    <>
       <PageHeader
         title="Verification History"
         description="View and manage past verification requests"
       />
 
-      <div className="recent_verifications">
-        <div className="top_area">
-          <p className="section_title">Recent Verifications</p>
+      <div className="content_area">
+        <div className="recent_verifications">
+          <div className="top_area">
+            <p className="section_title">Recent Verifications</p>
 
-          <div className="search_box">
-            <span className="material-symbols-outlined search_icon">
-              search
-            </span>
-            <input
-              type="text"
-              placeholder="Search by name, email, or ID"
-              className="search_input"
-            />
+            <div className="search_box">
+              <span className="material-symbols-outlined search_icon">
+                search
+              </span>
+              <input
+                type="text"
+                placeholder="Search by name, email, or ID"
+                className="search_input"
+              />
+            </div>
+
+            <div className="button_wrapper">
+              <button className="secondary_button">
+                <span className="material-symbols-outlined">filter_list</span>
+                <p>Filter Records</p>
+              </button>
+
+              <button className="secondary_button">
+                <span className="material-symbols-outlined">download</span>
+                <p>Download as CSV</p>
+              </button>
+            </div>
           </div>
 
-          <div className="button_wrapper">
-            <button className="secondary_button">
-              <span className="material-symbols-outlined">filter_list</span>
-              <p>Filter Records</p>
-            </button>
-
-            <button className="secondary_button">
-              <span className="material-symbols-outlined">download</span>
-              <p>Download as CSV</p>
-            </button>
-          </div>
+          <VerificationTable data={verifications} />
         </div>
-
-        <VerificationTable data={verifications} />
       </div>
-    </div>
+    </>
   );
 };
 

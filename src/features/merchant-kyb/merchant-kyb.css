@@ -231,16 +231,19 @@
 .merchant_kyb_layout .main_content {
   flex: 1;
   width: 0;
-  min-height: calc(100vh - 1rem);
+  height: calc(
+    100vh - 1rem
+  ); /* fixed available height for scrolling children */
   display: flex;
   flex-direction: column;
   padding: 1rem;
   border-radius: 1rem;
   background-color: var(--bg-white-0);
-  overflow-y: auto;
+  overflow: hidden; /* Prevent scrolling on the container itself */
 }
 
 .merchant_kyb_layout .page_title {
+  max-height: 6rem;
   display: flex;
   flex-direction: row;
   column-gap: 0.5rem;
@@ -267,4 +270,34 @@
   font-size: 1rem;
   font-weight: 300;
   color: var(--text-soft-400);
+}
+
+.merchant_kyb_layout .content_area {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0.75rem;
+  row-gap: 1rem;
+  overflow-y: auto;
+  overflow-x: auto;
+  flex: 1;
+  min-height: 0; /* allow flex child to shrink and enable scrolling */
+}
+
+/* Modern scrollbar styling */
+.merchant_kyb_layout .content_area::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+.merchant_kyb_layout .content_area::-webkit-scrollbar-track {
+  background: var(--bg-weak-50);
+  border-radius: 0.5rem;
+}
+
+.merchant_kyb_layout .content_area::-webkit-scrollbar-thumb {
+  background: var(--stroke-soft-200);
+  border-radius: 0.5rem;
+}
+
+.merchant_kyb_layout .content_area::-webkit-scrollbar-thumb:hover {
+  background: var(--text-soft-400);
 }
