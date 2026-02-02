@@ -120,7 +120,7 @@ const History = () => {
               />
             </div>
 
-            <div className="button_wrapper">
+            <div className="filter_wrapper">
               <button className="secondary_button">
                 <span className="material-symbols-outlined">filter_list</span>
                 <p>Filter Records</p>
