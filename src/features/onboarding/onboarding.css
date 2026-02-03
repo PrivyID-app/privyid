@@ -755,6 +755,7 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   column-gap: 1.5rem;
   min-height: 4rem;
 }
@@ -1758,7 +1759,7 @@ body {
 .setup_body {
   display: flex;
   flex-direction: column;
-  row-gap: 2rem;
+  row-gap: 1rem;
   width: 100%;
 }
 
