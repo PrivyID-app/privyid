@@ -1,101 +1,99 @@
-.single_verification_indicator {
+.v_step_indicator_wrapper {
+  display: flex;
+  flex-direction: row; /* Ensure text and bar are side-by-side */
+  gap: 1.5rem;
+}
+
+.v_step_items_container {
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
+  gap: 2rem;
+  flex: 1;
 }
 
-.step_container {
-  display: flex;
-  align-items: flex-start;
-  width: 100%;
-  align-items: end;
-}
-
-.personal_info_step {
+.v_step_item {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  /* border: solid 1px black; */
+  gap: 1.5rem;
+  height: 8rem; /* Match dot wrapper height */
 }
 
-.step_title {
+.v_step_title_group {
   display: flex;
   flex-direction: column;
   row-gap: 0.2rem;
-  align-items: end;
+  align-items: flex-end;
+  text-align: right;
 }
 
-.step_title_bg {
+.v_step_title_bg {
   font-size: 1rem;
   font-weight: 400;
   color: var(--text-main-900);
 }
 
-.step_title_bg.inactive_step {
+.v_step_title_bg.inactive_step {
   color: var(--text-soft-400);
-  font-weight: 400;
 }
 
-.step_title_sm {
+.v_step_title_sm {
   font-size: 0.875rem;
   font-weight: 300;
   color: var(--stroke-sub-300);
 }
 
-.step_title_sm.active_step {
+.v_step_title_sm.active_step {
   color: var(--primary-color-600);
 }
 
-.service_card_icon_sm {
-  width: 5rem;
-  min-height: 3.5rem;
+.v_step_icon_box {
+  width: 4rem;
+  height: 4rem;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--bg-soft-100);
-  border-radius: 50rem;
+  border-radius: 50%;
   border: solid 1px var(--stroke-sub-300);
   box-shadow: 0px 1px 2px 0px rgba(15, 23, 42, 0.06);
 }
 
-.service_card_icon_sm img {
-  width: 1.25rem;
-  height: 1.25rem;
+.v_step_icon_box img {
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
-.bar {
+.v_step_bar_container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px; /* This is actually row-gap if flex-column */
-  position: relative;
   width: 2px;
   background-color: var(--border-soft-200);
+  position: relative;
+  /* margin-top: 2rem; Adjust to align with first icon */
 }
 
-.dot_wrapper {
-  min-height: 8rem;
+.v_step_dot_wrapper {
+  height: 8rem;
+  width: 100%;
   position: relative;
-  z-index: 1;
-  padding: 0 4px;
-  background: var(--white);
-  position: relative;
-  /* border: solid 1px black; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.dot {
+.v_step_dot {
   width: 1rem;
   height: 1rem;
   border-radius: 50%;
   background: var(--border-soft-200);
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  position: absolute;
+  position: relative;
   z-index: 2;
-  border: 2px solid var(--white); /* Make it pop */
+  border: 2px solid var(--white);
 }
 
-.dot.active_dot {
+.v_step_dot.v_step_active_dot {
   background: var(--primary-color-600);
   box-shadow: 0 0 0 4px var(--primary-color-100);
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import OnboardingFlow from "../../features/onboarding/OnboardingFlow";
 import NotFound from "../../shared/components/NotFound";
 
@@ -57,7 +57,7 @@ import AdminSupport from "../../features/super-admin/pages/SupportPage";
 /**
  * Main application routes
  */
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <OnboardingFlow />, // Default entry point

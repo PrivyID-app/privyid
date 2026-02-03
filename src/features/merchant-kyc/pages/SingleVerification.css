@@ -48,7 +48,6 @@
   padding: 0 1rem;
 }
 
-
 .user_info_form .submit_button {
   width: 10rem;
   align-self: end;
@@ -65,25 +64,6 @@
 .submit_button:hover {
   opacity: 0.8;
   cursor: pointer;
-}
-
-.single_verification_indicator {
-  width: 50%;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  /* border: solid 1px black; */
-}
-
-.bar {
-  max-width: 0.4rem;
-  height: 100%;
-  margin: 0 var(--padding-xl);
-  border-radius: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  row-gap: 4rem;
-  background-color: #f6f6f6;
 }
 
 /* Step 2: KYC Service Selector */

@@ -3,24 +3,23 @@ import "./vertical-step-indicator.css";
 
 const VerticalStepIndicator = ({ steps, currentStep }) => {
   return (
-    <div className="single_verification_indicator">
-      <div className="step_container">
+    <div className="v_step_indicator_wrapper">
+      <div className="v_step_items_container">
         {steps.map((step, index) => {
           const isActive = index <= currentStep;
-          const isCurrent = index === currentStep;
 
           return (
-            <div key={index} className="personal_info_step">
-              <div className="step_title">
+            <div key={index} className="v_step_item">
+              <div className="v_step_title_group">
                 <p
-                  className={`step_title_bg ${
+                  className={`v_step_title_bg ${
                     isActive ? "active_step" : "inactive_step"
                   }`}
                 >
                   {step.title}
                 </p>
                 <p
-                  className={`step_title_sm ${
+                  className={`v_step_title_sm ${
                     isActive ? "active_step" : "inactive_step"
                   }`}
                 >
@@ -28,7 +27,7 @@ const VerticalStepIndicator = ({ steps, currentStep }) => {
                 </p>
               </div>
 
-              <div className="service_card_icon_sm">
+              <div className="v_step_icon_box">
                 <img
                   src={isActive ? step.activeIcon : step.inactiveIcon}
                   alt={`${step.title} Icon`}
@@ -39,12 +38,14 @@ const VerticalStepIndicator = ({ steps, currentStep }) => {
         })}
       </div>
 
-      <div className="bar">
+      <div className="v_step_bar_container">
         {steps.map((_, index) => (
-          <div key={index} className="dot_wrapper">
+          <div key={index} className="v_step_dot_wrapper">
             <div
-              className={`dot ${
-                index <= currentStep ? "active_dot" : "inactive_dot"
+              className={`v_step_dot ${
+                index <= currentStep
+                  ? "v_step_active_dot"
+                  : "v_step_inactive_dot"
               }`}
             />
           </div>
