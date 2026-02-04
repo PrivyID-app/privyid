@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import CheckboxIcon from "../../assets/images/Checkbox [1.0].svg";
 import CheckboxActiveIcon from "../../assets/images/Checkbox-active [1.0].svg";
+import VerificationModal from "./VerificationModal";
 
 const VerificationTable = ({ data = [] }) => {
   const [selectedRows, setSelectedRows] = useState(new Set());
   const [selectAll, setSelectAll] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedData, setSelectedData] = useState(null);
 
   const toggleSelectAll = () => {
     if (selectAll) {
@@ -26,6 +29,11 @@ const VerificationTable = ({ data = [] }) => {
       setSelectAll(next.size === data.length);
       return next;
     });
+  };
+
+  const handleViewDetails = (item) => {
+    setSelectedData(item);
+    setIsModalOpen(true);
   };
 
   return (
@@ -108,8 +116,19 @@ const VerificationTable = ({ data = [] }) => {
               <p>{item.time}</p>
             </div>
             <div className="cell action_cell">
+              <button
+                className="action_button"
+                onClick={() => handleViewDetails(item)}
+              >
+                <span className="material-symbols-outlined table_action">
+                  visibility
+                </span>
+              </button>
+
               <button className="action_button">
-                <span className="material-symbols-outlined">more_horiz</span>
+                <span className="material-symbols-outlined table_action delete_icon">
+                  delete
+                </span>
               </button>
             </div>
           </div>
@@ -145,6 +164,11 @@ const VerificationTable = ({ data = [] }) => {
           <option value="5">5/Page 5</option>
         </select>
       </div>
+      <VerificationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        data={selectedData}
+      />
     </div>
   );
 };

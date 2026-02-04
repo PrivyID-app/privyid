@@ -753,6 +753,19 @@
   color: var(--text-sub-600);
 }
 
+.action_button:hover {
+    background-color: var(--bg-weak-50);
+    border: solid 1px var(--stroke-sub-300);
+}
+
+.table_action {
+    font-size: 1rem;
+}
+
+.delete_icon {
+    color: var(--state-error-base);
+}
+
 /* Cursor for checkbox icons */
 .checkbox_cell img {
   cursor: pointer;
