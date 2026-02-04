@@ -768,3 +768,28 @@
 .table_body .table_row.selected_row {
   background-color: #e8f0ff;
 }
+.status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: inline-block;
+  text-align: center;
+  min-width: 6rem;
+}
+
+.status.approved,
+.status.verified {
+  background-color: #ecfdf5;
+  color: #10b981;
+}
+
+.status.pending {
+  background-color: #fff7ed;
+  color: #f97316;
+}
+
+.status.rejected {
+  background-color: #fef2f2;
+  color: #ef4444;
+}

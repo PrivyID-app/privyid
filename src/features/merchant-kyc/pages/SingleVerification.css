@@ -82,7 +82,7 @@
   background: #f6f6f6;
   padding: 1rem;
   border-radius: var(--radius-full, 1rem);
-  border: 1px solid var(--border-soft-200);
+  border: 1px solid var(--stroke-sub-300);
   cursor: pointer;
   overflow: hidden;
   transition: all 0.3s ease;
@@ -91,6 +91,10 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.kyc_service_item:hover {
+  border: solid 1px var(--state-faded-base);
 }
 
 .kyc_service_item.active,
@@ -243,12 +247,28 @@
   color: var(--text-sub-600);
 }
 
-.report_value.status.verified {
+.report_value.status {
+  padding: 0.25rem 1rem;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  min-width: unset;
+}
+
+.report_value.status.verified,
+.report_value.status.approved {
   color: #10b981;
   background: #ecfdf5;
-  padding: 4px 12px;
-  border-radius: 99px;
-  font-size: 12px;
+}
+
+.report_value.status.pending {
+  color: #f97316;
+  background: #fff7ed;
+}
+
+.report_value.status.rejected {
+  color: #ef4444;
+  background: #fef2f2;
 }
 
 /* Common Buttons */
