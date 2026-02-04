@@ -483,6 +483,7 @@
 }
 
 .recent_verifications {
+  height: 100%;
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
@@ -764,6 +765,10 @@
 
 .delete_icon {
     color: var(--state-error-base);
+}
+
+.table_body{
+  height: fit-content;
 }
 
 /* Cursor for checkbox icons */

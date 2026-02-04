@@ -315,14 +315,14 @@ const BusinessVerificationStep = ({ onNext, onBack }) => {
                 </div>
               </label>
 
-              <input
+              {/* <input
                 type="file"
                 id="supporting_documents"
                 name="supporting_documents"
                 required
                 onChange={handleFileChange}
                 style={{ display: "none" }}
-              />
+              /> */}
             </div>
           </form>
         </div>
