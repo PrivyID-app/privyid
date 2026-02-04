@@ -537,6 +537,7 @@ body.merchant_kyc_flow {
   row-gap: 1rem;
   align-items: center;
   padding: 1rem;
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.05);
 }
 
 .report_row{

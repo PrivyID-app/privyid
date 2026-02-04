@@ -447,8 +447,8 @@
 .chart_wrapper {
   display: flex;
   flex-direction: row;
-  column-gap: 1rem;
   align-items: center;
+  column-gap: 1rem;
 }
 
 .verification_activity,
@@ -456,7 +456,6 @@
   flex: 1;
   background-color: var(--bg-white-0);
   border-radius: 1rem 0;
-  padding: 1rem;
 }
 
 .line_chart_area,
@@ -772,7 +771,7 @@
   padding: 0.25rem 0.75rem;
   border-radius: 99px;
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: 300;
   display: inline-block;
   text-align: center;
   min-width: 6rem;
@@ -782,14 +781,17 @@
 .status.verified {
   background-color: #ecfdf5;
   color: #10b981;
+  border: solid 0.05rem #10b981;
 }
 
 .status.pending {
   background-color: #fff7ed;
   color: #f97316;
+  border: solid 0.05rem #f97316;
 }
 
 .status.rejected {
   background-color: #fef2f2;
   color: #ef4444;
+  border: solid 0.05rem #ef4444;
 }

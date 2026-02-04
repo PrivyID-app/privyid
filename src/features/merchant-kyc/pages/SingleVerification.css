@@ -227,6 +227,7 @@
   padding: 2rem;
   border-radius: 1rem;
   background-color: var(--bg-white-0);
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.05);
 }
 
 .report_row {
@@ -251,24 +252,28 @@
   padding: 0.25rem 1rem;
   border-radius: 99px;
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: 300;
   min-width: unset;
+  
 }
 
 .report_value.status.verified,
 .report_value.status.approved {
   color: #10b981;
   background: #ecfdf5;
+  border: solid 1px #10b981;
 }
 
 .report_value.status.pending {
   color: #f97316;
   background: #fff7ed;
+  border: solid 1px #f97316;
 }
 
 .report_value.status.rejected {
   color: #ef4444;
   background: #fef2f2;
+  border: solid 1px #ef4444;
 }
 
 /* Common Buttons */
