@@ -1,10 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useState, useRef } from "react";
 import "./file-dropzone.css";
 import UploadCloudIcon from "../../assets/images/upload-cloud-2-line.svg";
 
 const FileDropzone = ({ onFileSelect }) => {
-  const fileInputRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef(null);
 
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -24,10 +24,6 @@ const FileDropzone = ({ onFileSelect }) => {
     }
   };
 
-  const handleClick = () => {
-    fileInputRef.current.click();
-  };
-
   const handleFileChange = (e) => {
     const files = e.target.files;
     if (files.length > 0) {
@@ -35,14 +31,31 @@ const FileDropzone = ({ onFileSelect }) => {
     }
   };
 
+  const handleClick = () => {
+    fileInputRef.current?.click();
+  };
+
   return (
     <div className="supporting_documents">
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        style={{ display: "none" }}
+        id="file_upload_input"
+      />
       <label
+        htmlFor="file_upload_input"
         className={`file_dropzone ${isDragging ? "dragging" : ""}`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        onClick={handleClick}
+        onClick={(e) => {
+          // Prevent accidental double triggers if label click behavior is inconsistent
+          if (e.target.tagName !== "INPUT") {
+            handleClick();
+          }
+        }}
       >
         <div className="dropzone_content">
           <div className="dropzone_icon">
@@ -60,14 +73,6 @@ const FileDropzone = ({ onFileSelect }) => {
           <span className="browse_button">Browse File</span>
         </div>
       </label>
-
-      {/* <input
-        type="file"
-        ref={fileInputRef}
-        onChange={handleFileChange}
-        required
-        hidden
-      /> */}
     </div>
   );
 };

@@ -2,6 +2,7 @@ import React from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import VerificationTable from "../../../shared/components/VerificationTable";
 import FileDropzone from "../../../shared/components/FileDropzone";
+import FilterDropdown from "../../../shared/components/FilterDropdown";
 
 const BatchVerification = () => {
   const verifications = [
@@ -23,6 +24,78 @@ const BatchVerification = () => {
       date: "16 Sep 2024",
       time: "11:45 AM",
     },
+    {
+      id: "#KYB20240915003",
+      type: "Articles of Association",
+      name: "Summit Enterprises",
+      status: "Approved",
+      batch: "#BATCH2003",
+      date: "16 Sep 2024",
+      time: "03:10 PM",
+    },
+    {
+      id: "#KYB20240915004",
+      type: "Business License",
+      name: "Oceanic Ventures",
+      status: "Rejected",
+      batch: "#BATCH2004",
+      date: "17 Sep 2024",
+      time: "09:00 AM",
+    },
+    {
+      id: "#KYB20240915005",
+      type: "Tax ID",
+      name: "Alpha Retail Group",
+      status: "Approved",
+      batch: "#BATCH2005",
+      date: "17 Sep 2024",
+      time: "01:25 PM",
+    },
+    {
+      id: "#KYB20240915006",
+      type: "Articles of Association",
+      name: "Pioneer Consulting",
+      status: "Pending",
+      batch: "#BATCH2006",
+      date: "18 Sep 2024",
+      time: "10:40 AM",
+    },
+    {
+      id: "#KYB20240915007",
+      type: "Business License",
+      name: "Green Valley Foods",
+      status: "Approved",
+      batch: "#BATCH2007",
+      date: "18 Sep 2024",
+      time: "02:50 PM",
+    },
+    {
+      id: "#KYB20240915008",
+      type: "Tax ID",
+      name: "Swift Logistics",
+      status: "Approved",
+      batch: "#BATCH2008",
+      date: "19 Sep 2024",
+      time: "11:15 AM",
+    },
+    {
+      id: "#KYB20240915009",
+      type: "Articles of Association",
+      name: "Blue Wave Media",
+      status: "Rejected",
+      batch: "#BATCH2009",
+      date: "19 Sep 2024",
+      time: "04:30 PM",
+    },
+    {
+      id: "#KYB20240915010",
+      type: "Business License",
+      name: "Horizon Estates",
+      status: "Approved",
+      batch: "#BATCH2010",
+      date: "20 Sep 2024",
+      time: "09:20 AM",
+    },
   ];
 
   const handleFileSelect = (file) => {
@@ -30,7 +103,7 @@ const BatchVerification = () => {
   };
 
   return (
-    <div className="content_wrapper">
+    <>
       <PageHeader
         title="Batch Business"
         description="Upload and verify multiple businesses at once"
@@ -80,10 +153,15 @@ const BatchVerification = () => {
             </div>
 
             <div className="filter_wrapper">
-              <button className="secondary_button">
-                <span className="material-symbols-outlined">filter_list</span>
-                <p>Filter Records</p>
-              </button>
+              <FilterDropdown
+                options={[
+                  { label: "All Status", value: "all" },
+                  { label: "Approved", value: "approved" },
+                  { label: "Pending", value: "pending" },
+                  { label: "Rejected", value: "rejected" },
+                ]}
+                onFilterChange={(val) => console.log("Filter:", val)}
+              />
 
               <button className="secondary_button">
                 <span className="material-symbols-outlined">download</span>
@@ -95,7 +173,7 @@ const BatchVerification = () => {
           <VerificationTable data={verifications} />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

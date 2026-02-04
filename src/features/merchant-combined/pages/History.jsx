@@ -1,6 +1,7 @@
 import React from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import VerificationTable from "../../../shared/components/VerificationTable";
+import FilterDropdown from "../../../shared/components/FilterDropdown";
 
 const History = () => {
   const verifications = [
@@ -120,10 +121,15 @@ const History = () => {
             </div>
 
             <div className="filter_wrapper">
-              <button className="secondary_button">
-                <span className="material-symbols-outlined">filter_list</span>
-                <p>Filter Records</p>
-              </button>
+              <FilterDropdown
+                options={[
+                  { label: "All Status", value: "all" },
+                  { label: "Approved", value: "approved" },
+                  { label: "Pending", value: "pending" },
+                  { label: "Rejected", value: "rejected" },
+                ]}
+                onFilterChange={(val) => console.log("Filter:", val)}
+              />
 
               <button className="secondary_button">
                 <span className="material-symbols-outlined">download</span>

@@ -240,6 +240,14 @@
   overflow: hidden; /* Prevent scrolling on the container itself */
 }
 
+.content_wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}
+
 .merchant_combined_layout .page_title {
   max-height: 6rem;
   display: flex;

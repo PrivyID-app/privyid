@@ -2,6 +2,7 @@ import React from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import VerificationTable from "../../../shared/components/VerificationTable";
 import FileDropzone from "../../../shared/components/FileDropzone";
+import FilterDropdown from "../../../shared/components/FilterDropdown";
 
 const BatchVerification = () => {
   const verifications = [
@@ -23,6 +24,78 @@ const BatchVerification = () => {
       date: "16 Sep 2024",
       time: "11:45 AM",
     },
+    {
+      id: "#KYC20240915003",
+      type: "National ID",
+      name: "Robert Johnson",
+      status: "Approved",
+      batch: "#BATCH1003",
+      date: "16 Sep 2024",
+      time: "02:15 PM",
+    },
+    {
+      id: "#KYC20240915004",
+      type: "Passport",
+      name: "Emily Davis",
+      status: "Rejected",
+      batch: "#BATCH1004",
+      date: "17 Sep 2024",
+      time: "09:30 AM",
+    },
+    {
+      id: "#KYC20240915005",
+      type: "Driver License",
+      name: "Michael Wilson",
+      status: "Approved",
+      batch: "#BATCH1005",
+      date: "17 Sep 2024",
+      time: "11:00 AM",
+    },
+    {
+      id: "#KYC20240915006",
+      type: "National ID",
+      name: "Sarah Miller",
+      status: "Pending",
+      batch: "#BATCH1006",
+      date: "18 Sep 2024",
+      time: "08:45 AM",
+    },
+    {
+      id: "#KYC20240915007",
+      type: "Passport",
+      name: "David Brown",
+      status: "Approved",
+      batch: "#BATCH1007",
+      date: "18 Sep 2024",
+      time: "01:20 PM",
+    },
+    {
+      id: "#KYC20240915008",
+      type: "Driver License",
+      name: "Jessica Taylor",
+      status: "Approved",
+      batch: "#BATCH1008",
+      date: "19 Sep 2024",
+      time: "10:05 AM",
+    },
+    {
+      id: "#KYC20240915009",
+      type: "National ID",
+      name: "Chris Anderson",
+      status: "Rejected",
+      batch: "#BATCH1009",
+      date: "19 Sep 2024",
+      time: "03:40 PM",
+    },
+    {
+      id: "#KYC20240915010",
+      type: "Passport",
+      name: "Lisa Thomas",
+      status: "Approved",
+      batch: "#BATCH1010",
+      date: "20 Sep 2024",
+      time: "09:50 AM",
+    },
   ];
 
   const handleFileSelect = (file) => {
@@ -30,7 +103,7 @@ const BatchVerification = () => {
   };
 
   return (
-    <div className="content_wrapper">
+    <>
       <PageHeader
         title="Batch Verification"
         description="Upload and verify multiple customers at once"
@@ -80,10 +153,15 @@ const BatchVerification = () => {
             </div>
 
             <div className="filter_wrapper">
-              <button className="secondary_button">
-                <span className="material-symbols-outlined">filter_list</span>
-                <p>Filter Records</p>
-              </button>
+              <FilterDropdown
+                options={[
+                  { label: "All Status", value: "all" },
+                  { label: "Approved", value: "approved" },
+                  { label: "Pending", value: "pending" },
+                  { label: "Rejected", value: "rejected" },
+                ]}
+                onFilterChange={(val) => console.log("Filter:", val)}
+              />
 
               <button className="secondary_button">
                 <span className="material-symbols-outlined">download</span>
@@ -95,7 +173,7 @@ const BatchVerification = () => {
           <VerificationTable data={verifications} />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
