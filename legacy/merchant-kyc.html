@@ -1954,6 +1954,7 @@
               </select>
             </div>
           </div>
+
         </div>
       </main>
     </section>
@@ -2147,6 +2148,7 @@
     </section>
 
     <section class="tokens_page">
+      
       <nav class="sidebar">
         <div class="top_section">
           <div class="company_name_content">
@@ -2329,9 +2331,262 @@
 
           <!-- Ensure to remove the paragraph element before ritting your code -->
 
-          <p>Enter your contents here</p>
+          <!-- <p>Enter your contents here</p> -->
+
+          <div class="recent_verifications">
+
+            <div class="top_area">
+              <p class="section_title">Recent Verifications</p>
+
+              <form class="search_box">
+                <span class="material-symbols-outlined search_icon"
+                  >search</span
+                >
+                <input
+                  type="text"
+                  placeholder="Search by name, email, or ID"
+                  class="search_input"
+                />
+              </form>
+
+              <div class="filter_wrapper">
+                <button class="secondary_button">
+                  <span class="material-symbols-outlined">filter_list</span>
+                  <p>Filter Records</p>
+                </button>
+
+                <button class="secondary_button">
+                  <span class="material-symbols-outlined">download</span>
+                  <p>Download as CSV</p>
+                </button>
+
+                <!-- <button class="primary_button">
+                            <span class="material-symbols-outlined">docs</span>
+                            <p>Batch Verification</p>
+                        </button> -->
+              </div>
+            </div>
+
+            <div class="overview_wrapper">
+                <div class="overview_card">
+                  <div class="card_top_area">
+                    <div class="overview_card_icon">
+                      <img
+                        src="../images/file-text-line.svg"
+                        alt="Total Verifications Icon"
+                      />
+                    </div>
+
+                    <div class="card_rate">
+                      <span class="material-symbols-outlined up_icon"
+                        >arrow_upward</span
+                      >
+                      <p class="rate_value">+12.5%</p>
+                    </div>
+                  </div>
+
+                  <div class="card_content">
+                    <p class="card_value">1,250</p>
+                    <p class="card_title">Total Verifications</p>
+                  </div>
+                </div>
+
+                <div class="overview_card">
+                  <div class="card_top_area">
+                    <div class="overview_card_icon">
+                      <img
+                        src="../images/file-check-fill.svg"
+                        alt="Total Verifications Icon"
+                      />
+                    </div>
+
+                    <div class="card_rate">
+                      <span class="material-symbols-outlined up_icon"
+                        >arrow_upward</span
+                      >
+                      <p class="rate_value">+12.5%</p>
+                    </div>
+                  </div>
+
+                  <div class="card_content">
+                    <p class="card_value">12,250</p>
+                    <p class="card_title">Verified</p>
+                  </div>
+                </div>
+
+                <div class="overview_card">
+                  <div class="card_top_area">
+                    <div class="overview_card_icon">
+                      <img
+                        src="../images/time-line.svg"
+                        alt="Total Verifications Icon"
+                      />
+                    </div>
+
+                    <div class="card_rate">
+                      <span class="material-symbols-outlined up_icon"
+                        >arrow_upward</span
+                      >
+                      <p class="rate_value">+12.5%</p>
+                    </div>
+                  </div>
+
+                  <div class="card_content">
+                    <p class="card_value">250</p>
+                    <p class="card_title">Total Pending</p>
+                  </div>
+                </div>
+
+                <div class="overview_card">
+                  <div class="card_top_area">
+                    <div class="overview_card_icon">
+                      <img
+                        src="../images/error-warning-line.svg"
+                        alt="Total Verifications Icon"
+                      />
+                    </div>
+
+                    <div class="card_rate">
+                      <span class="material-symbols-outlined up_icon"
+                        >arrow_upward</span
+                      >
+                      <p class="rate_value">+2.5%</p>
+                    </div>
+                  </div>
+
+                  <div class="card_content">
+                    <p class="card_value">50</p>
+                    <p class="card_title">Total Rejected</p>
+                  </div>
+                </div>
+            </div>
+
+            <div class="merchant_table">
+              <div class="table_header">
+                <div class="cell checkbox_cell">
+                  <img src="../images/Checkbox [1.0]" alt="Checkbox" />
+                </div>
+
+                <div class="cell">
+                  <p>Token No.</p>
+                </div>
+
+                <div class="cell">
+                  <p>ID Type</p>
+                </div>
+
+                <div class="cell">
+                  <p>User Name</p>
+                </div>
+
+                <div class="cell">
+                  <p>Status</p>
+                </div>
+
+                <div class="cell">
+                  <p>Batch No.</p>
+                </div>
+
+                <div class="cell">
+                  <p>Date</p>
+                </div>
+
+                <div class="cell">
+                  <p><time></time></p>
+                </div>
+
+                <div class="cell action_cell">
+                  <p>Action</p>
+                </div>
+              </div>
+
+              <div class="table_body">
+                <!-- Example Row -->
+                <div class="table_row">
+                  <div class="cell checkbox_cell">
+                    <img src="../images/Checkbox [1.0]" alt="Checkbox" />
+                  </div>
+
+                  <div class="cell">
+                    <p>tok_abc123def456</p>
+                    <span class="material-symbols-outlined copy_icon">copy</span>
+                  </div>
+
+                  <div class="cell">
+                    <p>Passport</p>
+                  </div>
+
+                  <div class="cell">
+                    <p>John Doe</p>
+                  </div>
+
+                  <div class="cell">
+                    <p class="status approved">Approved</p>
+                  </div>
+
+                  <div class="cell">
+                    <p>#BATCH1001</p>
+                  </div>
+
+                  <div class="cell">
+                    <p>15 Sep 2024</p>
+                  </div>
+
+                  <div class="cell">
+                    <p>10:30 AM</p>
+                  </div>
+
+                  <div class="cell action_cell">
+                    <button class="action_button">
+                      <span class="material-symbols-outlined">visibility</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- More rows can be added here -->
+              </div>
+            </div>
+
+            <div class="pagination">
+              <p class="pagination_title">Page 1 of 5</p>
+
+              <div class="pagination_buttons">
+                <button class="pagination_button">
+                  <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+
+                <div class="page">
+                  <button class="page_button active_page">1</button>
+                  <button class="page_button">2</button>
+                  <button class="page_button">3</button>
+                  <button class="page_button">4</button>
+                  <button class="page_button">5</button>
+                </div>
+
+                <button class="pagination_button">
+                  <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+              </div>
+
+              <select
+                name="page_dropdown"
+                id="page_dropdown"
+                class="page_dropdown"
+              >
+                <option value="1">1/Page 5</option>
+                <option value="2">2/Page 5</option>
+                <option value="3">3/Page 5</option>
+                <option value="4">4/Page 5</option>
+                <option value="5">5/Page 5</option>
+              </select>
+            </div>
+
+          </div>
+
         </div>
+
       </main>
+
     </section>
 
     <section class="settings_page">

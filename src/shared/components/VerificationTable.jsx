@@ -5,7 +5,7 @@ import VerificationModal from "./VerificationModal";
 
 import CustomSelect from "./CustomSelect";
 
-const VerificationTable = ({ data = [] }) => {
+const VerificationTable = ({ data = [], idLabel = "Verification No." }) => {
   const [selectedRows, setSelectedRows] = useState(new Set());
   const [selectAll, setSelectAll] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -50,7 +50,7 @@ const VerificationTable = ({ data = [] }) => {
           />
         </div>
         <div className="cell">
-          <p>Verification No.</p>
+          <p>{idLabel}</p>
         </div>
         <div className="cell">
           <p>ID Type</p>
