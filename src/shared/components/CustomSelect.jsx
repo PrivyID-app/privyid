@@ -1,10 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import Portal from "./Portal";
 
-const FilterDropdown = ({
+const CustomSelect = ({
   options = [],
-  onFilterChange,
-  label = "Filter Records",
+  value,
+  onSelect,
+  placeholder = "Select option",
+  className = "",
+  placement = "bottom",
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [coords, setCoords] = useState({ top: 0, left: 0, width: 0 });
@@ -13,20 +16,23 @@ const FilterDropdown = ({
   const updateCoords = () => {
     if (dropdownRef.current) {
       const rect = dropdownRef.current.getBoundingClientRect();
+      const isTop = placement === "top";
       setCoords({
-        top: rect.bottom + window.scrollY,
+        top: (isTop ? rect.top : rect.bottom) + window.scrollY,
         left: rect.left + window.scrollX,
         width: rect.width,
+        isTop,
       });
     }
   };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
+      // Check if click is outside trigger wrapper AND not within a portal-rendered dropdown
       if (
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target) &&
-        !event.target.closest(".filter_dropdown_content")
+        !event.target.closest(".custom_select_dropdown")
       ) {
         setIsOpen(false);
       }
@@ -47,40 +53,50 @@ const FilterDropdown = ({
     };
   }, [isOpen]);
 
+  const selectedOption = options.find((opt) => opt.value === value);
+
   return (
     <div
-      className="filter_dropdown_wrapper"
+      className={`custom_select_wrapper ${className} ${isOpen ? "is-open" : ""}`}
       ref={dropdownRef}
       style={{ position: "relative" }}
     >
-      <button className="secondary_button" onClick={() => setIsOpen(!isOpen)}>
-        <span className="material-symbols-outlined">filter_list</span>
-        <p>{label}</p>
-      </button>
+      <div className="styled_select_trigger" onClick={() => setIsOpen(!isOpen)}>
+        <p>{selectedOption ? selectedOption.label : placeholder}</p>
+        <span className="material-symbols-outlined dropdown_icon">
+          expand_more
+        </span>
+      </div>
 
       {isOpen && (
         <Portal>
           <div
-            className="filter_dropdown_content"
+            className="filter_dropdown_content custom_select_dropdown"
             style={{
               position: "fixed",
-              top: `${coords.top - window.scrollY + 8}px`,
+              top: `${coords.top - window.scrollY + (coords.isTop ? -8 : 8)}px`,
               left: `${coords.left - window.scrollX}px`,
               width: `${coords.width}px`,
-              minWidth: "max-content",
+              minWidth: "unset",
               zIndex: 9999,
+              transform: coords.isTop ? "translateY(-100%)" : "none",
             }}
           >
             {options.map((option) => (
               <div
                 key={option.value}
-                className="filter_dropdown_item"
+                className={`filter_dropdown_item ${value === option.value ? "selected" : ""}`}
                 onClick={() => {
-                  onFilterChange && onFilterChange(option.value);
+                  onSelect && onSelect(option.value);
                   setIsOpen(false);
                 }}
               >
                 <p>{option.label}</p>
+                {value === option.value && (
+                  <span className="material-symbols-outlined check_icon">
+                    check
+                  </span>
+                )}
               </div>
             ))}
           </div>
@@ -90,4 +106,4 @@ const FilterDropdown = ({
   );
 };
 
-export default FilterDropdown;
+export default CustomSelect;

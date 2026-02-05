@@ -3,6 +3,7 @@ import { ACCOUNT_TYPE_STEPS } from "../onboarding.constants";
 import selectBoxFill from "../../../assets/images/select-box-circle-fill.svg";
 import selectBoxInactive from "../../../assets/images/select-box-circle-fill-inactive.svg";
 import infoIcon from "../../../assets/images/information-fill-dark.svg";
+import CustomSelect from "../../../shared/components/CustomSelect";
 
 export const BusinessVerificationLeftContent = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -182,25 +183,23 @@ const BusinessVerificationStep = ({ onNext, onBack }) => {
                 <label htmlFor="business_type">
                   Business Type <span className="required">*</span>
                 </label>
-                <select
-                  name="business_type"
-                  id="business_type"
+                <CustomSelect
+                  options={[
+                    { label: "LLC", value: "llc" },
+                    { label: "Corporation", value: "corporation" },
+                    { label: "Partnership", value: "partnership" },
+                    { label: "S-Corporation", value: "s-corporation" },
+                    { label: "Other", value: "other" },
+                  ]}
                   value={formData.business_type}
-                  onChange={handleInputChange}
-                  required
-                >
-                  <option value="" disabled>
-                    --- Select Business Type ---
-                  </option>
-                  <option value="llc"> LLC</option>
-                  <option value="corporation"> Corporation</option>
-                  <option value="partnership"> Partnership</option>
-                  <option value="s-corporation"> S-Corporation</option>
-                  <option value="other"> Other</option>
-                </select>
-                <span className="material-symbols-outlined select_chevron">
-                  expand_more
-                </span>
+                  onSelect={(val) =>
+                    handleInputChange({
+                      target: { name: "business_type", value: val },
+                    })
+                  }
+                  placeholder="--- Select Business Type ---"
+                  className="bv_custom_select"
+                />
               </div>
             </div>
 
@@ -239,26 +238,24 @@ const BusinessVerificationStep = ({ onNext, onBack }) => {
                 <label htmlFor="country">
                   Country <span className="required">*</span>
                 </label>
-                <select
-                  name="country"
-                  id="country"
+                <CustomSelect
+                  options={[
+                    { label: "Nigeria", value: "ng" },
+                    { label: "United States", value: "us" },
+                    { label: "Canada", value: "canada" },
+                    { label: "United Kingdom", value: "uk" },
+                    { label: "Australia", value: "australia" },
+                    { label: "Other", value: "other" },
+                  ]}
                   value={formData.country}
-                  onChange={handleInputChange}
-                  required
-                >
-                  <option value="" disabled>
-                    --- Select Country ---
-                  </option>
-                  <option value="ng">Nigeria</option>
-                  <option value="us"> United States</option>
-                  <option value="canada"> Canada</option>
-                  <option value="uk"> United Kingdom</option>
-                  <option value="australia"> Australia</option>
-                  <option value="other"> Other</option>
-                </select>
-                <span className="material-symbols-outlined select_chevron">
-                  expand_more
-                </span>
+                  onSelect={(val) =>
+                    handleInputChange({
+                      target: { name: "country", value: val },
+                    })
+                  }
+                  placeholder="--- Select Country ---"
+                  className="bv_custom_select"
+                />
               </div>
             </div>
 

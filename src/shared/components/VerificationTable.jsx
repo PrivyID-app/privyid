@@ -3,6 +3,8 @@ import CheckboxIcon from "../../assets/images/Checkbox [1.0].svg";
 import CheckboxActiveIcon from "../../assets/images/Checkbox-active [1.0].svg";
 import VerificationModal from "./VerificationModal";
 
+import CustomSelect from "./CustomSelect";
+
 const VerificationTable = ({ data = [] }) => {
   const [selectedRows, setSelectedRows] = useState(new Set());
   const [selectAll, setSelectAll] = useState(false);
@@ -152,17 +154,19 @@ const VerificationTable = ({ data = [] }) => {
             <span className="material-symbols-outlined">chevron_right</span>
           </button>
         </div>
-        <select
-          name="page_dropdown"
-          id="page_dropdown"
-          className="page_dropdown styled_select"
-        >
-          <option value="1">1/Page 5</option>
-          <option value="2">2/Page 5</option>
-          <option value="3">3/Page 5</option>
-          <option value="4">4/Page 5</option>
-          <option value="5">5/Page 5</option>
-        </select>
+        <CustomSelect
+          options={[
+            { value: "1", label: "1/Page 5" },
+            { value: "2", label: "2/Page 5" },
+            { value: "3", label: "3/Page 5" },
+            { value: "4", label: "4/Page 5" },
+            { value: "5", label: "5/Page 5" },
+          ]}
+          value="1"
+          onSelect={(val) => console.log("Page:", val)}
+          className="service_selector_custom page_dropdown_custom"
+          placement="top"
+        />
       </div>
       <VerificationModal
         isOpen={isModalOpen}

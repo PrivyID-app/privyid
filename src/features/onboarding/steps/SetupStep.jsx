@@ -5,6 +5,7 @@ import { ACCOUNT_TYPE_STEPS } from "../onboarding.constants";
 import selectBoxFill from "../../../assets/images/select-box-circle-fill.svg";
 import selectBoxInactive from "../../../assets/images/select-box-circle-fill-inactive.svg";
 import trafficLights from "../../../assets/images/Traffic Lights (Big Sur).svg";
+import StatusModal from "../../../shared/components/StatusModal";
 
 const SetupStep = ({ onNext, onBack }) => {
   const navigate = useNavigate();
@@ -12,6 +13,10 @@ const SetupStep = ({ onNext, onBack }) => {
   const [activeTab, setActiveTab] = useState("sandbox");
   const [copiedKey, setCopiedKey] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState("success");
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalDescription, setModalDescription] = useState("");
 
   const currentSubStep = 4; // Index for 'Setup' in ACCOUNT_TYPE_STEPS
 
@@ -34,15 +39,24 @@ const SetupStep = ({ onNext, onBack }) => {
                         console.log(verification.status); // 'verified'
                         console.log(verification.token);  // verification token`;
 
-  const handleCopyKey = (key) => {
-    navigator.clipboard.writeText(key);
-    setCopiedKey(key);
-    setTimeout(() => setCopiedKey(null), 2000);
-  };
-
   const handleCopyCode = () => {
     navigator.clipboard.writeText(codeSnippet);
-    alert("Code copied to clipboard!");
+    setModalTitle("Code Copied!");
+    setModalDescription(
+      "The code snippet has been copied to your clipboard successfully.",
+    );
+    setShowModal(true);
+  };
+
+  const handleCopyKey = (key) => {
+    navigator.clipboard.writeText(key);
+    setModalTitle("API Key Copied!");
+    setModalDescription(
+      "Your API key has been copied securely to your clipboard.",
+    );
+    setShowModal(true);
+    setCopiedKey(key);
+    setTimeout(() => setCopiedKey(null), 2000);
   };
 
   const handleComplete = () => {
@@ -207,6 +221,13 @@ const SetupStep = ({ onNext, onBack }) => {
           <span className="material-symbols-outlined">check_circle</span>
         </button>
       </div>
+      <StatusModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        title={modalTitle}
+        description={modalDescription}
+        type={modalType}
+      />
     </div>
   );
 };

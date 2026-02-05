@@ -6,6 +6,7 @@ import selectBoxInactive from "../../../assets/images/select-box-circle-fill-ina
 import checkboxGreen from "../../../assets/images/Checkbox-green [1.0].svg";
 import cardPatternWhite from "../../../assets/images/card-pattern-white-bg.svg";
 import cardPatternBlack from "../../../assets/images/card-pattern.svg";
+import CustomSelect from "../../../shared/components/CustomSelect";
 
 const ServiceTypeKYBStep = ({ onNext, onBack, onStepChange }) => {
   const { kybOptions, setKybOptions, setSelectedServices } = useOnboarding();
@@ -98,23 +99,18 @@ const ServiceTypeKYBStep = ({ onNext, onBack, onStepChange }) => {
         <div className="service_selector">
           <div className="service_selector_dropdown">
             <label htmlFor="service_selector">Switch Service Type</label>
-            <div style={{ position: "relative" }}>
-              <select
-                id="service_selector"
-                defaultValue="kyb"
-                onChange={handleSwitchService}
-              >
-                <option value="" disabled>
-                  --- Switch Option ---
-                </option>
-                <option value="kyc">KYC Only</option>
-                <option value="kyb">KYB Only</option>
-                <option value="both">Both KYC & KYB</option>
-              </select>
-              <span className="material-symbols-outlined select_chevron">
-                expand_more
-              </span>
-            </div>
+            <CustomSelect
+              options={[
+                { label: "KYC Only", value: "kyc" },
+                { label: "KYB Only", value: "kyb" },
+                { label: "Both KYC & KYB", value: "both" },
+              ]}
+              value="kyb"
+              onSelect={(val) =>
+                handleSwitchService({ target: { value: val } })
+              }
+              className="service_selector_custom"
+            />
           </div>
 
           <div

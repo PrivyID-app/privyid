@@ -826,39 +826,3 @@
   color: #ef4444;
   border: solid 0.05rem #ef4444;
 }
-
-/* Filter Dropdown styles */
-.filter_dropdown_content {
-  position: absolute;
-  top: calc(100% + 0.5rem);
-  right: 0;
-  min-width: 12rem;
-  background-color: var(--bg-white-0);
-  border: 1px solid var(--stroke-sub-300);
-  border-radius: 0.75rem;
-  box-shadow:
-    0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  z-index: 50;
-  overflow: hidden;
-  padding: 0.5rem 0;
-}
-
-.filter_dropdown_item {
-  padding: 0.75rem 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  display: flex;
-  align-items: center;
-}
-
-.filter_dropdown_item:hover {
-  background-color: var(--bg-weak-50);
-}
-
-.filter_dropdown_item p {
-  font-size: 0.875rem;
-  font-weight: 400;
-  color: var(--text-strong-950);
-  margin: 0;
-}

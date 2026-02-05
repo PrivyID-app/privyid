@@ -18,8 +18,27 @@ import FileTextIcon from "../../../assets/images/file-text-line.svg";
 import FileCheckIcon from "../../../assets/images/file-check-fill.svg";
 import TimeLineIcon from "../../../assets/images/time-line.svg";
 import ErrorWarningIcon from "../../../assets/images/error-warning-line.svg";
+import CustomSelect from "../../../shared/components/CustomSelect";
 
 const DashboardOverview = () => {
+  const [timeframe, setTimeframe] = useState("this_month");
+  const [performanceQuarter, setPerformanceQuarter] = useState("quarter1");
+
+  const timeframeOptions = [
+    { label: "This Month", value: "this_month" },
+    { label: "Last Month", value: "last_month" },
+    { label: "Last 3 Months", value: "last_3_months" },
+    { label: "Last 6 Months", value: "last_6_months" },
+    { label: "This Year", value: "this_year" },
+  ];
+
+  const performanceOptions = [
+    { label: "Quarter 1", value: "quarter1" },
+    { label: "Quarter 2", value: "quarter2" },
+    { label: "Quarter 3", value: "quarter3" },
+    { label: "Quarter 4", value: "quarter4" },
+    { label: "This Year", value: "this_year" },
+  ];
   const lineChartData = [
     { name: "Jan", value: 500 },
     { name: "Feb", value: 420 },
@@ -194,17 +213,12 @@ const DashboardOverview = () => {
           <div className="verification_activity">
             <div className="top_area">
               <p className="section_title">Verification Activity</p>
-              <select
-                name="timeframe_dropdown"
-                id="timeframe_dropdown"
-                className="timeframe_dropdown styled_select"
-              >
-                <option value="this_month">This Month</option>
-                <option value="last_month">Last Month</option>
-                <option value="last_3_months">Last 3 Months</option>
-                <option value="last_6_months">Last 6 Months</option>
-                <option value="this_year">This Year</option>
-              </select>
+              <CustomSelect
+                options={timeframeOptions}
+                value={timeframe}
+                onSelect={(val) => setTimeframe(val)}
+                className="service_selector_custom"
+              />
             </div>
 
             <div className="line_chart_area">
@@ -229,17 +243,12 @@ const DashboardOverview = () => {
           <div className="performance_summary">
             <div className="top_area">
               <p className="section_title">Performance Summary</p>
-              <select
-                name="performance_dropdown"
-                id="performance_dropdown"
-                className="filter_options styled_select"
-              >
-                <option value="quarter1">Quarter 1</option>
-                <option value="quarter2">Quarter 2</option>
-                <option value="quarter3">Quarter 3</option>
-                <option value="quarter4">Quarter 4</option>
-                <option value="this_year">This Year</option>
-              </select>
+              <CustomSelect
+                options={performanceOptions}
+                value={performanceQuarter}
+                onSelect={(val) => setPerformanceQuarter(val)}
+                className="service_selector_custom"
+              />
             </div>
 
             <div className="bar_chart_area">
