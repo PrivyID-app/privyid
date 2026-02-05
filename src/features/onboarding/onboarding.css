@@ -932,7 +932,7 @@ body {
 }
 
 .account_type_container.is-selected .ul_list_item {
-  color: var(--text-sub-600);
+  color: var(--text-soft-400);
   opacity: 1;
 }
 
@@ -1088,7 +1088,7 @@ body {
 }
 
 .service_type_container.is-selected .card_title_text_sm {
-  color: var(--text-sub-600);
+  color: var(--text-soft-400);
   opacity: 1;
 }
 
@@ -1647,10 +1647,16 @@ body {
 }
 
 .supporting_documents {
+  flex: 1 1 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
   row-gap: 0.5rem;
+}
+
+.supporting_documents_section {
+  flex: 1 1 100%;
+  width: 100%;
 }
 
 .supporting_documents label {

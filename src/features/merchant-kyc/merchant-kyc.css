@@ -826,3 +826,13 @@
   color: #ef4444;
   border: solid 0.05rem #ef4444;
 }
+
+.supporting_documents {
+  flex: 1 1 100%;
+  width: 100%;
+}
+
+.supporting_documents_section {
+  flex: 1 1 100%;
+  width: 100%;
+}

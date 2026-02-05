@@ -295,6 +295,22 @@
   width: 0.5rem;
 }
 
+.status.rejected {
+  background-color: #fef2f2;
+  color: #ef4444;
+  border: solid 0.05rem #ef4444;
+}
+
+.supporting_documents {
+  flex: 1 1 100%;
+  width: 100%;
+}
+
+.supporting_documents_section {
+  flex: 1 1 100%;
+  width: 100%;
+}
+
 .merchant_combined_layout .content_area::-webkit-scrollbar-track {
   background: var(--bg-weak-50);
   border-radius: 0.5rem;
