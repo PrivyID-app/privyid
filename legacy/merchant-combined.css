@@ -82,9 +82,10 @@ body.merchant_kyc_flow {
 
 .top_section_title {
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 400;
   color: var(--text-strong-950);
 }
+
 
 .top_section_slogan {
   font-size: 0.75rem;
