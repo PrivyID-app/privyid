@@ -1,43 +1,43 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
+import WebNav from "./WebNav";
+import SpecialButton from "./SpecialButton";
+import "./notfound.css";
+
+// Importing images
+import bgPattern from "../../assets/images/404-bg.svg";
+import chipIndicator from "../../assets/images/chart-legend-dots-[1.0].svg";
 
 const NotFound = () => {
-    const navigate = useNavigate();
+  return (
+    <div className="notfound_container">
+      <WebNav />
 
-    return (
-        <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '100vh',
-            textAlign: 'center',
-            fontFamily: 'Inter, sans-serif'
-        }}>
-            <h1 style={{ fontSize: '6rem', margin: '0', color: '#1e293b' }}>404</h1>
-            <h2 style={{ fontSize: '2rem', margin: '1rem 0', color: '#475569' }}>Page Not Found</h2>
-            <p style={{ color: '#64748b', marginBottom: '2rem' }}>
-                Sorry, the page you are looking for doesn't exist or has been moved.
-            </p>
-            <button 
-                onClick={() => navigate('/')}
-                style={{
-                    padding: '0.75rem 1.5rem',
-                    backgroundColor: '#3b82f6',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    fontWeight: '600',
-                    transition: 'background-color 0.3s'
-                }}
-                onMouseOver={(e) => e.target.style.backgroundColor = '#2563eb'}
-                onMouseOut={(e) => e.target.style.backgroundColor = '#3b82f6'}
-            >
-                Back to Home
-            </button>
+      <main className="notfound_content_wrapper">
+        <div className="notfound_bg_pattern">
+          <img src={bgPattern} alt="Background Pattern" />
         </div>
-    );
+
+        <div className="notfound_chip">
+          <div className="notfound_indicator_img">
+            <img src={chipIndicator} alt="Chip Indicator" />
+          </div>
+          <p>404 error</p>
+        </div>
+
+        <h1 className="Page_Not_Found_Title">Page Not Found</h1>
+
+        <p className="notfound_error_message">
+          We couldn't mint the page you are looking for 🤔, maybe it never
+          existed or has been moved.
+        </p>
+
+        <Link to="/" className="notfound_home_link">
+          <SpecialButton icon="arrow_insert">Go Back Home</SpecialButton>
+        </Link>
+      </main>
+    </div>
+  );
 };
 
 export default NotFound;

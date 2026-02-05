@@ -1,0 +1,47 @@
+.special_button {
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  column-gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-10, 0.625rem);
+  border: 1px solid var(--linear-12, rgba(255, 255, 255, 0.12));
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.16) 0%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    var(--bg-strong-950, #0e121b);
+
+  /* fancy-buttons/neutral */
+  box-shadow:
+    0 1px 2px 0 rgba(27, 28, 29, 0.48),
+    0 0 0 1px #242628;
+  color: var(--text-white-0);
+  font-size: 1rem;
+  font-weight: 400;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  outline: none;
+  text-decoration: none;
+}
+
+.special_button:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 8px 0 rgba(27, 28, 29, 0.48),
+    0 0 0 1px #242628;
+}
+
+.special_button:active {
+  transform: translateY(0);
+}
+
+.special_button .material-symbols-outlined {
+  font-size: 1.25rem;
+}
