@@ -41,6 +41,7 @@ import CombinedApi from "../../features/merchant-combined/pages/ApiPage";
 import CombinedTokens from "../../features/merchant-combined/pages/TokensPage";
 import CombinedSettings from "../../features/merchant-combined/pages/SettingsPage";
 import CombinedSupport from "../../features/merchant-combined/pages/SupportPage";
+import CombinedProfile from "../../features/merchant-combined/pages/UserProfile";
 
 // Super Admin Imports
 import SuperAdminLayout from "../../features/super-admin/layouts/SuperAdminLayout";
@@ -115,6 +116,7 @@ const router = createHashRouter([
       { path: "tokens", element: <CombinedTokens /> },
       { path: "settings", element: <CombinedSettings /> },
       { path: "support", element: <CombinedSupport /> },
+      { path: "user-profile", element: <CombinedProfile /> },
     ],
   },
 

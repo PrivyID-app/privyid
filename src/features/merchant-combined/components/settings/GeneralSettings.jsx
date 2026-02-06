@@ -1,20 +1,38 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import "../../pages/SettingsPage.css";
-import LogoPlaceholder from "../../../../assets/images/company-logo-empty.svg";
+import { useAppContext } from "../../../../context/AppContext";
 
 const GeneralSettings = () => {
-  const fileInputRef = React.useRef(null);
-  const [logo, setLogo] = React.useState(LogoPlaceholder);
+  const { company, updateCompany } = useAppContext();
+  const fileInputRef = useRef(null);
+  const [formData, setFormData] = useState({ ...company });
 
   const handleLogoUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setLogo(reader.result);
+        setFormData((prev) => ({ ...prev, logo: reader.result }));
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    const fieldMap = {
+      "company-name": "name",
+      "company-slogan": "slogan",
+    };
+    const field = fieldMap[id];
+    if (field) {
+      setFormData((prev) => ({ ...prev, [field]: value }));
+    }
+  };
+
+  const handleSave = () => {
+    updateCompany(formData);
+    alert("Company profile updated!");
   };
 
   return (
@@ -29,7 +47,7 @@ const GeneralSettings = () => {
         <label className="form_label">Upload Company Logo</label>
         <div className="logo_upload_container">
           <div className="logo_preview">
-            <img src={logo} alt="Company logo" />
+            <img src={formData.logo} alt="Company logo" />
           </div>
           <div className="logo_actions">
             <input
@@ -60,7 +78,8 @@ const GeneralSettings = () => {
           id="company-name"
           className="form_input"
           placeholder="ACME Ltd"
-          defaultValue="ACME Ltd"
+          value={formData.name}
+          onChange={handleChange}
         />
       </div>
 
@@ -74,6 +93,8 @@ const GeneralSettings = () => {
           id="company-slogan"
           className="form_input"
           placeholder="Your Slogan"
+          value={formData.slogan}
+          onChange={handleChange}
         />
       </div>
 
@@ -83,7 +104,6 @@ const GeneralSettings = () => {
           Location
         </label>
         <div className="phone_input_group">
-          {/* Flag placeholder - replace with actual icon if available */}
           <div className="phone_prefix">
             <span>🇳🇬</span>
           </div>
@@ -150,7 +170,9 @@ const GeneralSettings = () => {
       </div>
 
       {/* Save Button */}
-      <button className="primary_btn">Save Changes</button>
+      <button className="primary_btn" onClick={handleSave}>
+        Save Changes
+      </button>
     </div>
   );
 };

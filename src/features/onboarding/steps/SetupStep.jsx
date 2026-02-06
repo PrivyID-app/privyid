@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useOnboarding } from "../onboarding.context";
 import { ACCOUNT_TYPE_STEPS } from "../onboarding.constants";
-import selectBoxFill from "../../../assets/images/select-box-circle-fill.svg";
+import selectBoxFill from "../../../assets/images/Radio-selected [1.0].svg";
 import selectBoxInactive from "../../../assets/images/select-box-circle-fill-inactive.svg";
 import trafficLights from "../../../assets/images/Traffic Lights (Big Sur).svg";
 import StatusModal from "../../../shared/components/StatusModal";

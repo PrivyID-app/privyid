@@ -5,7 +5,7 @@ import rocketLine from "../../../assets/images/rocket-line.svg";
 import buildingLine from "../../../assets/images/building-line.svg";
 import checkboxDefault from "../../../assets/images/Checkbox [1.0].svg";
 import checkboxGreen from "../../../assets/images/Checkbox-green [1.0].svg";
-import selectBoxFill from "../../../assets/images/select-box-circle-fill.svg";
+import selectBoxFill from "../../../assets/images/Radio-selected [1.0].svg";
 import selectBoxInactive from "../../../assets/images/select-box-circle-fill-inactive.svg";
 import cardPatternBlack from "../../../assets/images/card-pattern.svg";
 import cardPatternWhite from "../../../assets/images/card-pattern-white-bg.svg";

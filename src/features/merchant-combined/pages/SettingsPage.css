@@ -3,6 +3,10 @@
   padding: 24px;
 }
 
+.tab_content_wrapper {
+  width: 100%;
+}
+
 /* Section Styling */
 .settings_section {
   background-color: var(--bg-white-0);

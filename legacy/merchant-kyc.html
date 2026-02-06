@@ -497,7 +497,7 @@
               </select>
             </div>
           </div>
-          
+
         </div>
       </main>
     </section>
@@ -3447,6 +3447,7 @@
     </section>
 
     <section class="user_details_page">
+
       <nav class="sidebar">
         <div class="top_section">
           <div class="company_name_content">
@@ -3609,6 +3610,7 @@
       </nav>
 
       <main class="main_content">
+
         <div class="page_title">
           <div class="title_summary">
             <p class="page_title_bg">Dashboard Overview</p>
@@ -3627,9 +3629,251 @@
 
           <!-- Ensure to remove the paragraph element before ritting your code -->
 
-          <p>Enter your contents here</p>
+          <!-- <p>Enter your contents here</p> -->
+
+          <div class="tab_menu">
+              <div class="tab_menu_item tab_active">Account Details</div>
+              <div class="tab_menu_item tab_inactive">Settings</div>   
+              <div class="tab_menu_item tab_inactive">Security</div>      
+          </div>
+
+
+          <div class="account">
+
+            <div class="header">
+              <p class="info">Account Info</p>
+              <p>
+                Manage and update your account details, profile picture and more
+              </p>
+            </div>
+
+            <div class="profile">
+              <img src="./image/avatar.png" alt="profile" />
+              <button class="edit-button" aria-label="edit profile">
+                <img src="./plus icon.svg" alt="" arial-hidden="true" />
+              </button>
+              <div class="profile-info">
+                <p class="name">Emma Wright</p>
+                <p>emma@company.com</p>
+              </div>
+            </div>
+
+            <div class="form">
+
+              <form action="#">
+                <div class="form-row">
+                  <label for="first-name">First Name</label>
+                  <input
+                    type="text"
+                    id="first-name"
+                    placeholder="Emma"
+                    name="first-name"
+                  />
+                </div>
+                <div class="form-row">
+                  <label for="last-name">Last Name</label>
+                  <input
+                    type="text"
+                    id="last-name"
+                    placeholder="Wright"
+                    name="last-name"
+                  />
+                </div>
+                <div class="form-row">
+                  <label for="email">Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    placeholder="emma@company.com"
+                    name="email"
+                  />
+                </div>
+                <div class="form-row">
+                  <label for="phone">Phone</label>
+                  <div class="phone-field">
+                    <div class="phone-prefix">
+                      <img src="./Nigeria.svg" alt="" />
+                      <span class="country-code">+234</span>
+                      <img src="./arrow-down-s-line.svg" alt="" />
+                    </div>
+                    <input
+                      type="tel"
+                      id="phone"
+                      placeholder="123-456-7890"
+                      name="phone"
+                    />
+                  </div>
+                </div>
+                <div class="form-row">
+                  <label for="dept">Department</label>
+                  <input
+                    type="text"
+                    id="dept"
+                    placeholder="Engineering"
+                    name="dept"
+                  />
+                </div>
+                <div class="form-row">
+                  <label for="role">Role</label>
+                  <span class="role-pill">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                    >
+                      <path
+                        d="M8 14C4.6862 14 2 11.3138 2 8C2 4.6862 4.6862 2 8 2C11.3138 2 14 4.6862 14 8C14 11.3138 11.3138 14 8 14ZM7.4018 10.4L11.6438 6.1574L10.7954 5.309L7.4018 8.7032L5.7044 7.0058L4.856 7.8542L7.4018 10.4Z"
+                        fill="white"
+                      />
+                    </svg>
+                    <span>Admin</span>
+                  </span>
+                </div>
+                <div class="buttons">
+                  <button class="log">Log out</button>
+                  <button class="del">Delete Account</button>
+                </div>
+              </form>
+
+            </div>
+
+          </div>
+
+          <div class="settings">
+
+            <div class="header">
+              <p class="info">Notfication Preference</p>
+              <p>Manage your notifications preference</p>
+            </div>
+
+            <div class="toggle">
+
+              <div class="toggle-fields">
+                <span class="toggle-label">Email notificaton</span>
+                <label class="toggle-switch">
+                  <input type="checkbox" />
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-fields">
+                <span class="toggle-label">Push notificaton</span>
+                <label class="toggle-switch">
+                  <input type="checkbox" />
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-fields">
+                <span class="toggle-label">SMS notificaton</span>
+                <label class="toggle-switch">
+                  <input type="checkbox" />
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-fields">
+                <span class="toggle-label">Weekly digest</span>
+                <label class="toggle-switch">
+                  <input type="checkbox" />
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+            </div>
+
+            <button class="toggle-btn">Save</button>
+
+          </div>
+
+          <div class="security">
+
+            <div class="header">
+              <p class="info">Change password</p>
+              <p>Forgot your password? Change it here</p>
+            </div>
+
+            <div class="change-password">
+
+              <form action="#">
+
+                <label for="old-password">Old Password</label>
+                <div class="password-field">
+                  <input
+                    type="password"
+                    id="old-password"
+                    name="old-password"
+                    placeholder="**********"
+                  />
+                  <button
+                    type="button"
+                    class="password-toggle"
+                    aria-label="show or hide password"
+                  >
+                    <img src="./eye-line.svg" alt="" aria-hidden="true" />
+                  </button>
+                </div>
+
+                <div class="new">
+                  <label for="new-password">New Password</label>
+                  <div class="password-field">
+                    <input
+                      type="password"
+                      id="new-password"
+                      name="new-password"
+                      placeholder="**********"
+                    />
+                    <button
+                      type="button"
+                      class="password-toggle"
+                      aria-label="show or hide password"
+                    >
+                      <img src="./eye-line.svg" alt="" aria-hidden="true" />
+                    </button>
+                  </div>
+                  <label for="confirm-password">Confirm New Password</label>
+                  <div class="password-field">
+                    <input
+                      type="password"
+                      id="confirm-password"
+                      name="confirm-password"
+                      placeholder="**********"
+                    />
+                    <button
+                      type="button"
+                      class="password-toggle"
+                      aria-label="show or hide password"
+                    >
+                      <img src="./eye-line.svg" alt="" aria-hidden="true" />
+                    </button>
+                  </div>
+                </div>
+
+                <div class="toggle-field">
+                  <div class="two-fac">
+                    <span class="toggle-label">Two-factor authentication</span>
+                    <p>Add an extra layer of security</p>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+
+                <button>Save</button>
+
+              </form>
+
+            </div>
+
+          </div>
+
         </div>
+
       </main>
+
     </section>
 
     <section class="notification_page">

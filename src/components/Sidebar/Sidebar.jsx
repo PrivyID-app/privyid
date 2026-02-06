@@ -1,22 +1,14 @@
 import React, { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
-import CompanyLogo from "../../assets/images/company-logo-empty.svg";
+import { useAppContext } from "../../context/AppContext";
 import NavTabIndicator from "../../assets/images/nav-tab-rectangle.svg";
-import DefaultAvatar from "../../assets/images/Avatar [1.0].svg";
 
 const Sidebar = ({
-  companyName = "PrivyID",
-  slogan = "Merchant KYC Flow",
-  user = {
-    name: "Emma Wright",
-    email: "emma@company.com",
-    avatar: DefaultAvatar,
-  },
   links = [],
   className = "",
-  logo = CompanyLogo,
   activeIndicator = NavTabIndicator,
 }) => {
+  const { user, company } = useAppContext();
   const [isUserExpanded, setIsUserExpanded] = useState(false);
 
   // Group links by section
@@ -59,12 +51,12 @@ const Sidebar = ({
       <div className="top_section">
         <div className="company_name_content">
           <div className="company_logo">
-            <img src={logo} alt="PrivyID Logo" />
+            <img src={company.logo} alt="PrivyID Logo" />
           </div>
 
           <div className="company_name">
-            <p className="top_section_title">{companyName}</p>
-            <p className="top_section_slogan">{slogan}</p>
+            <p className="top_section_title">{company.name}</p>
+            <p className="top_section_slogan">{company.slogan}</p>
           </div>
 
           <div className="expand">
@@ -102,7 +94,7 @@ const Sidebar = ({
           style={{ textDecoration: "none" }}
         >
           <div className="avatar">
-            <img src={user.avatar || DefaultAvatar} alt="Avatar" />
+            <img src={user.avatar} alt="Avatar" />
           </div>
 
           <div className="company_name">

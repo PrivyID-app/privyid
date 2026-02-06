@@ -1,7 +1,7 @@
 import React from "react";
 import { ACCOUNT_TYPE_STEPS } from "../onboarding.constants";
 import { useOnboarding } from "../onboarding.context";
-import selectBoxFill from "../../../assets/images/select-box-circle-fill.svg";
+import selectBoxFill from "../../../assets/images/Radio-selected [1.0].svg";
 import selectBoxInactive from "../../../assets/images/select-box-circle-fill-inactive.svg";
 import dashboardLine from "../../../assets/images/dashboard-line.svg";
 import codeLine from "../../../assets/images/code-line.svg";

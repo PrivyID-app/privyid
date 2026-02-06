@@ -1,8 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
+import Tabs from "../../../shared/components/Tabs";
+import ProfileImage from "../../../shared/components/Profile/ProfileImage";
+import AccountDetails from "../../../shared/components/Profile/AccountDetails";
+import NotificationPreferences from "../../../shared/components/Profile/NotificationPreferences";
+import SecuritySettings from "../../../shared/components/Profile/SecuritySettings";
 import "../../../shared/styles/extra-pages.css";
 
 const UserProfile = () => {
+  const [activeTab, setActiveTab] = useState("account");
+
+  const tabs = [
+    { label: "Account Details", key: "account" },
+    { label: "Settings", key: "settings" },
+    { label: "Security", key: "security" },
+  ];
+
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case "account":
+        return <AccountDetails />;
+      case "settings":
+        return <NotificationPreferences />;
+      case "security":
+        return <SecuritySettings />;
+      default:
+        return <AccountDetails />;
+    }
+  };
+
   return (
     <>
       <PageHeader
@@ -11,36 +37,13 @@ const UserProfile = () => {
       />
 
       <div className="content_area">
-        <div className="profile_wrapper">
-          <div className="profile_card">
-            <div className="profile_header">
-              <div className="profile_avatar">
-                <img src="/src/assets/images/Avatar [1.0].svg" alt="Avatar" />
-              </div>
-              <div className="profile_info">
-                <h2>Emma Wright</h2>
-                <p>emma@company.com</p>
-              </div>
-            </div>
+        <div className="tab_content_wrapper">
+          <ProfileImage />
 
-            <div className="profile_details">
-              <div className="detail_item">
-                <p className="label">Full Name</p>
-                <p className="value">Emma Wright</p>
-              </div>
-              <div className="detail_item">
-                <p className="label">Email Address</p>
-                <p className="value">emma@company.com</p>
-              </div>
-              <div className="detail_item">
-                <p className="label">Role</p>
-                <p className="value">Merchant Admin</p>
-              </div>
-              <div className="detail_item">
-                <p className="label">Member Since</p>
-                <p className="value">Sept 2024</p>
-              </div>
-            </div>
+          <Tabs tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
+
+          <div className="profile_tab_container" style={{ marginTop: "24px" }}>
+            {renderTabContent()}
           </div>
         </div>
       </div>
