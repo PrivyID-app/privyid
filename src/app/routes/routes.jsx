@@ -54,6 +54,8 @@ import AdminApi from "../../features/super-admin/pages/ApiPage";
 import AdminAuditLogs from "../../features/super-admin/pages/AuditLogsPage";
 import AdminSettings from "../../features/super-admin/pages/SettingsPage";
 import AdminSupport from "../../features/super-admin/pages/SupportPage";
+import AdminProfile from "../../features/super-admin/pages/UserProfile";
+import AdminNotifications from "../../features/super-admin/pages/Notifications";
 
 /**
  * Main application routes
@@ -137,6 +139,8 @@ const router = createHashRouter([
       { path: "audit-logs", element: <AdminAuditLogs /> },
       { path: "settings", element: <AdminSettings /> },
       { path: "support", element: <AdminSupport /> },
+      { path: "user-profile", element: <AdminProfile /> },
+      { path: "notifications", element: <AdminNotifications /> },
     ],
   },
 

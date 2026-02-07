@@ -1,0 +1,93 @@
+/* Settings Page Specific Styles */
+.settings_content {
+  padding: 20px;
+}
+
+.settings_tab_content {
+  margin-top: 20px;
+}
+
+.settings_section {
+  background: var(--surface-primary);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.settings_section h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.section_description {
+  font-size: 14px;
+  color: var(--text-soft-400);
+  margin-bottom: 24px;
+}
+
+.settings_form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form_row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form_row label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.form_row input[type="text"],
+.form_row input[type="number"],
+.form_row input[type="password"],
+.form_row input[type="url"],
+.form_row select,
+.form_row textarea {
+  padding: 12px;
+  border: 1px solid var(--border-primary);
+  border-radius: 8px;
+  font-size: 14px;
+  background: var(--surface-secondary);
+  color: var(--text-primary);
+}
+
+.toggle_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.toggle_input {
+  width: 44px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.toggle_description {
+  font-size: 14px;
+  color: var(--text-soft-400);
+}
+
+.save_button {
+  align-self: flex-start;
+  padding: 12px 24px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.save_button:hover {
+  background: var(--primary-hover);
+}

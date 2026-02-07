@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="super-admin.css" />
     <link rel="stylesheet" href="src/styles/fonts.css" />
   </head>
-  <body class="merchant_kyc_flow">
+  <body class="super_admin_flow">
     <section class="overview_page">
       <nav class="sidebar">
         <div class="top_section">
@@ -477,7 +477,7 @@
       </main>
     </section>
 
-    <section class="single_verification_page">
+    <section class="merchants_page">
       <nav class="sidebar">
         <div class="top_section">
           <div class="company_name_content">
@@ -646,9 +646,9 @@
       <main class="main_content">
         <div class="page_title">
           <div class="title_summary">
-            <p class="page_title_bg">Dashboard Overview</p>
+            <p class="page_title_bg">Merchants</p>
             <p class="page_title_sm">
-              Monitor your verification activity and performance
+              Manage registered merchants and their accounts
             </p>
           </div>
 
@@ -667,7 +667,7 @@
       </main>
     </section>
 
-    <section class="batch_verification_page">
+    <section class="verifications_page">
       <nav class="sidebar">
         <div class="top_section">
           <div class="company_name_content">
@@ -836,9 +836,9 @@
       <main class="main_content">
         <div class="page_title">
           <div class="title_summary">
-            <p class="page_title_bg">Dashboard Overview</p>
+            <p class="page_title_bg">Verifications</p>
             <p class="page_title_sm">
-              Monitor your verification activity and performance
+              Review and manage global verification requests
             </p>
           </div>
 
@@ -852,12 +852,239 @@
 
           <!-- Ensure to remove the paragraph element before ritting your code -->
 
-          <p>Enter your contents here</p>
+          <!-- <p>Enter your contents here</p> -->
+
+          <div class="overview_wrapper">
+            <div class="overview_card">
+              <div class="card_top_area">
+                <div class="overview_card_icon">
+                  <img
+                    src="../images/building-line.svg"
+                    alt="Total Verifications Icon"
+                  />
+                </div>
+
+                <div class="card_rate">
+                  <span class="material-symbols-outlined up_icon"
+                    >arrow_upward</span
+                  >
+                  <p class="rate_value">+12.5%</p>
+                </div>
+              </div>
+
+              <div class="card_content">
+                <p class="card_value">1,250</p>
+                <p class="card_title">Total Merchants</p>
+              </div>
+            </div>
+
+            <div class="overview_card">
+              <div class="card_top_area">
+                <div class="overview_card_icon">
+                  <img
+                    src="../images/qr-scan-line.svg"
+                    alt="Total Verifications Icon"
+                  />
+                </div>
+
+                <div class="card_rate">
+                  <span class="material-symbols-outlined up_icon"
+                    >arrow_upward</span
+                  >
+                  <p class="rate_value">+12.5%</p>
+                </div>
+              </div>
+
+              <div class="card_content">
+                <p class="card_value">12,250</p>
+                <p class="card_title">Total Verifications</p>
+              </div>
+            </div>
+
+            <div class="overview_card">
+              <div class="card_top_area">
+                <div class="overview_card_icon">
+                  <img
+                    src="../images/tabler_currency-naira.svg"
+                    alt="Total Verifications Icon"
+                  />
+                </div>
+
+                <div class="card_rate">
+                  <span class="material-symbols-outlined up_icon"
+                    >arrow_upward</span
+                  >
+                  <p class="rate_value">+12.5%</p>
+                </div>
+              </div>
+
+              <div class="card_content">
+                <p class="card_value">₦12,550,450</p>
+                <p class="card_title">Total Revenue MDT</p>
+              </div>
+            </div>
+
+            <div class="overview_card">
+              <div class="card_top_area">
+                <div class="overview_card_icon">
+                  <img
+                    src="../images/time-line-2.svg"
+                    alt="Total Verifications Icon"
+                  />
+                </div>
+
+                <div class="card_rate">
+                  <span class="material-symbols-outlined up_icon"
+                    >arrow_upward</span
+                  >
+                  <p class="rate_value">+2.5%</p>
+                </div>
+              </div>
+
+              <div class="card_content">
+                <p class="card_value">1.8s</p>
+                <p class="card_title">Average Response Time</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="recent_verifications">
+            <div class="top_area">
+              <p class="section_title">Recent Verifications</p>
+
+              <a href="#" class="view_all_link">
+                <p>View All</p>
+                <span class="material-symbols-outlined arrow_icon"
+                  >chevron_right</span
+                >
+              </a>
+            </div>
+
+            <div class="merchant_table">
+              <div class="table_header">
+                <div class="cell checkbox_cell">
+                  <img src="../images/Checkbox [1.0]" alt="Checkbox" />
+                </div>
+
+                <div class="cell">
+                  <p>Verification No.</p>
+                </div>
+
+                <div class="cell">
+                  <p>Business Type</p>
+                </div>
+
+                <div class="cell">
+                  <p>Business Name</p>
+                </div>
+
+                <div class="cell">
+                  <p>Status</p>
+                </div>
+
+                <div class="cell">
+                  <p>Verifications</p>
+                </div>
+
+                <div class="cell">
+                  <p>Date</p>
+                </div>
+
+                <div class="cell">
+                  <p><time></time></p>
+                </div>
+
+                <div class="cell action_cell">
+                  <p>Action</p>
+                </div>
+              </div>
+
+              <div class="table_body">
+                <!-- Example Row -->
+                <div class="table_row">
+                  <div class="cell checkbox_cell">
+                    <img src="../images/Checkbox [1.0]" alt="Checkbox" />
+                  </div>
+
+                  <div class="cell">
+                    <p>PRY-2024-001</p>
+                  </div>
+
+                  <div class="cell">
+                    <p>Enterprise</p>
+                  </div>
+
+                  <div class="cell">
+                    <p>Ironclad Systems</p>
+                  </div>
+
+                  <div class="cell">
+                    <p class="status approved">Verified</p>
+                  </div>
+
+                  <div class="cell">
+                    <p>12,450</p>
+                  </div>
+
+                  <div class="cell">
+                    <p>15 Sep 2024</p>
+                  </div>
+
+                  <div class="cell">
+                    <p>10:30 AM</p>
+                  </div>
+
+                  <div class="cell action_cell">
+                    <button class="action_button">
+                      <span class="material-symbols-outlined">visibility</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- More rows can be added here -->
+              </div>
+            </div>
+
+            <div class="pagination">
+              <p class="pagination_title">Page 1 of 5</p>
+
+              <div class="pagination_buttons">
+                <button class="pagination_button">
+                  <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+
+                <div class="page">
+                  <button class="page_button active_page">1</button>
+                  <button class="page_button">2</button>
+                  <button class="page_button">3</button>
+                  <button class="page_button">4</button>
+                  <button class="page_button">5</button>
+                </div>
+
+                <button class="pagination_button">
+                  <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+              </div>
+
+              <select
+                name="page_dropdown"
+                id="page_dropdown"
+                class="page_dropdown"
+              >
+                <option value="1">1/Page 5</option>
+                <option value="2">2/Page 5</option>
+                <option value="3">3/Page 5</option>
+                <option value="4">4/Page 5</option>
+                <option value="5">5/Page 5</option>
+              </select>
+            </div>
+          </div>
+
         </div>
       </main>
     </section>
 
-    <section class="history_page">
+    <section class="analytics_page">
       <nav class="sidebar">
         <div class="top_section">
           <div class="company_name_content">
@@ -1022,9 +1249,195 @@
       <main class="main_content">
         <div class="page_title">
           <div class="title_summary">
-            <p class="page_title_bg">Dashboard Overview</p>
+            <p class="page_title_bg">Analytics</p>
             <p class="page_title_sm">
-              Monitor your verification activity and performance
+              Detailed insights into platform usage
+            </p>
+          </div>
+
+          <span class="material-symbols-outlined settings_icon"
+            >notifications</span
+          >
+        </div>
+
+        <div class="content_area">
+          <!-- Enter your content here -->
+
+          <!-- Ensure to remove the paragraph element before ritting your code -->
+
+          <p>Enter your contents here</p>
+        </div>
+      </main>
+    </section>
+
+    <section class="audit_log_page">
+      <nav class="sidebar">
+        <div class="top_section">
+          <div class="company_name_content">
+            <div class="company_logo">
+              <img src="../images/privyid-admin.svg" alt="PrivyID Logo" />
+            </div>
+
+            <div class="company_name">
+              <p class="top_section_title">PrivyID Admin</p>
+              <p class="top_section_slogan">Secure KYC & KYB</p>
+            </div>
+
+            <div class="expand">
+              <span class="material-symbols-outlined code_icon">code</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav_contents">
+          <div class="nav_content_wrapper">
+            <div class="nav_main_title">
+              <p>MAIN</p>
+            </div>
+
+            <div class="nav_main_links">
+              <a href="#" class="inactive_tab">
+                <div class="indicator"></div>
+
+                <div class="tab-link">
+                  <div class="icon_title">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <p>Overview</p>
+                  </div>
+                </div>
+              </a>
+
+              <a href="#" class="inactive_tab">
+                <div class="indicator"></div>
+
+                <div class="tab-link">
+                  <div class="icon_title">
+                    <span class="material-symbols-outlined">group</span>
+                    <p>Merchants</p>
+                  </div>
+                </div>
+              </a>
+
+              <a href="#" class="inactive_tab">
+                <div class="indicator"></div>
+
+                <div class="tab-link">
+                  <div class="icon_title">
+                    <span class="material-symbols-outlined">docs</span>
+                    <p>Verifications</p>
+                  </div>
+                </div>
+              </a>
+
+              <a href="#" class="inactive_tab">
+                <div class="indicator"></div>
+
+                <div class="tab-link">
+                  <div class="icon_title">
+                    <span class="material-symbols-outlined">finance</span>
+                    <p>Analytics</p>
+                  </div>
+                </div>
+              </a>
+
+              <a href="#" class="active_tab">
+                <div class="indicator">
+                  <img src="../images/nav-tab-rectangle.svg" alt="Indicator" />
+                </div>
+
+                <div class="tab-link">
+                  <div class="icon_title">
+                    <span class="material-symbols-outlined">code</span>
+                    <p>API & Developers</p>
+                  </div>
+                </div>
+              </a>
+
+              <a href="#" class="inactive_tab">
+                <div class="indicator"></div>
+
+                <div class="tab-link">
+                  <div class="icon_title">
+                    <span class="material-symbols-outlined"
+                      >document_search</span
+                    >
+                    <p>Audit Logs</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <div class="nav_content_wrapper">
+            <div class="nav_main_title">
+              <p>OTHERS</p>
+            </div>
+
+            <div class="nav_main_links">
+              <!-- <a href="#" class="active_tab">
+                            <div class="indicator">
+                                <img src="../images/nav-tab-rectangle.svg" alt="Indicator">
+                            </div>
+
+                            <div class="tab-link">
+                                <div class="icon_title">
+                                    <span class="material-symbols-outlined">dashboard</span>
+                                    <p>Overview</p>
+                                </div>
+
+                                <span class="material-symbols-outlined arrow_icon">chevron_right</span>
+                            </div>
+                        </a> -->
+
+              <a href="#" class="inactive_tab">
+                <div class="indicator"></div>
+
+                <div class="tab-link">
+                  <div class="icon_title">
+                    <span class="material-symbols-outlined">Settings</span>
+                    <p>Settings</p>
+                  </div>
+                </div>
+              </a>
+
+              <a href="#" class="inactive_tab">
+                <div class="indicator"></div>
+
+                <div class="tab-link">
+                  <div class="icon_title">
+                    <span class="material-symbols-outlined">headphones</span>
+                    <p>Support</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="buttom_section">
+          <div class="user_content">
+            <div class="avatar">
+              <img src="../images/Avatar [1.0].svg" alt="Avatar" />
+            </div>
+
+            <div class="company_name">
+              <p class="top_section_title">Emma Wright</p>
+              <p class="top_section_slogan">emma@company.com</p>
+            </div>
+
+            <span class="material-symbols-outlined expand_icon"
+              >chevron_right</span
+            >
+          </div>
+        </div>
+      </nav>
+
+      <main class="main_content">
+        <div class="page_title">
+          <div class="title_summary">
+            <p class="page_title_bg">Audit Logs</p>
+            <p class="page_title_sm">
+              View system logs and activity trails
             </p>
           </div>
 
@@ -1044,192 +1457,6 @@
     </section>
 
     <section class="api_page">
-      <nav class="sidebar">
-        <div class="top_section">
-          <div class="company_name_content">
-            <div class="company_logo">
-              <img src="../images/privyid-admin.svg" alt="PrivyID Logo" />
-            </div>
-
-            <div class="company_name">
-              <p class="top_section_title">PrivyID Admin</p>
-              <p class="top_section_slogan">Secure KYC & KYB</p>
-            </div>
-
-            <div class="expand">
-              <span class="material-symbols-outlined code_icon">code</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="nav_contents">
-          <div class="nav_content_wrapper">
-            <div class="nav_main_title">
-              <p>MAIN</p>
-            </div>
-
-            <div class="nav_main_links">
-              <a href="#" class="inactive_tab">
-                <div class="indicator"></div>
-
-                <div class="tab-link">
-                  <div class="icon_title">
-                    <span class="material-symbols-outlined">dashboard</span>
-                    <p>Overview</p>
-                  </div>
-                </div>
-              </a>
-
-              <a href="#" class="inactive_tab">
-                <div class="indicator"></div>
-
-                <div class="tab-link">
-                  <div class="icon_title">
-                    <span class="material-symbols-outlined">group</span>
-                    <p>Merchants</p>
-                  </div>
-                </div>
-              </a>
-
-              <a href="#" class="inactive_tab">
-                <div class="indicator"></div>
-
-                <div class="tab-link">
-                  <div class="icon_title">
-                    <span class="material-symbols-outlined">docs</span>
-                    <p>Verifications</p>
-                  </div>
-                </div>
-              </a>
-
-              <a href="#" class="inactive_tab">
-                <div class="indicator"></div>
-
-                <div class="tab-link">
-                  <div class="icon_title">
-                    <span class="material-symbols-outlined">finance</span>
-                    <p>Analytics</p>
-                  </div>
-                </div>
-              </a>
-
-              <a href="#" class="active_tab">
-                <div class="indicator">
-                  <img src="../images/nav-tab-rectangle.svg" alt="Indicator" />
-                </div>
-
-                <div class="tab-link">
-                  <div class="icon_title">
-                    <span class="material-symbols-outlined">code</span>
-                    <p>API & Developers</p>
-                  </div>
-                </div>
-              </a>
-
-              <a href="#" class="inactive_tab">
-                <div class="indicator"></div>
-
-                <div class="tab-link">
-                  <div class="icon_title">
-                    <span class="material-symbols-outlined"
-                      >document_search</span
-                    >
-                    <p>Audit Logs</p>
-                  </div>
-                </div>
-              </a>
-            </div>
-          </div>
-
-          <div class="nav_content_wrapper">
-            <div class="nav_main_title">
-              <p>OTHERS</p>
-            </div>
-
-            <div class="nav_main_links">
-              <!-- <a href="#" class="active_tab">
-                            <div class="indicator">
-                                <img src="../images/nav-tab-rectangle.svg" alt="Indicator">
-                            </div>
-
-                            <div class="tab-link">
-                                <div class="icon_title">
-                                    <span class="material-symbols-outlined">dashboard</span>
-                                    <p>Overview</p>
-                                </div>
-
-                                <span class="material-symbols-outlined arrow_icon">chevron_right</span>
-                            </div>
-                        </a> -->
-
-              <a href="#" class="inactive_tab">
-                <div class="indicator"></div>
-
-                <div class="tab-link">
-                  <div class="icon_title">
-                    <span class="material-symbols-outlined">Settings</span>
-                    <p>Settings</p>
-                  </div>
-                </div>
-              </a>
-
-              <a href="#" class="inactive_tab">
-                <div class="indicator"></div>
-
-                <div class="tab-link">
-                  <div class="icon_title">
-                    <span class="material-symbols-outlined">headphones</span>
-                    <p>Support</p>
-                  </div>
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div class="buttom_section">
-          <div class="user_content">
-            <div class="avatar">
-              <img src="../images/Avatar [1.0].svg" alt="Avatar" />
-            </div>
-
-            <div class="company_name">
-              <p class="top_section_title">Emma Wright</p>
-              <p class="top_section_slogan">emma@company.com</p>
-            </div>
-
-            <span class="material-symbols-outlined expand_icon"
-              >chevron_right</span
-            >
-          </div>
-        </div>
-      </nav>
-
-      <main class="main_content">
-        <div class="page_title">
-          <div class="title_summary">
-            <p class="page_title_bg">Dashboard Overview</p>
-            <p class="page_title_sm">
-              Monitor your verification activity and performance
-            </p>
-          </div>
-
-          <span class="material-symbols-outlined settings_icon"
-            >notifications</span
-          >
-        </div>
-
-        <div class="content_area">
-          <!-- Enter your content here -->
-
-          <!-- Ensure to remove the paragraph element before ritting your code -->
-
-          <p>Enter your contents here</p>
-        </div>
-      </main>
-    </section>
-
-    <section class="tokens_page">
       <nav class="sidebar">
         <div class="top_section">
           <div class="company_name_content">
