@@ -15,12 +15,14 @@ const OnboardingLayout = ({
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Reset visibility and trigger fade-in animation with a small delay
-    setIsVisible(false);
+    // Trigger fade-in animation with a small delay
     const timer = setTimeout(() => {
       setIsVisible(true);
     }, 50);
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      setIsVisible(false); // Reset for next time layoutClassName changes
+    };
   }, [layoutClassName]);
 
   return (

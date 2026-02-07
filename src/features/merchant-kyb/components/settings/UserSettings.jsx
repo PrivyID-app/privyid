@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../../pages/SettingsPage.css";
 
 const UserSettings = () => {
-  const [users, setUsers] = useState([
+  const [users] = useState([
     { id: 1, name: "Emma Wright", email: "emma@company.com", role: "Admin" },
     { id: 2, name: "John Doe", email: "john@company.com", role: "Viewer" },
   ]);

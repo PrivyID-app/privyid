@@ -503,6 +503,12 @@
   font-size: 1.25rem;
 }
 
+.filter_actions{
+  display: flex;
+  flex-direction: row;
+  column-gap: 1rem;
+}
+
 /* Responsive */
 @media screen and (max-width: 1200px) {
   .overview_wrapper {

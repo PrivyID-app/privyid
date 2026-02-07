@@ -7,7 +7,7 @@ import selectBoxInactive from "../../../assets/images/select-box-circle-fill-ina
 import trafficLights from "../../../assets/images/Traffic Lights (Big Sur).svg";
 import StatusModal from "../../../shared/components/StatusModal";
 
-const SetupStep = ({ onNext, onBack }) => {
+const SetupStep = ({ onBack }) => {
   const navigate = useNavigate();
   const { selectedServices } = useOnboarding();
   const [activeTab, setActiveTab] = useState("sandbox");
@@ -45,6 +45,7 @@ const SetupStep = ({ onNext, onBack }) => {
     setModalDescription(
       "The code snippet has been copied to your clipboard successfully.",
     );
+    setModalType("success"); // Set modal type
     setShowModal(true);
   };
 
@@ -54,6 +55,7 @@ const SetupStep = ({ onNext, onBack }) => {
     setModalDescription(
       "Your API key has been copied securely to your clipboard.",
     );
+    setModalType("success"); // Set modal type
     setShowModal(true);
     setCopiedKey(key);
     setTimeout(() => setCopiedKey(null), 2000);
@@ -67,15 +69,11 @@ const SetupStep = ({ onNext, onBack }) => {
       navigate("/merchant-kyb");
     } else if (selectedServices.includes("kyc_kyb")) {
       navigate("/merchant-combined");
-    } else {
-      // Fallback to onNext if no service selected
-      onNext();
     }
   };
 
   const renderTabContent = () => {
     const key = activeTab === "sandbox" ? sandboxKey : productionKey;
-    const title = activeTab === "sandbox" ? "Sandbox" : "Production";
     const description =
       activeTab === "sandbox"
         ? "Test environment for development. No real verifications processed."

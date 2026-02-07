@@ -159,7 +159,7 @@ const SingleVerification = () => {
             </form>
           </div>
         );
-      case 1:
+      case 1: {
         const idTypes = [
           "Certificate of Incorporation",
           "Tax Identification Number (TIN)",
@@ -222,6 +222,7 @@ const SingleVerification = () => {
             </div>
           </div>
         );
+      }
       case 2:
         return (
           <div className="verification_details_content">

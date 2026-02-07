@@ -158,7 +158,7 @@ const SingleVerification = () => {
             </form>
           </div>
         );
-      case 1:
+      case 1: {
         const idTypes = [
           "Driver's License",
           "International Passport",
@@ -221,6 +221,7 @@ const SingleVerification = () => {
             </div>
           </div>
         );
+      }
       case 2:
         return (
           <div className="verification_details_content">

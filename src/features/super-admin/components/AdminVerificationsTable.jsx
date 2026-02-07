@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import "../super-admin.css";
+import ImageCheckbox from "../../../shared/components/ImageCheckbox";
+import Pagination from "../../../shared/components/Pagination";
 
 const AdminVerificationsTable = () => {
   const [selectedRows, setSelectedRows] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const verifications = [
     {
@@ -89,7 +93,6 @@ const AdminVerificationsTable = () => {
     {
       id: "PRY-2024-010",
       businessType: "Enterprise",
-      businessName: "Apex Holdings",
       status: "verified",
       count: "21,340",
       date: "06 Sep 2024",
@@ -97,11 +100,18 @@ const AdminVerificationsTable = () => {
     },
   ];
 
-  const handleSelectAll = (e) => {
-    if (e.target.checked) {
-      setSelectedRows(verifications.map((v) => v.id));
-    } else {
+  const totalPages = Math.ceil(verifications.length / itemsPerPage);
+  const paginatedVerifications = verifications.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handleSelectAll = () => {
+    const allVerificationIds = paginatedVerifications.map((v) => v.id);
+    if (selectedRows.length === allVerificationIds.length && selectedRows.every(id => allVerificationIds.includes(id))) {
       setSelectedRows([]);
+    } else {
+      setSelectedRows(allVerificationIds);
     }
   };
 
@@ -132,10 +142,9 @@ const AdminVerificationsTable = () => {
     <div className="merchant_table">
       <div className="table_header">
         <div className="cell checkbox_cell">
-          <input
-            type="checkbox"
+          <ImageCheckbox
+            checked={selectedRows.length === paginatedVerifications.length && paginatedVerifications.every(verification => selectedRows.includes(verification.id))}
             onChange={handleSelectAll}
-            checked={selectedRows.length === verifications.length}
           />
         </div>
         <div className="cell">
@@ -165,11 +174,10 @@ const AdminVerificationsTable = () => {
       </div>
 
       <div className="table_body">
-        {verifications.map((verification) => (
+        {paginatedVerifications.map((verification) => (
           <div key={verification.id} className="table_row">
             <div className="cell checkbox_cell">
-              <input
-                type="checkbox"
+              <ImageCheckbox
                 checked={selectedRows.includes(verification.id)}
                 onChange={() => handleSelectRow(verification.id)}
               />
@@ -205,6 +213,12 @@ const AdminVerificationsTable = () => {
           </div>
         ))}
       </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+        onPageSelect={setCurrentPage}
+      />
     </div>
   );
 };

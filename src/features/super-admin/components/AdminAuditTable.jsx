@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import "../super-admin.css";
+import ImageCheckbox from "../../../shared/components/ImageCheckbox";
+import Pagination from "../../../shared/components/Pagination";
 
 const AdminAuditTable = () => {
   const [selectedRows, setSelectedRows] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const auditLogs = [
     {
@@ -86,16 +90,6 @@ const AdminAuditTable = () => {
       details: "Rejected KYB verification for Quantum Dynamics",
     },
     {
-      id: "AUD-009",
-      timestamp: "2024-09-13 15:25:10",
-      user: "Sarah Johnson (Admin)",
-      action: "API Key Revoked",
-      resource: "API-KEY-456",
-      ipAddress: "192.168.1.102",
-      status: "success",
-      details: "Revoked sandbox API key for GreenLeaf Ventures",
-    },
-    {
       id: "AUD-010",
       timestamp: "2024-09-13 13:10:33",
       user: "Emma Wright (Super Admin)",
@@ -107,11 +101,18 @@ const AdminAuditTable = () => {
     },
   ];
 
-  const handleSelectAll = (e) => {
-    if (e.target.checked) {
-      setSelectedRows(auditLogs.map((log) => log.id));
-    } else {
+  const totalPages = Math.ceil(auditLogs.length / itemsPerPage);
+  const paginatedAuditLogs = auditLogs.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handleSelectAll = () => {
+    const allLogIds = paginatedAuditLogs.map((log) => log.id);
+    if (selectedRows.length === allLogIds.length && selectedRows.every(id => allLogIds.includes(id))) {
       setSelectedRows([]);
+    } else {
+      setSelectedRows(allLogIds);
     }
   };
 
@@ -133,10 +134,9 @@ const AdminAuditTable = () => {
     <div className="merchant_table audit_table">
       <div className="table_header">
         <div className="cell checkbox_cell">
-          <input
-            type="checkbox"
+          <ImageCheckbox
+            checked={selectedRows.length === paginatedAuditLogs.length && paginatedAuditLogs.every(log => selectedRows.includes(log.id))}
             onChange={handleSelectAll}
-            checked={selectedRows.length === auditLogs.length}
           />
         </div>
         <div className="cell">
@@ -163,11 +163,10 @@ const AdminAuditTable = () => {
       </div>
 
       <div className="table_body">
-        {auditLogs.map((log) => (
+        {paginatedAuditLogs.map((log) => (
           <div key={log.id} className="table_row">
             <div className="cell checkbox_cell">
-              <input
-                type="checkbox"
+              <ImageCheckbox
                 checked={selectedRows.includes(log.id)}
                 onChange={() => handleSelectRow(log.id)}
               />
@@ -198,6 +197,12 @@ const AdminAuditTable = () => {
           </div>
         ))}
       </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+        onPageSelect={setCurrentPage}
+      />
     </div>
   );
 };

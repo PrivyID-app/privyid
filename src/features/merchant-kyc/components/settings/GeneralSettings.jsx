@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import "../../pages/SettingsPage.css";
-import { useAppContext } from "../../../../context/AppContext";
+import { useAppContext } from "../../../../context/appContextHooks";
 
 const GeneralSettings = () => {
   const { company, updateCompany } = useAppContext();

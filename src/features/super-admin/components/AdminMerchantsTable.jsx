@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import "../super-admin.css";
+import ImageCheckbox from "../../../shared/components/ImageCheckbox";
+import Pagination from "../../../shared/components/Pagination";
 
 const AdminMerchantsTable = () => {
   const [selectedRows, setSelectedRows] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const merchants = [
     {
@@ -97,11 +101,18 @@ const AdminMerchantsTable = () => {
     },
   ];
 
-  const handleSelectAll = (e) => {
-    if (e.target.checked) {
-      setSelectedRows(merchants.map((m) => m.id));
-    } else {
+  const totalPages = Math.ceil(merchants.length / itemsPerPage);
+  const paginatedMerchants = merchants.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handleSelectAll = () => {
+    const allMerchantIds = paginatedMerchants.map((m) => m.id);
+    if (selectedRows.length === allMerchantIds.length && selectedRows.every(id => allMerchantIds.includes(id))) {
       setSelectedRows([]);
+    } else {
+      setSelectedRows(allMerchantIds);
     }
   };
 
@@ -132,10 +143,9 @@ const AdminMerchantsTable = () => {
     <div className="merchant_table">
       <div className="table_header">
         <div className="cell checkbox_cell">
-          <input
-            type="checkbox"
+          <ImageCheckbox
+            checked={selectedRows.length === paginatedMerchants.length && paginatedMerchants.every(merchant => selectedRows.includes(merchant.id))}
             onChange={handleSelectAll}
-            checked={selectedRows.length === merchants.length}
           />
         </div>
         <div className="cell">
@@ -165,11 +175,10 @@ const AdminMerchantsTable = () => {
       </div>
 
       <div className="table_body">
-        {merchants.map((merchant) => (
+        {paginatedMerchants.map((merchant) => (
           <div key={merchant.id} className="table_row">
             <div className="cell checkbox_cell">
-              <input
-                type="checkbox"
+              <ImageCheckbox
                 checked={selectedRows.includes(merchant.id)}
                 onChange={() => handleSelectRow(merchant.id)}
               />
@@ -205,6 +214,12 @@ const AdminMerchantsTable = () => {
           </div>
         ))}
       </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+        onPageSelect={setCurrentPage}
+      />
     </div>
   );
 };

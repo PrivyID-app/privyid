@@ -85,40 +85,6 @@ const VerificationsPage = () => {
           </div>
 
           <AdminVerificationsTable />
-
-          <div className="pagination">
-            <p className="pagination_title">Page 1 of 5</p>
-
-            <div className="pagination_buttons">
-              <button className="pagination_button">
-                <span className="material-symbols-outlined">chevron_left</span>
-              </button>
-
-              <div className="page">
-                <button className="page_button active_page">1</button>
-                <button className="page_button">2</button>
-                <button className="page_button">3</button>
-                <button className="page_button">4</button>
-                <button className="page_button">5</button>
-              </div>
-
-              <button className="pagination_button">
-                <span className="material-symbols-outlined">chevron_right</span>
-              </button>
-            </div>
-
-            <select
-              name="page_dropdown"
-              id="page_dropdown"
-              className="page_dropdown"
-            >
-              <option value="1">1/Page 5</option>
-              <option value="2">2/Page 5</option>
-              <option value="3">3/Page 5</option>
-              <option value="4">4/Page 5</option>
-              <option value="5">5/Page 5</option>
-            </select>
-          </div>
         </div>
       </div>
     </>

@@ -59,6 +59,12 @@ const OnboardingFlow = () => {
       // After customization, proceed to next step
       // Ensure we jump past the customization group
       nextStepIndex = STEP_ORDER.indexOf(ONBOARDING_STEPS.SERVICE_TYPE_BOTH) + 1;
+    } else if (currentStep === ONBOARDING_STEPS.INTEGRATION) {
+      if (!selectedServices || selectedServices.length === 0) {
+        // If no services are selected, go back to service type selection
+        setCurrentStep(ONBOARDING_STEPS.SERVICE_TYPE);
+        return;
+      }
     }
 
     if (nextStepIndex < STEP_ORDER.length && nextStepIndex !== -1) {

@@ -2,14 +2,21 @@ import React, { useState } from "react";
 import CheckboxIcon from "../../assets/images/Checkbox [1.0].svg";
 import CheckboxActiveIcon from "../../assets/images/Checkbox-active [1.0].svg";
 import VerificationModal from "./VerificationModal";
-
-import CustomSelect from "./CustomSelect";
+import Pagination from "./Pagination";
 
 const VerificationTable = ({ data = [], idLabel = "Verification No." }) => {
   const [selectedRows, setSelectedRows] = useState(new Set());
   const [selectAll, setSelectAll] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const paginatedData = data.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   const toggleSelectAll = () => {
     if (selectAll) {
@@ -18,7 +25,9 @@ const VerificationTable = ({ data = [], idLabel = "Verification No." }) => {
       return;
     }
 
-    const all = new Set(data.map((_, i) => i));
+    const all = new Set(
+      paginatedData.map((_, i) => i + (currentPage - 1) * itemsPerPage)
+    );
     setSelectedRows(all);
     setSelectAll(true);
   };
@@ -76,98 +85,81 @@ const VerificationTable = ({ data = [], idLabel = "Verification No." }) => {
       </div>
 
       <div className="table_body">
-        {data.map((item, index) => (
-          <div
-            className={`table_row ${selectedRows.has(index) ? "selected_row" : ""}`}
-            key={index}
-          >
-            <div className="cell checkbox_cell">
-              <img
-                src={
-                  selectedRows.has(index) ? CheckboxActiveIcon : CheckboxIcon
-                }
-                alt={selectedRows.has(index) ? "Selected" : "Select"}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  toggleRow(index);
-                }}
-                style={{ cursor: "pointer" }}
-              />
-            </div>
-            <div className="cell">
-              <p>{item.id}</p>
-            </div>
-            <div className="cell">
-              <p>{item.type}</p>
-            </div>
-            <div className="cell">
-              <p>{item.name}</p>
-            </div>
-            <div className="cell">
-              <p className={`status ${item.status.toLowerCase()}`}>
-                {item.status}
-              </p>
-            </div>
-            <div className="cell">
-              <p>{item.batch}</p>
-            </div>
-            <div className="cell">
-              <p>{item.date}</p>
-            </div>
-            <div className="cell">
-              <p>{item.time}</p>
-            </div>
-            <div className="cell action_cell">
-              <button
-                className="action_button"
-                onClick={() => handleViewDetails(item)}
-              >
-                <span className="material-symbols-outlined table_action">
-                  visibility
-                </span>
-              </button>
+        {paginatedData.map((item, index) => {
+          const itemIndex = (currentPage - 1) * itemsPerPage + index;
+          return (
+            <div
+              className={`table_row ${
+                selectedRows.has(itemIndex) ? "selected_row" : ""
+              }`}
+              key={itemIndex}
+            >
+              <div className="cell checkbox_cell">
+                <img
+                  src={
+                    selectedRows.has(itemIndex)
+                      ? CheckboxActiveIcon
+                      : CheckboxIcon
+                  }
+                  alt={selectedRows.has(itemIndex) ? "Selected" : "Select"}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleRow(itemIndex);
+                  }}
+                  style={{ cursor: "pointer" }}
+                />
+              </div>
+              <div className="cell">
+                <p>{item.id}</p>
+              </div>
+              <div className="cell">
+                <p>{item.type}</p>
+              </div>
+              <div className="cell">
+                <p>{item.name}</p>
+              </div>
+              <div className="cell">
+                <p className={`status ${item.status.toLowerCase()}`}>
+                  {item.status}
+                </p>
+              </div>
+              <div className="cell">
+                <p>{item.batch}</p>
+              </div>
+              <div className="cell">
+                <p>{item.date}</p>
+              </div>
+              <div className="cell">
+                <p>{item.time}</p>
+              </div>
+              <div className="cell action_cell">
+                <button
+                  className="action_button"
+                  onClick={() => handleViewDetails(item)}
+                >
+                  <span className="material-symbols-outlined table_action">
+                    visibility
+                  </span>
+                </button>
 
-              <button className="action_button">
-                <span className="material-symbols-outlined table_action delete_icon">
-                  delete
-                </span>
-              </button>
+                <button className="action_button">
+                  <span className="material-symbols-outlined table_action delete_icon">
+                    delete
+                  </span>
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
-      <div className="pagination">
-        <p className="pagination_title">Page 1 of 5</p>
-        <div className="pagination_buttons">
-          <button className="pagination_button">
-            <span className="material-symbols-outlined">chevron_left</span>
-          </button>
-          <div className="page">
-            <button className="page_button active_page">1</button>
-            <button className="page_button">2</button>
-            <button className="page_button">3</button>
-            <button className="page_button">4</button>
-            <button className="page_button">5</button>
-          </div>
-          <button className="pagination_button">
-            <span className="material-symbols-outlined">chevron_right</span>
-          </button>
-        </div>
-        <CustomSelect
-          options={[
-            { value: "1", label: "1/Page 5" },
-            { value: "2", label: "2/Page 5" },
-            { value: "3", label: "3/Page 5" },
-            { value: "4", label: "4/Page 5" },
-            { value: "5", label: "5/Page 5" },
-          ]}
-          value="1"
-          onSelect={(val) => console.log("Page:", val)}
-          className="service_selector_custom page_dropdown_custom"
-          placement="top"
-        />
-      </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+        onPageSelect={setCurrentPage}
+      />
+
       <VerificationModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

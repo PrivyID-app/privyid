@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { NavLink, Link } from "react-router-dom";
-import { useAppContext } from "../../context/AppContext";
+import { useAppContext } from "../../context/appContextHooks";
 import NavTabIndicator from "../../assets/images/nav-tab-rectangle.svg";
 
 const Sidebar = ({
@@ -9,7 +9,6 @@ const Sidebar = ({
   activeIndicator = NavTabIndicator,
 }) => {
   const { user, company } = useAppContext();
-  const [isUserExpanded, setIsUserExpanded] = useState(false);
 
   // Group links by section
   const mainLinks = links.filter(

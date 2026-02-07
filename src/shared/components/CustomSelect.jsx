@@ -13,19 +13,6 @@ const CustomSelect = ({
   const [coords, setCoords] = useState({ top: 0, left: 0, width: 0 });
   const dropdownRef = useRef(null);
 
-  const updateCoords = () => {
-    if (dropdownRef.current) {
-      const rect = dropdownRef.current.getBoundingClientRect();
-      const isTop = placement === "top";
-      setCoords({
-        top: (isTop ? rect.top : rect.bottom) + window.scrollY,
-        left: rect.left + window.scrollX,
-        width: rect.width,
-        isTop,
-      });
-    }
-  };
-
   useEffect(() => {
     const handleClickOutside = (event) => {
       // Check if click is outside trigger wrapper AND not within a portal-rendered dropdown
@@ -42,6 +29,19 @@ const CustomSelect = ({
   }, []);
 
   useEffect(() => {
+    const updateCoords = () => {
+      if (dropdownRef.current) {
+        const rect = dropdownRef.current.getBoundingClientRect();
+        const isTop = placement === "top";
+        setCoords({
+          top: (isTop ? rect.top : rect.bottom) + window.scrollY,
+          left: rect.left + window.scrollX,
+          width: rect.width,
+          isTop,
+        });
+      }
+    };
+
     if (isOpen) {
       updateCoords();
       window.addEventListener("scroll", updateCoords, true);
@@ -51,7 +51,7 @@ const CustomSelect = ({
       window.removeEventListener("scroll", updateCoords, true);
       window.removeEventListener("resize", updateCoords);
     };
-  }, [isOpen]);
+  }, [isOpen, placement]);
 
   const selectedOption = options.find((opt) => opt.value === value);
 

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../../super-admin.css";
 
-const ApiKeysTable = ({ environment }) => {
+const ApiKeysTable = () => {
   const [selectedRows, setSelectedRows] = useState([]);
 
   const apiKeys = [

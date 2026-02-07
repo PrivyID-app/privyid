@@ -88,13 +88,6 @@ const BusinessVerificationStep = ({ onNext, onBack }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setFormData((prev) => ({ ...prev, supporting_documents: file }));
-    }
-  };
-
   const handleDragOver = (e) => {
     e.preventDefault();
     setIsDragging(true);

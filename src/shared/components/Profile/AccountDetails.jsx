@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useAppContext } from "../../../context/AppContext";
+import { useAppContext } from "../../../context/appContextHooks";
 
 const AccountDetails = () => {
   const { user, updateUser } = useAppContext();

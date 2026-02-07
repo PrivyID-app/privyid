@@ -1,8 +1,7 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import DefaultAvatar from "../assets/images/Avatar [1.0].svg";
 import DefaultLogo from "../assets/images/company-logo-empty.svg";
-
-const AppContext = createContext();
+import { AppContext } from "./appContextHooks";
 
 export const AppProvider = ({ children }) => {
   // Initialize state from localStorage or defaults
@@ -53,12 +52,4 @@ export const AppProvider = ({ children }) => {
       {children}
     </AppContext.Provider>
   );
-};
-
-export const useAppContext = () => {
-  const context = useContext(AppContext);
-  if (!context) {
-    throw new Error("useAppContext must be used within an AppProvider");
-  }
-  return context;
 };
