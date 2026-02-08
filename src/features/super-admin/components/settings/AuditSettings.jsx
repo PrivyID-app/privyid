@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import ImageCheckbox from "../../../shared/components/ImageCheckbox.jsx";
-import CustomSelect from "../../../shared/components/CustomSelect";
+import ImageCheckbox from "../../../../shared/components/ImageCheckbox.jsx";
+import CustomSelect from "../../../../shared/components/CustomSelect.jsx";
 import "../../super-admin.css";
 
 const AuditSettings = () => {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import CustomSelect from "../../../shared/components/CustomSelect";
+import CustomSelect from "../../../../shared/components/CustomSelect.jsx";
 import "../../super-admin.css";
 
 const BillingSettings = () => {

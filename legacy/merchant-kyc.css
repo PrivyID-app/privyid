@@ -151,13 +151,14 @@ body.merchant_kyc_flow {
   justify-content: space-between;
   padding: 0.75rem;
   border-radius: 0.5rem;
-  background-color: var(--bg-weak-50);
+  background-color: var(--bg-strong-950);
+  color: var(--text-white-0);
 }
 
 .active_tab .tab-link p {
   font-size: 1rem;
   font-weight: 500;
-  color: var(--text-strong-950);
+  color: var(--text-white-0);
 }
 
 .active_tab .tab-link:hover {

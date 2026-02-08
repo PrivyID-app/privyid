@@ -166,14 +166,19 @@
   justify-content: space-between;
   padding: 0.75rem;
   border-radius: 0.5rem;
-  background-color: var(--bg-weak-50);
+  background-color: var(--bg-strong-950);
   margin-right: 1rem;
 }
 
 .merchant_kyc_layout .active_tab .tab-link p {
   font-size: 1rem;
   font-weight: 400;
-  color: var(--text-strong-950);
+  color: var(--text-white-0);
+}
+
+.merchant_kyc_layout .active_tab .tab-link .icon_title span.material-symbols-outlined,
+.merchant_kyc_layout .active_tab .tab-link span.material-symbols-outlined.arrow_icon {
+  color: var(--text-white-0);
 }
 
 .merchant_kyc_layout .active_tab .tab-link:hover {
