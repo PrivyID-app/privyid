@@ -4,31 +4,33 @@
 }
 
 .settings_tab_content {
+  width: 100%;
   margin-top: 20px;
 }
 
 .settings_section {
   background: var(--surface-primary);
   border-radius: 12px;
-  padding: 24px;
 }
 
 .settings_section h3 {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 400;
   margin-bottom: 8px;
   color: var(--text-primary);
 }
 
 .section_description {
-  font-size: 14px;
+  font-size: 1rem;
   color: var(--text-soft-400);
   margin-bottom: 24px;
+  font-weight: 300;
 }
 
 .settings_form {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 20px;
 }
 
@@ -36,6 +38,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  align-items: flex-start;
 }
 
 .form_row label {

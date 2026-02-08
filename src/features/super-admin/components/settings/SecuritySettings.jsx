@@ -1,7 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
+import ImageCheckbox from "../../../shared/components/ImageCheckbox";
+import CustomSelect from "../../../shared/components/CustomSelect";
 import "../../super-admin.css";
 
 const SecuritySettings = () => {
+  const [twoFactorAuth, setTwoFactorAuth] = useState(true);
+  const [ipWhitelist, setIpWhitelist] = useState("");
+  const [passwordPolicy, setPasswordPolicy] = useState("standard");
+
+  const passwordPolicyOptions = [
+    { value: "standard", label: "Standard (8+ characters)" },
+    {
+      value: "strong",
+      label: "Strong (12+ characters, mixed case, numbers, symbols)",
+    },
+    {
+      value: "very_strong",
+      label: "Very Strong (16+ characters, all requirements)",
+    },
+  ];
+
+  const handleSave = () => {
+    console.log("Saving security settings:", {
+      twoFactorAuth,
+      ipWhitelist,
+      passwordPolicy,
+    });
+  };
+
   return (
     <div className="settings_section">
       <h3>Security Configuration</h3>
@@ -11,9 +37,12 @@ const SecuritySettings = () => {
 
       <div className="settings_form">
         <div className="form_row">
-          <label>Two-Factor Authentication</label>
+          <label style={{fontSize: "1rem", fontWeight: "400"}}>Two-Factor Authentication</label>
           <div className="toggle_wrapper">
-            <input type="checkbox" defaultChecked className="toggle_input" />
+            <ImageCheckbox
+              checked={twoFactorAuth}
+              onChange={() => setTwoFactorAuth(!twoFactorAuth)}
+            />
             <span className="toggle_description">
               Require 2FA for all admin accounts
             </span>
@@ -21,22 +50,34 @@ const SecuritySettings = () => {
         </div>
 
         <div className="form_row">
-          <label>IP Whitelist</label>
-          <textarea placeholder="Enter IP addresses (one per line)" rows="4" />
+          <label style={{fontSize: "1rem", fontWeight: "400"}}>IP Whitelist</label>
+          <textarea
+            placeholder="Enter IP addresses (one per line)"
+            rows="4"
+            style={{
+              fontSize: "1rem",
+              fontWeight: "400",
+              width: "100%",
+              border: "1px solid var(--stroke-sub-300)",
+              borderRadius: "0.8rem",
+              padding: "1rem",
+            }}
+            value={ipWhitelist}
+            onChange={(e) => setIpWhitelist(e.target.value)}
+          />
         </div>
 
         <div className="form_row">
-          <label>Password Policy</label>
-          <select>
-            <option>Standard (8+ characters)</option>
-            <option>
-              Strong (12+ characters, mixed case, numbers, symbols)
-            </option>
-            <option>Very Strong (16+ characters, all requirements)</option>
-          </select>
+          <label style={{fontSize: "1rem", fontWeight: "400"}}>Password Policy</label>
+          <CustomSelect
+            options={passwordPolicyOptions}
+            value={passwordPolicy}
+            onSelect={setPasswordPolicy}
+            className="filter_select" // Reusing filter_select class for styling
+          />
         </div>
 
-        <button className="save_button">Save Changes</button>
+        <button className="save_button" onClick={handleSave}>Save Changes</button>
       </div>
     </div>
   );

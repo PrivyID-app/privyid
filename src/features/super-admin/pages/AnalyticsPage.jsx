@@ -7,6 +7,9 @@ import {
   Bar,
   AreaChart,
   Area,
+  PieChart,
+  Pie,
+  Cell,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -14,10 +17,18 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import TopPerformingMerchantsTable from "../components/TopPerformingMerchantsTable";
+import CustomSelect from "../../../shared/components/CustomSelect";
 import "../super-admin.css";
 
 const AnalyticsPage = () => {
   const [dateRange, setDateRange] = useState("monthly");
+
+  const dateRangeOptions = [
+    { value: "monthly", label: "Monthly" },
+    { value: "quarterly", label: "Quarterly" },
+    { value: "yearly", label: "Yearly" },
+  ];
 
   // Revenue Trends Data
   const revenueData = [
@@ -58,38 +69,11 @@ const AnalyticsPage = () => {
     { month: "Sep", merchants: 1050 },
   ];
 
-  // Top Performing Merchants
-  const topMerchants = [
-    {
-      name: "Apex Holdings",
-      verifications: "21,340",
-      revenue: "₦4,268,000",
-      growth: "+15.2%",
-    },
-    {
-      name: "NexGen Technologies",
-      verifications: "18,560",
-      revenue: "₦3,710,000",
-      growth: "+12.8%",
-    },
-    {
-      name: "Quantum Dynamics",
-      verifications: "15,230",
-      revenue: "₦3,050,000",
-      growth: "+10.5%",
-    },
-    {
-      name: "Ironclad Systems",
-      verifications: "12,450",
-      revenue: "₦2,450,000",
-      growth: "+8.3%",
-    },
-    {
-      name: "TechFlow Solutions",
-      verifications: "8,320",
-      revenue: "₦1,680,000",
-      growth: "+6.7%",
-    },
+  // Verification Status Breakdown Data
+  const verificationStatusData = [
+    { name: "Approved", value: 7000, color: "#22c55e" }, // green-500
+    { name: "Pending", value: 2000, color: "#f59e0b" }, // amber-500
+    { name: "Rejected", value: 1000, color: "#ef4444" }, // red-500
   ];
 
   const metricsCards = [
@@ -164,16 +148,13 @@ const AnalyticsPage = () => {
           {/* Revenue Trends */}
           <div className="chart_container">
             <div className="chart_header">
-              <h3>Revenue Trends</h3>
-              <select
+              <p>Revenue Trends</p>
+              <CustomSelect
+                options={dateRangeOptions}
                 value={dateRange}
-                onChange={(e) => setDateRange(e.target.value)}
+                onSelect={setDateRange}
                 className="date_range_selector"
-              >
-                <option value="monthly">Monthly</option>
-                <option value="quarterly">Quarterly</option>
-                <option value="yearly">Yearly</option>
-              </select>
+              />
             </div>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={revenueData}>
@@ -185,14 +166,14 @@ const AnalyticsPage = () => {
                 <Line
                   type="monotone"
                   dataKey="revenue"
-                  stroke="#8b5cf6"
+                  stroke="var(--state-feature-base)"
                   strokeWidth={2}
                   name="Revenue"
                 />
                 <Line
                   type="monotone"
                   dataKey="target"
-                  stroke="#94a3b8"
+                  stroke="var(--text-soft-400)"
                   strokeWidth={2}
                   strokeDasharray="5 5"
                   name="Target"
@@ -204,7 +185,7 @@ const AnalyticsPage = () => {
           {/* Verification Volume */}
           <div className="chart_container">
             <div className="chart_header">
-              <h3>Verification Volume</h3>
+              <p>Verification Volume</p>
             </div>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={verificationData}>
@@ -213,8 +194,8 @@ const AnalyticsPage = () => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="KYC" fill="#8b5cf6" name="KYC" />
-                <Bar dataKey="KYB" fill="#06b6d4" name="KYB" />
+                <Bar dataKey="KYC" fill="var(--state-feature-base)" name="KYC" />
+                <Bar dataKey="KYB" fill="var(--state-stable-base)" name="KYB" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -222,7 +203,7 @@ const AnalyticsPage = () => {
           {/* Merchant Growth */}
           <div className="chart_container">
             <div className="chart_header">
-              <h3>Merchant Growth</h3>
+              <p>Merchant Growth</p>
             </div>
             <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={merchantGrowthData}>
@@ -234,8 +215,8 @@ const AnalyticsPage = () => {
                 <Area
                   type="monotone"
                   dataKey="merchants"
-                  stroke="#8b5cf6"
-                  fill="#8b5cf6"
+                  stroke="var(--state-feature-base)"
+                  fill="var(--state-feature-base)"
                   fillOpacity={0.6}
                   name="Merchants"
                 />
@@ -243,43 +224,38 @@ const AnalyticsPage = () => {
             </ResponsiveContainer>
           </div>
 
-          {/* Top Performing Merchants */}
+          {/* Verification Status Breakdown */}
           <div className="chart_container">
             <div className="chart_header">
-              <h3>Top Performing Merchants</h3>
+              <p>Verification Status Breakdown</p>
             </div>
-            <div className="top_merchants_table">
-              <div className="table_header">
-                <div className="cell">Merchant</div>
-                <div className="cell">Verifications</div>
-                <div className="cell">Revenue</div>
-                <div className="cell">Growth</div>
-              </div>
-              {topMerchants.map((merchant, index) => (
-                <div key={index} className="table_row">
-                  <div className="cell">
-                    <div className="merchant_info">
-                      <span className="rank">#{index + 1}</span>
-                      <span>{merchant.name}</span>
-                    </div>
-                  </div>
-                  <div className="cell">{merchant.verifications}</div>
-                  <div className="cell">{merchant.revenue}</div>
-                  <div className="cell">
-                    <span className="growth_badge">{merchant.growth}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  data={verificationStatusData}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={80}
+                  label
+                >
+                  {verificationStatusData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
           </div>
+
+          {/* Top Performing Merchants Table */}
+          <TopPerformingMerchantsTable />
         </div>
 
         {/* Export Button */}
         <div className="analytics_actions">
-          <button className="export_button">
-            <span className="material-symbols-outlined">download</span>
-            Export Analytics Report
-          </button>
         </div>
       </div>
     </>

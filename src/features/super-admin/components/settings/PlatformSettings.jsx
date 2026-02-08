@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ImageCheckbox from "../../../shared/components/ImageCheckbox";
 import "../../super-admin.css";
 
 const PlatformSettings = () => {
@@ -15,6 +16,13 @@ const PlatformSettings = () => {
     console.log("Saving platform settings:", settings);
   };
 
+  const handleCheckboxChange = (settingName) => {
+    setSettings((prev) => ({
+      ...prev,
+      [settingName]: !prev[settingName],
+    }));
+  };
+
   return (
     <div className="settings_section">
       <h3>Platform Configuration</h3>
@@ -24,15 +32,11 @@ const PlatformSettings = () => {
 
       <div className="settings_form">
         <div className="form_row">
-          <label>Maintenance Mode</label>
+          <label style={{fontSize: "1rem", fontWeight: "400"}}>Maintenance Mode</label>
           <div className="toggle_wrapper">
-            <input
-              type="checkbox"
+            <ImageCheckbox
               checked={settings.maintenanceMode}
-              onChange={(e) =>
-                setSettings({ ...settings, maintenanceMode: e.target.checked })
-              }
-              className="toggle_input"
+              onChange={() => handleCheckboxChange("maintenanceMode")}
             />
             <span className="toggle_description">
               Enable maintenance mode to restrict platform access
@@ -41,7 +45,7 @@ const PlatformSettings = () => {
         </div>
 
         <div className="form_row">
-          <label>Global API Rate Limit</label>
+          <label style={{fontSize: "1rem", fontWeight: "400"}}>Global API Rate Limit</label>
           <input
             type="number"
             value={settings.apiRateLimit}
@@ -49,11 +53,12 @@ const PlatformSettings = () => {
               setSettings({ ...settings, apiRateLimit: e.target.value })
             }
             placeholder="Requests per minute"
+            style={{fontSize: "1rem", fontWeight: "400", width: "100%", border: "1px solid var(--stroke-sub-300)", borderRadius: "0.8rem", padding: "1rem" }}
           />
         </div>
 
         <div className="form_row">
-          <label>Session Timeout</label>
+          <label style={{fontSize: "1rem", fontWeight: "400"}}>Session Timeout</label>
           <input
             type="number"
             value={settings.sessionTimeout}
@@ -61,22 +66,16 @@ const PlatformSettings = () => {
               setSettings({ ...settings, sessionTimeout: e.target.value })
             }
             placeholder="Minutes"
+            style={{fontSize: "1rem", fontWeight: "400", width: "100%", border: "1px solid var(--stroke-sub-300)", borderRadius: "0.8rem", padding: "1rem" }}
           />
         </div>
 
         <div className="form_row">
-          <label>New Merchant Registrations</label>
+          <label style={{fontSize: "1rem", fontWeight: "400"}}>New Merchant Registrations</label>
           <div className="toggle_wrapper">
-            <input
-              type="checkbox"
+            <ImageCheckbox
               checked={settings.allowNewRegistrations}
-              onChange={(e) =>
-                setSettings({
-                  ...settings,
-                  allowNewRegistrations: e.target.checked,
-                })
-              }
-              className="toggle_input"
+              onChange={() => handleCheckboxChange("allowNewRegistrations")}
             />
             <span className="toggle_description">
               Allow new merchants to register
@@ -85,18 +84,11 @@ const PlatformSettings = () => {
         </div>
 
         <div className="form_row">
-          <label>Email Verification</label>
+          <label style={{fontSize: "1rem", fontWeight: "400"}}>Email Verification</label>
           <div className="toggle_wrapper">
-            <input
-              type="checkbox"
+            <ImageCheckbox
               checked={settings.requireEmailVerification}
-              onChange={(e) =>
-                setSettings({
-                  ...settings,
-                  requireEmailVerification: e.target.checked,
-                })
-              }
-              className="toggle_input"
+              onChange={() => handleCheckboxChange("requireEmailVerification")}
             />
             <span className="toggle_description">
               Require email verification for new accounts
@@ -105,15 +97,11 @@ const PlatformSettings = () => {
         </div>
 
         <div className="form_row">
-          <label>Sandbox Environment</label>
+          <label style={{fontSize: "1rem", fontWeight: "400"}}>Sandbox Environment</label>
           <div className="toggle_wrapper">
-            <input
-              type="checkbox"
+            <ImageCheckbox
               checked={settings.enableSandbox}
-              onChange={(e) =>
-                setSettings({ ...settings, enableSandbox: e.target.checked })
-              }
-              className="toggle_input"
+              onChange={() => handleCheckboxChange("enableSandbox")}
             />
             <span className="toggle_description">
               Enable sandbox environment for testing

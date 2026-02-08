@@ -509,6 +509,99 @@
   column-gap: 1rem;
 }
 
+.analytics_charts{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.chart_header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-weight: 400;
+  align-items: center;
+}
+
+.chart_container{
+  flex: 1 1 calc(50% - 1rem);
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+
+.consumer_table_container{
+  flex: 1 1 calc(100% - 1rem);
+}
+
+.audit_filters{
+  display: flex;
+  flex-direction: row;
+  column-gap: 1rem;
+  align-items: center;
+}
+
+.filter_group{
+  display: flex;
+  flex-direction: column;
+}
+
+.audit_actions{
+  display: flex;
+  flex-direction: row;
+  column-gap: 1rem;
+  align-items: center;
+}
+
+.log_count{
+  font-size: 0.875rem;
+  font-weight: 300;
+  color: var(--text-soft-400);
+}
+
+.audit_controls_wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Pagination Styles */
+.pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 0;
+  gap: 1rem; /* Add some gap between elements */
+}
+
+.pagination_buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.page {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.truncate_text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px; /* Adjust as needed */
+}
+
 /* Responsive */
 @media screen and (max-width: 1200px) {
   .overview_wrapper {

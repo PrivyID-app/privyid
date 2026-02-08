@@ -89,7 +89,7 @@ const ApiAnalytics = () => {
       </div>
 
       {/* Top Consumers Table */}
-      <div className="chart_container">
+      <div className="consumer_table_container">
         <div className="chart_header">
           <h3>Top API Consumers</h3>
         </div>

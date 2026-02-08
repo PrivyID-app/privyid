@@ -130,6 +130,11 @@ const AdminAuditTable = () => {
     return status.charAt(0).toUpperCase() + status.slice(1);
   };
 
+  const handleViewDetails = (log) => {
+    console.log("Viewing details for:", log);
+    // Implement modal or navigation to full details page here
+  };
+
   return (
     <div className="merchant_table audit_table">
       <div className="table_header">
@@ -157,8 +162,11 @@ const AdminAuditTable = () => {
         <div className="cell">
           <p>Status</p>
         </div>
-        <div className="cell action_cell">
+        <div className="cell">
           <p>Details</p>
+        </div>
+        <div className="cell action_cell">
+          <p>Actions</p>
         </div>
       </div>
 
@@ -191,8 +199,13 @@ const AdminAuditTable = () => {
                 {getStatusLabel(log.status)}
               </p>
             </div>
+            <div className="cell">
+              <p className="audit_details truncate_text">{log.details}</p>
+            </div>
             <div className="cell action_cell">
-              <p className="audit_details">{log.details}</p>
+              <button className="action_button" onClick={() => handleViewDetails(log)}>
+                <span className="material-symbols-outlined">visibility</span>
+              </button>
             </div>
           </div>
         ))}

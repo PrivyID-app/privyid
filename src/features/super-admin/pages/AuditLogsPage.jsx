@@ -1,12 +1,39 @@
 import React, { useState } from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import AdminAuditTable from "../components/AdminAuditTable";
+import CustomSelect from "../../../shared/components/CustomSelect";
 import "../super-admin.css";
 
 const AuditLogsPage = () => {
   const [filterAction, setFilterAction] = useState("all");
   const [filterStatus, setFilterStatus] = useState("all");
   const [dateRange, setDateRange] = useState("7days");
+
+  const actionOptions = [
+    { value: "all", label: "All Actions" },
+    { value: "login", label: "Login" },
+    { value: "logout", label: "Logout" },
+    { value: "merchant_created", label: "Merchant Created" },
+    { value: "settings_updated", label: "Settings Updated" },
+    { value: "verification_approved", label: "Verification Approved" },
+    { value: "verification_rejected", label: "Verification Rejected" },
+    { value: "api_key_generated", label: "API Key Generated" },
+    { value: "api_key_revoked", label: "API Key Revoked" },
+  ];
+
+  const statusOptions = [
+    { value: "all", label: "All Status" },
+    { value: "success", label: "Success" },
+    { value: "failed", label: "Failed" },
+  ];
+
+  const dateRangeOptions = [
+    { value: "today", label: "Today" },
+    { value: "7days", label: "Last 7 Days" },
+    { value: "30days", label: "Last 30 Days" },
+    { value: "90days", label: "Last 90 Days" },
+    { value: "custom", label: "Custom Range" },
+  ];
 
   const handleExport = (format) => {
     console.log(`Exporting audit logs as ${format}`);
@@ -21,86 +48,65 @@ const AuditLogsPage = () => {
       />
 
       <div className="content_area">
-        {/* Filter Section */}
-        <div className="audit_filters">
-          <div className="filter_group">
-            <label htmlFor="action_filter">Action Type</label>
-            <select
-              id="action_filter"
-              value={filterAction}
-              onChange={(e) => setFilterAction(e.target.value)}
-              className="filter_select"
+        <div className="audit_controls_wrapper">
+          {/* Filter Section */}
+          <div className="audit_filters">
+            <div className="filter_group">
+              <CustomSelect
+                options={actionOptions}
+                value={filterAction}
+                onSelect={setFilterAction}
+                className="filter_select"
+                placeholder="Action Type"
+              />
+            </div>
+
+            <div className="filter_group">
+              <CustomSelect
+                options={statusOptions}
+                value={filterStatus}
+                onSelect={setFilterStatus}
+                className="filter_select"
+                placeholder="Status"
+              />
+            </div>
+
+            <div className="filter_group">
+              <CustomSelect
+                options={dateRangeOptions}
+                value={dateRange}
+                onSelect={setDateRange}
+                className="filter_select"
+                placeholder="Date Range"
+              />
+            </div>
+
+            <div className="filter_group">
+              <input
+                type="text"
+                id="search_logs"
+                placeholder="Search by user, resource, or IP..."
+                className="search_input"
+              />
+            </div>
+          </div>
+
+          {/* Export Buttons */}
+          <div className="audit_actions">
+            <button
+              className="secondary_button"
+              onClick={() => handleExport("json")}
             >
-              <option value="all">All Actions</option>
-              <option value="login">Login</option>
-              <option value="logout">Logout</option>
-              <option value="merchant_created">Merchant Created</option>
-              <option value="settings_updated">Settings Updated</option>
-              <option value="verification_approved">
-                Verification Approved
-              </option>
-              <option value="verification_rejected">
-                Verification Rejected
-              </option>
-              <option value="api_key_generated">API Key Generated</option>
-              <option value="api_key_revoked">API Key Revoked</option>
-            </select>
-          </div>
+              <span className="material-symbols-outlined">download</span>
+              Export as JSON
+            </button>
 
-          <div className="filter_group">
-            <label htmlFor="status_filter">Status</label>
-            <select
-              id="status_filter"
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value)}
-              className="filter_select"
-            >
-              <option value="all">All Status</option>
-              <option value="success">Success</option>
-              <option value="failed">Failed</option>
-            </select>
+            <button className="primary_button" onClick={() => handleExport("csv")}>
+              <span className="material-symbols-outlined">download</span>
+              Export as CSV
+            </button>
+            
           </div>
-
-          <div className="filter_group">
-            <label htmlFor="date_range">Date Range</label>
-            <select
-              id="date_range"
-              value={dateRange}
-              onChange={(e) => setDateRange(e.target.value)}
-              className="filter_select"
-            >
-              <option value="today">Today</option>
-              <option value="7days">Last 7 Days</option>
-              <option value="30days">Last 30 Days</option>
-              <option value="90days">Last 90 Days</option>
-              <option value="custom">Custom Range</option>
-            </select>
-          </div>
-
-          <div className="filter_group">
-            <label htmlFor="search_logs">Search</label>
-            <input
-              type="text"
-              id="search_logs"
-              placeholder="Search by user, resource, or IP..."
-              className="search_input"
-            />
-          </div>
-        </div>
-
-        {/* Export Buttons */}
-        <div className="audit_actions">
-          <button className="export_button" onClick={() => handleExport("csv")}>
-            <span className="material-symbols-outlined">download</span>
-            Export CSV
-          </button>
-          <button
-            className="export_button"
-            onClick={() => handleExport("json")}
-          >
-            <span className="material-symbols-outlined">download</span>
-            Export JSON
-          </button>
         </div>
 
         {/* Audit Logs Table */}
