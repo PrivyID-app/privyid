@@ -7,8 +7,12 @@ const Sidebar = ({
   links = [],
   className = "",
   activeIndicator = NavTabIndicator,
+  logo, // Accept logo as a prop
 }) => {
   const { user, company } = useAppContext();
+
+  // Determine which logo to use
+  const currentLogo = logo || company.logo;
 
   // Group links by section
   const mainLinks = links.filter(
@@ -50,7 +54,7 @@ const Sidebar = ({
       <div className="top_section">
         <div className="company_name_content">
           <div className="company_logo">
-            <img src={company.logo} alt="PrivyID Logo" />
+            <img src={currentLogo} alt="PrivyID Logo" />
           </div>
 
           <div className="company_name">

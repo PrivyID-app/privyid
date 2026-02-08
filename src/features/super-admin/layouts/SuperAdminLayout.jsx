@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import "../super-admin.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import AdminAvatar from "../../../assets/images/Avatar [2.0].svg";
-import AdminLogo from "../../../assets/images/privyid-admin.svg";
+import AdminLogo from "../../../assets/images/privyid-admin-2.png";
 import WhiteRectangle from "../../../assets/images/white-rectangle.svg";
 
 const SuperAdminLayout = () => {
