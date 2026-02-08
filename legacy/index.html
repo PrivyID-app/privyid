@@ -3,35 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PrivyID - Token-based KYC/KYB System</title>
-    <link rel="icon" type="image/svg+xml" href="./images/Logo Icon black.svg">
-    <meta name="description" content="PrivyID is an API-first identity verification platform providing scalable KYC and KYB solutions for digital merchants and enterprises.">
-    <meta name="keywords" content="PrivyID, KYC, KYB, identity verification, compliant API, digital trust">
-    <link rel="stylesheet" href="styles.css">
+    <title>PrivyID - Secure Identity Verification</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
-    <header>
-        <nav>
+    <header class="navbar">
+        <div class="container">
             <div class="logo">
-                <a href="index.html">
-                    <img src="./images/Logo White.svg" alt="PrivyID Logo">
-                </a>
+                <img src="images/Logo black.svg" alt="PrivyID Logo">
             </div>
-            <button id="theme-toggle" class="btn-secondary">Switch Theme</button>
-        </nav>
+            <nav>
+                <ul>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button class="btn secondary">Sign Up</button>
+                <button class="btn primary">Sign In</button>
+            </div>
+        </div>
     </header>
 
     <main>
         <section class="hero">
-            <h1>Verify <span class="text-primary">Identities</span> Build Trust</h1>
-            <p>An API-first identity verification platform for merchants who need scalable, compliant KYC and KYB solutions. From startup to enterprise.</p>
-            <div class="actions">
-                <button class="btn-primary">Explore Tokens</button>
-                <button class="btn-secondary" onclick="window.location.href='onboarding.html'">Start Integration</button>
+            <div class="container">
+                <h1>Your Trusted Partner for Secure Identity Verification</h1>
+                <p>Streamline your KYC & KYB processes with PrivyID's advanced and reliable solutions.</p>
+                <button class="btn primary large">Get Started Now</button>
+                <div class="hero-image">
+                    <img src="images/celebration-header.svg" alt="Hero Illustration">
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h2>Why Choose PrivyID?</h2>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <span class="material-symbols-outlined">verified_user</span>
+                        <h3>Robust Security</h3>
+                        <p>Protect your business and customers with industry-leading security protocols.</p>
+                    </div>
+                    <div class="feature-item">
+                        <span class="material-symbols-outlined">speed</span>
+                        <h3>Blazing Fast Verification</h3>
+                        <p>Onboard users and businesses in minutes, not days.</p>
+                    </div>
+                    <div class="feature-item">
+                        <span class="material-symbols-outlined">integration_instructions</span>
+                        <h3>Seamless Integration</h3>
+                        <p>Easy-to-use APIs and flexible integration options for any platform.</p>
+                    </div>
+                    <div class="feature-item">
+                        <span class="material-symbols-outlined">analytics</span>
+                        <h3>Actionable Insights</h3>
+                        <p>Gain valuable data and analytics to optimize your operations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta">
+            <div class="container">
+                <h2>Ready to Transform Your Verification Process?</h2>
+                <button class="btn primary large">Start Your Free Trial</button>
             </div>
         </section>
     </main>
 
-    <script src="index.js"></script>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 PrivyID. All rights reserved.</p>
+            <ul>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+            </ul>
+        </div>
+    </footer>
 </body>
 </html>

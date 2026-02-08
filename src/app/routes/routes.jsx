@@ -1,6 +1,7 @@
 import React from "react";
 import { createHashRouter, RouterProvider } from "react-router-dom";
 import OnboardingFlow from "../../features/onboarding/OnboardingFlow";
+import LandingPage from "../pages/LandingPage";
 import NotFound from "../../shared/components/NotFound";
 
 // Merchant KYC Imports
@@ -63,7 +64,12 @@ import AdminNotifications from "../../features/super-admin/pages/Notifications";
 const router = createHashRouter([
   {
     path: "/",
-    element: <OnboardingFlow />, // Default entry point
+    element: <LandingPage />, // New default entry point
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/onboarding", // Onboarding flow now has its own route
+    element: <OnboardingFlow />,
     errorElement: <NotFound />,
   },
 
