@@ -6,6 +6,7 @@ import '../../../legacy/index.css'; // Import the CSS for this page
 // Import images
 import LogoBlack from '../../../legacy/images/Logo black.svg'; // Assuming this path
 import CelebrationHeader from '../../../legacy/images/celebration-header.svg'; // Assuming this path
+import SpecialButton from '../../shared/components/SpecialButton';
 
 const LandingPage = () => {
     return (
@@ -17,7 +18,7 @@ const LandingPage = () => {
                     <div className="container">
                         <h1>Your Trusted Partner for Secure Identity Verification</h1>
                         <p>Streamline your KYC & KYB processes with PrivyID's advanced and reliable solutions.</p>
-                        <Link to="/onboarding" className="btn primary large">Get Started Now</Link>
+                        <Link to="/onboarding"><SpecialButton>Get Started Now</SpecialButton></Link>
                         <div className="hero-image">
                             <img src={CelebrationHeader} alt="Hero Illustration" />
                         </div>
