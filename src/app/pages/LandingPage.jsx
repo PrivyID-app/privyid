@@ -28,8 +28,26 @@ const LandingPage = () => {
                     <div className="container">
                         <h2>Why Choose PrivyID?</h2>
                         <div className="feature-grid">
-                            {/* Placeholder for feature items */}
-                            <div>Feature Grid Placeholder</div>
+                            <div className="feature-item">
+                                <span className="material-symbols-outlined">verified_user</span>
+                                <h3>Robust Security</h3>
+                                <p>Protect your business and customers with industry-leading security protocols.</p>
+                            </div>
+                            <div className="feature-item">
+                                <span className="material-symbols-outlined">speed</span>
+                                <h3>Blazing Fast Verification</h3>
+                                <p>Onboard users and businesses in minutes, not days.</p>
+                            </div>
+                            <div className="feature-item">
+                                <span className="material-symbols-outlined">integration_instructions</span>
+                                <h3>Seamless Integration</h3>
+                                <p>Easy-to-use APIs and flexible integration options for any platform.</p>
+                            </div>
+                            <div className="feature-item">
+                                <span className="material-symbols-outlined">analytics</span>
+                                <h3>Actionable Insights</h3>
+                                <p>Gain valuable data and analytics to optimize your operations.</p>
+                            </div>
                         </div>
                     </div>
                 </section>
