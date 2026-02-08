@@ -186,6 +186,13 @@ const AnalyticsPage = () => {
           <div className="chart_container">
             <div className="chart_header">
               <p>Verification Volume</p>
+
+              <CustomSelect
+                options={dateRangeOptions}
+                value={dateRange}
+                onSelect={setDateRange}
+                className="date_range_selector"
+              />
             </div>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={verificationData}>
