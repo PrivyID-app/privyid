@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ImageCheckbox from "../../../shared/components/ImageCheckbox";
+import ImageCheckbox from "../../../shared/components/ImageCheckbox.jsx";
 import CustomSelect from "../../../shared/components/CustomSelect";
 import "../../super-admin.css";
 
