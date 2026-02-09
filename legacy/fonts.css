@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Taprom&display=swap');
+
+@font-face {
+    font-family: 'MADE TOMMY';
+    src: url('made_tommy - Typeface/MADE TOMMY Thin_PERSONAL USE.otf') format('opentype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MADE TOMMY';
+    src: url('made_tommy - Typeface/MADE TOMMY Light_PERSONAL USE.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MADE TOMMY';
+    src: url('made_tommy - Typeface/MADE TOMMY Regular_PERSONAL USE.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MADE TOMMY';
+    src: url('made_tommy - Typeface/MADE TOMMY Medium_PERSONAL USE.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MADE TOMMY';
+    src: url('made_tommy - Typeface/MADE TOMMY Bold_PERSONAL USE.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MADE TOMMY';
+    src: url('made_tommy - Typeface/MADE TOMMY ExtraBold_PERSONAL USE.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MADE TOMMY';
+    src: url('made_tommy - Typeface/MADE TOMMY Black_PERSONAL USE.otf') format('opentype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+/* Outlines */
+
+@font-face {
+    font-family: 'MADE TOMMY Outline';
+    src: url('made_tommy - Typeface/MADE TOMMY Thin Outline_PERSONAL USE.otf') format('opentype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MADE TOMMY Outline';
+    src: url('made_tommy - Typeface/MADE TOMMY Light Outline_PERSONAL USE.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MADE TOMMY Outline';
+    src: url('made_tommy - Typeface/MADE TOMMY Regular Outline_PERSONAL USE.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MADE TOMMY Outline';
+    src: url('made_tommy - Typeface/MADE TOMMY Medium Outline_PERSONAL USE.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MADE TOMMY Outline';
+    src: url('made_tommy - Typeface/MADE TOMMY Bold Outline_PERSONAL USE.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MADE TOMMY Outline';
+    src: url('made_tommy - Typeface/MADE TOMMY ExtraBold Outline_PERSONAL USE.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MADE TOMMY Outline';
+    src: url('made_tommy - Typeface/MADE TOMMY Black Outline_PERSONAL USE.otf') format('opentype');
+    font-weight: 900;
+    font-style: normal;
+}

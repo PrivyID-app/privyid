@@ -1,0 +1,316 @@
+.content_area {
+  height: 100%;
+}
+
+.single_verification_wrapper {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1rem;
+  justify-content: center;
+}
+
+.step_container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  width: 100%;
+  padding: 1rem 2rem;
+}
+
+/* Step 1: Personal Info Form */
+
+.personal_info_content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  /* border: solid 1px black; */
+}
+
+.user_info_form {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+}
+
+.merch_kyc_service {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  width: 100%;
+  padding: 0 1rem;
+}
+
+.user_info_form .submit_button {
+  width: 10rem;
+  align-self: end;
+  background: black;
+  border: none;
+  padding: 1.2rem 2rem;
+  border-radius: 1rem;
+  font-weight: 400;
+  cursor: pointer;
+  border: solid 1px var(--bg-strong-0);
+  color: var(--text-white-0);
+}
+
+.submit_button:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+/* Step 2: KYC Service Selector */
+.kyc_service_list,
+.kyb_service_list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+}
+
+.kyc_service_item,
+.kyb_service_item {
+  min-height: 6rem;
+  max-height: 6rem;
+  position: relative;
+  background: #f6f6f6;
+  padding: 1rem;
+  border-radius: var(--radius-full, 1rem);
+  border: 1px solid var(--stroke-sub-300);
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  flex: 1 1 calc(50% - 1rem); /* Unified flex behavior as requested */
+  align-items: end;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.kyc_service_item:hover {
+  border: solid 1px var(--state-faded-base);
+}
+
+.kyc_service_item.active,
+.kyb_service_item.active {
+  background: var(--bg-strong-950);
+  border-color: var(--bg-strong-950);
+  color: var(--text-white-0);
+}
+
+.kyc_service_item_title,
+.kyb_service_item_title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 300;
+  color: var(--text-main-900);
+  position: relative;
+  z-index: 1;
+}
+
+.kyc_service_item.active .kyc_service_item_title,
+.kyb_service_item.active .kyb_service_item_title {
+  color: var(--text-white-0);
+}
+
+/* Shared Pattern and Icon styles */
+
+.verification_type_content,
+.verification_details_content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  padding: 1rem 2rem;
+}
+
+.card_pattern {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.card-pattern-white {
+  display: block;
+}
+
+.card-pattern-black {
+  display: none;
+}
+
+.kyc_service_item.active .card-pattern-white,
+.kyb_service_item.active .card-pattern-white {
+  display: none;
+}
+
+.kyc_service_item.active .card-pattern-black,
+.kyb_service_item.active .card-pattern-black {
+  display: block;
+  opacity: 0.1;
+  filter: invert(1); /* Make it visible on dark bg */
+}
+
+.kyc_service_item_icon,
+.kyb_service_item_icon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.kyc_service_item_icon span,
+.kyb_service_item_icon span {
+  color: var(--text-soft-400);
+}
+
+.kyc_service_item.active .kyc_service_item_icon span,
+.kyb_service_item.active .kyb_service_item_icon span {
+  color: var(--text-white-0);
+}
+
+.checkbox_icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* Step 3: Report */
+.report {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+  width: 100%;
+  overflow: hidden;
+}
+
+.report_container_title {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--stroke-sub-300);
+  font-weight: 400;
+  margin-bottom: 2rem;
+}
+
+.details_report {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+  padding: 2rem;
+  background-color: #f6f6f6;
+  border-radius: 1.2rem;
+}
+
+.report_title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.report_title p {
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+.report_content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  padding: 2rem;
+  border-radius: 1rem;
+  background-color: var(--bg-white-0);
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.05);
+}
+
+.report_row {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed var(--stroke-sub-300);
+}
+
+.report_label {
+  color: var(--text-soft-400);
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+.report_value {
+  font-weight: 400;
+  color: var(--text-sub-600);
+}
+
+.report_value.status {
+  padding: 0.25rem 1rem;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 300;
+  min-width: unset;
+  
+}
+
+.report_value.status.verified,
+.report_value.status.approved {
+  color: #10b981;
+  background: #ecfdf5;
+  border: solid 1px #10b981;
+}
+
+.report_value.status.pending {
+  color: #f97316;
+  background: #fff7ed;
+  border: solid 1px #f97316;
+}
+
+.report_value.status.rejected {
+  color: #ef4444;
+  background: #fef2f2;
+  border: solid 1px #ef4444;
+}
+
+/* Common Buttons */
+.button_wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.back_button,
+.next_button {
+  padding: 1.2rem 2rem;
+  border-radius: 1rem;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.back_button {
+  background: transparent;
+  border: 1px solid var(--stroke-soft-200);
+  color: var(--text-main-900);
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.next_button {
+  color: var(--text-white-0);
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+.next_button:disabled {
+  background: var(--bg-soft-200);
+  color: var(--text-soft-400);
+  font-weight: 300;
+  cursor: not-allowed;
+}
