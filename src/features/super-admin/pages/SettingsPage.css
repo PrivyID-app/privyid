@@ -217,11 +217,18 @@
 }
 
 .response_composer{
-
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
 }
 
 .response_composer h3{
-  font
+  font-weight: 300;
+}
+
+.response_composer textarea{
+  background-color: ;
 }
 
 .composer_actions{
