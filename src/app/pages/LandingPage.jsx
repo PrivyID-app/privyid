@@ -1,8 +1,9 @@
 import React from "react";
-import "./LandingPage.css";
 import WebNav from "../../shared/components/WebNav";
 import SpecialButton from "../../shared/components/SpecialButton";
+import "./LandingPage.css";
 
+// Image imports
 import logoBlack from "../../assets/images/Logo black.svg";
 import logoWhite from "../../assets/images/Logo White.svg";
 import authorImage from "../../assets/images/privyid-admin-2.png";
@@ -11,7 +12,11 @@ const LandingPage = () => {
   return (
     <>
       <WebNav />
+      {/* Mobile nav - not implemented in this conversion */}
+      <nav className="mobile-nav"></nav>
+
       <div className="section-header">
+        {/* Hero section */}
         <div className="hero bg-white flex flex-col items-center text-center w-fill">
           <div className="vector">
             <svg

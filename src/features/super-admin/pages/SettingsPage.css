@@ -94,3 +94,94 @@
 .save_button:hover {
   background: var(--primary-hover);
 }
+
+.environment_toggle{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  column-gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.api_tabs{
+  display: flex;
+  flex-direction: row;
+  column-gap: 1rem;
+}
+
+.filter_button-wrapper{
+  display: flex;
+  flex-direction: row;
+  column-gap: 1rem;
+}
+
+.api_tab_content{
+  width: 100%;
+  overflow: hidden;
+}
+
+.merchant_table {
+  overflow: hidden;
+}
+
+.support_content{
+  width: 100%;
+}
+
+.ticket_list_container{
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+
+.ticket_filters{
+  display: flex;
+  flex-direction: row;
+  column-gap: 1rem;
+}
+
+.ticket_details{
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+}
+
+.for_ticket_table{
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  column-gap: 1rem;
+}
+
+.ticket_header h2{
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+.ticket_header p{
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--text-soft-400);
+}
+
+.ticket_actions{
+  display: flex;
+  flex-direction: row;
+  column-gap: 1rem;
+}
+
+.ticket_info_grid{
+  display: flex;
+  flex-direction: row;
+  column-gap: 2rem;
+  align-items: center;
+}
+
+.info_item label{
+  font-weight: 300;
+  color: var(--text-soft-400);
+}
+
+

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import CheckboxIcon from "../../../assets/images/Checkbox [1.0].svg";
-import CheckboxActiveIcon from "../../../assets/images/Checkbox-active [1.0].svg";
+import ImageCheckbox from "../../../shared/components/ImageCheckbox"; // Import the new Checkbox component
 import CustomSelect from "../../../shared/components/CustomSelect";
 
 const AdminDashboardTable = ({ data = [], idLabel = "Verification No." }) => {
@@ -33,12 +32,7 @@ const AdminDashboardTable = ({ data = [], idLabel = "Verification No." }) => {
     <div className="merchant_table">
       <div className="table_header">
         <div className="cell checkbox_cell">
-          <img
-            src={selectAll ? CheckboxActiveIcon : CheckboxIcon}
-            alt="Select all"
-            onClick={toggleSelectAll}
-            style={{ cursor: "pointer" }}
-          />
+          <ImageCheckbox checked={selectAll} onChange={toggleSelectAll} />
         </div>
         <div className="cell">
           <p>{idLabel}</p>
@@ -73,16 +67,12 @@ const AdminDashboardTable = ({ data = [], idLabel = "Verification No." }) => {
             key={index}
           >
             <div className="cell checkbox_cell">
-              <img
-                src={
-                  selectedRows.has(index) ? CheckboxActiveIcon : CheckboxIcon
-                }
-                alt={selectedRows.has(index) ? "Selected" : "Select"}
-                onClick={(e) => {
+              <ImageCheckbox
+                checked={selectedRows.has(index)}
+                onChange={(e) => {
                   e.stopPropagation();
                   toggleRow(index);
                 }}
-                style={{ cursor: "pointer" }}
               />
             </div>
             <div className="cell">

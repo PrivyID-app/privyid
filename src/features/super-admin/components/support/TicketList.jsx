@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import "../../super-admin.css";
+import ImageCheckbox from "../../../../shared/components/ImageCheckbox"; // Import ImageCheckbox
 
 const TicketList = ({ onSelectTicket }) => {
   const [selectedFilter, setSelectedFilter] = useState("all");
+  const [selectedRows, setSelectedRows] = useState(new Set());
+  const [selectAll, setSelectAll] = useState(false);
 
   const tickets = [
     {
@@ -107,6 +110,30 @@ const TicketList = ({ onSelectTicket }) => {
     },
   ];
 
+  const toggleSelectAll = () => {
+    if (selectAll) {
+      setSelectedRows(new Set());
+      setSelectAll(false);
+    } else {
+      const allTicketIds = new Set(filteredTickets.map((ticket) => ticket.id));
+      setSelectedRows(allTicketIds);
+      setSelectAll(true);
+    }
+  };
+
+  const toggleRow = (ticketId) => {
+    setSelectedRows((prev) => {
+      const next = new Set(prev);
+      if (next.has(ticketId)) {
+        next.delete(ticketId);
+      } else {
+        next.add(ticketId);
+      }
+      setSelectAll(next.size === filteredTickets.length);
+      return next;
+    });
+  };
+
   const filteredTickets =
     selectedFilter === "all"
       ? tickets
@@ -146,35 +173,31 @@ const TicketList = ({ onSelectTicket }) => {
     <div className="ticket_list_container">
       <div className="ticket_filters">
         <button
-          className={`filter_btn ${selectedFilter === "all" ? "active" : ""}`}
+          className="secondary_button"
           onClick={() => setSelectedFilter("all")}
         >
           All Tickets
         </button>
         <button
-          className={`filter_btn ${selectedFilter === "open" ? "active" : ""}`}
+          className="secondary_button"
           onClick={() => setSelectedFilter("open")}
         >
           Open
         </button>
         <button
-          className={`filter_btn ${
-            selectedFilter === "in_progress" ? "active" : ""
-          }`}
+          className="secondary_button"
           onClick={() => setSelectedFilter("in_progress")}
         >
           In Progress
         </button>
         <button
-          className={`filter_btn ${
-            selectedFilter === "resolved" ? "active" : ""
-          }`}
+          className="secondary_button"
           onClick={() => setSelectedFilter("resolved")}
         >
           Resolved
         </button>
         <button
-          className={`filter_btn ${selectedFilter === "closed" ? "active" : ""}`}
+          className="secondary_button"
           onClick={() => setSelectedFilter("closed")}
         >
           Closed
@@ -183,6 +206,9 @@ const TicketList = ({ onSelectTicket }) => {
 
       <div className="merchant_table tickets_table">
         <div className="table_header">
+          <div className="cell checkbox_cell">
+            <ImageCheckbox checked={selectAll} onChange={toggleSelectAll} />
+          </div>
           <div className="cell">Ticket ID</div>
           <div className="cell">Merchant</div>
           <div className="cell">Subject</div>
@@ -196,6 +222,12 @@ const TicketList = ({ onSelectTicket }) => {
         <div className="table_body">
           {filteredTickets.map((ticket) => (
             <div key={ticket.id} className="table_row">
+              <div className="cell checkbox_cell">
+                <ImageCheckbox
+                  checked={selectedRows.has(ticket.id)}
+                  onChange={() => toggleRow(ticket.id)}
+                />
+              </div>
               <div className="cell">
                 <p>{ticket.id}</p>
               </div>

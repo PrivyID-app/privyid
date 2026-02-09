@@ -657,7 +657,7 @@
   background-color: var(--bg-strong-950);
   color: var(--text-white-0);
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: 300;
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -676,9 +676,9 @@
   padding: 0.75rem 1.5rem;
   border-radius: 0.5rem;
   background-color: var(--bg-white-0);
-  color: var(--text-strong-950);
+  color: var(--text-sub-600);
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: 300;
   border: 1px solid var(--stroke-sub-300);
   cursor: pointer;
   transition: all 0.2s ease;

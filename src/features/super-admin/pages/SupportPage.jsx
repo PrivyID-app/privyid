@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import TicketList from "../components/support/TicketList";
+import CustomSelect from "../../../shared/components/CustomSelect"; // Import CustomSelect
 import "../super-admin.css";
 
 const SupportPage = () => {
@@ -38,12 +39,31 @@ const SupportPage = () => {
     },
   ];
 
+  const statusOptions = [
+    { value: "open", label: "Open" },
+    { value: "in_progress", label: "In Progress" },
+    { value: "resolved", label: "Resolved" },
+    { value: "closed", label: "Closed" },
+  ];
+
+  const assignOptions = [
+    { value: "Unassigned", label: "Unassigned" },
+    { value: "Emma Wright", label: "Emma Wright" },
+    { value: "John Doe", label: "John Doe" },
+    { value: "Sarah Johnson", label: "Sarah Johnson" },
+    { value: "Michael Chen", label: "Michael Chen" },
+  ];
+
   const handleAssignTicket = (ticketId, adminName) => {
     console.log(`Assigning ticket ${ticketId} to ${adminName}`);
+    // In a real application, you would update the ticket state here
+    setSelectedTicket((prev) => ({ ...prev, assignedTo: adminName }));
   };
 
   const handleUpdateStatus = (ticketId, newStatus) => {
     console.log(`Updating ticket ${ticketId} status to ${newStatus}`);
+    // In a real application, you would update the ticket state here
+    setSelectedTicket((prev) => ({ ...prev, status: newStatus }));
   };
 
   const handleSendResponse = () => {
@@ -93,7 +113,7 @@ const SupportPage = () => {
           ) : (
             <div className="ticket_details">
               <button
-                className="back_button"
+                className="back_button for_ticket_table"
                 onClick={() => setSelectedTicket(null)}
               >
                 <span className="material-symbols-outlined">arrow_back</span>
@@ -109,31 +129,22 @@ const SupportPage = () => {
                   </p>
                 </div>
                 <div className="ticket_actions">
-                  <select
-                    defaultValue={selectedTicket.status}
-                    onChange={(e) =>
-                      handleUpdateStatus(selectedTicket.id, e.target.value)
+                  <CustomSelect
+                    options={statusOptions}
+                    value={selectedTicket.status}
+                    onSelect={(value) =>
+                      handleUpdateStatus(selectedTicket.id, value)
                     }
                     className="status_select"
-                  >
-                    <option value="open">Open</option>
-                    <option value="in_progress">In Progress</option>
-                    <option value="resolved">Resolved</option>
-                    <option value="closed">Closed</option>
-                  </select>
-                  <select
-                    defaultValue={selectedTicket.assignedTo}
-                    onChange={(e) =>
-                      handleAssignTicket(selectedTicket.id, e.target.value)
+                  />
+                  <CustomSelect
+                    options={assignOptions}
+                    value={selectedTicket.assignedTo}
+                    onSelect={(value) =>
+                      handleAssignTicket(selectedTicket.id, value)
                     }
                     className="assign_select"
-                  >
-                    <option value="Unassigned">Unassigned</option>
-                    <option value="Emma Wright">Emma Wright</option>
-                    <option value="John Doe">John Doe</option>
-                    <option value="Sarah Johnson">Sarah Johnson</option>
-                    <option value="Michael Chen">Michael Chen</option>
-                  </select>
+                  />
                 </div>
               </div>
 

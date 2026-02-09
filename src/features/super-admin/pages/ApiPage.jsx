@@ -110,24 +110,33 @@ const ApiPage = () => {
       <div className="content_area">
         {/* Environment Toggle */}
         <div className="environment_toggle">
-          <button
-            className={`env_button ${
-              environment === "production" ? "active" : ""
-            }`}
-            onClick={() => setEnvironment("production")}
-          >
-            <span className="material-symbols-outlined">cloud</span>
-            Production
-          </button>
-          <button
-            className={`env_button ${
-              environment === "sandbox" ? "active" : ""
-            }`}
+
+          <p>Quick Actions</p>
+          
+          <div className="filter_button-wrapper">
+            <button
+            className="secondary_button"
+            // className={`env_button ${
+            //   environment === "sandbox" ? "active" : ""
+            // }`}
             onClick={() => setEnvironment("sandbox")}
           >
             <span className="material-symbols-outlined">science</span>
-            Sandbox
+            Sandbox API
           </button>
+
+          <button
+            className="primary_button"
+            // className={`env_button ${
+            //   environment === "production" ? "active" : ""
+            // }`}
+            onClick={() => setEnvironment("production")}
+          >
+            <span className="material-symbols-outlined">cloud</span>
+            Production API
+          </button>
+          </div>
+          
         </div>
 
         {/* API Metrics */}
@@ -163,7 +172,8 @@ const ApiPage = () => {
           {tabs.map((tab) => (
             <button
               key={tab.key}
-              className={`api_tab ${activeTab === tab.key ? "active" : ""}`}
+              className="secondary_button"
+              // className={`api_tab ${activeTab === tab.key ? "active" : ""}`}
               onClick={() => setActiveTab(tab.key)}
             >
               <span className="material-symbols-outlined">{tab.icon}</span>

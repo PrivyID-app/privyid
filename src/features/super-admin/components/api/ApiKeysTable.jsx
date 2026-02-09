@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../../super-admin.css";
+import ImageCheckbox from "../../../../shared/components/ImageCheckbox"; // Import ImageCheckbox
 
 const ApiKeysTable = () => {
   const [selectedRows, setSelectedRows] = useState([]);
@@ -52,11 +53,11 @@ const ApiKeysTable = () => {
     },
   ];
 
-  const handleSelectAll = (e) => {
-    if (e.target.checked) {
-      setSelectedRows(apiKeys.map((key) => key.id));
-    } else {
+  const handleSelectAll = () => {
+    if (selectedRows.length === apiKeys.length) {
       setSelectedRows([]);
+    } else {
+      setSelectedRows(apiKeys.map((key) => key.id));
     }
   };
 
@@ -91,10 +92,9 @@ const ApiKeysTable = () => {
     <div className="merchant_table api_keys_table">
       <div className="table_header">
         <div className="cell checkbox_cell">
-          <input
-            type="checkbox"
-            onChange={handleSelectAll}
+          <ImageCheckbox
             checked={selectedRows.length === apiKeys.length}
+            onChange={handleSelectAll}
           />
         </div>
         <div className="cell">
@@ -124,8 +124,7 @@ const ApiKeysTable = () => {
         {apiKeys.map((key) => (
           <div key={key.id} className="table_row">
             <div className="cell checkbox_cell">
-              <input
-                type="checkbox"
+              <ImageCheckbox
                 checked={selectedRows.includes(key.id)}
                 onChange={() => handleSelectRow(key.id)}
               />
