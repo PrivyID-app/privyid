@@ -3,6 +3,7 @@ import { createHashRouter, RouterProvider } from "react-router-dom";
 import OnboardingFlow from "../../features/onboarding/OnboardingFlow";
 import LandingPage from "../pages/LandingPage";
 import NotFound from "../../shared/components/NotFound";
+import MobileVerificationPage from "../../features/mobile-verification/MobileVerificationPage"; // Import MobileVerificationPage
 
 // Merchant KYC Imports
 import MerchantKycLayout from "../../features/merchant-kyc/layouts/MerchantKycLayout";
@@ -70,6 +71,11 @@ const router = createHashRouter([
   {
     path: "/onboarding", // Onboarding flow now has its own route
     element: <OnboardingFlow />,
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/mobile-verification", // New route for mobile verification
+    element: <MobileVerificationPage />,
     errorElement: <NotFound />,
   },
 

@@ -11,5 +11,165 @@
 </head>
 <body>
     
+    <div class="mobile_verification_flow">
+
+        <!-- SECTION 1: ENTER DETAILS -->
+
+        <div class="enter_details">
+
+            <div class ="logo">
+                <img src="./images/Logo black.svg" alt="privyID logo" />
+            </div>
+
+            <section id="details">
+                <h2>Enter Details for Verification</h2>
+
+                <div class="alert error">
+                Please fill all required fields correctly.
+                </div>
+
+                <label>First Name *</label>
+                <input type="text" placeholder="John" />
+
+                <label>Last Name *</label>
+                <input type="text" placeholder="Doe" />
+
+                <label>Select Verification Type *</label>
+                <select>
+                <option>Select your Verification Type</option>
+                <option>National ID</option>
+                <option>Passport</option>
+                <option>Driver’s License</option>
+                </select>
+
+                <label>ID Number *</label>
+                <input type="text" placeholder="e.g AYHUIN3779NBK" />
+
+                <div class="actions">
+                <button class="btn-cancel">Cancel</button>
+                <button class="btn-next">Next</button>
+                </div>
+            </section>
+
+        </div>
+
+      <!-- SECTION 2: UPLOAD DOCUMENTS -->
+
+        <div class="upload_documents">
+
+            <div class ="logo">
+                <img src="./images/Logo black.svg" alt="privyID logo" />
+            </div>
+        
+            <section id="documents">
+                <h2>Upload Documents</h2>
+                        <div class="alert error">
+                Uploaded file exceeds 5MB or unsupported format.
+                </div>
+                
+            <label>Front Page of Document</label>
+                <div class="upload-box">
+                    <input type="file" hidden />
+                    <label class="upload-text"><u>Click to Upload</u> 
+                    </span> <small>(Max size 5mb)</small></span>
+                </label>
+            </div>  
+                <div class ="spacer">
+                <label>Back Page of Document</label>
+                <label class="upload-box">
+                    <input type="file" hidden />
+                    <label class="upload-text"
+                    ><u>Click to Upload</u> </span> <small>(Max size 5mb)</small></span>
+                    </label>
+                </label>
+            
+                
+
+                <div class="actions">
+                <button class="btn-cancel">Cancel</button>
+                <button class="btn-next">Next</button>
+                </div>
+            </section>
+
+        </div>
+
+      <!-- SECTION 3: SELFIE INSTRUCTIONS -->
+
+        <div class="selfie_instruction">
+
+            <div class ="logo">
+                <img src="./images/Logo black.svg" alt="privyID logo" />
+            </div>
+
+            <section id="selfie-info">
+                <h2>Selfie Verification</h2>
+
+                <p>Before you take a selfie, please checkout the instructions below:</p>
+
+                <div class="instructions">
+                <ul>
+                    <li>Remove hats, glasses, and face coverings</li>
+                    <li>Make sure you're in a well-lit area</li>
+                    <li>Look straight at the camera</li>
+                    <li>Keep your face fully within the frame</li>
+                    <li>Avoid blur or motion</li>
+                </ul>
+                </div>
+
+                <div class="actions">
+                <button class="btn-cancel">Back</button>
+                <button class="btn-next">Take Selfie</button>
+                </div>
+            </section>
+
+        </div>
+
+      <!-- SECTION 4: SELFIE CAPTURE -->
+
+        <div class="selfie_capture">
+
+            <div class ="logo">
+                <img src="./images/Logo black.svg" alt="privyID logo" />
+            </div>
+
+            <section id="selfie-capture">
+                <h2 class="center">Your face should fit in the frame</h2>
+
+                <div class="camera-frame"></div>
+
+                <div class="center">
+                <button class="btn-capture">Capture</button>
+                </div>
+
+                <div class="alert success">Selfie captured successfully.</div>
+            </section>
+
+        </div>
+
+        <!-- SECTION 5: SUCCESS/FAILED SCREEN PAGE -->
+
+        <div class="screen success">
+
+            <header class="logo">
+                <img src="./images/Logo black.svg" alt="privyID logo" />
+            </header>
+
+            <section class="status">
+
+                <div class="icon">
+                    <!-- Check or exclamation handled in CSS -->
+                </div>
+                
+                <p class="message">Verification Successful</p>
+                
+                <!-- For failed state change text to: Verification Failed -->
+            </section>
+
+        </div> 
+
+    </div>
+
+</body>
+
 </body>
 </html>
