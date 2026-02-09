@@ -216,6 +216,14 @@
   font-weight: 300;
 }
 
+.response_composer{
+
+}
+
+.response_composer h3{
+  font
+}
+
 .composer_actions{
   width: 100%;
   display: flex;
@@ -223,5 +231,7 @@
   align-items: center;
   justify-content: space-between;
 }
+
+
 
 

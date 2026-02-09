@@ -196,16 +196,19 @@ const SupportPage = () => {
                   className="response_textarea"
                 />
                 <div className="composer_actions">
-                  <button className="save_button" onClick={handleSendResponse}>
-                    <span className="material-symbols-outlined">send</span>
-                    Send Response
-                  </button>
+
                   <button className="secondary_button">
                     <span className="material-symbols-outlined">
                       attach_file
                     </span>
                     Attach File
                   </button>
+
+                  <button className="primary_button" onClick={handleSendResponse}>
+                    <span className="material-symbols-outlined">send</span>
+                    Send Response
+                  </button>
+                  
                 </div>
               </div>
             </div>
