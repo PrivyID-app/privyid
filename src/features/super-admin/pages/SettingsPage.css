@@ -217,8 +217,11 @@
 }
 
 .composer_actions{
+  width: 100%;
   display: flex;
-
-flex-direction: row-reverse;}
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
 
 
