@@ -1,0 +1,1069 @@
+@import url("fonts.css");
+@import url("tokens.css");
+
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+
+:root {
+  --font-family: "MADE TOMMY", system-ui, -apple-system, sans-serif;
+  --font-accent: "Taprom", system-ui;
+
+  /* COLORS */
+  --mainBgColor: #f5f7fa;
+  --bgColor: #ffffff;
+  --mainBlack: #0e121b;
+  --lightText: #99a0ae;
+  --mediumBlack: #525866;
+  --borderColor: #e8ebef;
+  --cardHBg: #fafafa;
+  --progressColor: #e1e4ea;
+  --dowColor: rgba(0, 0, 0, 0.08);
+
+  /* TYPOGRAPHY */
+  --smallFontSize: 0.75rem;
+  --mediumFontSize: 0.875rem;
+  --normalFontSize: 1rem;
+  --bigFontSize: 1.125rem;
+  --mediumFontWeight: 500;
+  --semiboldFontWeight: 600;
+  --boldFontWeight: 700;
+  --letterSpacing-small: -1px;
+  --letterSpacing-medium: -0.5px;
+  --letterSpacing-normal: -0.85px;
+  --lineHeight-medium: 20px;
+  --lineHeight-big: 24px;
+  --letterSpacing-small: -1px;
+  --letterSpacing-medium: -0.5px;
+  --letterSpacing-normal: -0.85px;
+
+  /* SPACING */
+  --spacing3: 0.65rem;
+  --spacing: 0.25rem;
+  --spacing1: 0.5rem;
+  --spacing2: 0.75rem;
+  --spacing4: 1rem;
+
+  /* SHADOW VARIABLES */
+  --offsetX: 0;
+  --offsetY: 2px;
+  --dowBlur: 4px;
+  --dowSpread: 2px;
+  --dowColor: rgba(0, 0, 0, 0.08);
+
+  /* CLAMP VARIABLES */
+  --minimumSize: 1rem;
+  --maximumSize: 1.5rem;
+  --clampVariable: clamp(var(--minimumSize), 1rem + 0.25vw, var(--maximumSize));
+  --clampVariable2: clamp(1.25rem, 1rem + 0.5vw, 2rem);
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.main-section {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: start;
+  column-gap: var(--spacing4);
+  background-color: var(--mainBgColor);
+  padding: var(--spacing);
+}
+
+/* Sidebar Section */
+.side-bar {
+  width: 22%;
+  height: 100vh;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+  padding: var(--spacing4);
+  background-color: var(--bgColor);
+  border-radius: var(--spacing2);
+}
+
+.items-wrapper {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  row-gap: var(--spacing4);
+}
+
+.sidebar-top-section {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing4) var(--spacing) var(--spacing4) 0;
+  border-bottom: 1px solid var(--borderColor);
+}
+
+.logo-name-slogan {
+  width: fit-content;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: start;
+}
+
+.privy-logo {
+  width: 4rem;
+  height: 3rem;
+}
+
+.privy-logo img {
+  width: 100%;
+  height: 100%;
+}
+
+.name-and-slogan {
+  width: fit-content;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  row-gap: var(--spacing1);
+}
+
+.name-and-slogan h3 {
+  font-size: var(--spacing4);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 500; /* Medium */
+  color: var(--mainBlack);
+}
+
+.name-and-slogan p {
+  font-size: var(--mediumFontSize);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 400; /* Regular */
+  color: var(--mediumBlack);
+}
+
+.title-icon {
+  width: fit-content;
+  height: auto;
+  padding: 1px 4px;
+  border: 1px solid var(--borderColor);
+  border-radius: var(--spacing1);
+  box-shadow: var(--offsetX) var(--offsetY) var(--dowBlur) var(--dowColor);
+}
+
+.nav-contents {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  row-gap: var(--spacing1);
+  padding-bottom: 20rem;
+}
+
+.nav-cont-wrapper {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  row-gap: var(--spacing4);
+}
+
+.nav-cont-title {
+  width: fit-content;
+  height: auto;
+}
+
+.nav-cont-title p {
+  font-size: var(--mediumFontSize);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 500; /* Medium */
+  color: var(--lightText);
+}
+
+.main-nav-links {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  row-gap: var(--spacing1);
+}
+
+.inactive_tab {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  column-gap: var(--spacing2);
+  text-decoration: none;
+  padding: 0.65rem 0;
+}
+
+.inactive_tab:focus {
+  padding: 0.65rem var(--spacing1) 0.65rem 0;
+  background-color: #f0f3f8;
+  border-radius: var(--spacing2);
+}
+
+.inactive_tab .tab-link {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  column-gap: var(--spacing2);
+}
+
+.inactive_tab .tab-link span {
+  font-size: 20px;
+  color: var(--mediumBlack);
+}
+
+.inactive_tab .tab-link p {
+  font-size: var(--mediumFontSize);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 400; /* Regular */
+  color: var(--mediumBlack);
+}
+
+.active_tab {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  column-gap: var(--spacing2);
+  text-decoration: none;
+  padding: 0.65rem var(--spacing1) 0.65rem 0;
+  background-color: #f0f3f8;
+  border-radius: var(--spacing2);
+}
+
+.active_tab .tab-link {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tab-link .api-icon-text {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  column-gap: var(--spacing2);
+}
+
+.active_tab .tab-link span {
+  font-size: 20px;
+  color: var(--mainBlack);
+}
+
+.api-icon-text p {
+  font-size: var(--mediumFontSize);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 400; /* Regular */
+  color: var(--mainBlack);
+}
+
+.indicator {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+.indicator img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.business-verified-card {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  column-gap: var(--spacing2);
+  background: #e9f9f0;
+  border: 1px solid #1fc16b;
+  padding: var(--spacing1);
+  border-radius: var(--spacing2);
+  margin-top: var(--spacing2);
+}
+
+.business-verified-card span {
+  padding: var(--spacing2);
+  background-color: var(--bgColor);
+  border-radius: 1000rem;
+  font-size: 20px;
+  color: #1fc16b;
+}
+
+.business-verified-card p {
+  font-size: var(--mediumFontSize);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 400; /* Regular */
+  color: var(--mainBlack);
+}
+
+.user-content-sec {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing2) var(--spacing) 0 var(--spacing);
+  border-top: 1px solid var(--borderColor);
+}
+
+.avatar-details {
+  width: fit-content;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  column-gap: var(--spacing1);
+  align-items: center;
+  justify-content: start;
+}
+
+.user-content-sec img {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 100rem;
+  background-color: #c0eaff;
+}
+
+.avatar-details .avatar-name-and-email {
+  width: fit-content;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  row-gap: var(--spacing);
+}
+
+.avatar-name {
+  width: fit-content;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: center;
+  column-gap: var(--spacing);
+}
+
+.avatar-name p {
+  font-size: var(--mediumFontSize);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 500; /* Medium */
+  color: var(--mainBlack);
+}
+
+.avatar-name span {
+  color: #47c2ff;
+  font-size: 16px;
+}
+
+.avatar-email {
+  font-size: var(--smallFontSize);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 400; /* Regular */
+  color: var(--mediumBlack);
+}
+
+.avatar-right-arrow {
+  width: fit-content;
+  height: auto;
+}
+
+.avatar-right-arrow span {
+  font-size: 20px;
+  color: var(--mediumBlack);
+}
+
+/*  Right Main Section */
+.right-section {
+  width: calc(100% - 22%);
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  row-gap: 1rem;
+  padding: 1rem;
+  background-color: var(--bgColor);
+  border-radius: var(--spacing4);
+}
+
+/* Header Srction */
+.top-section {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--borderColor);
+  padding-bottom: var(--spacing4);
+}
+
+.left-top-sec {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  padding: 0 var(--spacing2);
+  row-gap: var(--spacing2);
+}
+
+.left-top-sec h1 {
+  font-size: var(--clampVariable);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 500; /* Medium */
+  color: var(--mainBlack);
+}
+
+.left-top-sec p {
+  font-size: var(--mediumFontSize);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 400; /* Regular */
+  color: var(--mediumBlack);
+}
+
+.notification-cont {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: start;
+  padding: 0 var(--spacing4);
+  cursor: pointer;
+  background-color: var(--bgColor);
+}
+
+.notifcation-dot {
+  margin-left: -0.5rem;
+  margin-top: -0.2rem;
+}
+
+/* Tabs */
+.tabs-nav {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: start;
+  column-gap: calc(var(--spacing1) * 3);
+  border-bottom: 1px solid var(--borderColor);
+}
+
+.tab-btn {
+  border: none;
+  outline: none;
+  background-color: var(--bgColor);
+  color: var(--lightText);
+  font-size: var(--mediumFontSize);
+  cursor: pointer;
+  padding: var(--spacing4) 0;
+  position: relative;
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 400; /* Regular */
+}
+
+.tab-btn.active {
+  color: var(--mainBlack);
+}
+
+.tab-btn.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--mainBlack);
+}
+
+/* Last Section */
+.last-section {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: start;
+  column-gap: calc(var(--spacing4) * 2);
+}
+
+.left-last-sec {
+  width: 78%;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  row-gap: var(--spacing1);
+}
+
+.top-last-sec {
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  row-gap: var(--spacing2);
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+/* Privy Welcome Banner */
+.welcome-banner {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  column-gap: var(--spacing4);
+  padding: var(--spacing2) 0 calc(var(--spacing2) * 2) var(--spacing4);
+  border-bottom: 1px dashed var(--borderColor);
+}
+
+.banner-icon {
+  border: 1px solid var(--borderColor);
+  border-radius: 100px;
+  padding: var(--spacing2) var(--spacing4);
+}
+
+.banner-texts {
+  width: fit-content;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  row-gap: var(--spacing);
+}
+
+.banner-texts h2 {
+  font-size: var(--normalFontSize);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 500; /* Medium */
+  color: var(--mainBlack);
+}
+
+.banner-texts p {
+  font-size: var(--mediumFontSize);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 300; /* Light */
+  color: var(--mainBlack);
+}
+
+/* Checklist Integration Section */
+.checklists {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  row-gap: var(--spacing4);
+  padding: var(--spacing1) var(--spacing4) var(--spacing4) 0;
+  border-right: 1px solid var(--borderColor);
+}
+
+.checklist-content {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  row-gap: var(--spacing4);
+  border-bottom: 1px dashed var(--borderColor);
+  padding-bottom: calc(var(--spacing4) * 2);
+}
+
+.checklist-header {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.c-header {
+  font-size: var(--normalFontSize);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 400; /* Regular */
+  color: var(--mainBlack);
+}
+
+.checklist-progress {
+  width: fit-content;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  column-gap: var(--spacing1);
+}
+
+.checklist-progress p {
+  font-size: var(--smallFontSize);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 400; /* Regular */
+  color: var(--mediumBlack);
+}
+
+.checklist-items {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  row-gap: var(--spacing1);
+  border: 1px solid var(--borderColor);
+  box-shadow: var(--offsetX) var(--offsetY) var(--dowBlur) var(--dowColor);
+  border-radius: var(--spacing4);
+}
+
+.checklist-active-item {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  row-gap: var(--spacing1);
+  background-color: var(--cardHBg);
+  border-top-left-radius: var(--spacing4);
+  border-top-right-radius: var(--spacing4);
+  padding: var(--spacing4);
+  border-bottom: 1px solid var(--borderColor);
+}
+
+.checklist-active-item label {
+  font-size: var(--normalFontSize);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 400; /* Regular */
+  color: var(--mainBlack);
+}
+
+.item-cont {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.checklist-inactive-item {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: start;
+  padding: var(--spacing4);
+  border-bottom: 1px solid var(--borderColor);
+}
+
+.left-item-content {
+  width: fit-content;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  column-gap: var(--spacing2);
+}
+
+.checklist-inactive-item label {
+  font-size: var(--mediumFontSize);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 400; /* Regular */
+  color: var(--mediumBlack);
+}
+
+.right-item-content {
+  width: fit-content;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  column-gap: var(--spacing2);
+}
+
+.right-item-content p {
+  font-size: var(--mediumFontSize);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 400; /* Regular */
+  color: var(--mediumBlack);
+}
+
+.cc-text {
+  font-size: var(--mediumFontSize);
+  color: var(--lightText);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 400; /* Regular */
+}
+
+.cc-button {
+  padding: 0.6rem var(--spacing2);
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background-color: #171b34;
+  color: var(--bgColor);
+  font-size: var(--mediumFontSize);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 400; /* Regular */
+  cursor: pointer;
+}
+
+.cc-button:hover {
+  background-color: #3b3c41;
+  color: var(--bgColor);
+}
+
+.integration-progress {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  column-gap: var(--spacing1);
+  padding: calc(var(--spacing) * 5);
+}
+
+.integration-progress p {
+  font-size: var(--mediumFontSize);
+  color: var(--mediumBlack);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 400; /* Regular */
+}
+
+.progress-cont {
+  width: 50%;
+  border: 3px solid var(--borderColor);
+  border-radius: var(--spacing);
+}
+
+/* Quick Start Code Examples & Install SDK Section */
+.startCode-section,
+.installSDK-section {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  row-gap: var(--spacing4);
+  padding-bottom: calc(var(--spacing4) * 2);
+  border-bottom: 1px dashed var(--borderColor);
+}
+
+.first-text {
+  font-size: var(--normalFontSize);
+  color: var(--mainBlack);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 400; /* Regular */
+}
+
+.nav-code-sec {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  row-gap: var(--spacing4);
+  padding: var(--spacing4);
+  background-color: var(--cardHBg);
+  border-radius: var(--spacing4);
+}
+
+.nav-bar {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: start;
+  column-gap: var(--spacing4);
+  border-bottom: 1px solid var(--borderColor);
+}
+
+.nav-bar a {
+  font-size: var(--mediumFontSize);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 400; /* Regular */
+  color: #686d79;
+  text-decoration: none;
+  position: relative;
+  padding: var(--spacing4) 0;
+}
+
+.nav-bar a:hover {
+  color: var(--mainBlack);
+}
+
+.nav-bar a:nth-child(1) {
+  color: var(--mainBlack);
+}
+
+.nav-bar a:nth-child(1)::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--mainBlack);
+}
+
+.text-and-copy {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.text-and-copy p {
+  font-size: var(--mediumFontSize);
+  color: var(--lightText);
+  font-family: monospace;
+}
+
+.text-and-copy a {
+  text-decoration: none;
+  border: 1.5px solid var(--borderColor);
+  padding: var(--spacing) var(--spacing2);
+  background-color: var(--bgColor);
+  border-radius: var(--spacing1);
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  column-gap: var(--spacing);
+}
+
+.text-and-copy a p {
+  font-size: var(--mediumFontSize);
+  color: var(--mediumBlack);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 500; /* Medium */
+}
+
+.text-and-copy a:hover {
+  background-color: var(--cardHBg);
+}
+
+.code-card {
+  width: 100%;
+  height: auto;
+}
+
+.code-card img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--spacing4);
+  box-shadow: var(--offsetX) var(--offsetY) var(--dowBlur) var(--dowColor);
+}
+
+.view-documentation {
+  width: fit-content;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  column-gap: var(--spacing1);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.view-documentation:hover,
+.view-doc:hover {
+  text-decoration: 1px underline var(--mediumBlack);
+  transform: scale(1.01);
+}
+
+.view-documentation p,
+.view-doc p {
+  font-size: var(--mediumFontSize);
+  color: var(--mediumBlack);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 400; /* Regular */
+}
+
+.npm-text {
+  font-size: var(--mediumFontSize);
+  color: var(--lightText);
+  font-family: monospace;
+}
+
+.view-doc {
+  width: fit-content;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  column-gap: var(--spacing1);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.ready-to-integrate {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: var(--spacing4);
+  padding: var(--spacing4) var(--spacing4) 0;
+}
+
+h2 {
+  font-size: var(--clampVariable2);
+  color: var(--mainBlack);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 500; /* Medium */
+}
+
+.rti-text {
+  font-size: var(--normalFontSize);
+  color: var(--mediumBlack);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 400; /* Regular */
+}
+
+.rti-buttons {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  column-gap: var(--spacing1);
+}
+
+.rti-buttons button {
+  padding: var(--spacing3) var(--spacing4);
+  border: none;
+  outline: none;
+  background-color: var(--mainBlack);
+  color: var(--bgColor);
+  font-size: var(--mediumFontSize);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 400; /* Regular */
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.rti-buttons button:hover {
+  background-color: #3b3c41;
+  color: var(--bgColor);
+}
+
+.rti-buttons a {
+  width: fit-content;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  column-gap: var(--spacing1);
+  text-decoration: none;
+  border: 1px solid var(--borderColor);
+  padding: var(--spacing3) var(--spacing2);
+  color: var(--mediumBlack);
+  border-radius: 10px;
+  box-shadow: var(--offsetX) var(--offsetY) var(--dowBlur) var(--dowColor);
+  transition: all 0.3s ease;
+}
+
+.rti-buttons a:hover {
+  background-color: var(--cardHBg);
+  color: var(--mainBlack);
+}
+
+.rti-p {
+  font-size: var(--mediumFontSize);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 400; /* Regular */
+}
+
+/* Right Mid Section */
+.right-mid-sec {
+  width: 22%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  row-gap: var(--spacing4);
+  padding-top: calc(var(--spacing4) * 2);
+}
+
+.icon-and-heading {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  column-gap: var(--spacing1);
+}
+
+.icon-and-heading p {
+  font-size: var(--mediumFontSize);
+  color: var(--mainBlack);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 400; /* Regular */
+}
+
+.right-mid-sec a {
+  font-size: var(--mediumFontSize);
+  font-family: "MADE Tommy", sans-serif;
+  font-weight: 400; /* Regular */
+  color: #686d79;
+  text-decoration: none;
+}

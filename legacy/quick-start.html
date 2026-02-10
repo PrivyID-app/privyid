@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API & Developers - Quick Start</title>
+    <link rel="stylesheet" href="./quick-start.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="main-section">
+      <!-- Sidebar Section -->
+      <div class="side-bar">
+        <div class="items-wrapper">
+          <div class="sidebar-top-section">
+            <div class="logo-name-slogan">
+              <div class="privy-logo">
+                <img src="./Images/Logo Icon black.svg" alt="PrivyID Logo" />
+              </div>
+
+              <div class="name-and-slogan">
+                <h3>PrivyID</h3>
+                <p>Merchant KYC Flow</p>
+              </div>
+            </div>
+
+            <div class="title-icon">
+              <span class="material-symbols-outlined code_icon">code</span>
+            </div>
+          </div>
+
+          <div class="nav-contents">
+            <div class="nav-cont-wrapper">
+              <div class="nav-cont-title">
+                <p>MAIN</p>
+              </div>
+
+              <div class="main-nav-links">
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined"> dashboard </span>
+                    <p>Overview</p>
+                  </div>
+                </a>
+
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">draft</span>
+                    <p>Single Verification</p>
+                  </div>
+                </a>
+
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">docs</span>
+                    <p>Batch Verification</p>
+                  </div>
+                </a>
+
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">schedule</span>
+                    <p>History</p>
+                  </div>
+                </a>
+
+                <a href="#" class="active_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <div class="api-icon-text">
+                      <span class="material-symbols-outlined">code</span>
+                      <p>API & Developers</p>
+                    </div>
+
+                    <span class="material-symbols-outlined">
+                      keyboard_arrow_right
+                    </span>
+                  </div>
+                </a>
+
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">token</span>
+                    <p>Tokens</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div class="nav-cont-wrapper">
+              <div class="nav-cont-title">
+                <p>OTHERS</p>
+              </div>
+
+              <div class="main-nav-links">
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">Settings</span>
+                    <p>Settings</p>
+                  </div>
+                </a>
+
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">headphones</span>
+                    <p>Support</p>
+                  </div>
+                </a>
+              </div>
+
+              <div class="business-verified-card">
+                <span class="material-symbols-outlined"> check_circle </span>
+                <p>Business Verified</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="user-content-sec">
+          <div class="avatar-details">
+            <img src="./Images/emma-avatar.svg" alt="Avatar" />
+
+            <div class="avatar-name-and-email">
+              <div class="avatar-name">
+                <p>Emma Wright</p>
+                <span class="material-symbols-outlined"> verified </span>
+              </div>
+              <p class="avatar-email">emma@company.com</p>
+            </div>
+          </div>
+
+          <div class="avatar-right-arrow">
+            <span class="material-symbols-outlined expand_icon"
+              >chevron_right</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="right-section">
+        <!-- Header Section -->
+        <div class="top-section">
+          <div class="left-top-sec">
+            <h1>API and Developers</h1>
+            <p>Integrate identity verification into your application</p>
+          </div>
+
+          <div class="notification-cont">
+            <img src="./Images/notification-icon.svg" alt="Notification Icon" />
+            <img
+              src="./Images/Ellipse 1.svg"
+              alt="New-message Icon"
+              class="notifcation-dot"
+            />
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <nav class="tabs-nav">
+          <button class="tab-btn active" data-tab="quick-start">
+            Quick Start
+          </button>
+          <button class="tab-btn" data-tab="api-keys">API Keys</button>
+          <button class="tab-btn" data-tab="webhooks">Webhooks</button>
+          <button class="tab-btn" data-tab="logs">Logs</button>
+          <button class="tab-btn" data-tab="documentation">
+            Documentation
+          </button>
+        </nav>
+
+        <!-- Integration Checklist Section -->
+        <div class="last-section">
+          <div class="left-last-sec">
+            <div class="top-last-sec">
+              <div class="welcome-banner">
+                <div class="banner-icon">
+                  <img src="./Images/lock.svg" alt="Image of a mini-lock" />
+                </div>
+
+                <div class="banner-texts">
+                  <h2>Welcome to PrivyID API Platform</h2>
+                  <p>
+                    Get started with privacy-first identity verification in less
+                    than 30 minutes. No document storage needed.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Checklist Card Section -->
+              <div class="checklists">
+                <!-- Checklist Content -->
+                <div class="checklist-content">
+                  <div class="checklist-header">
+                    <p class="c-header">Integration Checklist</p>
+
+                    <div class="checklist-progress">
+                      <img src="./Images/brightness.svg" alt="#" />
+                      <p>0 of 7 completed</p>
+                    </div>
+                  </div>
+
+                  <!-- Checklist Card -->
+                  <div class="checklist-items">
+                    <div class="checklist-active-item">
+                      <div class="item-cont">
+                        <div class="left-item-content">
+                          <input type="checkbox" name="sandbox" id="sandbox" />
+                          <label for="sandbox"
+                            >1. Generate API Keys (Sandbox)</label
+                          >
+                        </div>
+
+                        <div class="right-item-content">
+                          <p>2 mins</p>
+                          <img src="./Images/arrow down.svg" alt="" />
+                        </div>
+                      </div>
+
+                      <p class="cc-text">
+                        Create sandbox API keys for testing...
+                      </p>
+                      <button class="cc-button">Generate Keys</button>
+                    </div>
+
+                    <div class="checklist-inactive-item">
+                      <div class="left-item-content">
+                        <input
+                          type="checkbox"
+                          name="install-SDK"
+                          id="install-SDK"
+                        />
+                        <label for="install-SDK"
+                          >2. Install SDK or Configure HTTP Client</label
+                        >
+                      </div>
+
+                      <div class="right-item-content">
+                        <p>2 mins</p>
+                        <img src="./Images/arrow right.svg" alt="" />
+                      </div>
+                    </div>
+
+                    <div class="checklist-inactive-item">
+                      <div class="left-item-content">
+                        <input
+                          type="checkbox"
+                          name="first-api-cal"
+                          id="first-api-cal"
+                        />
+                        <label for="first-api-cal"
+                          >3. Make Your First API Call</label
+                        >
+                      </div>
+
+                      <div class="right-item-content">
+                        <p>2 mins</p>
+                        <img src="./Images/arrow right.svg" alt="" />
+                      </div>
+                    </div>
+
+                    <div class="checklist-inactive-item">
+                      <div class="left-item-content">
+                        <input type="checkbox" name="webhook" id="webhook" />
+                        <label for="webhook">4. Set Up Webhook Endpoint</label>
+                      </div>
+
+                      <div class="right-item-content">
+                        <p>2 mins</p>
+                        <img
+                          src="./Images/arrow right.svg"
+                          alt="Image of a right arrow"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="checklist-inactive-item">
+                      <div class="left-item-content">
+                        <input
+                          type="checkbox"
+                          name="token-val"
+                          id="token-val"
+                        />
+                        <label for="token-val">5. Test Token Validation</label>
+                      </div>
+
+                      <div class="right-item-content">
+                        <p>2 mins</p>
+                        <img
+                          src="./Images/arrow right.svg"
+                          alt="Image of a right arrow"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="checklist-inactive-item">
+                      <div class="left-item-content">
+                        <input
+                          type="checkbox"
+                          name="gen-pro-key"
+                          id="gen-pro-key"
+                        />
+                        <label for="gen-pro-key"
+                          >6. Generate Production Keys</label
+                        >
+                      </div>
+
+                      <div class="right-item-content">
+                        <p>2 mins</p>
+                        <img
+                          src="./Images/arrow right.svg"
+                          alt="Image of a right arrow"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="checklist-inactive-item">
+                      <div class="left-item-content">
+                        <input type="checkbox" name="go-live" id="go-live" />
+                        <label for="go-live">6. Generate Production Keys</label>
+                      </div>
+
+                      <div class="right-item-content">
+                        <p>2 mins</p>
+                        <img
+                          src="./Images/arrow right.svg"
+                          alt="Image of a right arrow"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="integration-progress">
+                      <p>Progress</p>
+                      <div class="progress-cont"></div>
+                      <p>0%</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Quick Start Code Samples Section -->
+                <div class="startCode-section">
+                  <p class="first-text">Quick Start Code Examples</p>
+
+                  <div class="nav-code-sec">
+                    <div class="nav-bar">
+                      <a class="active-nav" href="#">Javascript</a>
+                      <a href="#">Python</a>
+                      <a href="#">PHP</a>
+                      <a href="#">cURL</a>
+                    </div>
+
+                    <div class="text-and-copy">
+                      <p>Command Line</p>
+
+                      <a href="#">
+                        <img
+                          src="./Images/copy.svg"
+                          alt="Image of sample code"
+                        />
+                        <p class="copy-text">Copy</p>
+                      </a>
+                    </div>
+
+                    <div class="code-card">
+                      <img src="./Images/code-img.svg" alt="" />
+                    </div>
+
+                    <a class="view-documentation" href="#">
+                      <p>View Documentation</p>
+                      <img
+                        src="./Images/doc-rigt-arroe.svg"
+                        alt="Right arrow image"
+                      />
+                    </a>
+                  </div>
+                </div>
+
+                <!-- Install SDK Section -->
+                <div class="installSDK-section">
+                  <p class="first-text">Install SDK</p>
+
+                  <div class="nav-code-sec">
+                    <div class="nav-bar">
+                      <a class="active-nav" href="#">Node.js</a>
+                      <a href="#">Python</a>
+                      <a href="#">PHP</a>
+                      <a href="#">Ruby</a>
+                    </div>
+
+                    <p class="npm-text">Command Line</p>
+
+                    <div class="code-card">
+                      <img
+                        src="./Images/npm.svg"
+                        alt="Image of NPM installation code"
+                      />
+                    </div>
+
+                    <p class="npm-text">Then initialize your code:</p>
+
+                    <div class="code-card">
+                      <img
+                        src="./Images/code2.svg"
+                        alt="Image of NPM installation code"
+                      />
+                    </div>
+
+                    <p class="npm-text">
+                      Or use our REST API directly - no SDK needed
+                    </p>
+
+                    <a class="view-doc" href="#">
+                      <p>View Documentation</p>
+                      <img
+                        src="./Images/doc-rigt-arroe.svg"
+                        alt="Right arrow image"
+                      />
+                    </a>
+                  </div>
+                </div>
+
+                <!-- Ready To Integrate Section -->
+                <div class="ready-to-integrate">
+                  <h2>Ready to integrate?</h2>
+                  <p class="rti-text">
+                    Start by generating your API keys below
+                  </p>
+
+                  <div class="rti-buttons">
+                    <button>Generate API Keys</button>
+                    <a href="#">
+                      <p class="rti-p">View Documentation</p>
+                      <img
+                        src="./Images/last-doc-arrow.svg"
+                        alt="Image of an arrow"
+                      />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Mid Section -->
+          <div class="right-mid-sec">
+            <div class="icon-and-heading">
+              <img src="./Images/menu.svg" alt="" />
+              <p>On this page</p>
+            </div>
+
+            <a href="#">Welcome to PrivyID</a>
+            <a href="#">Integration checklist</a>
+            <a href="#">Code examples</a>
+            <a href="#">Installing SDK</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./quick-start.js"></script>
+  </body>
+</html>

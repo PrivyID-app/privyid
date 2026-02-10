@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API & Developers - Soundbox</title>
+    <link rel="stylesheet" href="./soundbox.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="main-section">
+      <!-- Sidebar Section -->
+      <div class="side-bar">
+        <div class="items-wrapper">
+          <div class="sidebar-top-section">
+            <div class="logo-name-slogan">
+              <div class="privy-logo">
+                <img src="./Images/Logo Icon black.svg" alt="PrivyID Logo" />
+              </div>
+
+              <div class="name-and-slogan">
+                <h3>PrivyID</h3>
+                <p>Merchant KYC Flow</p>
+              </div>
+            </div>
+
+            <div class="title-icon">
+              <span class="material-symbols-outlined code_icon">code</span>
+            </div>
+          </div>
+
+          <div class="nav-contents">
+            <div class="nav-cont-wrapper">
+              <div class="nav-cont-title">
+                <p>MAIN</p>
+              </div>
+
+              <div class="main-nav-links">
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined"> dashboard </span>
+                    <p>Overview</p>
+                  </div>
+                </a>
+
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">draft</span>
+                    <p>Single Verification</p>
+                  </div>
+                </a>
+
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">docs</span>
+                    <p>Batch Verification</p>
+                  </div>
+                </a>
+
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">schedule</span>
+                    <p>History</p>
+                  </div>
+                </a>
+
+                <a href="#" class="active_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <div class="api-icon-text">
+                      <span class="material-symbols-outlined">code</span>
+                      <p>API & Developers</p>
+                    </div>
+
+                    <span class="material-symbols-outlined">
+                      keyboard_arrow_right
+                    </span>
+                  </div>
+                </a>
+
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">token</span>
+                    <p>Tokens</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div class="nav-cont-wrapper">
+              <div class="nav-cont-title">
+                <p>OTHERS</p>
+              </div>
+
+              <div class="main-nav-links">
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">Settings</span>
+                    <p>Settings</p>
+                  </div>
+                </a>
+
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">headphones</span>
+                    <p>Support</p>
+                  </div>
+                </a>
+              </div>
+
+              <div class="business-verified-card">
+                <span class="material-symbols-outlined"> check_circle </span>
+                <p>Business Verified</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="user-content-sec">
+          <div class="avatar-details">
+            <img src="./Images/emma-avatar.svg" alt="Avatar" />
+
+            <div class="avatar-name-and-email">
+              <div class="avatar-name">
+                <p>Emma Wright</p>
+                <span class="material-symbols-outlined"> verified </span>
+              </div>
+              <p class="avatar-email">emma@company.com</p>
+            </div>
+          </div>
+
+          <div class="avatar-right-arrow">
+            <span class="material-symbols-outlined expand_icon"
+              >chevron_right</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="right-section">
+        <!-- Header Section -->
+        <div class="top-section">
+          <div class="left-top-sec">
+            <h1>API and Developers</h1>
+            <p>Integrate identity verification into your application</p>
+          </div>
+
+          <div class="notification-cont">
+            <img src="./Images/notification-icon.svg" alt="Notification Icon" />
+            <img
+              src="./Images/Ellipse 1.svg"
+              alt="New-message Icon"
+              class="notifcation-dot"
+            />
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <nav class="tabs-nav">
+          <button class="tab-btn" data-tab="quick-start">Quick Start</button>
+          <button class="tab-btn active" data-tab="api-keys">API Keys</button>
+          <button class="tab-btn" data-tab="webhooks">Webhooks</button>
+          <button class="tab-btn" data-tab="logs">Logs</button>
+          <button class="tab-btn" data-tab="documentation">
+            Documentation
+          </button>
+        </nav>
+
+        <!-- Integration Checklist Section -->
+        <div class="last-section">
+          <div class="left-last-sec">
+            <div class="top-last-sec">
+              <div class="welcome-banner">
+                <div class="banner-icon">
+                  <img src="./Images/lock.svg" alt="Image of a mini-lock" />
+                </div>
+
+                <div class="banner-texts">
+                  <h2>Welcome to PrivyID API Platform</h2>
+                  <p>
+                    Get started with privacy-first identity verification in less
+                    than 30 minutes. No document storage needed.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Mode Selector Section -->
+              <div class="mode-selector-container">
+                <div class="mode-selector">
+                  <div class="active-mode-btn">
+                    <button data-mode="sandbox">Sandbox Mode</button>
+                  </div>
+
+                  <div class="inactive-mode-btn">
+                    <button data-mode="production">Production Mode</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Soundbox API Keys -->
+              <div class="soundbox-api-keys">
+                <h2>Sandbox API Keys</h2>
+                <p>Use these for testing. No real charges or data.</p>
+              </div>
+
+              <!-- Checklist Card Section -->
+              <div class="checklists-and-prod-access">
+                <div class="checklist-content">
+                  <div class="checklist-header">
+                    <p class="c-header">Integration Checklist</p>
+                  </div>
+
+                  <div class="checklist-card">
+                    <div class="input-group">
+                      <label for="pushable-key"
+                        >Publishable Key <span>(Client-side safe)</span></label
+                      >
+
+                      <div class="input-and-icons">
+                        <div class="input-and-toggle">
+                          <input
+                            type="text"
+                            name="pushable-key"
+                            id="pushable-key"
+                            placeholder="pk_test_4eC39HqLyjWDarjtT1zdp7dc"
+                          />
+                          <img
+                            src="./Images/eye-toggle.svg"
+                            alt="Eye toggle icon"
+                          />
+                        </div>
+
+                        <img
+                          src="./Images/api-copy-icon.svg"
+                          alt="Copy Icon"
+                          class="api-copy-icon"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="input-group">
+                      <label for="secret-key"
+                        >Secret Key <span>(Server-side only)</span></label
+                      >
+
+                      <div class="input-and-icons">
+                        <div class="input-and-toggle">
+                          <input
+                            type="text"
+                            name="secret-key"
+                            id="secret-key"
+                            placeholder="****************************************"
+                          />
+                          <img
+                            src="./Images/eye-brow-toggle.svg"
+                            alt="Eye toggle icon"
+                          />
+                        </div>
+
+                        <img
+                          src="./Images/api-copy-icon.svg"
+                          alt="Copy Icon"
+                          class="api-copy-icon"
+                        />
+                      </div>
+
+                      <div class="caution-text">
+                        <img
+                          src="./Images/caution-icon.svg"
+                          alt="Caution Icon"
+                        />
+                        <p>Keep this secret! Never expose in client code</p>
+                      </div>
+                    </div>
+
+                    <div class="lastUsed-and-dateCreated">
+                      <div class="lu-dc-container">
+                        <img
+                          src="./Images/last-used-icon.svg"
+                          alt="Last used arrow"
+                        />
+                        <p>Last seen:</p>
+                        <span>2 hours ago</span>
+                      </div>
+
+                      <div class="lu-dc-container">
+                        <img
+                          src="./Images/created-icon.svg"
+                          alt="Image od date created icon"
+                        />
+                        <p>Created:</p>
+                        <span>Jan 2, 2026</span>
+                      </div>
+                    </div>
+
+                    <div class="checlist-buttons">
+                      <button>Regenerate Keys</button>
+
+                      <button>View Usage State</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="prod-access">
+                  <p>Complete these steps to unlock production access:</p>
+
+                  <div class="production-process">
+                    <div class="p-icon-and-text">
+                      <img
+                        src="./Images/Check-icon.svg"
+                        alt="Image of check icon"
+                      />
+                      <p>Test verification completed</p>
+                    </div>
+
+                    <img src="./Images/arrow right.svg" alt="" />
+                  </div>
+
+                  <div class="production-process">
+                    <div class="p-icon-and-text">
+                      <img
+                        src="./Images/Check-icon.svg"
+                        alt="Image of check icon"
+                      />
+                      <p>Webhook configured</p>
+                    </div>
+
+                    <img src="./Images/arrow right.svg" alt="" />
+                  </div>
+
+                  <div class="production-process">
+                    <div class="p-icon-and-text">
+                      <div class="checkbox"></div>
+                      <p>Organization verified</p>
+                    </div>
+
+                    <img src="./Images/arrow right.svg" alt="" />
+                  </div>
+
+                  <div class="complete-setup">
+                    <p>Complete Setup</p>
+                    <img src="./Images/com-setup-arrow.svg" alt="Setup arrow" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Mid Section -->
+          <div class="right-mid-sec">
+            <div class="icon-and-heading">
+              <img src="./Images/menu.svg" alt="" />
+              <p>On this page</p>
+            </div>
+
+            <a href="#">Welcome to PrivyID</a>
+            <a href="#">Integration checklist</a>
+            <a href="#">Code examples</a>
+            <a href="#">Installing SDK</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./soundbox.js"></script>
+  </body>
+</html>
