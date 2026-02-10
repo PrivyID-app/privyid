@@ -58,8 +58,10 @@
 }
 
 .merchant_kyb_layout .company_logo {
-  min-width: 4rem;
-  height: 4rem;
+  min-width: 3rem;
+  max-width: 3rem;
+  min-height: 3rem;
+  max-height: 3rem;
   border-radius: 50%;
   overflow: hidden;
 }

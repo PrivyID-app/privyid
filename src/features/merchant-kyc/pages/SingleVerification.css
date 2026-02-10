@@ -40,6 +40,19 @@
   row-gap: 2rem;
 }
 
+
+.sv_form_icon{
+  position: absolute;
+  left: 1rem;
+  color: var(--icon-sub-600);
+  pointer-events: none;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin-bottom: 16px;
+}
+
 .merch_kyc_service {
   display: flex;
   flex-direction: column;

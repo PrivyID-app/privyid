@@ -105,7 +105,7 @@ const SingleBusiness = () => {
                       onChange={updateFormData}
                       required
                     />
-                    <span className="material-symbols-outlined icon">
+                    <span className="material-symbols-outlined sv_form_icon">
                       corporate_fare
                     </span>
                   </div>
@@ -126,7 +126,7 @@ const SingleBusiness = () => {
                       onChange={updateFormData}
                       required
                     />
-                    <span className="material-symbols-outlined icon">mail</span>
+                    <span className="material-symbols-outlined sv_form_icon">mail</span>
                   </div>
                 </div>
 
@@ -145,7 +145,7 @@ const SingleBusiness = () => {
                       onChange={updateFormData}
                       required
                     />
-                    <span className="material-symbols-outlined icon">
+                    <span className="material-symbols-outlined sv_form_icon">
                       badge
                     </span>
                   </div>

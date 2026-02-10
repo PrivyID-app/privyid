@@ -59,7 +59,9 @@
 
 .merchant_kyc_layout .company_logo {
   min-width: 3rem;
+  max-width: 3rem;
   min-height: 3rem;
+  max-height: 3rem;
   border-radius: 50%;
   overflow: hidden;
 }

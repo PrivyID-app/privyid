@@ -106,7 +106,7 @@ const SingleVerification = () => {
                       onChange={updateFormData}
                       required
                     />
-                    <span className="material-symbols-outlined icon">
+                    <span className="material-symbols-outlined sv_form_icon">
                       badge
                     </span>
                   </div>
@@ -127,7 +127,7 @@ const SingleVerification = () => {
                       onChange={updateFormData}
                       required
                     />
-                    <span className="material-symbols-outlined icon">mail</span>
+                    <span className="material-symbols-outlined sv_form_icon">mail</span>
                   </div>
                 </div>
 
@@ -146,7 +146,7 @@ const SingleVerification = () => {
                       onChange={updateFormData}
                       required
                     />
-                    <span className="material-symbols-outlined icon">
+                    <span className="material-symbols-outlined sv_form_icon">
                       badge
                     </span>
                   </div>

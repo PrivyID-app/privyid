@@ -29,6 +29,7 @@ const AnalyticsPage = () => {
     { value: "quarterly", label: "Quarterly" },
     { value: "yearly", label: "Yearly" },
   ];
+  
 
   // Revenue Trends Data
   const revenueData = [
@@ -75,6 +76,8 @@ const AnalyticsPage = () => {
     { name: "Pending", value: 2000, color: "#f59e0b" }, // amber-500
     { name: "Rejected", value: 1000, color: "#ef4444" }, // red-500
   ];
+
+
 
   const metricsCards = [
     {
