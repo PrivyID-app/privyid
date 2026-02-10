@@ -253,8 +253,6 @@
   border-radius: 99px;
   font-size: 0.75rem;
   font-weight: 300;
-  min-width: unset;
-  
 }
 
 .report_value.status.verified,

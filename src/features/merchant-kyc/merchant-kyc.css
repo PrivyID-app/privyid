@@ -810,7 +810,7 @@
   font-weight: 300;
   display: inline-block;
   text-align: center;
-  min-width: 6rem;
+  min-width: 5rem;
 }
 
 .status.approved,
