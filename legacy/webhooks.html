@@ -3,11 +3,509 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Api-dev</title>
-    <link rel="stylesheet" href="../../Css/kernel.css" />
-    <link rel="stylesheet" href="../../Css/util.css" />
-    <link rel="stylesheet" href="../../Css/key.css" />
+    <title>API & Developers - Webhooks</title>
+    <link rel="stylesheet" href="./webhooks.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
   </head>
+  <body>
+    <div class="main-section">
+      <!-- Sidebar Section -->
+      <div class="side-bar">
+        <div class="items-wrapper">
+          <div class="sidebar-top-section">
+            <div class="logo-name-slogan">
+              <div class="privy-logo">
+                <img src="./Images/Logo Icon black.svg" alt="PrivyID Logo" />
+              </div>
 
-  <body></body>
+              <div class="name-and-slogan">
+                <h3>PrivyID</h3>
+                <p>Merchant KYC Flow</p>
+              </div>
+            </div>
+
+            <div class="title-icon">
+              <span class="material-symbols-outlined code_icon">code</span>
+            </div>
+          </div>
+
+          <div class="nav-contents">
+            <div class="nav-cont-wrapper">
+              <div class="nav-cont-title">
+                <p>MAIN</p>
+              </div>
+
+              <div class="main-nav-links">
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined"> dashboard </span>
+                    <p>Overview</p>
+                  </div>
+                </a>
+
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">draft</span>
+                    <p>Single Verification</p>
+                  </div>
+                </a>
+
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">docs</span>
+                    <p>Batch Verification</p>
+                  </div>
+                </a>
+
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">schedule</span>
+                    <p>History</p>
+                  </div>
+                </a>
+
+                <a href="#" class="active_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <div class="api-icon-text">
+                      <span class="material-symbols-outlined">code</span>
+                      <p>API & Developers</p>
+                    </div>
+
+                    <span class="material-symbols-outlined">
+                      keyboard_arrow_right
+                    </span>
+                  </div>
+                </a>
+
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">token</span>
+                    <p>Tokens</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div class="nav-cont-wrapper">
+              <div class="nav-cont-title">
+                <p>OTHERS</p>
+              </div>
+
+              <div class="main-nav-links">
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">Settings</span>
+                    <p>Settings</p>
+                  </div>
+                </a>
+
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">headphones</span>
+                    <p>Support</p>
+                  </div>
+                </a>
+              </div>
+
+              <div class="business-verified-card">
+                <span class="material-symbols-outlined"> check_circle </span>
+                <p>Business Verified</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="user-content-sec">
+          <div class="avatar-details">
+            <img src="./Images/emma-avatar.svg" alt="Avatar" />
+
+            <div class="avatar-name-and-email">
+              <div class="avatar-name">
+                <p>Emma Wright</p>
+                <span class="material-symbols-outlined"> verified </span>
+              </div>
+              <p class="avatar-email">emma@company.com</p>
+            </div>
+          </div>
+
+          <div class="avatar-right-arrow">
+            <span class="material-symbols-outlined expand_icon"
+              >chevron_right</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="right-section">
+        <!-- Header Section -->
+        <div class="top-section">
+          <div class="left-top-sec">
+            <h1>API and Developers</h1>
+            <p>Integrate identity verification into your application</p>
+          </div>
+
+          <div class="notification-cont">
+            <img src="./Images/notification-icon.svg" alt="Notification Icon" />
+            <img
+              src="./Images/Ellipse 1.svg"
+              alt="New-message Icon"
+              class="notifcation-dot"
+            />
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <nav class="tabs-nav">
+          <button class="tab-btn" data-tab="quick-start">Quick Start</button>
+          <button class="tab-btn" data-tab="api-keys">API Keys</button>
+          <button class="tab-btn active" data-tab="webhooks">Webhooks</button>
+          <button class="tab-btn" data-tab="logs">Logs</button>
+          <button class="tab-btn" data-tab="documentation">
+            Documentation
+          </button>
+        </nav>
+
+        <!-- Integration Checklist Section -->
+        <div class="last-section">
+          <div class="left-last-sec">
+            <div class="top-last-sec">
+              <div class="welcome-banner">
+                <div class="banner-icon">
+                  <img src="./Images/lock.svg" alt="Image of a mini-lock" />
+                </div>
+
+                <div class="banner-texts">
+                  <h2>Webhooks</h2>
+                  <p>
+                    Configure, test, and monitor real-time verification event
+                    delivery.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Webhooks Section -->
+              <div class="webhooks">
+                <!-- Webhook Configuration -->
+                <div class="webhook-configuration">
+                  <div class="webhook-title">
+                    <p>Webhook Configuration</p>
+                  </div>
+
+                  <div class="webhook-url">
+                    <label for="webhook-url">Webhook URL</label>
+
+                    <div class="input-wrapper">
+                      <span class="protocol">https://</span>
+                      <input
+                        type="text"
+                        id="webhook-url"
+                        placeholder="yourapp.com/privyid/webhook"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="events-and-buttons">
+                    <p>Events to send:</p>
+
+                    <div class="event-options">
+                      <div class="event-option">
+                        <img
+                          src="./Images/Checkbox-active [1.0].svg"
+                          alt="check icon"
+                        />
+                        <span>verification.completed</span>
+                      </div>
+
+                      <div class="event-option">
+                        <img
+                          src="./Images/Checkbox-active [1.0].svg"
+                          alt="check icon"
+                        />
+                        <span>verification.pending</span>
+                      </div>
+
+                      <div class="event-option">
+                        <img
+                          src="./Images/Checkbox-active [1.0].svg"
+                          alt="check icon"
+                        />
+                        <span>verification.failed</span>
+                      </div>
+
+                      <div class="event-option">
+                        <img src="./images/Checkbox [1.0].svg" alt="" />
+                        <span>token.validated</span>
+                      </div>
+                    </div>
+
+                    <div class="event-buttons">
+                      <button>Save Changes</button>
+                      <button>Cancel</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Test Webhook Delivery Section -->
+                <div class="test-webhook-section">
+                  <p class="tw-title">Test Webhook Delivery</p>
+
+                  <p class="tw-subtitle">
+                    Send a test event to your webhook endpoint:
+                  </p>
+
+                  <div class="event-type">
+                    <p class="event-text">Event Type</p>
+                    <div class="event-dropdown">
+                      <p>verification.completed</p>
+                      <img
+                        src="./images/arrow-down.svg"
+                        alt="Image of a down arrow icon"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="event-test-result">
+                    <p class="etr-text">Events test Result:</p>
+
+                    <div class="ert-checkbox">
+                      <img src="./images/Checkbox-active [1.0].svg" alt="" />
+                      <span>200 ok - delivered successfully </span>
+                    </div>
+
+                    <div class="response-time">
+                      <p>Response Time:</p>
+                      <span>142ms</span>
+                    </div>
+
+                    <div class="time-stamp">
+                      <p>Timestamp:</p>
+                      <span>Jan 16, 2026 10:45 AM</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Code Section -->
+                <div class="code-section">
+                  <p class="code-text">Response Body:</p>
+
+                  <div class="rb-code-and-copy">
+                    <div class="rb-first-code">
+                      <p>npm</p>
+                      <span>install @privyid/sdk</span>
+                    </div>
+                    <img src="images/copy.svg" alt="Image of copy icon" />
+                  </div>
+
+                  <p class="code-text">Then initialize in your code:</p>
+
+                  <div class="rb-second-code">
+                    <p class="code-bracket">{</p>
+                    <div class="first-code-line">
+                      <p>"received":</p>
+                      <span>true,</span>
+                    </div>
+                    <div class="second-code-line">
+                      <p>"message":</p>
+                      <span>"Webhook processed successfully"</span>
+                    </div>
+                    <p class="code-bracket">}</p>
+                  </div>
+
+                  <div class="last-rb-text">
+                    <p>View Full Request</p>
+                    <span>Send another Request</span>
+                  </div>
+                </div>
+
+                <!-- Ready To Integrate Section -->
+                <div class="recent-webhook-deliveries">
+                  <div class="rwd-title">
+                    <p>Recent Webhook Deliveries</p>
+                  </div>
+
+                  <div class="search-filter-container">
+                    <div class="search-records">
+                      <img src="./images/search-icon.svg" alt="Search icon" />
+                      <input
+                        type="search"
+                        name="search-rec"
+                        id="search-rec"
+                        placeholder="Search records..."
+                      />
+                    </div>
+
+                    <div class="filter">
+                      <img src="./images/filter-icon.svg" alt="Filter icon" />
+                      <p>Filter Records</p>
+                    </div>
+                  </div>
+
+                  <div class="rwd-table">
+                    <div class="table-item title">
+                      <img src="./images/Checkbox [1.0].svg" alt="" />
+                      <p>Timestamp</p>
+                      <p>Event Type</p>
+                      <p>Status</p>
+                      <p>Attempts</p>
+                      <p></p>
+                    </div>
+
+                    <div class="table-item white-bg">
+                      <img src="./images/Checkbox [1.0].svg" alt="" />
+                      <p class="other-text">Jan 16, 10:30 AM</p>
+                      <p class="other-text">verification.completed</p>
+                      <div class="status">
+                        <img src="./images/green-check-icon.svg" alt="" />
+                        <span>200</span>
+                      </div>
+                      <p class="other-text">1/1</p>
+                      <img
+                        src="./images/slant-up-arro.svg"
+                        alt="Slant up arrow"
+                      />
+                    </div>
+
+                    <div class="table-item other-bg">
+                      <img src="./images/Checkbox [1.0].svg" alt="" />
+                      <p class="other-text">Jan 16, 10:30 AM</p>
+                      <p class="other-text">verification.completed</p>
+                      <div class="status">
+                        <img
+                          src="./images/green-check-icon.svg"
+                          alt="Green Icon"
+                        />
+                        <span>200</span>
+                      </div>
+                      <p class="other-text">1/1</p>
+                      <img
+                        src="./images/slant-up-arro.svg"
+                        alt="Slant up arrow"
+                      />
+                    </div>
+
+                    <div class="table-item white-bg">
+                      <img src="./images/Checkbox [1.0].svg" alt="" />
+                      <p class="other-text">Jan 16, 10:30 AM</p>
+                      <p class="other-text">verification.completed</p>
+                      <div class="status">
+                        <img src="./images/green-check-icon.svg" alt="" />
+                        <span>200</span>
+                      </div>
+                      <p class="other-text">1/1</p>
+                      <img
+                        src="./images/slant-up-arro.svg"
+                        alt="Slant up arrow"
+                      />
+                    </div>
+
+                    <div class="table-item other-bg">
+                      <img src="./images/Checkbox [1.0].svg" alt="" />
+                      <p class="other-text">Jan 16, 10:30 AM</p>
+                      <p class="other-text">verification.completed</p>
+                      <div class="status">
+                        <img src="./images/green-check-icon.svg" alt="" />
+                        <span>200</span>
+                      </div>
+                      <p class="other-text">1/1</p>
+                      <img
+                        src="./images/slant-up-arro.svg"
+                        alt="Slant up arrow"
+                      />
+                    </div>
+
+                    <div class="table-item white-bg">
+                      <img src="./images/Checkbox [1.0].svg" alt="" />
+                      <p class="other-text">Jan 16, 10:30 AM</p>
+                      <p class="other-text">verification.completed</p>
+                      <div class="status">
+                        <img src="./images/green-check-icon.svg" alt="" />
+                        <span>200</span>
+                      </div>
+                      <p class="other-text">1/1</p>
+                      <img
+                        src="./images/slant-up-arro.svg"
+                        alt="Slant up arrow"
+                      />
+                    </div>
+
+                    <div class="table-item other-bg">
+                      <img src="./images/Checkbox [1.0].svg" alt="" />
+                      <p class="other-text">Jan 16, 10:30 AM</p>
+                      <p class="other-text">verification.completed</p>
+                      <div class="status">
+                        <img src="./images/green-check-icon.svg" alt="" />
+                        <span>200</span>
+                      </div>
+                      <p class="other-text">1/1</p>
+                      <img
+                        src="./images/slant-up-arro.svg"
+                        alt="Slant up arrow"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="rwd-bottom-sec">
+                    <p class="rwd-btm-text">Page 1 of 10</p>
+
+                    <div class="num-movements">
+                      <img src="./images/arrow-left.svg" alt="Left arrow" />
+                      <div class="numbers">
+                        <p class="active-number">1</p>
+                        <p class="inactive-number">2</p>
+                        <p class="inactive-number">3</p>
+                        <p class="inactive-number">4</p>
+                        <p class="inactive-number">5</p>
+                        <p class="inactive-number">...</p>
+                        <p class="inactive-number">10</p>
+                      </div>
+                      <img src="./images/bt-right-arrow.svg" alt="" />
+                    </div>
+
+                    <div class="tab-num-dropdown">
+                      <p class="table-numbers">1 / page 10</p>
+                      <img src="./images/arrow-down.svg" alt="Down arrow" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Mid Section -->
+          <div class="right-mid-sec">
+            <div class="icon-and-heading">
+              <img src="./Images/menu.svg" alt="" />
+              <p>On this page</p>
+            </div>
+
+            <a href="#">Welcome to PrivyID</a>
+            <a href="#">Integration checklist</a>
+            <a href="#">Code examples</a>
+            <a href="#">Installing SDK</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./quick-start.js"></script>
+  </body>
 </html>

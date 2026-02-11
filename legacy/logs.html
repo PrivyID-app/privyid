@@ -3,11 +3,426 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Api-dev</title>
-    <link rel="stylesheet" href="../../Css/kernel.css" />
-    <link rel="stylesheet" href="../../Css/util.css" />
-    <link rel="stylesheet" href="../../Css/key.css" />
+    <title>API & Developers - Webhooks</title>
+    <link rel="stylesheet" href="./logs.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
   </head>
+  <body>
+    <div class="main-section">
+      <!-- Sidebar Section -->
+      <div class="side-bar">
+        <div class="items-wrapper">
+          <div class="sidebar-top-section">
+            <div class="logo-name-slogan">
+              <div class="privy-logo">
+                <img src="./Images/Logo Icon black.svg" alt="PrivyID Logo" />
+              </div>
 
-  <body></body>
+              <div class="name-and-slogan">
+                <h3>PrivyID</h3>
+                <p>Merchant KYC Flow</p>
+              </div>
+            </div>
+
+            <div class="title-icon">
+              <span class="material-symbols-outlined code_icon">code</span>
+            </div>
+          </div>
+
+          <div class="nav-contents">
+            <div class="nav-cont-wrapper">
+              <div class="nav-cont-title">
+                <p>MAIN</p>
+              </div>
+
+              <div class="main-nav-links">
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined"> dashboard </span>
+                    <p>Overview</p>
+                  </div>
+                </a>
+
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">draft</span>
+                    <p>Single Verification</p>
+                  </div>
+                </a>
+
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">docs</span>
+                    <p>Batch Verification</p>
+                  </div>
+                </a>
+
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">schedule</span>
+                    <p>History</p>
+                  </div>
+                </a>
+
+                <a href="#" class="active_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <div class="api-icon-text">
+                      <span class="material-symbols-outlined">code</span>
+                      <p>API & Developers</p>
+                    </div>
+
+                    <span class="material-symbols-outlined">
+                      keyboard_arrow_right
+                    </span>
+                  </div>
+                </a>
+
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">token</span>
+                    <p>Tokens</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div class="nav-cont-wrapper">
+              <div class="nav-cont-title">
+                <p>OTHERS</p>
+              </div>
+
+              <div class="main-nav-links">
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">Settings</span>
+                    <p>Settings</p>
+                  </div>
+                </a>
+
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">headphones</span>
+                    <p>Support</p>
+                  </div>
+                </a>
+              </div>
+
+              <div class="business-verified-card">
+                <span class="material-symbols-outlined"> check_circle </span>
+                <p>Business Verified</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="user-content-sec">
+          <div class="avatar-details">
+            <img src="./Images/emma-avatar.svg" alt="Avatar" />
+
+            <div class="avatar-name-and-email">
+              <div class="avatar-name">
+                <p>Emma Wright</p>
+                <span class="material-symbols-outlined"> verified </span>
+              </div>
+              <p class="avatar-email">emma@company.com</p>
+            </div>
+          </div>
+
+          <div class="avatar-right-arrow">
+            <span class="material-symbols-outlined expand_icon"
+              >chevron_right</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="right-section">
+        <!-- Header Section -->
+        <div class="top-section">
+          <div class="left-top-sec">
+            <h1>API and Developers</h1>
+            <p>Integrate identity verification into your application</p>
+          </div>
+
+          <div class="notification-cont">
+            <img src="./Images/notification-icon.svg" alt="Notification Icon" />
+            <img
+              src="./Images/Ellipse 1.svg"
+              alt="New-message Icon"
+              class="notifcation-dot"
+            />
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <nav class="tabs-nav">
+          <button class="tab-btn" data-tab="quick-start">Quick Start</button>
+          <button class="tab-btn" data-tab="api-keys">API Keys</button>
+          <button class="tab-btn" data-tab="webhooks">Webhooks</button>
+          <button class="tab-btn active" data-tab="logs">Logs</button>
+          <button class="tab-btn" data-tab="documentation">
+            Documentation
+          </button>
+        </nav>
+
+        <!-- Last Section -->
+        <div class="last-section">
+          <div class="left-last-sec">
+            <div class="top-last-sec">
+              <div class="welcome-banner">
+                <div class="banner-icon">
+                  <img src="./Images/lock.svg" alt="Image of a mini-lock" />
+                </div>
+
+                <div class="banner-texts">
+                  <h2>API Request Log</h2>
+                </div>
+              </div>
+
+              <!-- API Request Log Section -->
+              <div class="request-log-items">
+                <div class="day-calender-environment-status">
+                  <div class="day-and-calender">
+                    <div class="day">
+                      <p>Last 7 days</p>
+                      <img src="./images/down-day-arrow.png" alt="Down arrow" />
+                    </div>
+
+                    <div class="calender">
+                      <img
+                        src="./images/file-icon.svg"
+                        alt="Image of a file icon"
+                      />
+                      <p>Aug 04 - Aug 11 2023</p>
+                    </div>
+                  </div>
+
+                  <div class="environment-status">
+                    <div class="environment">
+                      <p>Environment</p>
+                      <img src="./images/down-day-arrow.png" alt="Down arrow" />
+                    </div>
+
+                    <div class="statuss">
+                      <p>Status</p>
+                      <img src="./images/down-day-arrow.png" alt="Down arrow" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="apply-filter-clear-btn">
+                  <button>Save Changes</button>
+                  <button>Cancel</button>
+                </div>
+
+                <div class="search-export-container">
+                  <div class="search-records">
+                    <img src="./images/search-icon.svg" alt="Search icon" />
+                    <input
+                      type="search"
+                      name="search-or-jump"
+                      id="search-or-jump"
+                      placeholder="Search or jump to"
+                    />
+                    <img src="./images/icon-⌘K.svg" alt="Search or jump icon" />
+                  </div>
+
+                  <div class="export">
+                    <img src="./images/export-icon.svg" alt="Export icon" />
+                    <p>Export as CSV</p>
+                  </div>
+                </div>
+
+                <div class="rwd-table">
+                  <div class="table-item title">
+                    <p>Timestamp</p>
+                    <p>Method</p>
+                    <p>Endpoint</p>
+                    <p>Status</p>
+                    <p>Time</p>
+                    <p>Request ID</p>
+                    <p></p>
+                  </div>
+
+                  <div class="table-item white-bg">
+                    <p class="other-text">Jan 16, 10:30 AM</p>
+                    <div class="status">
+                      <img src="./images/green-check-icon.svg" alt="" />
+                      <span>200</span>
+                    </div>
+                    <p class="other-text">/v1/kyc/initiate</p>
+                    <div class="status">
+                      <img src="./images/green-check-icon.svg" alt="" />
+                      <span>200</span>
+                    </div>
+                    <p class="other-text">145ms</p>
+                    <p class="other-text">req_abc123</p>
+                    <img
+                      src="./images/slant-up-arro.svg"
+                      alt="Slant up arrow"
+                    />
+                  </div>
+
+                  <div class="table-item other-bg">
+                    <p class="other-text">Jan 16, 10:30 AM</p>
+                    <div class="status">
+                      <img src="./images/green-check-icon.svg" alt="" />
+                      <span>200</span>
+                    </div>
+                    <p class="other-text">/v1/kyc/initiate</p>
+                    <div class="status">
+                      <img
+                        src="./images/green-check-icon.svg"
+                        alt="Green Icon"
+                      />
+                      <span>200</span>
+                    </div>
+                    <p class="other-text">145ms</p>
+                    <p class="other-text">req_abc123</p>
+                    <img
+                      src="./images/slant-up-arro.svg"
+                      alt="Slant up arrow"
+                    />
+                  </div>
+
+                  <div class="table-item white-bg">
+                    <p class="other-text">Jan 16, 10:30 AM</p>
+                    <div class="status">
+                      <img src="./images/green-check-icon.svg" alt="" />
+                      <span>200</span>
+                    </div>
+                    <p class="other-text">/v1/kyc/initiate</p>
+                    <div class="status">
+                      <img src="./images/green-check-icon.svg" alt="" />
+                      <span>200</span>
+                    </div>
+                    <p class="other-text">145ms</p>
+                    <p class="other-text">req_abc123</p>
+                    <img
+                      src="./images/slant-up-arro.svg"
+                      alt="Slant up arrow"
+                    />
+                  </div>
+
+                  <div class="table-item other-bg">
+                    <p class="other-text">Jan 16, 10:30 AM</p>
+                    <div class="status">
+                      <img src="./images/green-check-icon.svg" alt="" />
+                      <span>200</span>
+                    </div>
+                    <p class="other-text">/v1/kyc/initiate</p>
+                    <div class="status">
+                      <img src="./images/green-check-icon.svg" alt="" />
+                      <span>200</span>
+                    </div>
+                    <p class="other-text">145ms</p>
+                    <p class="other-text">req_abc123</p>
+                    <img
+                      src="./images/slant-up-arro.svg"
+                      alt="Slant up arrow"
+                    />
+                  </div>
+
+                  <div class="table-item white-bg">
+                    <p class="other-text">Jan 16, 10:30 AM</p>
+                    <div class="status">
+                      <img src="./images/green-check-icon.svg" alt="" />
+                      <span>200</span>
+                    </div>
+                    <p class="other-text">/v1/kyc/initiate</p>
+                    <div class="status">
+                      <img src="./images/green-check-icon.svg" alt="" />
+                      <span>200</span>
+                    </div>
+                    <p class="other-text">145ms</p>
+                    <p class="other-text">req_abc123</p>
+                    <img
+                      src="./images/slant-up-arro.svg"
+                      alt="Slant up arrow"
+                    />
+                  </div>
+
+                  <div class="table-item other-bg">
+                    <p class="other-text">Jan 16, 10:30 AM</p>
+                    <div class="status">
+                      <img src="./images/green-check-icon.svg" alt="" />
+                      <span>200</span>
+                    </div>
+                    <p class="other-text">/v1/kyc/initiate</p>
+                    <div class="status">
+                      <img src="./images/green-check-icon.svg" alt="" />
+                      <span>200</span>
+                    </div>
+                    <p class="other-text">145ms</p>
+                    <p class="other-text">req_abc123</p>
+                    <img
+                      src="./images/slant-up-arro.svg"
+                      alt="Slant up arrow"
+                    />
+                  </div>
+                </div>
+
+                <div class="bottom-sec">
+                  <p class="btm-text">Page 1 of 10</p>
+
+                  <div class="num-movements">
+                    <img src="./images/arrow-left.svg" alt="Left arrow" />
+                    <div class="numbers">
+                      <p class="active-number">1</p>
+                      <p class="inactive-number">2</p>
+                      <p class="inactive-number">3</p>
+                      <p class="inactive-number">4</p>
+                      <p class="inactive-number">5</p>
+                      <p class="inactive-number">...</p>
+                      <p class="inactive-number">10</p>
+                    </div>
+                    <img src="./images/bt-right-arrow.svg" alt="" />
+                  </div>
+
+                  <div class="tab-num-dropdown">
+                    <p class="table-numbers">1 / page 10</p>
+                    <img src="./images/arrow-down.svg" alt="Down arrow" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Mid Section -->
+          <div class="right-mid-sec">
+            <div class="icon-and-heading">
+              <img src="./Images/menu.svg" alt="" />
+              <p>On this page</p>
+            </div>
+
+            <a href="#">Welcome to PrivyID</a>
+            <a href="#">Integration checklist</a>
+            <a href="#">Code examples</a>
+            <a href="#">Installing SDK</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./quick-start.js"></script>
+  </body>
 </html>

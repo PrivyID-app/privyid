@@ -3,11 +3,268 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Api-dev</title>
-    <link rel="stylesheet" href="../../Css/kernel.css" />
-    <link rel="stylesheet" href="../../Css/util.css" />
-    <link rel="stylesheet" href="../../Css/key.css" />
+    <title>API & Developers - Webhooks</title>
+    <link rel="stylesheet" href="./docs.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
   </head>
+  <body>
+    <div class="main-section">
+      <!-- Sidebar Section -->
+      <div class="side-bar">
+        <div class="items-wrapper">
+          <div class="sidebar-top-section">
+            <div class="logo-name-slogan">
+              <div class="privy-logo">
+                <img src="./Images/Logo Icon black.svg" alt="PrivyID Logo" />
+              </div>
 
-  <body></body>
+              <div class="name-and-slogan">
+                <h3>PrivyID</h3>
+                <p>Merchant KYC Flow</p>
+              </div>
+            </div>
+
+            <div class="title-icon">
+              <span class="material-symbols-outlined code_icon">code</span>
+            </div>
+          </div>
+
+          <div class="nav-contents">
+            <div class="nav-cont-wrapper">
+              <div class="nav-cont-title">
+                <p>MAIN</p>
+              </div>
+
+              <div class="main-nav-links">
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined"> dashboard </span>
+                    <p>Overview</p>
+                  </div>
+                </a>
+
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">draft</span>
+                    <p>Single Verification</p>
+                  </div>
+                </a>
+
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">docs</span>
+                    <p>Batch Verification</p>
+                  </div>
+                </a>
+
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">schedule</span>
+                    <p>History</p>
+                  </div>
+                </a>
+
+                <a href="#" class="active_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <div class="api-icon-text">
+                      <span class="material-symbols-outlined">code</span>
+                      <p>API & Developers</p>
+                    </div>
+
+                    <span class="material-symbols-outlined">
+                      keyboard_arrow_right
+                    </span>
+                  </div>
+                </a>
+
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">token</span>
+                    <p>Tokens</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div class="nav-cont-wrapper">
+              <div class="nav-cont-title">
+                <p>OTHERS</p>
+              </div>
+
+              <div class="main-nav-links">
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">Settings</span>
+                    <p>Settings</p>
+                  </div>
+                </a>
+
+                <a href="#" class="inactive_tab">
+                  <div class="indicator"></div>
+
+                  <div class="tab-link">
+                    <span class="material-symbols-outlined">headphones</span>
+                    <p>Support</p>
+                  </div>
+                </a>
+              </div>
+
+              <div class="business-verified-card">
+                <span class="material-symbols-outlined"> check_circle </span>
+                <p>Business Verified</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="user-content-sec">
+          <div class="avatar-details">
+            <img src="./Images/emma-avatar.svg" alt="Avatar" />
+
+            <div class="avatar-name-and-email">
+              <div class="avatar-name">
+                <p>Emma Wright</p>
+                <span class="material-symbols-outlined"> verified </span>
+              </div>
+              <p class="avatar-email">emma@company.com</p>
+            </div>
+          </div>
+
+          <div class="avatar-right-arrow">
+            <span class="material-symbols-outlined expand_icon"
+              >chevron_right</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="right-section">
+        <!-- Header Section -->
+        <div class="top-section">
+          <div class="left-top-sec">
+            <h1>API and Developers</h1>
+            <p>Integrate identity verification into your application</p>
+          </div>
+
+          <div class="notification-cont">
+            <img src="./Images/notification-icon.svg" alt="Notification Icon" />
+            <img
+              src="./Images/Ellipse 1.svg"
+              alt="New-message Icon"
+              class="notifcation-dot"
+            />
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <nav class="tabs-nav">
+          <button class="tab-btn" data-tab="quick-start">Quick Start</button>
+          <button class="tab-btn" data-tab="api-keys">API Keys</button>
+          <button class="tab-btn" data-tab="webhooks">Webhooks</button>
+          <button class="tab-btn" data-tab="logs">Logs</button>
+          <button class="tab-btn active" data-tab="documentation">
+            Documentation
+          </button>
+        </nav>
+
+        <!-- Last Section -->
+        <div class="last-section">
+          <div class="left-last-sec">
+            <div class="top-last-sec">
+              <div class="welcome-banner">
+                <div class="banner-icon">
+                  <img src="./Images/lock.svg" alt="Image of a mini-lock" />
+                </div>
+
+                <div class="banner-texts">
+                  <h2>Documentation</h2>
+                </div>
+              </div>
+
+              <!-- documentation Section -->
+              <div class="documentation">
+                <div class="search-container">
+                  <div class="search-records">
+                    <img src="./images/search-icon.svg" alt="Search icon" />
+                    <input
+                      type="search"
+                      name="search-or-jump"
+                      id="search-or-jump"
+                      placeholder="Search or jump to"
+                    />
+                  </div>
+                </div>
+
+                <div class="doc-table">
+                  <div class="checkbox-text-arrow">
+                    <div class="checkbox-and-text">
+                      <img src="./images/Checkbox [1.0].svg" alt="" />
+                      <p>Get Started</p>
+                    </div>
+                    <img src="./images/arrow right.svg" alt="" />
+                  </div>
+
+                  <div class="checkbox-text-arrow">
+                    <div class="checkbox-and-text">
+                      <img src="./images/Checkbox [1.0].svg" alt="" />
+                      <p>API Reference</p>
+                    </div>
+                    <img src="./images/arrow right.svg" alt="" />
+                  </div>
+
+                  <div class="checkbox-text-arrow">
+                    <div class="checkbox-and-text">
+                      <img src="./images/Checkbox [1.0].svg" alt="" />
+                      <p>Code Examples</p>
+                    </div>
+                    <img src="./images/arrow right.svg" alt="" />
+                  </div>
+
+                  <div class="checkbox-text-arrow last-item">
+                    <div class="checkbox-and-text">
+                      <img src="./images/Checkbox [1.0].svg" alt="" />
+                      <p>Guides</p>
+                    </div>
+                    <img src="./images/arrow right.svg" alt="" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Mid Section -->
+          <div class="right-mid-sec">
+            <div class="icon-and-heading">
+              <img src="./Images/menu.svg" alt="" />
+              <p>On this page</p>
+            </div>
+
+            <a href="#">Welcome to PrivyID</a>
+            <a href="#">Integration checklist</a>
+            <a href="#">Code examples</a>
+            <a href="#">Installing SDK</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./quick-start.js"></script>
+  </body>
 </html>
