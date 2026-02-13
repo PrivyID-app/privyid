@@ -21,7 +21,6 @@
   font-size: 1rem;
   font-weight: 400;
   color: var(--text-strong-950);
-  margin-bottom: 0.5rem;
 }
 
 .section_description {
@@ -59,10 +58,7 @@
 
 .form_input:focus {
   outline: none;
-  border-color: var(
-    --state-brand-base,
-    #5d5fef
-  ); /* Fallback or define brand color */
+  border-color: var(--state-brand-base,#5d5fef); /* Fallback or define brand color */
 }
 
 .form_input:disabled {

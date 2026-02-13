@@ -87,7 +87,6 @@ select {
   border-radius: 8px;
   border: 1px solid #e1e4ea;
   font-size: 14px;
-  margin-bottom: 16px;
 }
 
 input::placeholder {
