@@ -623,6 +623,10 @@
   flex-direction: column;
   flex: 0 0 1;
 }
+.h-stretch {
+  height: stretch;
+}
+
 .h-hug {
   height: auto;
 }
@@ -1033,6 +1037,42 @@
 :root {
   --section-padding-inline: clamp(1rem, 8.78vw + 1rem, 9rem);
   --section-padding-block: clamp(2rem, 10.41vh + 1rem, 5rem);
+}
+
+@media screen and (max-width: 1140px) {
+  :root {
+    --section-padding-inline: var(--space-44);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  :root {
+    --section-padding-inline: var(--space-24);
+  }
+
+  .h1 {
+    font-family: var(--font-family-heading);
+    font-size: 2rem;
+    line-height: 2.5rem;
+    letter-spacing: -0.005em;
+    font-weight: 550;
+  }
+
+  .h3 {
+    font-family: var(--font-family-heading);
+    font-size: 2rem;
+    line-height: 2.5rem;
+    letter-spacing: -0.005em;
+    font-weight: 550;
+  }
+
+  .h4 {
+    font-family: var(--font-family-heading);
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    letter-spacing: 0em;
+    font-weight: 550;
+  }
 }
 
 .section {
