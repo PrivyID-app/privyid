@@ -1,0 +1,293 @@
+.notificationsContent {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  flex-grow: 1;
+}
+
+.actionBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.recentNotificationsTitle {
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(14, 18, 27, 1);
+  white-space: nowrap;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 10px;
+}
+
+.tabsContainer {
+  display: flex;
+  border-bottom: 1px solid rgba(225, 228, 234, 1);
+  gap: 24px;
+}
+
+.tabButton {
+  padding: 14px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  font-size: 14px;
+  color: rgba(153, 160, 174, 1);
+  transition: color 0.2s;
+}
+
+.tabButtonActive {
+  color: rgba(14, 18, 27, 1);
+}
+
+.tabButtonActive::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(23, 27, 52, 1);
+}
+
+.tableContainer {
+  border: 1px solid rgba(225, 228, 234, 1);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.tableHeader {
+  display: flex;
+  background-color: rgba(248, 248, 248, 1);
+  border-bottom: 1px solid rgba(225, 228, 234, 1);
+  align-items: center;
+}
+
+.tableHeaderCheckboxCol {
+  width: 40px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.tableHeaderMessageCol {
+  width: 200px;
+  padding: 10px;
+  font-size: 14px;
+  color: rgba(14, 18, 27, 1);
+}
+
+.tableHeaderSpacerCol {
+  flex-grow: 1;
+  padding: 10px;
+}
+
+.tableHeaderDateCol {
+  width: 120px;
+  padding: 10px;
+  font-size: 16px;
+  color: rgba(14, 18, 27, 1);
+}
+
+.tableHeaderActionCol {
+  width: 120px;
+  padding: 10px;
+  text-align: center;
+  font-size: 16px;
+  color: rgba(14, 18, 27, 1);
+}
+
+.tableBody {
+  display: flex;
+  flex-direction: column;
+}
+
+.tableRow {
+  display: flex;
+  align-items: center;
+  height: 62px;
+  border-bottom: 1px solid rgba(225, 228, 234, 1);
+  background-color: #fff; /* Default background */
+}
+
+.tableRowSelected {
+  background-color: rgba(245, 247, 250, 0.5); /* Selected background */
+}
+
+.tableRowCheckboxCol {
+  width: 40px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.tableRowTitleCol {
+  width: 200px;
+  padding: 10px;
+  font-size: 12px;
+  color: rgba(82, 88, 102, 1);
+  font-weight: 400;
+}
+
+.tableRowMessageCol {
+  flex-grow: 1;
+  padding: 10px;
+  font-size: 12px;
+  color: rgba(153, 160, 174, 1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tableRowDateCol {
+  width: 120px;
+  padding: 10px;
+  font-size: 12px;
+  color: rgba(82, 88, 102, 1);
+}
+
+.tableRowActionCol {
+  width: 120px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.actionButton {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.actionButton img {
+  width: 20px;
+}
+
+.actionButton .material-symbols-outlined {
+  font-size: 20px; /* Adjust size as needed */
+  color: var(--icon-soft-400) !important; /* Default icon color */
+  transition: color 0.2s ease-in-out;
+}
+
+.actionButton:hover .material-symbols-outlined {
+  color: var(--icon-strong-950) !important; /* Hover icon color, using a stronger icon color for hover */
+}
+
+/* ... existing styles ... */
+
+.tableRow {
+  display: flex;
+  align-items: center;
+  height: 62px;
+  border-bottom: 1px solid rgba(225, 228, 234, 1);
+  background-color: #fff; /* Default background */
+  transition: background-color 0.2s ease-in-out; /* Add transition for smooth hover */
+}
+
+.tableRow:hover {
+  background-color: var(--state-information-lighter); /* Hover background */
+}
+
+.tableRowSelected {
+  background-color: rgba(245, 247, 250, 0.5); /* Selected background */
+}
+
+.notificationDetailContainer {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  flex-grow: 1;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: rgba(14, 18, 27, 1);
+  margin-bottom: 16px;
+}
+
+.backButton .material-symbols-outlined {
+  font-size: 20px;
+}
+
+.notificationDetailHeader h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: rgba(14, 18, 27, 1);
+  margin: 0;
+}
+
+.notificationDetailMeta {
+  font-size: 12px;
+  color: rgba(153, 160, 174, 1);
+  margin-top: 4px;
+}
+
+.notificationDetailBody {
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.notificationDetailBody h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(14, 18, 27, 1);
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.notificationDetailBody p {
+  font-size: 14px;
+  color: rgba(82, 88, 102, 1);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.responseComposer {
+  margin-top: 24px;
+  border-top: 1px solid rgba(225, 228, 234, 1);
+  padding-top: 24px;
+}
+
+.responseComposer h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(14, 18, 27, 1);
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.responseTextArea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid rgba(225, 228, 234, 1);
+  border-radius: 8px;
+  font-size: 14px;
+  color: rgba(14, 18, 27, 1);
+  resize: vertical;
+  min-height: 100px;
+  box-sizing: border-box;
+}
+
+.composerActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}

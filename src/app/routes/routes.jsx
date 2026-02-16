@@ -16,7 +16,7 @@ import KycTokens from "../../features/merchant-kyc/pages/TokensPage";
 import KycSettings from "../../features/merchant-kyc/pages/SettingsPage";
 import KycSupport from "../../features/merchant-kyc/pages/SupportPage";
 import KycProfile from "../../features/merchant-kyc/pages/UserProfile";
-import KycNotifications from "../../features/merchant-kyc/pages/Notifications";
+import KycNotifications from "../../features/merchant-kyc/pages/NotificationsPage";
 
 // Merchant KYB Imports
 import MerchantKybLayout from "../../features/merchant-kyb/layouts/MerchantKybLayout";
@@ -29,7 +29,7 @@ import KybTokens from "../../features/merchant-kyb/pages/TokensPage";
 import KybSettings from "../../features/merchant-kyb/pages/SettingsPage";
 import KybSupport from "../../features/merchant-kyb/pages/SupportPage";
 import KybProfile from "../../features/merchant-kyb/pages/UserProfile";
-import KybNotifications from "../../features/merchant-kyb/pages/Notifications";
+import KybNotifications from "../../features/merchant-kyb/pages/NotificationsPage";
 
 // Merchant Combined Imports
 import MerchantCombinedLayout from "../../features/merchant-combined/layouts/MerchantCombinedLayout";
@@ -44,6 +44,7 @@ import CombinedTokens from "../../features/merchant-combined/pages/TokensPage";
 import CombinedSettings from "../../features/merchant-combined/pages/SettingsPage";
 import CombinedSupport from "../../features/merchant-combined/pages/SupportPage";
 import CombinedProfile from "../../features/merchant-combined/pages/UserProfile";
+import CombinedNotifications from "../../features/merchant-combined/pages/NotificationsPage";
 
 // Super Admin Imports
 import SuperAdminLayout from "../../features/super-admin/layouts/SuperAdminLayout";
@@ -57,7 +58,7 @@ import AdminAuditLogs from "../../features/super-admin/pages/AuditLogsPage";
 import AdminSettings from "../../features/super-admin/pages/SettingsPage";
 import AdminSupport from "../../features/super-admin/pages/SupportPage";
 import AdminProfile from "../../features/super-admin/pages/UserProfile";
-import AdminNotifications from "../../features/super-admin/pages/Notifications";
+import AdminNotifications from "../../features/super-admin/pages/NotificationsPage";
 
 /**
  * Main application routes
@@ -129,8 +130,8 @@ const router = createHashRouter([
       { path: "api", element: <CombinedApi /> },
       { path: "tokens", element: <CombinedTokens /> },
       { path: "settings", element: <CombinedSettings /> },
-      { path: "support", element: <CombinedSupport /> },
       { path: "user-profile", element: <CombinedProfile /> },
+      { path: "notifications", element: <CombinedNotifications /> },
     ],
   },
 
