@@ -110,7 +110,7 @@ const DashboardOverview = () => {
       <PageHeader
         title="Dashboard Overview"
         description="Monitor your verification activity and performance"
-        notificationLink="/merchant-kyc/notifications"
+        notificationIconRoute="/merchant-kyc/notifications"
       />
 
       <div className="content_area">

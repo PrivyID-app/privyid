@@ -108,6 +108,7 @@ const DashboardOverview = () => {
       <PageHeader
         title="Combined Dashboard Overview"
         description="Monitor both KYC and KYB verification activity"
+        notificationIconRoute="/merchant-combined/notifications"
       />
 
       <div className="content_area">

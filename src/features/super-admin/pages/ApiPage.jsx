@@ -13,6 +13,7 @@ const ApiPage = () => {
       <PageHeader
         title="API & Developers"
         description="Manage API keys and developer settings"
+        notificationIconRoute="/super-admin/notifications"
       />
       <div
         className="content_area"

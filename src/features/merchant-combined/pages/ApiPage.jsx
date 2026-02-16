@@ -8,6 +8,7 @@ const ApiPage = () => {
       <PageHeader
         title="API & Developers"
         description="Manage API keys and developer settings"
+        notificationIconRoute="/merchant-combined/notifications"
       />
       <div
         className="content_area"
