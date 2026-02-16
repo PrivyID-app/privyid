@@ -42,6 +42,18 @@
   transform: translateY(0);
 }
 
+.special_button.secondary {
+  background: var(--bg-white-0, #ffffff);
+  color: var(--text-strong-950, #0e121b);
+  border: 1px solid #cacfd8;
+  box-shadow: 0 1px 2px 0 rgba(10, 13, 20, 0.03);
+}
+
+.special_button.secondary:hover {
+  background-color: var(--bg-weak-50);
+  box-shadow: 0 4px 8px 0 rgba(10, 13, 20, 0.05);
+}
+
 .special_button .material-symbols-outlined {
   font-size: 1.25rem;
 }

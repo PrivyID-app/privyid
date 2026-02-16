@@ -1,0 +1,49 @@
+.status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  display: inline-block;
+  text-align: center;
+  min-width: 5.5rem;
+  text-transform: capitalize;
+}
+
+/* Kyc/Kyb Statuses */
+.approved,
+.verified {
+  background-color: #ecfdf5;
+  color: #10b981;
+  border: solid 0.05rem #10b981;
+}
+
+.pending {
+  background-color: #fff7ed;
+  color: #f97316;
+  border: solid 0.05rem #f97316;
+}
+
+.rejected {
+  background-color: #fef2f2;
+  color: #ef4444;
+  border: solid 0.05rem #ef4444;
+}
+
+/* Support Statuses */
+.resolved {
+  background-color: #c2f5da;
+  color: #0b4627;
+  border: solid 0.05rem #0b4627;
+}
+
+.in_progress {
+  background-color: #ffecc0;
+  color: #624c18;
+  border: solid 0.05rem #624c18;
+}
+
+.pending_support {
+  background-color: #dae9ff;
+  color: #0f4a8a;
+  border: solid 0.05rem #0f4a8a;
+}

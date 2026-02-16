@@ -3,6 +3,8 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import "./styles/fonts.css";
 import "./features/onboarding/onboarding.css";
+import "./styles/tailwind.css";
+
 import App from "./app/App.jsx";
 import { AppProvider } from "./context/AppContext";
 

@@ -1,16 +1,17 @@
 import React from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
+import SupportContent from "../../../shared/components/SupportContent";
 
 const SupportPage = () => {
   return (
     <div className="content_wrapper">
       <PageHeader
-        title="Support"
-        description="Get help and support"
+        title="Support Center"
+        description="Get help with your KYC integration and operations"
         notificationIconRoute="/merchant-kyc/notifications"
       />
       <div className="content_area">
-        <p>Support Content</p>
+        <SupportContent />
       </div>
     </div>
   );

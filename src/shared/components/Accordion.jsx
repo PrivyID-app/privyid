@@ -8,7 +8,6 @@ const Accordion = ({
   className = "",
   headerClassName = "",
   contentClassName = "",
-  icon = null,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 

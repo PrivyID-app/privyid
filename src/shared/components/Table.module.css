@@ -1,0 +1,87 @@
+.table_container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.table_wrapper {
+  border: 1px solid var(--stroke-sub-300);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background-color: var(--bg-white-0);
+}
+
+.custom_table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.custom_table th {
+  background-color: #f8f8f8;
+  padding: 1rem;
+  text-align: left;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-strong-950);
+  border-bottom: 1px solid var(--stroke-sub-300);
+}
+
+.custom_table td {
+  padding: 1rem;
+  font-size: 0.875rem;
+  color: var(--text-sub-600);
+  border-bottom: 1px solid var(--bg-weak-50);
+}
+
+.custom_table tr:last-child td {
+  border-bottom: none;
+}
+
+.custom_table tr:hover {
+  background-color: #fafafa;
+}
+
+.selected_row {
+  background-color: #e8f0ff !important;
+}
+
+.checkbox_cell {
+  width: 3rem;
+  text-align: center;
+}
+
+.checkbox_cell img {
+  width: 1.25rem;
+  height: 1.25rem;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.action_cell {
+  width: 6rem;
+  text-align: center;
+}
+
+.action_buttons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.action_button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 0.4rem;
+  color: var(--text-sub-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action_button:hover {
+  background-color: var(--bg-weak-50);
+  color: var(--text-strong-950);
+}

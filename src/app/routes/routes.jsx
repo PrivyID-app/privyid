@@ -1,7 +1,8 @@
 import React from "react";
 import { createHashRouter, RouterProvider } from "react-router-dom";
 import OnboardingFlow from "../../features/onboarding/OnboardingFlow";
-import LandingPage from "../pages/LandingPage";
+import MarketingPage from "../../features/marketing/landing-page/imports/PrivyIdHomepage";
+
 import NotFound from "../../shared/components/NotFound";
 import MobileVerificationPage from "../../features/mobile-verification/MobileVerificationPage"; // Import MobileVerificationPage
 
@@ -66,7 +67,7 @@ import AdminNotifications from "../../features/super-admin/pages/NotificationsPa
 const router = createHashRouter([
   {
     path: "/",
-    element: <LandingPage />, // New default entry point
+    element: <MarketingPage />, // New default entry point
     errorElement: <NotFound />,
   },
   {
@@ -159,7 +160,7 @@ const router = createHashRouter([
 
   {
     path: "/marketing",
-    element: <div>Marketing Page Placeholder</div>,
+    element: <MarketingPage />,
   },
   {
     path: "*",

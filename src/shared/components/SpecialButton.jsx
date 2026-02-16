@@ -7,15 +7,16 @@ const SpecialButton = ({
   className = "",
   icon,
   type = "button",
+  variant = "primary",
 }) => {
   return (
     <button
       type={type}
-      className={`special_button ${className}`}
+      className={`special_button ${variant === "secondary" ? "secondary" : ""} ${className}`}
       onClick={onClick}
     >
-      {icon && <span className="material-symbols-outlined">{icon}</span>}
       {children}
+      {icon && <span className="material-symbols-outlined">{icon}</span>}
     </button>
   );
 };

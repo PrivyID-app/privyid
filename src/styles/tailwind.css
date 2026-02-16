@@ -1,0 +1,5 @@
+@import "tailwindcss";
+@import "../features/marketing/landing-page/styles/index.css";
+@source "../**/*.{js,ts,jsx,tsx}";
+
+@import "tw-animate-css";

@@ -3,6 +3,7 @@ import CheckboxIcon from "../../assets/images/Checkbox [1.0].svg";
 import CheckboxActiveIcon from "../../assets/images/Checkbox-active [1.0].svg";
 import VerificationModal from "./VerificationModal";
 import Pagination from "./Pagination";
+import StatusChip from "./StatusChip";
 
 const VerificationTable = ({ data = [], idLabel = "Verification No." }) => {
   const [selectedRows, setSelectedRows] = useState(new Set());
@@ -15,7 +16,7 @@ const VerificationTable = ({ data = [], idLabel = "Verification No." }) => {
   const totalPages = Math.ceil(data.length / itemsPerPage);
   const paginatedData = data.slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    currentPage * itemsPerPage,
   );
 
   const toggleSelectAll = () => {
@@ -26,7 +27,7 @@ const VerificationTable = ({ data = [], idLabel = "Verification No." }) => {
     }
 
     const all = new Set(
-      paginatedData.map((_, i) => i + (currentPage - 1) * itemsPerPage)
+      paginatedData.map((_, i) => i + (currentPage - 1) * itemsPerPage),
     );
     setSelectedRows(all);
     setSelectAll(true);
@@ -119,9 +120,7 @@ const VerificationTable = ({ data = [], idLabel = "Verification No." }) => {
                 <p>{item.name}</p>
               </div>
               <div className="cell">
-                <p className={`status ${item.status.toLowerCase()}`}>
-                  {item.status}
-                </p>
+                <StatusChip status={item.status} />
               </div>
               <div className="cell">
                 <p>{item.batch}</p>
