@@ -107,6 +107,7 @@ const BatchVerification = () => {
       <PageHeader
         title="Batch Business"
         description="Upload and verify multiple businesses at once"
+        notificationIconRoute="/merchant-kyb/notifications"
       />
       <div className="content_area">
         {/* Quick Actions */}

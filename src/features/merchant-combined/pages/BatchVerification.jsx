@@ -107,6 +107,7 @@ const BatchVerification = () => {
       <PageHeader
         title="Batch KYC Verification"
         description="Upload and verify multiple individual customers at once"
+        notificationIconRoute="/merchant-combined/notifications"
       />
       <div className="content_area">
         <div className="quick_actions">

@@ -102,6 +102,7 @@ const History = () => {
       <PageHeader
         title="Combined Verification History"
         description="View and manage all past verification requests"
+        notificationIconRoute="/merchant-combined/notifications"
       />
 
       <div className="content_area">

@@ -281,6 +281,7 @@ const SingleBusiness = () => {
       <PageHeader
         title="Single Business Verification"
         description="Verify individual business records quickly and securely"
+        notificationIconRoute="/merchant-combined/notifications"
       />
 
       <div className="content_area">

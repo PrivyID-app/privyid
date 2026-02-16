@@ -281,6 +281,7 @@ const SingleVerification = () => {
       <PageHeader
         title="Single Verification"
         description="Verify individual user details quickly and securely"
+        notificationIconRoute="/merchant-combined/notifications"
       />
 
       <div className="content_area">

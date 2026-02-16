@@ -102,6 +102,7 @@ const History = () => {
       <PageHeader
         title="Business Verification History"
         description="View and manage past business verification requests"
+        notificationIconRoute="/merchant-kyb/notifications"
       />
 
       <div className="content_area">

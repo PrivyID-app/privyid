@@ -282,7 +282,7 @@ const SingleVerification = () => {
       <PageHeader
         title="Single Verification"
         description="Verify individual user details quickly and securely"
-        notificationLink="/merchant-kyc/notifications"
+        notificationIconRoute="/merchant-kyc/notifications"
       />
 
       <div className="content_area">

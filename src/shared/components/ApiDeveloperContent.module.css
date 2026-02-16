@@ -1,0 +1,310 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.welcomeBanner {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background-color: var(
+    --bg-surface-800
+  ); /* Fallback or specific surface color */
+  background: linear-gradient(
+    90deg,
+    var(--bg-surface-800) 0%,
+    var(--bg-white-0) 100%
+  );
+  border-radius: 1rem;
+  border: 1px solid var(--stroke-soft-200);
+}
+
+.bannerIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: var(--bg-white-0);
+  border: 1px solid var(--stroke-soft-200);
+  color: var(--icon-sub-600);
+}
+
+.bannerText h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-strong-950);
+  margin: 0 0 0.5rem 0;
+}
+
+.bannerText p {
+  font-size: 0.875rem;
+  color: var(--text-sub-600);
+  margin: 0;
+}
+
+.tabsContainer {
+  display: flex;
+  gap: 2rem;
+  border-bottom: 1px solid var(--stroke-soft-200);
+  margin-bottom: 1rem;
+}
+
+.tabButton {
+  background: none;
+  border: none;
+  padding: 1rem 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-sub-600);
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s;
+}
+
+.tabButton:hover {
+  color: var(--text-strong-950);
+}
+
+.activeTab {
+  color: var(--text-strong-950);
+}
+
+.activeTab::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--stroke-strong-950);
+}
+
+.sectionContent {
+  display: flex;
+  gap: 2rem;
+}
+
+.leftColumn {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.rightColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-left: 1.5rem;
+  border-left: 1px solid var(--stroke-soft-200);
+}
+
+.card {
+  background-color: var(--bg-white-0);
+  border: 1px solid var(--stroke-soft-200);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.cardTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-strong-950);
+  margin: 0;
+}
+
+.checklistProgress {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-sub-600);
+}
+
+.checklistItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border: 1px solid var(--stroke-soft-200);
+  border-radius: 0.75rem;
+  margin-bottom: 0.75rem;
+  background-color: var(--bg-white-0);
+  transition: all 0.2s;
+}
+
+.checklistItemActive {
+  border-color: var(--state-brand-base, #7d52f4); /* Assuming brand color */
+  background-color: var(--bg-weak-50);
+}
+
+.checklistItemContent {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.checklistItemLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-strong-950);
+}
+
+.checklistItemTime {
+  font-size: 0.75rem;
+  color: var(--text-sub-600);
+}
+
+.codeBlock {
+  background-color: var(--bg-surface-800);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  color: var(--text-white-0);
+  font-family: "DM Mono", monospace;
+  font-size: 0.875rem;
+  overflow-x: auto;
+}
+
+.codeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--stroke-sub-300);
+}
+
+.codeLanguage {
+  color: var(--text-soft-400);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.primaryButton {
+  background-color: var(--state-information-base);
+  color: var(--text-white-0);
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.primaryButton:hover {
+  background-color: var(--state-information-dark);
+}
+
+.secondaryButton {
+  background-color: var(--bg-white-0);
+  color: var(--text-strong-950);
+  border: 1px solid var(--stroke-sub-300);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.secondaryButton:hover {
+  background-color: var(--bg-weak-50);
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-strong-950);
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--stroke-sub-300);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.inputPrefix {
+  padding: 0.75rem 1rem;
+  background-color: var(--bg-weak-50);
+  border-right: 1px solid var(--stroke-sub-300);
+  color: var(--text-sub-600);
+  font-size: 0.875rem;
+}
+
+.input {
+  flex: 1;
+  border: none;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  color: var(--text-strong-950);
+  outline: none;
+}
+
+.input:focus {
+  background-color: var(--bg-white-0);
+}
+
+.copyButton {
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: var(--icon-sub-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.copyButton:hover {
+  color: var(--icon-strong-950);
+}
+
+.tocLink {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--text-sub-600);
+  text-decoration: none;
+  margin-bottom: 0.75rem;
+  transition: color 0.2s;
+}
+
+.tocLink:hover {
+  color: var(--state-brand-base, #7d52f4);
+}
+
+.tocTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-strong-950);
+  margin-bottom: 1rem;
+}

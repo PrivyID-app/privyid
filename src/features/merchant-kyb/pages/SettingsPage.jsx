@@ -46,6 +46,7 @@ const SettingsPage = () => {
       <PageHeader
         title="Settings (KYB)"
         description="Manage your account preferences"
+        notificationIconRoute="/merchant-kyb/notifications"
       />
       <div className="content_area settings_content">
         <Tabs tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />

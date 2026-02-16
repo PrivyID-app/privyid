@@ -34,6 +34,7 @@ const UserProfile = () => {
       <PageHeader
         title="User Profile"
         description="View and manage your account details"
+        notificationIconRoute="/merchant-kyb/notifications"
       />
 
       <div className="content_area">

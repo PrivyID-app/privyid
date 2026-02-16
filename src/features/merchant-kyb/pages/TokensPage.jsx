@@ -108,6 +108,7 @@ const TokensPage = () => {
       <PageHeader
         title="Token Management"
         description="Manage your usage tokens and billing"
+        notificationIconRoute="/merchant-kyb/notifications"
       />
 
       <div className="content_area">

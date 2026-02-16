@@ -1,11 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const PageHeader = ({
   title,
   description,
-  notificationLink = "notifications",
+  notificationIconRoute,
 }) => {
+  const location = useLocation();
+  const isNotificationActive = location.pathname === notificationIconRoute;
+
   return (
     <div className="page_title">
       <div className="title_summary">
@@ -13,11 +16,19 @@ const PageHeader = ({
         <p className="page_title_sm">{description}</p>
       </div>
 
-      <Link to={notificationLink} className="settings_icon_link">
-        <span className="material-symbols-outlined settings_icon">
-          notifications
-        </span>
-      </Link>
+      {notificationIconRoute && (
+        <Link
+          to={notificationIconRoute}
+          className={`notification_icon_link ${isNotificationActive ? 'active' : ''}`}
+          style={{ pointerEvents: isNotificationActive ? 'none' : 'auto' }}
+        >
+          <span className="material-symbols-outlined notification_bell_icon">
+            notifications
+          </span>
+          {/* Red dot indicator - assuming it's always present for now */}
+          <div className="notification_indicator_dot" />
+        </Link>
+      )}
     </div>
   );
 };

@@ -107,6 +107,7 @@ const BatchBusiness = () => {
       <PageHeader
         title="Batch Business Verification"
         description="Upload and verify multiple businesses at once"
+        notificationIconRoute="/merchant-combined/notifications"
       />
       <div className="content_area">
         <div className="quick_actions">

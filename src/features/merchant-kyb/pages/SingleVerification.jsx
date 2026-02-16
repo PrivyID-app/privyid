@@ -282,7 +282,7 @@ const SingleVerification = () => {
       <PageHeader
         title="Single Business Verification"
         description="Verify individual business records quickly and securely"
-        notificationLink="/merchant-kyb/notifications"
+        notificationIconRoute="/merchant-kyb/notifications"
       />
 
       <div className="content_area">

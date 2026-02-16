@@ -28,6 +28,7 @@ const SupportPage = () => {
       <PageHeader
         title="Support & Help Center"
         description="We're here to help you with any questions or issues"
+        notificationIconRoute="/merchant-combined/notifications"
       />
       <div className="content_area">
         <div className="overview_wrapper">
