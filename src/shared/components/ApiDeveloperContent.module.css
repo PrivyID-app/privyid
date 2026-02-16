@@ -1,10 +1,12 @@
 .container {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  padding: 1.5rem;
+  padding: 1rem;
   height: 100%;
-  overflow-y: auto;
+  position: relative;
+  overflow: hidden;
 }
 
 .welcomeBanner {
@@ -12,15 +14,8 @@
   align-items: center;
   gap: 1.5rem;
   padding: 1.5rem;
-  background-color: var(
-    --bg-surface-800
-  ); /* Fallback or specific surface color */
-  background: linear-gradient(
-    90deg,
-    var(--bg-surface-800) 0%,
-    var(--bg-white-0) 100%
-  );
   border-radius: 1rem;
+  background-color: #fbfbfb;
   border: 1px solid var(--stroke-soft-200);
 }
 
@@ -28,7 +23,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 3rem;
+  min-width: 3rem;
   height: 3rem;
   border-radius: 50%;
   background-color: var(--bg-white-0);
@@ -37,8 +32,8 @@
 }
 
 .bannerText h2 {
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 1.2rem;
+  font-weight: 400;
   color: var(--text-strong-950);
   margin: 0 0 0.5rem 0;
 }
@@ -47,59 +42,33 @@
   font-size: 0.875rem;
   color: var(--text-sub-600);
   margin: 0;
+  font-weight: 300;
 }
 
 .tabsContainer {
-  display: flex;
-  gap: 2rem;
-  border-bottom: 1px solid var(--stroke-soft-200);
   margin-bottom: 1rem;
-}
-
-.tabButton {
-  background: none;
-  border: none;
-  padding: 1rem 0;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--text-sub-600);
-  cursor: pointer;
-  position: relative;
-  transition: color 0.2s;
-}
-
-.tabButton:hover {
-  color: var(--text-strong-950);
-}
-
-.activeTab {
-  color: var(--text-strong-950);
-}
-
-.activeTab::after {
-  content: "";
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: var(--stroke-strong-950);
+  /* The Tabs component handles its own layout, but we can add spacing here */
 }
 
 .sectionContent {
+  width: 100%;
+  height: 90%;
   display: flex;
   gap: 2rem;
 }
 
 .leftColumn {
-  flex: 3;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  overflow: auto;
 }
 
 .rightColumn {
-  flex: 1;
+  min-width: 30%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -126,7 +95,7 @@
 
 .cardTitle {
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--text-strong-950);
   margin: 0;
 }
@@ -137,35 +106,26 @@
   gap: 0.5rem;
   font-size: 0.875rem;
   color: var(--text-sub-600);
+  font-weight: 300;
 }
 
-.checklistItem {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem;
-  border: 1px solid var(--stroke-soft-200);
-  border-radius: 0.75rem;
+/* Accordion Styles */
+.accordionString {
   margin-bottom: 0.75rem;
-  background-color: var(--bg-white-0);
-  transition: all 0.2s;
 }
 
-.checklistItemActive {
-  border-color: var(--state-brand-base, #7d52f4); /* Assuming brand color */
-  background-color: var(--bg-weak-50);
-}
-
-.checklistItemContent {
+.checklistItemHeader {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  width: 100%;
 }
 
 .checklistItemLabel {
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 300;
   color: var(--text-strong-950);
+  flex: 1;
 }
 
 .checklistItemTime {
@@ -173,14 +133,53 @@
   color: var(--text-sub-600);
 }
 
+.accordionBody {
+  font-size: 0.875rem;
+  color: var(--text-sub-600);
+  line-height: 1.5;
+  margin: 0;
+  padding-left: 2.25rem; /* Indent to align with text */
+}
+
+/* Documentation Items */
+.docItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border: 1px solid var(--stroke-soft-200);
+  border-radius: 0.75rem;
+  background-color: var(--bg-white-0);
+  transition: all 0.2s;
+  text-decoration: none;
+  color: inherit;
+}
+
+.docItem:hover {
+  background-color: var(--bg-weak-50);
+  border-color: var(--state-information-light);
+}
+
+.docItemContent {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.docItemLabel {
+  font-size: 0.875rem;
+  font-weight: 300;
+  color: var(--text-strong-950);
+}
+
 .codeBlock {
-  background-color: var(--bg-surface-800);
   border-radius: 0.75rem;
   padding: 1.5rem;
-  color: var(--text-white-0);
+  color: var(--text-soft-400);
   font-family: "DM Mono", monospace;
   font-size: 0.875rem;
-  overflow-x: auto;
+  border: solid 1px var(--stroke-soft-200);
+  background-color: var(--bg-weak-50);
 }
 
 .codeHeader {
@@ -198,38 +197,6 @@
   text-transform: uppercase;
 }
 
-.primaryButton {
-  background-color: var(--state-information-base);
-  color: var(--text-white-0);
-  border: none;
-  border-radius: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.primaryButton:hover {
-  background-color: var(--state-information-dark);
-}
-
-.secondaryButton {
-  background-color: var(--bg-white-0);
-  color: var(--text-strong-950);
-  border: 1px solid var(--stroke-sub-300);
-  border-radius: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.secondaryButton:hover {
-  background-color: var(--bg-weak-50);
-}
-
 .inputGroup {
   display: flex;
   flex-direction: column;
@@ -238,7 +205,7 @@
 
 .label {
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 300;
   color: var(--text-strong-950);
 }
 
@@ -252,18 +219,18 @@
 
 .inputPrefix {
   padding: 0.75rem 1rem;
-  background-color: var(--bg-weak-50);
   border-right: 1px solid var(--stroke-sub-300);
   color: var(--text-sub-600);
   font-size: 0.875rem;
 }
 
 .input {
+  background-color: var(--bg-white-0);
   flex: 1;
   border: none;
-  padding: 0.75rem 1rem;
+  padding: 1rem;
   font-size: 0.875rem;
-  color: var(--text-strong-950);
+  color: var(--text-sub-600);
   outline: none;
 }
 
@@ -291,12 +258,12 @@
   font-size: 0.875rem;
   color: var(--text-sub-600);
   text-decoration: none;
-  margin-bottom: 0.75rem;
   transition: color 0.2s;
+  font-weight: 300;
 }
 
 .tocLink:hover {
-  color: var(--state-brand-base, #7d52f4);
+  color: var(--text-strong-950);
 }
 
 .tocTitle {
@@ -304,7 +271,6 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 400;
   color: var(--text-strong-950);
-  margin-bottom: 1rem;
 }

@@ -1,8 +1,19 @@
 import React, { useState } from "react";
+import Tabs from "./Tabs";
+import Accordion from "./Accordion";
+import ImageCheckbox from "./ImageCheckbox";
 import styles from "./ApiDeveloperContent.module.css";
 
 const ApiDeveloperContent = () => {
   const [activeTab, setActiveTab] = useState("quick-start");
+
+  const tabs = [
+    { label: "Quick Start", key: "quick-start" },
+    { label: "API Keys", key: "api-keys" },
+    { label: "Webhooks", key: "webhooks" },
+    { label: "Logs", key: "logs" },
+    { label: "Documentation", key: "documentation" },
+  ];
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -24,19 +35,7 @@ const ApiDeveloperContent = () => {
   return (
     <div className={styles.container}>
       <div className={styles.tabsContainer}>
-        {["quick-start", "api-keys", "webhooks", "logs", "documentation"].map(
-          (tab) => (
-            <button
-              key={tab}
-              className={`${styles.tabButton} ${
-                activeTab === tab ? styles.activeTab : ""
-              }`}
-              onClick={() => setActiveTab(tab)}
-            >
-              {tab.replace("-", " ").replace(/\b\w/g, (c) => c.toUpperCase())}
-            </button>
-          ),
-        )}
+        <Tabs tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
       </div>
       {renderTabContent()}
     </div>
@@ -59,25 +58,61 @@ const QuickStartTab = () => (
             <span>0 of 7 completed</span>
           </div>
         </div>
-        <ChecklistItem
-          label="1. Generate API Keys (Sandbox)"
-          time="2 mins"
-          isActive={true}
-        />
-        <ChecklistItem
-          label="2. Install SDK or Configure HTTP Client"
-          time="2 mins"
-        />
-        <ChecklistItem label="3. Make Your First API Call" time="2 mins" />
-        <ChecklistItem label="4. Set Up Webhook Endpoint" time="2 mins" />
-        <ChecklistItem label="5. Test Token Validation" time="2 mins" />
-        <ChecklistItem label="6. Generate Production Keys" time="2 mins" />
-        <ChecklistItem label="7. Go Live" time="2 mins" />
+        <Accordion
+          title={
+            <div className={styles.checklistItemHeader}>
+              <ImageCheckbox checked={true} onChange={() => {}} />
+              <span className={styles.checklistItemLabel}>
+                1. Generate API Keys (Sandbox)
+              </span>
+              <span className={styles.checklistItemTime}>2 mins</span>
+            </div>
+          }
+          className={styles.accordionString}
+        >
+          <p className={styles.accordionBody}>
+            Go to the API Keys tab and generate your sandbox keys to start
+            testing.
+          </p>
+        </Accordion>
+        <Accordion
+          title={
+            <div className={styles.checklistItemHeader}>
+              <ImageCheckbox checked={false} onChange={() => {}} />
+              <span className={styles.checklistItemLabel}>
+                2. Install SDK or Configure HTTP Client
+              </span>
+              <span className={styles.checklistItemTime}>2 mins</span>
+            </div>
+          }
+          className={styles.accordionString}
+        >
+          <p className={styles.accordionBody}>
+            Install the official SDK for your language or configure your HTTP
+            client.
+          </p>
+        </Accordion>
+        <Accordion
+          title={
+            <div className={styles.checklistItemHeader}>
+              <ImageCheckbox checked={false} onChange={() => {}} />
+              <span className={styles.checklistItemLabel}>
+                3. Make Your First API Call
+              </span>
+              <span className={styles.checklistItemTime}>2 mins</span>
+            </div>
+          }
+          className={styles.accordionString}
+        >
+          <p className={styles.accordionBody}>
+            Use the generated keys to authenticate and make your first request.
+          </p>
+        </Accordion>
+        {/* Add more items as needed, simplifying for brevity/example */}
       </div>
 
       <div className={styles.card}>
         <h3 className={styles.cardTitle}>Quick Start Code Examples</h3>
-        {/* Code block placeholder */}
         <div className={styles.codeBlock}>
           <div className={styles.codeHeader}>
             <span className={styles.codeLanguage}>Javascript</span>
@@ -118,38 +153,32 @@ await privy.verify({
 );
 
 const ApiKeysTab = () => {
-  const [mode, setMode] = useState("sandbox");
+  const [activeTab, setActiveTab] = useState("sandbox");
+
+  const tabs = [
+    { label: "Sandbox Mode", key: "sandbox" },
+    { label: "Production Mode", key: "production" },
+  ];
 
   return (
     <div className={styles.sectionContent}>
       <div className={styles.leftColumn}>
-        <div style={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}>
-          <button
-            className={
-              mode === "sandbox" ? styles.primaryButton : styles.secondaryButton
-            }
-            onClick={() => setMode("sandbox")}
-          >
-            Sandbox Mode
-          </button>
-          <button
-            className={
-              mode === "production"
-                ? styles.primaryButton
-                : styles.secondaryButton
-            }
-            onClick={() => setMode("production")}
-          >
-            Production Mode
-          </button>
+        <div style={{ marginBottom: "1rem" }}>
+          <Tabs tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
         </div>
 
         <div className={styles.card}>
           <div className={styles.cardHeader}>
             <h3 className={styles.cardTitle}>
-              {mode === "sandbox" ? "Sandbox" : "Production"} API Keys
+              {activeTab === "sandbox" ? "Sandbox" : "Production"} API Keys
             </h3>
-            <p style={{ fontSize: "0.875rem", color: "var(--text-sub-600)" }}>
+            <p
+              style={{
+                fontSize: "0.875rem",
+                color: "var(--text-sub-600)",
+                fontWeight: "300",
+              }}
+            >
               Use these for testing. No real charges or data.
             </p>
           </div>
@@ -257,7 +286,8 @@ const WebhooksTab = () => (
                 fontSize: "0.875rem",
               }}
             >
-              <input type="checkbox" defaultChecked /> verification.completed
+              <ImageCheckbox checked={true} onChange={() => {}} />
+              verification.completed
             </label>
             <label
               style={{
@@ -265,9 +295,11 @@ const WebhooksTab = () => (
                 alignItems: "center",
                 gap: "0.5rem",
                 fontSize: "0.875rem",
+                fontWeight: "300",
               }}
             >
-              <input type="checkbox" defaultChecked /> verification.pending
+              <ImageCheckbox checked={true} onChange={() => {}} />
+              verification.pending
             </label>
             <label
               style={{
@@ -275,15 +307,17 @@ const WebhooksTab = () => (
                 alignItems: "center",
                 gap: "0.5rem",
                 fontSize: "0.875rem",
+                fontWeight: "300",
               }}
             >
-              <input type="checkbox" /> verification.failed
+              <ImageCheckbox checked={false} onChange={() => {}} />
+              verification.failed
             </label>
           </div>
         </div>
         <div style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}>
-          <button className={styles.primaryButton}>Save Changes</button>
-          <button className={styles.secondaryButton}>Cancel</button>
+          <button className="primary_button">Save Changes</button>
+          <button className="secondary_button">Cancel</button>
         </div>
       </div>
     </div>
@@ -325,35 +359,121 @@ const LogsTab = () => (
                   textAlign: "left",
                 }}
               >
-                <th style={{ padding: "0.75rem" }}>Timestamp</th>
-                <th style={{ padding: "0.75rem" }}>Method</th>
-                <th style={{ padding: "0.75rem" }}>Endpoint</th>
-                <th style={{ padding: "0.75rem" }}>Status</th>
-                <th style={{ padding: "0.75rem" }}>Latency</th>
+                <th style={{ padding: "0.75rem", fontWeight: "300" }}>
+                  Timestamp
+                </th>
+                <th style={{ padding: "0.75rem", fontWeight: "300" }}>
+                  Method
+                </th>
+                <th style={{ padding: "0.75rem", fontWeight: "300" }}>
+                  Endpoint
+                </th>
+                <th style={{ padding: "0.75rem", fontWeight: "300" }}>
+                  Status
+                </th>
+                <th style={{ padding: "0.75rem", fontWeight: "300" }}>
+                  Latency
+                </th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td style={{ padding: "0.75rem" }}>Jan 16, 10:30 AM</td>
-                <td style={{ padding: "0.75rem" }}>POST</td>
-                <td style={{ padding: "0.75rem" }}>/v1/kyc/initiate</td>
-                <td style={{ padding: "0.75rem" }}>
+                <td
+                  style={{
+                    padding: "0.75rem",
+                    fontWeight: "300",
+                    color: "var(--text-sub-600)",
+                  }}
+                >
+                  Jan 16, 10:30 AM
+                </td>
+                <td
+                  style={{
+                    padding: "0.75rem",
+                    fontWeight: "300",
+                    color: "var(--text-sub-600)",
+                  }}
+                >
+                  POST
+                </td>
+                <td
+                  style={{
+                    padding: "0.75rem",
+                    fontWeight: "300",
+                    color: "var(--text-sub-600)",
+                  }}
+                >
+                  /v1/kyc/initiate
+                </td>
+                <td
+                  style={{
+                    padding: "0.75rem",
+                    fontWeight: "300",
+                    color: "var(--text-sub-600)",
+                  }}
+                >
                   <span style={{ color: "var(--state-success-base)" }}>
                     200 OK
                   </span>
                 </td>
-                <td style={{ padding: "0.75rem" }}>145ms</td>
+                <td
+                  style={{
+                    padding: "0.75rem",
+                    fontWeight: "300",
+                    color: "var(--text-sub-600)",
+                  }}
+                >
+                  145ms
+                </td>
               </tr>
               <tr>
-                <td style={{ padding: "0.75rem" }}>Jan 16, 10:28 AM</td>
-                <td style={{ padding: "0.75rem" }}>GET</td>
-                <td style={{ padding: "0.75rem" }}>/v1/kyc/status/123</td>
-                <td style={{ padding: "0.75rem" }}>
+                <td
+                  style={{
+                    padding: "0.75rem",
+                    fontWeight: "300",
+                    color: "var(--text-sub-600)",
+                  }}
+                >
+                  Jan 16, 10:28 AM
+                </td>
+                <td
+                  style={{
+                    padding: "0.75rem",
+                    fontWeight: "300",
+                    color: "var(--text-sub-600)",
+                  }}
+                >
+                  GET
+                </td>
+                <td
+                  style={{
+                    padding: "0.75rem",
+                    fontWeight: "300",
+                    color: "var(--text-sub-600)",
+                  }}
+                >
+                  /v1/kyc/status/123
+                </td>
+                <td
+                  style={{
+                    padding: "0.75rem",
+                    fontWeight: "300",
+                    color: "var(--text-sub-600)",
+                  }}
+                >
                   <span style={{ color: "var(--state-success-base)" }}>
                     200 OK
                   </span>
                 </td>
-                <td style={{ padding: "0.75rem" }}>80ms</td>
+                <td
+                  style={{
+                    padding: "0.75rem",
+                    fontWeight: "300",
+                    color: "var(--text-sub-600)",
+                  }}
+                >
+                  80ms
+                </td>
               </tr>
             </tbody>
           </table>
@@ -381,28 +501,24 @@ const DocumentationTab = () => (
       <div className={styles.card}>
         <h3 className={styles.cardTitle}>Documentation Resources</h3>
         <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-          <a href="#" className={styles.checklistItem}>
-            <div className={styles.checklistItemContent}>
+          <a href="#" className={styles.docItem}>
+            <div className={styles.docItemContent}>
               <span className="material-symbols-outlined">article</span>
-              <span className={styles.checklistItemLabel}>
-                Getting Started Guide
-              </span>
+              <span className={styles.docItemLabel}>Getting Started Guide</span>
             </div>
             <span className="material-symbols-outlined">arrow_forward</span>
           </a>
-          <a href="#" className={styles.checklistItem}>
-            <div className={styles.checklistItemContent}>
+          <a href="#" className={styles.docItem}>
+            <div className={styles.docItemContent}>
               <span className="material-symbols-outlined">api</span>
-              <span className={styles.checklistItemLabel}>API Reference</span>
+              <span className={styles.docItemLabel}>API Reference</span>
             </div>
             <span className="material-symbols-outlined">arrow_forward</span>
           </a>
-          <a href="#" className={styles.checklistItem}>
-            <div className={styles.checklistItemContent}>
+          <a href="#" className={styles.docItem}>
+            <div className={styles.docItemContent}>
               <span className="material-symbols-outlined">code</span>
-              <span className={styles.checklistItemLabel}>
-                SDKs & Libraries
-              </span>
+              <span className={styles.docItemLabel}>SDKs & Libraries</span>
             </div>
             <span className="material-symbols-outlined">arrow_forward</span>
           </a>
@@ -437,26 +553,6 @@ const WelcomeBanner = ({ title, description }) => (
     <div className={styles.bannerText}>
       <h2>{title}</h2>
       <p>{description}</p>
-    </div>
-  </div>
-);
-
-const ChecklistItem = ({ label, time, isActive }) => (
-  <div
-    className={`${styles.checklistItem} ${isActive ? styles.checklistItemActive : ""}`}
-  >
-    <div className={styles.checklistItemContent}>
-      <input type="checkbox" checked={false} readOnly />
-      <span className={styles.checklistItemLabel}>{label}</span>
-    </div>
-    <div className={styles.checklistItemContent}>
-      <span className={styles.checklistItemTime}>{time}</span>
-      <span
-        className="material-symbols-outlined"
-        style={{ fontSize: "1.25rem" }}
-      >
-        expand_more
-      </span>
     </div>
   </div>
 );
