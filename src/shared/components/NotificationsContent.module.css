@@ -1,9 +1,11 @@
 .notificationsContent {
-  padding: 24px;
+  height: 100%;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 1rem;
   flex-grow: 1;
+  overflow: auto;
 }
 
 .actionBar {
@@ -16,7 +18,7 @@
 .recentNotificationsTitle {
   font-size: 16px;
   font-weight: 400;
-  color: rgba(14, 18, 27, 1);
+  color: var(--text-strong-950);
   white-space: nowrap;
 }
 
@@ -119,7 +121,7 @@
 }
 
 .tableRowSelected {
-  background-color: rgba(245, 247, 250, 0.5); /* Selected background */
+  background-color: var(--bg-weak-50); /* Selected background */
 }
 
 .tableRowCheckboxCol {
@@ -173,14 +175,14 @@
   width: 20px;
 }
 
-.actionButton .material-symbols-outlined {
+.notificationIcon {
   font-size: 20px; /* Adjust size as needed */
-  color: var(--icon-soft-400) !important; /* Default icon color */
+  color: var(--icon-soft-400); /* Default icon color */
   transition: color 0.2s ease-in-out;
 }
 
-.actionButton:hover .material-symbols-outlined {
-  color: var(--icon-strong-950) !important; /* Hover icon color, using a stronger icon color for hover */
+.actionButton:hover .notificationIcon {
+  color: var(--icon-strong-950); /* Hover icon color, using a stronger icon color for hover */
 }
 
 /* ... existing styles ... */
@@ -188,18 +190,17 @@
 .tableRow {
   display: flex;
   align-items: center;
-  height: 62px;
-  border-bottom: 1px solid rgba(225, 228, 234, 1);
+  height: 3.5rem;
   background-color: #fff; /* Default background */
   transition: background-color 0.2s ease-in-out; /* Add transition for smooth hover */
 }
 
 .tableRow:hover {
-  background-color: var(--state-information-lighter); /* Hover background */
+  background-color: var(--bg-weak-50); /* Hover background */
 }
 
 .tableRowSelected {
-  background-color: rgba(245, 247, 250, 0.5); /* Selected background */
+  background-color: var(--bg-weak-50); /* Selected background */
 }
 
 .notificationDetailContainer {
@@ -218,7 +219,7 @@
   align-items: center;
   gap: 8px;
   font-size: 14px;
-  color: rgba(14, 18, 27, 1);
+  color: var(--text-strong-950);
   margin-bottom: 16px;
 }
 
@@ -226,68 +227,101 @@
   font-size: 20px;
 }
 
+.notificationDetailHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
 .notificationDetailHeader h2 {
-  font-size: 24px;
-  font-weight: 600;
-  color: rgba(14, 18, 27, 1);
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--text-strong-950);
   margin: 0;
 }
 
 .notificationDetailMeta {
-  font-size: 12px;
-  color: rgba(153, 160, 174, 1);
+  font-size: 0.875rem;
+  color: var(--text-sub-600);
   margin-top: 4px;
+  font-weight: 300;
 }
 
 .notificationDetailBody {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.5rem;
   background-color: #f8f8f8;
-  border-radius: 8px;
-  padding: 16px;
+  border-radius: 1rem;
+  padding: 1rem;
 }
 
 .notificationDetailBody h3 {
-  font-size: 16px;
-  font-weight: 600;
-  color: rgba(14, 18, 27, 1);
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-strong-950);
   margin-top: 0;
   margin-bottom: 8px;
 }
 
 .notificationDetailBody p {
-  font-size: 14px;
-  color: rgba(82, 88, 102, 1);
+  font-size: 1rem;
+  color: var(--text-sub-600);
   line-height: 1.5;
   margin: 0;
+  font-weight: 300;
 }
 
 .responseComposer {
-  margin-top: 24px;
-  border-top: 1px solid rgba(225, 228, 234, 1);
-  padding-top: 24px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--stroke-sub-300);
+  padding-top: 1.5rem;
 }
 
 .responseComposer h3 {
-  font-size: 18px;
-  font-weight: 600;
-  color: rgba(14, 18, 27, 1);
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-strong-950);
   margin-top: 0;
-  margin-bottom: 16px;
 }
 
 .responseTextArea {
   width: 100%;
   padding: 12px;
-  border: 1px solid rgba(225, 228, 234, 1);
+  border: 1px solid var(--stroke-sub-300);
+  background-color: var(--bg-white-0);
+  color: var(--text-sub-600);
   border-radius: 8px;
-  font-size: 14px;
-  color: rgba(14, 18, 27, 1);
+  font-size: 1rem;
   resize: vertical;
-  min-height: 100px;
+  min-height: 6rem;
   box-sizing: border-box;
+}
+
+.responseTextArea:hover{
+  border-color: var(--stroke-sub-300);
+}
+
+.responseTextArea:focus{
+  border-color: var(--stroke-sub-300);
+  color: var(--text-strong-950);
 }
 
 .composerActions {
   display: flex;
   justify-content: flex-end;
   margin-top: 16px;
+}
+
+.content_area{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
 }

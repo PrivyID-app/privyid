@@ -12,8 +12,8 @@ const NotificationDetail = ({ notification, onClose }) => {
   };
 
   return (
-    <div className={styles.notificationDetailContainer}>
-      <button className={styles.backButton} onClick={onClose}>
+    <div className="content_area">
+      <button className="secondary_button" onClick={onClose}>
         <span className="material-symbols-outlined">arrow_back</span>
         Back to Notifications
       </button>

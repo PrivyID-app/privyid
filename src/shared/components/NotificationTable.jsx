@@ -44,13 +44,13 @@ const NotificationTable = ({
             <div className={styles.tableRowDateCol}>{notif.time}</div>
             <div className={styles.tableRowActionCol}>
               <button className={styles.actionButton} aria-label="Open">
-                <span className="material-symbols-outlined">visibility</span>
+                <span className={`material-symbols-outlined ${styles.notificationIcon}`}>visibility</span>
               </button>
               <button className={styles.actionButton} aria-label="Archive">
-                <span className="material-symbols-outlined">archive</span>
+                <span className={`material-symbols-outlined ${styles.notificationIcon}`}>archive</span>
               </button>
               <button className={styles.actionButton} aria-label="Delete">
-                <span className="material-symbols-outlined">delete</span>
+                <span className={`material-symbols-outlined ${styles.notificationIcon}`}>delete</span>
               </button>
             </div>
           </div>

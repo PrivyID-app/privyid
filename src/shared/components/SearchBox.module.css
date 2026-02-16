@@ -1,7 +1,7 @@
 .searchBoxContainer {
   position: relative;
   flex-grow: 1;
-  max-width: 400px;
+  max-width: 30rem;
 }
 
 .searchIcon {
@@ -9,27 +9,29 @@
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: rgba(153, 160, 174, 1);
-  font-size: 20px;
+  color: var(--text-soft-400);
+  font-size: 1rem;
 }
 
 .searchInput {
-  width: 100%;
-  padding: 10px 12px 10px 40px; /* Adjust padding for icon */
-  border-radius: 8px;
-  border: 1px solid rgba(225, 228, 234, 1);
-  font-size: 14px;
-  color: rgba(14, 18, 27, 1);
-  box-sizing: border-box;
+  min-width: 20rem;
+  display: flex;
+  flex-direction: row;
+  padding: 1rem 2rem;
+  font-size: 0.875rem;
+  font-weight: 300;
+  color: var(--text-strong-950);
+  background-color: var(--bg-white-0);
+  border: 1px solid var(--stroke-sub-300);
+  border-radius: 1rem;
   outline: none;
-  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .searchInput:hover {
-  border-color: rgba(153, 160, 174, 0.7);
+  border-color: var(--stroke-sub-400);
 }
 
 .searchInput:focus {
-  border-color: rgba(31, 193, 107, 1);
-  box-shadow: 0 0 0 2px rgba(31, 193, 107, 0.2);
+  border-color: var(--state-information-light);
+  box-shadow: 0 0 0 1px var(--state-information-lighter);
 }
