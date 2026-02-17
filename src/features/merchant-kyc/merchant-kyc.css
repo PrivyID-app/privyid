@@ -678,12 +678,17 @@
   padding: 0.75rem 1.5rem;
   border-radius: 0.5rem;
   background-color: var(--bg-white-0);
-  color: var(--text-sub-600);
+  color: var(--text-sub-600) !important;
   font-size: 1rem;
   font-weight: 300;
   border: 1px solid var(--stroke-sub-300);
   cursor: pointer;
   transition: all 0.2s ease;
+}
+
+.secondary_button p,
+.secondary_button span {
+  color: var(--text-sub-600) !important;
 }
 
 .secondary_button:hover {

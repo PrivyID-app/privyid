@@ -362,7 +362,7 @@ a.nav-links:hover {
   background-color: var(--color-bg-weak-50);
 }
 
-button.neutral-ghost-xs:hover {
+/* button.neutral-ghost-xs:hover {
   display: flex;
   background-color: var(--color-bg-weak-50);
 }
@@ -397,7 +397,7 @@ button.neutral-default-xs:hover {
   box-shadow:
     0 1px 2px 0 rgba(27, 28, 29, 0.48),
     0 0 0 1px #242628;
-}
+} */
 
 .hero {
   gap: 5vh;

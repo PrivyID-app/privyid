@@ -29,7 +29,7 @@ const MobileVerificationPage = () => {
       {/* SECTION 1: ENTER DETAILS */}
       {currentStep === 1 && (
         <div className="enter_details">
-          <div className="logo">
+          <div className="mobile_logo">
             <img src={logoBlack} alt="privyID logo" />
           </div>
 
@@ -72,7 +72,7 @@ const MobileVerificationPage = () => {
       {/* SECTION 2: UPLOAD DOCUMENTS */}
       {currentStep === 2 && (
         <div className="upload_documents">
-          <div className="logo">
+          <div className="mobile_logo">
             <img src={logoBlack} alt="privyID logo" />
           </div>
 
@@ -114,7 +114,7 @@ const MobileVerificationPage = () => {
       {/* SECTION 3: SELFIE INSTRUCTIONS */}
       {currentStep === 3 && (
         <div className="selfie_instruction">
-          <div className="logo">
+          <div className="mobile_logo">
             <img src={logoBlack} alt="privyID logo" />
           </div>
 
@@ -148,7 +148,7 @@ const MobileVerificationPage = () => {
       {/* SECTION 4: SELFIE CAPTURE */}
       {currentStep === 4 && (
         <div className="selfie_capture">
-          <div className="logo">
+          <div className="mobile_logo">
             <img src={logoBlack} alt="privyID logo" />
           </div>
 
@@ -171,12 +171,12 @@ const MobileVerificationPage = () => {
       {/* SECTION 5: SUCCESS/FAILED SCREEN PAGE */}
       {currentStep === 5 && (
         <div className="screen success">
-          <header className="logo">
+          <header className="mobile_logo">
             <img src={logoBlack} alt="privyID logo" />
           </header>
 
           <section className="status">
-            <div className="icon">
+            <div className="icon_wrapper">
               {/* Check or exclamation handled in CSS */}
             </div>
 

@@ -44,16 +44,13 @@ body {
   padding: 24px 16px 40px;
 }
 
-.logo {
+.mobile_logo {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 6px;
-  margin-bottom: 32px;
-  width: 100%;
 }
 
-.logo img {
+.mobile_logo img {
   height: 64px;
 }
 
@@ -76,7 +73,6 @@ section {
 label {
   font-size: 14px;
   font-weight: 400;
-  margin-bottom: 6px;
   display: block;
 }
 
@@ -212,7 +208,7 @@ input::placeholder {
 }
 
 /* Icon Wrapper */
-.icon {
+.icon_wrapper {
   width: 96px;
   height: 96px;
   border-radius: 50%;

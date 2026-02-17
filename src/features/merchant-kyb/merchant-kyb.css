@@ -101,6 +101,11 @@
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
+  padding: 1rem 0;
+}
+
+.nav_main_links {
+  width: 100%;
 }
 
 .merchant_kyb_layout .nav_main_title {

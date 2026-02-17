@@ -1512,6 +1512,7 @@ body {
 .modal_content_title {
   font-weight: 400;
   font-size: 1rem;
+  color: var(--text-strong-950);
 }
 
 .modal_content_text {
@@ -1519,6 +1520,18 @@ body {
   opacity: 0.85;
   font-weight: 300;
   line-height: 1.4;
+  color: var(--text-sub-600);
+}
+
+.modal_title_dark{
+  font-weight: 300;
+  font-size: 1rem;
+  color: var(--text-white-0) !important;
+}
+
+.modal_content_text_dark{
+  color: var(--text-sub-400);
+  font-weight: 300;
 }
 
 .close_icon {

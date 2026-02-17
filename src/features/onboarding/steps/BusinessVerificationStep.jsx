@@ -18,7 +18,7 @@ export const BusinessVerificationLeftContent = () => {
 
       <div className="modal_content">
         <div className="modal_title">
-          <p className="modal_content_title">
+          <p className="modal_content_title modal_title_dark">
             Expected Processing Time - 24 hours
           </p>
           <span
@@ -28,7 +28,7 @@ export const BusinessVerificationLeftContent = () => {
             close
           </span>
         </div>
-        <p className="modal_content_text">
+        <p className="modal_content_text modal_content_text_dark ">
           You'll receive an email once your business is verified. You can still
           explore the dashboard in the meantime.
         </p>
