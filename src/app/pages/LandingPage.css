@@ -773,6 +773,7 @@ button.neutral-default-md:hover {
   position: relative;
   background-color: #fbfbfb;
   z-index: 1;
+  padding-top: 80px; /* Added to account for fixed navbar height */
 }
 
 .notfound_bg_pattern {

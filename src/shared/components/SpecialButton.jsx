@@ -8,16 +8,24 @@ const SpecialButton = ({
   icon,
   type = "button",
   variant = "primary",
+  as: Component = "button",
+  ...props
 }) => {
   return (
-    <button
-      type={type}
+    <Component
+      type={Component === "button" ? type : undefined}
       className={`special_button ${variant === "secondary" ? "secondary" : ""} ${className}`}
       onClick={onClick}
+      {...props}
     >
       {children}
-      {icon && <span className="material-symbols-outlined">{icon}</span>}
-    </button>
+      {icon &&
+        (typeof icon === "string" ? (
+          <span className="material-symbols-outlined">{icon}</span>
+        ) : (
+          icon
+        ))}
+    </Component>
   );
 };
 

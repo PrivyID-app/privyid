@@ -3,6 +3,9 @@ import imgLogo1 from "../../../../assets/images/c1c20eae9ce7a905bc3e3f80a198f87d
 import imgImage from "../../../../assets/images/0d2f66eb8e8e6701d3a89564b0b6f219eb1b5d77.png";
 import imgOverlay from "../../../../assets/images/06feed9f5f4b5c11f150f713aa4ec3ffb7289cec.png";
 import imgLogo3 from "../../../../assets/images/12c254da7cfdeaaa62d206c9af101e1b0d4309f6.png";
+import { Link } from "react-router-dom";
+import SharedWebNav from "../../../../shared/components/WebNav";
+import SpecialButton from "../../../../shared/components/SpecialButton";
 
 function Logo() {
   return (
@@ -252,19 +255,7 @@ function SectionContainer() {
 }
 
 function WebNav() {
-  return (
-    <div className="bg-white relative shrink-0 w-full" data-name="Web Nav">
-      <div
-        aria-hidden="true"
-        className="absolute border-[#ebebeb] border-b border-solid inset-0 pointer-events-none"
-      />
-      <div className="flex flex-row items-center size-full">
-        <div className="content-stretch flex items-center px-[100px] py-[20px] relative w-full">
-          <SectionContainer />
-        </div>
-      </div>
-    </div>
-  );
+  return <SharedWebNav />;
 }
 
 function Badge() {
@@ -416,23 +407,14 @@ function ArrowRightUpLongLine() {
 
 function FancyButtons1() {
   return (
-    <div
-      className="relative rounded-[12px] shrink-0"
-      data-name="Fancy Buttons [1.1]"
-      style={{
-        backgroundImage:
-          "linear-gradient(rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(90deg, rgb(23, 23, 23) 0%, rgb(23, 23, 23) 100%)",
-      }}
+    <SpecialButton
+      as={Link}
+      to="/signup"
+      variant="primary"
+      icon={<ArrowRightUpLongLine />}
     >
-      <div className="content-stretch flex gap-[2px] items-center justify-center overflow-clip pl-[16px] pr-[14px] py-[10px] relative rounded-[inherit]">
-        <Text6 />
-        <ArrowRightUpLongLine />
-      </div>
-      <div
-        aria-hidden="true"
-        className="absolute border border-[rgba(255,255,255,0.12)] border-solid inset-0 pointer-events-none rounded-[12px] shadow-[0px_1px_2px_0px_rgba(27,28,29,0.48),0px_0px_0px_1px_#242628]"
-      />
-    </div>
+      Get started free
+    </SpecialButton>
   );
 }
 
@@ -477,27 +459,16 @@ function MajorBrandLogos() {
 
 function SocialButtons() {
   return (
-    <div
-      className="bg-white relative rounded-[12px] shrink-0"
-      data-name="Social Buttons [1.1]"
+    <SpecialButton
+      as={Link}
+      to="/signup"
+      variant="secondary"
+      icon={<MajorBrandLogos />}
+      className="gap-[8px]"
     >
-      <div className="content-stretch flex gap-[8px] items-center justify-center overflow-clip px-[14px] py-[10px] relative rounded-[inherit]">
-        <MajorBrandLogos />
-        <div
-          className="flex flex-col font-['Inter:Medium',sans-serif] font-medium justify-center leading-[0] not-italic relative shrink-0 text-[#0e121b] text-[14px] tracking-[-0.084px] whitespace-nowrap"
-          style={{ fontFeatureSettings: "\'ss11\', \'calt\' 0, \'liga\' 0" }}
-        >
-          <p>
-            <span className="leading-[20px] text-[#99a0ae]">Sign in with</span>
-            <span className="leading-[20px]">{` Google`}</span>
-          </p>
-        </div>
-      </div>
-      <div
-        aria-hidden="true"
-        className="absolute border border-[#cacfd8] border-solid inset-0 pointer-events-none rounded-[12px] shadow-[0px_1px_2px_0px_rgba(10,13,20,0.03)]"
-      />
-    </div>
+      <span className="text-[#99a0ae]">Sign in with</span>
+      <span>{` Google`}</span>
+    </SpecialButton>
   );
 }
 
@@ -2227,7 +2198,7 @@ function ArrowRightUpLongLine1() {
   );
 }
 
-function Link() {
+function PrivyIdLink() {
   return (
     <div
       className="content-stretch flex gap-[5px] items-center relative shrink-0"
@@ -2258,7 +2229,7 @@ function Action() {
           Verify users without data custody
         </p>
       </div>
-      <Link />
+      <PrivyIdLink />
     </div>
   );
 }
@@ -3826,12 +3797,9 @@ function Text23() {
 
 function Buttons2() {
   return (
-    <div
-      className="bg-[#222530] content-stretch flex gap-[4px] items-center justify-center overflow-clip p-[10px] relative rounded-[10px] shrink-0"
-      data-name="Buttons [1.1]"
-    >
-      <Text23 />
-    </div>
+    <SpecialButton as={Link} to="/signup" variant="primary">
+      Generate API keys
+    </SpecialButton>
   );
 }
 
@@ -4004,23 +3972,14 @@ function ArrowRightUpLongLine2() {
 
 function FancyButtons2() {
   return (
-    <div
-      className="relative rounded-[12px] shrink-0"
-      data-name="Fancy Buttons [1.1]"
-      style={{
-        backgroundImage:
-          "linear-gradient(rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 100%)",
-      }}
+    <SpecialButton
+      as={Link}
+      to="/signup"
+      variant="primary"
+      icon={<ArrowRightUpLongLine2 />}
     >
-      <div className="content-stretch flex gap-[2px] items-center justify-center overflow-clip pl-[16px] pr-[14px] py-[10px] relative rounded-[inherit]">
-        <Text26 />
-        <ArrowRightUpLongLine2 />
-      </div>
-      <div
-        aria-hidden="true"
-        className="absolute border border-[rgba(255,255,255,0.12)] border-solid inset-0 pointer-events-none rounded-[12px] shadow-[0px_1px_2px_0px_rgba(27,28,29,0.48),0px_0px_0px_1px_#242628]"
-      />
-    </div>
+      Get started free
+    </SpecialButton>
   );
 }
 
@@ -4267,7 +4226,7 @@ function FooterSectionsLanding() {
 function Body() {
   return (
     <div
-      className="bg-[#f7f7f7] content-stretch flex flex-col items-center relative shrink-0 w-full"
+      className="bg-[#f7f7f7] content-stretch flex flex-col items-center relative shrink-0 w-full pt-[80px]"
       data-name="Body"
     >
       <HeaderSection />

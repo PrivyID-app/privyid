@@ -39,7 +39,7 @@ const WebNav = () => {
           <Link to="/login" className="nav_link">
             Log In
           </Link>
-          <Link to="/api-keys" className="api_page_link">
+          <Link to="/signup" className="api_page_link">
             <SpecialButton>Get API Keys</SpecialButton>
           </Link>
         </div>

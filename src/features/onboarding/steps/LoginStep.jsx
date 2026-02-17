@@ -4,12 +4,23 @@ import checkboxIcon from '../../../assets/images/Checkbox [1.0].svg';
 import googleLogo from '../../../assets/images/Google logo [1.0].svg';
 import appleLogo from '../../../assets/images/Apple Logos [1.0].svg';
 
-const LoginStep = ({ onNext, onSignupClick }) => {
+const LoginStep = ({ onNext, onSignupClick, onLoginSuccess }) => { // Added onLoginSuccess
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onNext();
+    // Simulate login logic
+    if (email === 'test@example.com' && password === 'password') {
+      if (onLoginSuccess) {
+        onLoginSuccess({ email: email }); // Pass some user data
+      } else {
+        onNext(); // Continue onboarding if no direct login success handler
+      }
+    } else {
+      alert('Invalid credentials for demo. Use test@example.com / password');
+    }
   };
 
   return (
@@ -31,7 +42,15 @@ const LoginStep = ({ onNext, onSignupClick }) => {
         <div className="input_group">
           <label className="input_label" htmlFor="email">Email</label>
           <div className="input_wrapper">
-            <input className="input" type="email" id="email" name="email" placeholder="Enter your email" />
+            <input
+              className="input"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
             <span className="material-symbols-outlined icon">mail</span>
           </div>
         </div>
@@ -39,16 +58,18 @@ const LoginStep = ({ onNext, onSignupClick }) => {
         <div className="input_group">
           <label className="input_label" htmlFor="password">Password</label>
           <div className="input_wrapper">
-            <input 
-              className="input" 
-              type={showPassword ? "text" : "password"} 
-              id="password" 
-              name="password" 
-              placeholder="Enter your password" 
+            <input
+              className="input"
+              type={showPassword ? "text" : "password"}
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <span className="material-symbols-outlined icon">lock</span>
-            <span 
-              className="material-symbols-outlined icon-eye" 
+            <span
+              className="material-symbols-outlined icon-eye"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? "visibility_off" : "visibility"}

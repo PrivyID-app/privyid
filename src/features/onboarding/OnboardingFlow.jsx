@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useOnboarding } from './onboarding.context';
 import { ONBOARDING_STEPS, STEP_ORDER } from './onboarding.constants';
 import OnboardingLayout from './layouts/OnboardingLayout';
@@ -16,7 +17,8 @@ import IntegrationStep from './steps/IntegrationStep';
 import SetupStep from './steps/SetupStep';
 
 const OnboardingFlow = () => {
-  const [currentStep, setCurrentStep] = useState(ONBOARDING_STEPS.LOGIN);
+  const navigate = useNavigate();
+  const [currentStep, setCurrentStep] = useState(ONBOARDING_STEPS.WELCOME); // Always start at WELCOME for full onboarding
   const { 
     selectedServices, 
     setSelectedServices,
@@ -28,7 +30,7 @@ const OnboardingFlow = () => {
 
   // Reset onboarding state when component mounts or when returning to login
   useEffect(() => {
-    if (currentStep === ONBOARDING_STEPS.LOGIN) {
+    if (currentStep === ONBOARDING_STEPS.LOGIN) { // This case might not be hit if login is standalone
       setSelectedServices([]);
       setAccountType(null);
       setKycOptions({});
@@ -114,6 +116,12 @@ const OnboardingFlow = () => {
     setCurrentStep(ONBOARDING_STEPS.LOGIN);
   };
 
+  const handleLoginSuccess = (userData) => {
+    console.log('Login successful:', userData);
+    // Redirect to dashboard or user account page
+    navigate('/dashboard'); // Placeholder route
+  };
+
   const renderLeftContent = () => {
     switch (currentStep) {
       case ONBOARDING_STEPS.SIGNUP:
@@ -148,7 +156,7 @@ const OnboardingFlow = () => {
   const renderStep = () => {
     switch (currentStep) {
       case ONBOARDING_STEPS.LOGIN:
-        return <LoginStep onNext={handleNext} onSignupClick={handleSignupClick} />;
+        return <LoginStep onNext={handleNext} onSignupClick={handleSignupClick} onLoginSuccess={handleLoginSuccess} />;
       case ONBOARDING_STEPS.SIGNUP:
         return <SignupStep onNext={handleNext} onLoginClick={handleLoginClick} />;
       case ONBOARDING_STEPS.VERIFY_EMAIL:

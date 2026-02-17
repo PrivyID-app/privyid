@@ -36,6 +36,9 @@
   box-shadow:
     0 4px 8px 0 rgba(27, 28, 29, 0.48),
     0 0 0 1px #242628;
+  color: var(
+    --text-white-0
+  ); /* Ensure text stays white on hover even if rendered as a link */
 }
 
 .special_button:active {
@@ -52,6 +55,10 @@
 .special_button.secondary:hover {
   background-color: var(--bg-weak-50);
   box-shadow: 0 4px 8px 0 rgba(10, 13, 20, 0.05);
+  color: var(
+    --text-strong-950,
+    #0e121b
+  ); /* Ensure text color stays consistent on hover */
 }
 
 .special_button .material-symbols-outlined {
