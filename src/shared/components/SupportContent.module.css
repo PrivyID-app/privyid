@@ -22,21 +22,19 @@
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  align-items: center;
   padding: 0.5rem 0;
 }
 
 .titleMain {
   font-size: 1.125rem; /* 18px */
-  font-weight: 500;
+  font-weight: 400;
   color: var(--text-main-900);
-  text-align: center;
 }
 
 .titleSub {
   font-size: 0.875rem; /* 14px */
   color: var(--text-soft-400);
-  text-align: center;
+  font-weight: 300;
 }
 
 /* Support Cards */
@@ -90,13 +88,14 @@
 
 .supportCardTitle {
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 400;
   color: var(--text-main-900);
 }
 
 .supportCardSubtitle {
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   color: var(--text-soft-400);
+  font-weight: 300;
 }
 
 .supportCardButton {
@@ -109,7 +108,7 @@
   transition: background-color 0.2s;
   color: var(--text-sub-500);
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .supportCardButton:hover {
@@ -172,15 +171,19 @@
 
 .radioLow {
   color: var(--text-main-900);
+  font-weight: 300;
 }
 .radioMedium {
   color: #47c2ff;
+  font-weight: 300;
 }
 .radioHigh {
   color: #ff8447;
+  font-weight: 300;
 }
 .radioUrgent {
   color: #fb3748;
+  font-weight: 300;
 }
 
 .form {
@@ -194,6 +197,7 @@
 .inputFields {
   display: flex;
   gap: 1.5rem;
+  font-weight: 300;
 }
 
 .inputGroup {
@@ -294,7 +298,7 @@
   padding: 0.625rem 1rem;
   border-radius: 0.625rem;
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 300;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -397,7 +401,7 @@
 
 .categoryTitle {
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 400;
   color: var(--text-main-900);
   display: flex;
   align-items: center;
@@ -432,4 +436,5 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  font-weight: 300;
 }

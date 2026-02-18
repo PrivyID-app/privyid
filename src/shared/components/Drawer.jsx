@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Portal from "./Portal";
+import cardPattern from "../../assets/images/card-pattern.svg";
 import styles from "./Drawer.module.css";
 
 const Drawer = ({ isOpen, onClose, children, title, width = "400px" }) => {
@@ -8,10 +9,12 @@ const Drawer = ({ isOpen, onClose, children, title, width = "400px" }) => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    if (isOpen && !prevIsOpen.current) { // Only when opening
+    if (isOpen && !prevIsOpen.current) {
+      // Only when opening
       setIsRendered(true);
       document.body.style.overflow = "hidden";
-    } else if (!isOpen && prevIsOpen.current) { // Only when closing
+    } else if (!isOpen && prevIsOpen.current) {
+      // Only when closing
       document.body.style.overflow = "unset";
       const timer = setTimeout(() => {
         setIsRendered(false);
@@ -35,6 +38,11 @@ const Drawer = ({ isOpen, onClose, children, title, width = "400px" }) => {
       >
         <div className={styles.drawer_header}>
           <h3>{title}</h3>
+
+          <div className={styles.pattern}>
+            <img src={cardPattern} alt="pattern" />
+          </div>
+
           <button className={styles.close_button} onClick={onClose}>
             <span className="material-symbols-outlined">close</span>
           </button>

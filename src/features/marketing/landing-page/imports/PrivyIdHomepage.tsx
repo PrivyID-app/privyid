@@ -1692,7 +1692,7 @@ function Bottom() {
 function Hero() {
   return (
     <div
-      className="bg-gradient-to-b from-[#f7f7f7] relative shrink-0 to-white w-full"
+      className="bg-gradient-to-b from-[#f7f7f7] relative shrink-0 to-white w-full min-h-[100vh] flex flex-col justify-center"
       data-name="Hero"
     >
       <div className="flex flex-col items-center overflow-clip rounded-[inherit] size-full">

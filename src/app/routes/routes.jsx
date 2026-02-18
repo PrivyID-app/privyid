@@ -1,9 +1,8 @@
 import React from "react";
 import { createHashRouter, RouterProvider } from "react-router-dom";
 import OnboardingFlow from "../../features/onboarding/OnboardingFlow";
-import LoginPage from "../../features/onboarding/pages/LoginPage";
-import SignupPage from "../../features/onboarding/pages/SignupPage";
-import MarketingPage from "../../features/marketing/landing-page/imports/PrivyIdHomepage";
+import LandingPage from "../../features/marketing/landing-page/imports/PrivyIdHomepage"; // Reverted to LandingPage
+import MarketingPage from "../../features/marketing/pages/MarketingPage";
 
 import NotFound from "../../shared/components/NotFound";
 import MobileVerificationPage from "../../features/mobile-verification/MobileVerificationPage"; // Import MobileVerificationPage
@@ -18,8 +17,8 @@ import KycApi from "../../features/merchant-kyc/pages/ApiPage";
 import KycTokens from "../../features/merchant-kyc/pages/TokensPage";
 import KycSettings from "../../features/merchant-kyc/pages/SettingsPage";
 import KycSupport from "../../features/merchant-kyc/pages/SupportPage";
-import KycProfile from "../../features/merchant-kyc/pages/UserProfile";
 import KycNotifications from "../../features/merchant-kyc/pages/NotificationsPage";
+import KycProfile from "../../features/merchant-kyc/pages/UserProfile";
 
 // Merchant KYB Imports
 import MerchantKybLayout from "../../features/merchant-kyb/layouts/MerchantKybLayout";
@@ -69,27 +68,18 @@ import AdminNotifications from "../../features/super-admin/pages/NotificationsPa
 const router = createHashRouter([
   {
     path: "/",
-    element: <MarketingPage />, // New default entry point
-  },
-  {
-    path: "/login",
-    element: <LoginPage />,
-  },
-  {
-    path: "/signup",
-    element: <SignupPage />,
+    element: <LandingPage />, // Reverted to LandingPage
+    errorElement: <NotFound />,
   },
   {
     path: "/onboarding", // Onboarding flow now has its own route
     element: <OnboardingFlow />,
-  },
-  {
-    path: "/dashboard", // Placeholder for user dashboard after login
-    element: <div>User Dashboard (Placeholder)</div>,
+    errorElement: <NotFound />,
   },
   {
     path: "/mobile-verification", // New route for mobile verification
     element: <MobileVerificationPage />,
+    errorElement: <NotFound />,
   },
 
   // Merchant KYC Routes

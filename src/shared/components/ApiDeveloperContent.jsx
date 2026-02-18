@@ -163,6 +163,10 @@ const ApiKeysTab = () => {
   return (
     <div className={styles.sectionContent}>
       <div className={styles.leftColumn}>
+        <WelcomeBanner
+          title="API Keys"
+          description="Manage your API credentials for sandbox and production."
+        />
         <div style={{ marginBottom: "1rem" }}>
           <Tabs tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
         </div>
@@ -261,6 +265,10 @@ const ApiKeysTab = () => {
 const WebhooksTab = () => (
   <div className={styles.sectionContent}>
     <div className={styles.leftColumn}>
+      <WelcomeBanner
+        title="Webhooks"
+        description="Configure, test, and monitor real-time verification event delivery."
+      />
       <div className={styles.card}>
         <h3 className={styles.cardTitle}>Webhook Configuration</h3>
         <div className={styles.inputGroup}>
@@ -342,6 +350,10 @@ const WebhooksTab = () => (
 const LogsTab = () => (
   <div className={styles.sectionContent}>
     <div className={styles.leftColumn}>
+      <WelcomeBanner
+        title="API Request Log"
+        description="Monitor and debug your API requests in real-time."
+      />
       <div className={styles.card}>
         <h3 className={styles.cardTitle}>Recent API Requests</h3>
         <div style={{ overflowX: "auto" }}>
@@ -480,6 +492,7 @@ const LogsTab = () => (
         </div>
       </div>
     </div>
+
     <div className={styles.rightColumn}>
       <div className={styles.tocTitle}>
         <span className="material-symbols-outlined">menu</span>
@@ -498,6 +511,10 @@ const LogsTab = () => (
 const DocumentationTab = () => (
   <div className={styles.sectionContent}>
     <div className={styles.leftColumn}>
+      <WelcomeBanner
+        title="Documentation"
+        description="Comprehensive guides and API references to help you integrate PrivyID."
+      />
       <div className={styles.card}>
         <h3 className={styles.cardTitle}>Documentation Resources</h3>
         <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>

@@ -6,12 +6,20 @@ import RadioButton from "./RadioButton";
 import StatusChip from "./StatusChip";
 import Table from "./Table";
 import Drawer from "./Drawer";
+import CustomSelect from "./CustomSelect";
 import styles from "./SupportContent.module.css";
 
 const SupportContent = () => {
   const [activeTab, setActiveTab] = useState("submit-ticket");
   const [priority, setPriority] = useState("low");
+  const [category, setCategory] = useState("technical");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const categoryOptions = [
+    { label: "Technical Issue", value: "technical" },
+    { label: "Billing", value: "billing" },
+    { label: "General Inquiry", value: "general" },
+  ];
 
   const tabs = [
     { label: "Submit Ticket", key: "submit-ticket" },
@@ -39,7 +47,7 @@ const SupportContent = () => {
       id: "TKT-1150",
       issue: "Webhook Not Triggering",
       category: "Technical",
-      status: "Pending Support",
+      status: "Pending",
       date: "23-01-2026",
     },
   ];
@@ -136,11 +144,12 @@ const SupportContent = () => {
               <div className={styles.label}>
                 Category <span className={styles.required}>*</span>
               </div>
-              <select className={styles.selectBasic}>
-                <option>Technical Issue</option>
-                <option>Billing</option>
-                <option>General Inquiry</option>
-              </select>
+              <CustomSelect
+                options={categoryOptions}
+                value={category}
+                onSelect={setCategory}
+                placeholder="Select Category"
+              />
             </div>
           </div>
 
@@ -256,12 +265,12 @@ const SupportContent = () => {
             <div key={i} className={styles.resourceCard}>
               <span
                 className="material-symbols-outlined"
-                style={{ fontSize: "32px", color: "var(--color-primary)" }}
+                style={{ fontSize: "32px", color: "var(--icon-sub-600)" }}
               >
                 {res.icon}
               </span>
               <div className={styles.resourceCardContent}>
-                <div style={{ fontWeight: 500 }}>{res.title}</div>
+                <div style={{ fontWeight: 400 }}>{res.title}</div>
                 <div
                   style={{
                     fontSize: "0.875rem",
@@ -278,7 +287,7 @@ const SupportContent = () => {
                     color: "var(--color-primary)",
                     fontSize: "0.875rem",
                     marginTop: "0.5rem",
-                    fontWeight: 500,
+                    fontWeight: 400,
                   }}
                 >
                   {res.link}{" "}

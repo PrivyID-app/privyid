@@ -33,18 +33,34 @@
 }
 
 .drawer_header {
+  height: 6rem;
   padding: 1.25rem;
-  border-bottom: 1px solid var(--stroke-sub-300);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background-color: var(--bg-strong-950);
+  position: relative;
+}
+
+.pattern {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: auto;
+  height: 20rem;
+}
+
+.pattern img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .drawer_header h3 {
   margin: 0;
   font-size: 1.125rem;
-  font-weight: 500;
-  color: var(--text-strong-950);
+  font-weight: 400;
+  color: var(--text-white-0);
 }
 
 .close_button {
@@ -58,6 +74,7 @@
   padding: 0.25rem;
   border-radius: 0.4rem;
   transition: all 0.2s;
+  z-index: 1;
 }
 
 .close_button:hover {
