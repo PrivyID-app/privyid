@@ -2,6 +2,7 @@ import React from "react";
 import { createHashRouter, RouterProvider } from "react-router-dom";
 import OnboardingFlow from "../../features/onboarding/OnboardingFlow";
 import LandingPage from "../../features/marketing/landing-page/imports/PrivyIdHomepage"; // Reverted to LandingPage
+import LoginPage from "../pages/LoginPage";
 import MarketingPage from "../../features/marketing/pages/MarketingPage";
 
 import NotFound from "../../shared/components/NotFound";
@@ -69,6 +70,11 @@ const router = createHashRouter([
   {
     path: "/",
     element: <LandingPage />, // Reverted to LandingPage
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
     errorElement: <NotFound />,
   },
   {

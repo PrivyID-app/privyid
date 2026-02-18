@@ -120,6 +120,7 @@ form::-webkit-scrollbar-thumb {
   font-size: 1rem;
   font-family: inherit;
   transition: all 0.2s;
+  padding-left: 2.8rem;
 }
 
 .input_group input:focus,

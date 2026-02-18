@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { Link } from "react-router-dom";
 import SharedWebNav from "../../../../shared/components/WebNav";
 import SpecialButton from "../../../../shared/components/SpecialButton";
@@ -9,7 +9,7 @@ import imgLogo from "../../../../assets/images/Logo dark.svg";
 import imgLogoFooter from "../../../../assets/images/c1c20eae9ce7a905bc3e3f80a198f87dfc6dc8c3.png";
 import imgPerson from "../../../../assets/images/0d2f66eb8e8e6701d3a89564b0b6f219eb1b5d77.png";
 import bgPattern from "../../../../assets/images/404-bg.svg";
-import pattern from "../../../../assets/images/hero-check-vector.svg"
+import pattern from "../../../../assets/images/hero-check-vector.svg";
 
 export default function PrivyIdHomepage() {
   return (
@@ -19,15 +19,23 @@ export default function PrivyIdHomepage() {
       <main className="landing-main">
         {/* Hero Section */}
         <section className="landing-section hero-section">
-
           <div className="landing-container">
-
             {/* <div className="pattern">
               <img src={pattern} alt="Background Pattern" />
             </div> */}
 
             <div className="hero-badge">
-              <span className="badge-new" style={{ background: "var(--bg-weak-50)", padding: "2px 6px", borderRadius: "4px", fontSize: "12px", fontWeight: "bold", color: "var(--text-strong-950)", }}>
+              <span
+                className="badge-new"
+                style={{
+                  background: "var(--bg-weak-50)",
+                  padding: "2px 6px",
+                  borderRadius: "4px",
+                  fontSize: "12px",
+                  fontWeight: "bold",
+                  color: "var(--text-strong-950)",
+                }}
+              >
                 NEW
               </span>
               <span className="text-sub">
@@ -56,14 +64,13 @@ export default function PrivyIdHomepage() {
               </SpecialButton>
               <SpecialButton
                 as={Link}
-                to="/onboarding?mode=login"
+                to="/onboarding?mode=signup"
                 variant="secondary"
                 icon="login"
               >
                 Sign in with Google
               </SpecialButton>
             </div>
-
           </div>
         </section>
 

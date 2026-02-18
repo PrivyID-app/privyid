@@ -36,7 +36,7 @@ const WebNav = () => {
         </div>
 
         <div className="nav_action_buttons">
-          <Link to="/onboarding?mode=login" className="nav_link">
+          <Link to="/login" className="nav_link">
             Log In
           </Link>
           <Link to="/onboarding?mode=signup" className="api_page_link">
