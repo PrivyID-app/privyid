@@ -211,6 +211,7 @@
   border-bottom: 1px solid var(--stroke-sub-300);
   font-weight: 400;
   margin-bottom: 2rem;
+  color: var(--text-sub-600);
 }
 
 .details_report {
