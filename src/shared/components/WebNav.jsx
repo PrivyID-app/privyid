@@ -36,10 +36,10 @@ const WebNav = () => {
         </div>
 
         <div className="nav_action_buttons">
-          <Link to="/login" className="nav_link">
+          <Link to="/onboarding?mode=login" className="nav_link">
             Log In
           </Link>
-          <Link to="/signup" className="api_page_link">
+          <Link to="/onboarding?mode=signup" className="api_page_link">
             <SpecialButton>Get API Keys</SpecialButton>
           </Link>
         </div>

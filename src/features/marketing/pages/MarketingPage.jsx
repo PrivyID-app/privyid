@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import WebNav from "../../../shared/components/WebNav";
 import SpecialButton from "../../../shared/components/SpecialButton";
 import styles from "./MarketingPage.module.css";
@@ -38,17 +39,23 @@ const MarketingPage = () => {
           </div>
 
           <div className={styles.hero_actions}>
-            <SpecialButton icon="north_east">Get started free</SpecialButton>
+            <Link to="/onboarding?mode=signup">
+              <SpecialButton icon="arrow_forward">
+                Get started free
+              </SpecialButton>
+            </Link>
 
-            <SpecialButton variant="secondary">
-              <div className={styles.google_btn_content}>
-                <img
-                  src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-                  alt="Google"
-                />
-                <span>Sign in with Google</span>
-              </div>
-            </SpecialButton>
+            <Link to="/onboarding?mode=login">
+              <SpecialButton variant="secondary">
+                <div className={styles.google_btn_content}>
+                  <img
+                    src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                    alt="Google"
+                  />
+                  <span>Sign in with Google</span>
+                </div>
+              </SpecialButton>
+            </Link>
           </div>
         </section>
 

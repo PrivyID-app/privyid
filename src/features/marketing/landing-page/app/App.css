@@ -6,14 +6,21 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 /* Layout Utilities */
+.fixed-content-container {
+  max-width: 1240px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .content-stretch {
   display: flex;
 }
@@ -506,7 +513,8 @@ body {
 
 .from-\[\#f7f7f7\] {
   --tw-gradient-from: #f7f7f7;
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(247, 247, 247, 0));
+  --tw-gradient-stops:
+    var(--tw-gradient-from), var(--tw-gradient-to, rgba(247, 247, 247, 0));
 }
 
 .to-white {
@@ -659,21 +667,21 @@ body {
 /* MADE TOMMY Regular */
 .font-\[\'MADE_TOMMY\:Regular\'\,sans-serif\],
 .font-\[MADE_TOMMY\:Regular\,sans-serif\] {
-  font-family: 'MADE TOMMY', 'Inter', sans-serif;
+  font-family: "MADE TOMMY", "Inter", sans-serif;
   font-weight: 400;
 }
 
 /* MADE TOMMY Medium */
 .font-\[\'MADE_TOMMY\:Medium\'\,sans-serif\],
 .font-\[MADE_TOMMY\:Medium\,sans-serif\] {
-  font-family: 'MADE TOMMY', 'Inter', sans-serif;
+  font-family: "MADE TOMMY", "Inter", sans-serif;
   font-weight: 500;
 }
 
 /* Inter Regular */
 .font-\[\'Inter\:Regular\'\,sans-serif\],
 .font-\[Inter\:Regular\,sans-serif\] {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 400;
 }
 
@@ -681,21 +689,21 @@ body {
 .font-\[\'Inter\:Medium\'\,sans-serif\],
 .font-\[Inter\:Medium\,sans-serif\],
 .font-medium {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 500;
 }
 
 /* Inter Display Medium */
 .font-\[\'Inter_Display\:Medium\'\,sans-serif\],
 .font-\[Inter_Display\:Medium\,sans-serif\] {
-  font-family: 'Inter Display', 'Inter', sans-serif;
+  font-family: "Inter Display", "Inter", sans-serif;
   font-weight: 500;
 }
 
 /* Inter Variable Medium */
 .font-\[\'Inter_Variable\:Medium\'\,sans-serif\],
 .font-\[Inter_Variable\:Medium\,sans-serif\] {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 500;
 }
 
@@ -812,15 +820,23 @@ body {
 
 /* Shadows */
 .shadow-\[0px_3px_3px_-1\.5px_rgba\(23\,23\,23\,0\.04\)\,0px_1px_1px_-0\.5px_rgba\(23\,23\,23\,0\.04\)\] {
-  box-shadow: 0px 3px 3px -1.5px rgba(23, 23, 23, 0.04), 0px 1px 1px -0.5px rgba(23, 23, 23, 0.04);
+  box-shadow:
+    0px 3px 3px -1.5px rgba(23, 23, 23, 0.04),
+    0px 1px 1px -0.5px rgba(23, 23, 23, 0.04);
 }
 
 .shadow-\[0px_3px_3px_-1\.5px_rgba\(23\,23\,23\,0\.04\)\,0px_1px_1px_-0\.5px_rgba\(23\,23\,23\,0\.04\)\,0px_0px_0px_1px_\#ebebeb\] {
-  box-shadow: 0px 3px 3px -1.5px rgba(23, 23, 23, 0.04), 0px 1px 1px -0.5px rgba(23, 23, 23, 0.04), 0px 0px 0px 1px #ebebeb;
+  box-shadow:
+    0px 3px 3px -1.5px rgba(23, 23, 23, 0.04),
+    0px 1px 1px -0.5px rgba(23, 23, 23, 0.04),
+    0px 0px 0px 1px #ebebeb;
 }
 
 .shadow-\[0px_3px_3px_-1\.5px_rgba\(23\,23\,23\,0\.06\)\,0px_1px_1px_-0\.5px_rgba\(23\,23\,23\,0\.06\)\,0px_0px_0px_1px_rgba\(23\,23\,23\,0\.02\)\] {
-  box-shadow: 0px 3px 3px -1.5px rgba(23, 23, 23, 0.06), 0px 1px 1px -0.5px rgba(23, 23, 23, 0.06), 0px 0px 0px 1px rgba(23, 23, 23, 0.02);
+  box-shadow:
+    0px 3px 3px -1.5px rgba(23, 23, 23, 0.06),
+    0px 1px 1px -0.5px rgba(23, 23, 23, 0.06),
+    0px 0px 0px 1px rgba(23, 23, 23, 0.02);
 }
 
 .shadow-\[0px_1px_2px_0px_rgba\(10\,13\,20\,0\.03\)\] {
@@ -828,7 +844,9 @@ body {
 }
 
 .shadow-\[0px_1px_2px_0px_rgba\(27\,28\,29\,0\.48\)\,0px_0px_0px_1px_\#242628\] {
-  box-shadow: 0px 1px 2px 0px rgba(27, 28, 29, 0.48), 0px 0px 0px 1px #242628;
+  box-shadow:
+    0px 1px 2px 0px rgba(27, 28, 29, 0.48),
+    0px 0px 0px 1px #242628;
 }
 
 /* SVG */
@@ -931,7 +949,12 @@ p {
 }
 
 .shadow-\[0px_40px_40px_-20px_rgba\(23\,23\,23\,0\.06\)\,0px_10px_10px_-5px_rgba\(23\,23\,23\,0\.06\)\,0px_6px_6px_-3px_rgba\(23\,23\,23\,0\.04\)\,0px_3px_3px_-1\.5px_rgba\(23\,23\,23\,0\.04\)\,0px_1px_1px_-0\.5px_rgba\(23\,23\,23\,0\.04\)\] {
-  box-shadow: 0px 40px 40px -20px rgba(23,23,23,0.06), 0px 10px 10px -5px rgba(23,23,23,0.06), 0px 6px 6px -3px rgba(23,23,23,0.04), 0px 3px 3px -1.5px rgba(23,23,23,0.04), 0px 1px 1px -0.5px rgba(23,23,23,0.04);
+  box-shadow:
+    0px 40px 40px -20px rgba(23, 23, 23, 0.06),
+    0px 10px 10px -5px rgba(23, 23, 23, 0.06),
+    0px 6px 6px -3px rgba(23, 23, 23, 0.04),
+    0px 3px 3px -1.5px rgba(23, 23, 23, 0.04),
+    0px 1px 1px -0.5px rgba(23, 23, 23, 0.04);
 }
 
 /* ===================================================================
@@ -1053,7 +1076,7 @@ img {
   }
 
   .gap-\[96px\] {
-    gap: 32px;
+    gap: 4rem;
   }
 
   .gap-\[48px\] {
