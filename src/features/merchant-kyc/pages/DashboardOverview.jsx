@@ -1,15 +1,111 @@
+import React, { useState, useEffect } from "react";
 import { supabase } from "../../../shared/services/supabase";
 import { useNavigate } from "react-router-dom";
+import PageHeader from "../../../components/PageHeader/PageHeader";
+import CustomSelect from "../../../shared/components/CustomSelect";
+import VerificationTable from "../../../shared/components/VerificationTable";
+import {
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+} from "recharts";
+
+import {
+  aggregateMonthlyData,
+  calculateStats,
+} from "../../../shared/utils/dashboardUtils";
+
+import FileTextIcon from "../../../assets/images/file-text-line.svg";
+import FileCheckIcon from "../../../assets/images/file-check-fill.svg";
+import TimeLineIcon from "../../../assets/images/time-line.svg";
+import ErrorWarningIcon from "../../../assets/images/error-warning-line.svg";
+
 import "../../../shared/styles/extra-pages.css";
 
 const DashboardOverview = () => {
   const navigate = useNavigate();
   const [timeframe, setTimeframe] = useState("this_month");
-  const [performanceQuarter, setPerformanceQuarter] = useState("quarter1");
+  const [performanceQuarter, setPerformanceQuarter] = useState("this_year");
+  const [loading, setLoading] = useState(true);
+  const [recentVerifications, setRecentVerifications] = useState([]);
+  const [lineChartData, setLineChartData] = useState([]);
+  const [stats, setStats] = useState({
+    total: 0,
+    approved: 0,
+    pending: 0,
+    rejected: 0,
+  });
+
   const [viewingAsMerchant, setViewingAsMerchant] = useState(
     localStorage.getItem("admin_viewing_merchant_id"),
   );
 
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
+  const fetchDashboardData = async () => {
+    setLoading(true);
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData?.user) return;
+
+      const merchantId = viewingAsMerchant || userData.user.id;
+
+      // 1. Fetch All Verifications for Stats and Chart
+      const { data: vAll, error: sError } = await supabase
+        .from("verifications")
+        .select("*")
+        .eq("merchant_id", merchantId)
+        .eq("verification_type", "kyc");
+
+      if (sError) throw sError;
+
+      setStats(calculateStats(vAll));
+      setLineChartData(aggregateMonthlyData(vAll));
+
+      // 2. Fetch Recent Verifications
+      const { data: vRecent, error: vError } = await supabase
+        .from("verifications")
+        .select("*")
+        .eq("merchant_id", merchantId)
+        .eq("verification_type", "kyc")
+        .order("created_at", { ascending: false })
+        .limit(5);
+
+      if (vError) throw vError;
+
+      const mappedData = vRecent.map((v) => ({
+        id: v.id.substring(0, 8).toUpperCase(),
+        type: v.metadata?.id_type || "N/A",
+        name: v.metadata?.full_name || v.user_identifier || "Unknown",
+        status: v.status.charAt(0).toUpperCase() + v.status.slice(1),
+        batch: v.metadata?.batch_no || "#SINGLE",
+        date: new Date(v.created_at).toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        }),
+        time: new Date(v.created_at).toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        }),
+      }));
+
+      setRecentVerifications(mappedData);
+    } catch (error) {
+      console.error("KYC Dashboard Fetch Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
   const handleReturnToAdmin = () => {
     localStorage.removeItem("admin_viewing_merchant_id");
     navigate("/super-admin");
@@ -30,68 +126,11 @@ const DashboardOverview = () => {
     { label: "Quarter 4", value: "quarter4" },
     { label: "This Year", value: "this_year" },
   ];
-  const lineChartData = [
-    { name: "Jan", value: 400 },
-    { name: "Feb", value: 300 },
-    { name: "Mar", value: 600 },
-    { name: "Apr", value: 800 },
-    { name: "May", value: 500 },
-    { name: "Jun", value: 900 },
-    { name: "Jul", value: 1000 },
-  ];
 
   const barChartData = [
-    { name: "Approved", value: 4000 },
-    { name: "Pending", value: 2400 },
-    { name: "Rejected", value: 400 },
-  ];
-
-  const verifications = [
-    {
-      id: "#KYC20240915001",
-      type: "Passport",
-      name: "John Doe",
-      status: "Approved",
-      batch: "#BATCH1001",
-      date: "15 Sep 2024",
-      time: "10:30 AM",
-    },
-    {
-      id: "#KYC20240915002",
-      type: "Driver License",
-      name: "Jane Smith",
-      status: "Pending",
-      batch: "#BATCH1002",
-      date: "16 Sep 2024",
-      time: "11:45 AM",
-    },
-    {
-      id: "#KYC20240915003",
-      type: "National ID",
-      name: "Mike Johnson",
-      status: "Rejected",
-      batch: "#BATCH1003",
-      date: "17 Sep 2024",
-      time: "09:15 AM",
-    },
-    {
-      id: "#KYC20240915004",
-      type: "National ID",
-      name: "Sarah Williams",
-      status: "Approved",
-      batch: "#BATCH1004",
-      date: "17 Sep 2024",
-      time: "09:15 AM",
-    },
-    {
-      id: "#KYC20240915005",
-      type: "Passport",
-      name: "Chris Brown",
-      status: "Approved",
-      batch: "#BATCH1005",
-      date: "17 Sep 2024",
-      time: "09:15 AM",
-    },
+    { name: "Approved", value: stats.approved },
+    { name: "Pending", value: stats.pending },
+    { name: "Rejected", value: stats.rejected },
   ];
 
   return (
@@ -158,7 +197,7 @@ const DashboardOverview = () => {
               </div>
             </div>
             <div className="card_content">
-              <p className="card_value">1,250</p>
+              <p className="card_value">{stats.total.toLocaleString()}</p>
               <p className="card_title">Total Verifications</p>
             </div>
           </div>
@@ -176,7 +215,7 @@ const DashboardOverview = () => {
               </div>
             </div>
             <div className="card_content">
-              <p className="card_value">12,250</p>
+              <p className="card_value">{stats.approved.toLocaleString()}</p>
               <p className="card_title">Verified</p>
             </div>
           </div>
@@ -194,7 +233,7 @@ const DashboardOverview = () => {
               </div>
             </div>
             <div className="card_content">
-              <p className="card_value">250</p>
+              <p className="card_value">{stats.pending.toLocaleString()}</p>
               <p className="card_title">Total Pending</p>
             </div>
           </div>
@@ -212,7 +251,7 @@ const DashboardOverview = () => {
               </div>
             </div>
             <div className="card_content">
-              <p className="card_value">50</p>
+              <p className="card_value">{stats.rejected.toLocaleString()}</p>
               <p className="card_title">Total Rejected</p>
             </div>
           </div>
@@ -302,7 +341,15 @@ const DashboardOverview = () => {
             </a>
           </div>
 
-          <VerificationTable data={verifications} />
+          {loading ? (
+            <div className="no_data_message">Loading verifications...</div>
+          ) : recentVerifications.length > 0 ? (
+            <VerificationTable data={recentVerifications} />
+          ) : (
+            <div className="no_data_message">
+              No recent verifications found.
+            </div>
+          )}
         </div>
       </div>
     </>

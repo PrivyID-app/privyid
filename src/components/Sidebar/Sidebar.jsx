@@ -8,18 +8,21 @@ const Sidebar = ({
   className = "",
   activeIndicator = NavTabIndicator,
   logo,
+  companyName: companyNameProp,
+  slogan: sloganProp,
   user: userProp, // Accept user as a prop
   onLogout, // Accept onLogout as a prop
 }) => {
   const context = useAppContext();
   const user = userProp || context.user;
-  const company = context.company || {
-    name: "PrivyID",
-    slogan: "Identity Infrastructure",
+  const company = {
+    name: companyNameProp || context.company?.name || "PrivyID",
+    slogan: sloganProp || context.company?.slogan || "Identity Infrastructure",
+    logo: logo || context.company?.logo,
   };
 
   // Determine which logo to use
-  const currentLogo = logo || company.logo;
+  const currentLogo = company.logo;
 
   // Group links by section
   const mainLinks = links.filter(

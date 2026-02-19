@@ -5,7 +5,11 @@ import VerificationModal from "./VerificationModal";
 import Pagination from "./Pagination";
 import StatusChip from "./StatusChip";
 
-const VerificationTable = ({ data = [], idLabel = "Verification No." }) => {
+const VerificationTable = ({
+  data = [],
+  idLabel = "Verification No.",
+  loading = false,
+}) => {
   const [selectedRows, setSelectedRows] = useState(new Set());
   const [selectAll, setSelectAll] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -86,70 +90,80 @@ const VerificationTable = ({ data = [], idLabel = "Verification No." }) => {
       </div>
 
       <div className="table_body">
-        {paginatedData.map((item, index) => {
-          const itemIndex = (currentPage - 1) * itemsPerPage + index;
-          return (
-            <div
-              className={`table_row ${
-                selectedRows.has(itemIndex) ? "selected_row" : ""
-              }`}
-              key={itemIndex}
-            >
-              <div className="cell checkbox_cell">
-                <img
-                  src={
-                    selectedRows.has(itemIndex)
-                      ? CheckboxActiveIcon
-                      : CheckboxIcon
-                  }
-                  alt={selectedRows.has(itemIndex) ? "Selected" : "Select"}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleRow(itemIndex);
-                  }}
-                  style={{ cursor: "pointer" }}
-                />
-              </div>
-              <div className="cell">
-                <p>{item.id}</p>
-              </div>
-              <div className="cell">
-                <p>{item.type}</p>
-              </div>
-              <div className="cell">
-                <p>{item.name}</p>
-              </div>
-              <div className="cell">
-                <StatusChip status={item.status} />
-              </div>
-              <div className="cell">
-                <p>{item.batch}</p>
-              </div>
-              <div className="cell">
-                <p>{item.date}</p>
-              </div>
-              <div className="cell">
-                <p>{item.time}</p>
-              </div>
-              <div className="cell action_cell">
-                <button
-                  className="action_button"
-                  onClick={() => handleViewDetails(item)}
-                >
-                  <span className="material-symbols-outlined table_action">
-                    visibility
-                  </span>
-                </button>
+        {loading ? (
+          <div className="loading_state_container">
+            <p>Loading verifications...</p>
+          </div>
+        ) : paginatedData.length === 0 ? (
+          <div className="empty_state_container">
+            <p>No verification records found.</p>
+          </div>
+        ) : (
+          paginatedData.map((item, index) => {
+            const itemIndex = (currentPage - 1) * itemsPerPage + index;
+            return (
+              <div
+                className={`table_row ${
+                  selectedRows.has(itemIndex) ? "selected_row" : ""
+                }`}
+                key={itemIndex}
+              >
+                <div className="cell checkbox_cell">
+                  <img
+                    src={
+                      selectedRows.has(itemIndex)
+                        ? CheckboxActiveIcon
+                        : CheckboxIcon
+                    }
+                    alt={selectedRows.has(itemIndex) ? "Selected" : "Select"}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleRow(itemIndex);
+                    }}
+                    style={{ cursor: "pointer" }}
+                  />
+                </div>
+                <div className="cell">
+                  <p>{item.id}</p>
+                </div>
+                <div className="cell">
+                  <p>{item.type}</p>
+                </div>
+                <div className="cell">
+                  <p>{item.name}</p>
+                </div>
+                <div className="cell">
+                  <StatusChip status={item.status} />
+                </div>
+                <div className="cell">
+                  <p>{item.batch}</p>
+                </div>
+                <div className="cell">
+                  <p>{item.date}</p>
+                </div>
+                <div className="cell">
+                  <p>{item.time}</p>
+                </div>
+                <div className="cell action_cell">
+                  <button
+                    className="action_button"
+                    onClick={() => handleViewDetails(item)}
+                  >
+                    <span className="material-symbols-outlined table_action">
+                      visibility
+                    </span>
+                  </button>
 
-                <button className="action_button">
-                  <span className="material-symbols-outlined table_action delete_icon">
-                    delete
-                  </span>
-                </button>
+                  <button className="action_button">
+                    <span className="material-symbols-outlined table_action delete_icon">
+                      delete
+                    </span>
+                  </button>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        )}
       </div>
 
       <Pagination

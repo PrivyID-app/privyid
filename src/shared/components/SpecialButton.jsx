@@ -3,7 +3,7 @@ import "./special-button.css";
 
 const SpecialButton = ({
   children,
-  onClick,
+  onClick = () => {},
   className = "",
   icon,
   type = "button",

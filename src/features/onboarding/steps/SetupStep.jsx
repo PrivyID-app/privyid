@@ -1,5 +1,14 @@
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "../../../shared/services/supabase";
 import { useGlobal } from "../../../app/GlobalContext";
+import { useOnboarding } from "../onboarding.context";
+import { ACCOUNT_TYPE_STEPS } from "../onboarding.constants";
+import StatusModal from "../../../shared/components/StatusModal";
+
+import selectBoxFill from "../../../assets/images/Radio-selected [1.0].svg";
+import selectBoxInactive from "../../../assets/images/select-box-circle-fill-inactive.svg";
+import trafficLights from "../../../assets/images/Traffic Lights (Big Sur).svg";
 
 const SetupStep = ({ onBack }) => {
   const navigate = useNavigate();

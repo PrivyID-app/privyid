@@ -83,6 +83,9 @@ const SignupStep = ({ onNext, onLoginClick }) => {
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          emailRedirectTo: `${window.location.origin}${window.location.pathname}#/onboarding?mode=login`,
+        },
       });
 
       if (error) throw error;

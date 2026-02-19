@@ -4,6 +4,7 @@ import OnboardingFlow from "../../features/onboarding/OnboardingFlow";
 import LandingPage from "../../features/marketing/landing-page/imports/PrivyIdHomepage"; // Reverted to LandingPage
 import LoginPage from "../pages/LoginPage";
 import MarketingPage from "../../features/marketing/pages/MarketingPage";
+import DocumentationPage from "../../features/marketing/pages/DocumentationPage";
 
 import NotFound from "../../shared/components/NotFound";
 import ProtectedRoute from "../../shared/components/ProtectedRoute";
@@ -172,6 +173,10 @@ const router = createHashRouter([
     ],
   },
 
+  {
+    path: "/documentation",
+    element: <DocumentationPage />,
+  },
   {
     path: "/marketing",
     element: <MarketingPage />,

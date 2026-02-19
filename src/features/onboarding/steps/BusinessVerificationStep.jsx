@@ -6,6 +6,7 @@ import selectBoxFill from "../../../assets/images/Radio-selected [1.0].svg";
 import selectBoxInactive from "../../../assets/images/select-box-circle-fill-inactive.svg";
 import infoIcon from "../../../assets/images/information-fill-dark.svg";
 import CustomSelect from "../../../shared/components/CustomSelect";
+import StatusModal from "../../../shared/components/StatusModal";
 
 export const BusinessVerificationLeftContent = () => {
   const [isVisible, setIsVisible] = useState(true);

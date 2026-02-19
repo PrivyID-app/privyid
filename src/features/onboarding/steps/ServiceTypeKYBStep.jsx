@@ -1,5 +1,15 @@
+import React, { useState, useEffect } from "react";
 import { supabase } from "../../../shared/services/supabase";
 import { useGlobal } from "../../../app/GlobalContext";
+import { useOnboarding } from "../onboarding.context";
+import { ACCOUNT_TYPE_STEPS, ONBOARDING_STEPS } from "../onboarding.constants";
+import CustomSelect from "../../../shared/components/CustomSelect";
+
+import selectBoxFill from "../../../assets/images/Radio-selected [1.0].svg";
+import selectBoxInactive from "../../../assets/images/select-box-circle-fill-inactive.svg";
+import checkboxGreen from "../../../assets/images/Checkbox-green [1.0].svg";
+import cardPatternWhite from "../../../assets/images/card-pattern-white-bg.svg";
+import cardPatternBlack from "../../../assets/images/card-pattern.svg";
 
 const ServiceTypeKYBStep = ({ onNext, onBack, onStepChange }) => {
   const { showToast } = useGlobal();

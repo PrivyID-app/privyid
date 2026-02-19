@@ -89,18 +89,19 @@ export default function PrivyIdHomepage() {
 
             <div className="hero-actions">
               <SpecialButton
-                as={Link}
+                as={Link as any}
                 to="/onboarding?mode=signup"
                 icon="arrow_forward"
               >
                 Get started free
               </SpecialButton>
               <SpecialButton
+                as={Link as any}
+                to="/documentation"
                 variant="secondary"
-                icon="database"
-                onClick={testConnection}
+                icon="description"
               >
-                Test Database
+                View Documentation
               </SpecialButton>
             </div>
           </div>
@@ -255,13 +256,18 @@ export default function PrivyIdHomepage() {
             </p>
             <div className="hero-actions">
               <SpecialButton
-                as={Link}
+                as={Link as any}
                 to="/onboarding?mode=signup"
                 icon="vpn_key"
               >
                 Generate API keys
               </SpecialButton>
-              <SpecialButton variant="secondary" icon="description">
+              <SpecialButton
+                as={Link as any}
+                to="/documentation"
+                variant="secondary"
+                icon="description"
+              >
                 View documentation
               </SpecialButton>
             </div>
@@ -307,9 +313,9 @@ export default function PrivyIdHomepage() {
             <h4 className="text-white" style={{ marginBottom: "16px" }}>
               Developers
             </h4>
-            <a href="#" className="footer-link">
+            <Link to="/documentation" className="footer-link">
               Documentation
-            </a>
+            </Link>
             <a href="#" className="footer-link">
               API Reference
             </a>

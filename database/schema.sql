@@ -22,16 +22,29 @@ CREATE TABLE IF NOT EXISTS merchants (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- API Keys Table: Stores API credentials for merchants
-CREATE TABLE IF NOT EXISTS api_keys (
+-- API Tokens Table: Stores API credentials for merchants
+CREATE TABLE IF NOT EXISTS api_tokens (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    merchant_id UUID REFERENCES merchants(id),
-    key_prefix TEXT NOT NULL, -- e.g., 'pk_live_'
-    key_secret_hash TEXT NOT NULL,
-    label TEXT,
-    last_used_at TIMESTAMP WITH TIME ZONE,
+    merchant_id UUID REFERENCES auth.users(id) NOT NULL,
+    name TEXT NOT NULL, -- e.g., 'Default Token'
+    token TEXT NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    is_active BOOLEAN DEFAULT TRUE
+    UNIQUE(merchant_id, name)
+);
+
+-- Business Details Table: Stores KYB information for merchants
+CREATE TABLE IF NOT EXISTS business_details (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    merchant_id UUID REFERENCES auth.users(id) NOT NULL,
+    business_name TEXT NOT NULL,
+    registration_number TEXT NOT NULL,
+    tax_id TEXT NOT NULL,
+    country TEXT NOT NULL,
+    business_address TEXT NOT NULL,
+    supporting_documents_url TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(merchant_id)
 );
 
 -- Verifications Table: Tracks identity verification requests
@@ -55,5 +68,14 @@ CREATE TABLE IF NOT EXISTS audit_logs (
     resource_type TEXT NOT NULL,
     resource_id UUID,
     ip_address TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Verification Codes Table: Stores 4-digit PINs for email verification
+CREATE TABLE IF NOT EXISTS verification_codes (
+    id BIGSERIAL PRIMARY KEY,
+    email TEXT NOT NULL,
+    code TEXT NOT NULL,
+    expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );

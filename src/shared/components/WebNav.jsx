@@ -23,12 +23,12 @@ const WebNav = () => {
                 keyboard_arrow_down
               </span>
             </a>
-            <a href="#" className="nav_link">
+            <Link to="/documentation" className="nav_link">
               Developers{" "}
               <span className="material-symbols-outlined">
                 keyboard_arrow_down
               </span>
-            </a>
+            </Link>
             <a href="#" className="nav_link">
               Pricing
             </a>

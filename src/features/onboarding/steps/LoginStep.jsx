@@ -1,6 +1,12 @@
+import React, { useState, useEffect } from "react";
 import { supabase } from "../../../shared/services/supabase";
 import { useGlobal } from "../../../app/GlobalContext";
 import { useNavigate } from "react-router-dom";
+
+import userFill from "../../../assets/images/user-fill.svg";
+import checkboxIcon from "../../../assets/images/Checkbox [1.0].svg";
+import googleLogo from "../../../assets/images/Google logo [1.0].svg";
+import appleLogo from "../../../assets/images/Apple Logos [1.0].svg";
 
 const LoginStep = ({ onNext, onSignupClick, onLoginSuccess }) => {
   const navigate = useNavigate();
