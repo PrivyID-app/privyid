@@ -7,9 +7,16 @@ const Sidebar = ({
   links = [],
   className = "",
   activeIndicator = NavTabIndicator,
-  logo, // Accept logo as a prop
+  logo,
+  user: userProp, // Accept user as a prop
+  onLogout, // Accept onLogout as a prop
 }) => {
-  const { user, company } = useAppContext();
+  const context = useAppContext();
+  const user = userProp || context.user;
+  const company = context.company || {
+    name: "PrivyID",
+    slogan: "Identity Infrastructure",
+  };
 
   // Determine which logo to use
   const currentLogo = logo || company.logo;
@@ -89,26 +96,38 @@ const Sidebar = ({
       </div>
 
       <div className="buttom_section">
-        <NavLink
-          to="user-profile"
-          className={({ isActive }) =>
-            `user_content ${isActive ? "active_tab" : ""}`
-          }
-          style={{ textDecoration: "none" }}
-        >
+        <div className="user_content">
           <div className="avatar">
-            <img src={user.avatar} alt="Avatar" />
+            <img src={user?.avatar} alt="Avatar" />
           </div>
 
-          <div className="company_name">
-            <p className="top_section_title">{user.name}</p>
-            <p className="top_section_slogan">{user.email}</p>
+          <div className="company_name" style={{ flex: 1, overflow: "hidden" }}>
+            <p className="top_section_title truncate_text">
+              {user?.name || "Admin"}
+            </p>
+            <p className="top_section_slogan truncate_text">{user?.email}</p>
           </div>
 
-          <span className="material-symbols-outlined expand_icon">
-            chevron_right
-          </span>
-        </NavLink>
+          <div
+            className="logout_trigger"
+            onClick={onLogout}
+            title="Logout"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              cursor: "pointer",
+              color: "var(--text-soft-400)",
+              marginLeft: "0.5rem",
+            }}
+          >
+            <span
+              className="material-symbols-outlined"
+              style={{ fontSize: "1.25rem" }}
+            >
+              logout
+            </span>
+          </div>
+        </div>
       </div>
     </nav>
   );

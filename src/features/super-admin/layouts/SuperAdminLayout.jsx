@@ -1,12 +1,36 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
-import "../super-admin.css";
+import React, { useState, useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import { supabase } from "../../../shared/services/supabase";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import AdminAvatar from "../../../assets/images/Avatar [2.0].svg";
 import AdminLogo from "../../../assets/images/privyid-admin-2.png";
 import WhiteRectangle from "../../../assets/images/white-rectangle.svg";
 
 const SuperAdminLayout = () => {
+  const navigate = useNavigate();
+  const [adminUser, setAdminUser] = useState({
+    name: "Admin",
+    email: "admin@privyid.com",
+    avatar: AdminAvatar,
+  });
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        setAdminUser({
+          name: session.user.email.split("@")[0],
+          email: session.user.email,
+          avatar: AdminAvatar,
+        });
+      }
+    });
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate("/super-admin/login");
+  };
+
   const adminLinks = [
     {
       to: "/super-admin",
@@ -53,12 +77,6 @@ const SuperAdminLayout = () => {
     },
   ];
 
-  const adminUser = {
-    name: "Arthur Taylor",
-    email: "info@privyid.com",
-    avatar: AdminAvatar,
-  };
-
   return (
     <section className="super_admin_layout">
       <Sidebar
@@ -66,6 +84,7 @@ const SuperAdminLayout = () => {
         slogan="Secure KYC & KYB"
         links={adminLinks}
         user={adminUser}
+        onLogout={handleLogout}
         logo={AdminLogo}
         activeIndicator={WhiteRectangle}
       />

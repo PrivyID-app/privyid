@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
+import { supabase } from "../../../shared/services/supabase";
 import {
   LineChart,
   Line,
@@ -23,6 +24,32 @@ import "../super-admin.css";
 
 const AnalyticsPage = () => {
   const [dateRange, setDateRange] = useState("monthly");
+  const [stats, setStats] = useState({
+    totalRevenue: "₦0",
+    activeMerchants: "...",
+    successRate: "0.0%",
+    uptime: "99.9%",
+  });
+
+  useEffect(() => {
+    fetchAnalyticsData();
+  }, []);
+
+  const fetchAnalyticsData = async () => {
+    try {
+      // Fetch merchant counts for metrics
+      const { count: mCount } = await supabase
+        .from("merchants")
+        .select("*", { count: "exact", head: true });
+
+      setStats((prev) => ({
+        ...prev,
+        activeMerchants: mCount?.toLocaleString() || "0",
+      }));
+    } catch (error) {
+      console.error("Error fetching analytics stats:", error);
+    }
+  };
 
   const dateRangeOptions = [
     { value: "monthly", label: "Monthly" },
@@ -87,30 +114,30 @@ const AnalyticsPage = () => {
   const metricsCards = [
     {
       icon: "tabler_currency-naira.svg",
-      value: "₦45,280,450",
+      value: stats.totalRevenue,
       title: "Total Revenue",
-      rate: "+18.5%",
+      rate: "+0.0%",
       trend: "up",
     },
     {
       icon: "building-line.svg",
-      value: "1,250",
+      value: stats.activeMerchants,
       title: "Active Merchants",
-      rate: "+12.5%",
+      rate: "Live",
       trend: "up",
     },
     {
       icon: "qr-scan-line.svg",
-      value: "96.8%",
+      value: stats.successRate,
       title: "Success Rate",
-      rate: "+2.3%",
+      rate: "+0.0%",
       trend: "up",
     },
     {
       icon: "time-line-2.svg",
-      value: "99.9%",
+      value: stats.uptime,
       title: "API Uptime",
-      rate: "+0.1%",
+      rate: "+0.0%",
       trend: "up",
     },
   ];
@@ -120,6 +147,7 @@ const AnalyticsPage = () => {
       <PageHeader
         title="Analytics"
         description="Detailed insights into platform usage"
+        notificationIconRoute="/super-admin/notifications"
       />
 
       <div className="content_area">

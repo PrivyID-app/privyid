@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ACCOUNT_TYPE_STEPS } from "../onboarding.constants";
 import { useOnboarding } from "../onboarding.context";
 import selectBoxFill from "../../../assets/images/Radio-selected [1.0].svg";

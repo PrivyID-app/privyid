@@ -1,45 +1,90 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import AdminMerchantsTable from "../components/AdminMerchantsTable";
+import CustomSelect from "../../../shared/components/CustomSelect";
+import AddMerchantModal from "../components/AddMerchantModal";
+import { supabase } from "../../../shared/services/supabase";
 import "../super-admin.css";
 
 const MerchantsPage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [filterStatus, setFilterStatus] = useState("all");
+  const [stats, setStats] = useState({
+    totalMerchants: "...",
+    totalVerifications: "0",
+    totalRevenue: "₦0",
+    activeRate: "0%",
+  });
+
+  useEffect(() => {
+    fetchStats();
+  }, [refreshKey]);
+
+  const fetchStats = async () => {
+    try {
+      const { count, error } = await supabase
+        .from("merchants")
+        .select("*", { count: "exact", head: true });
+
+      if (error) throw error;
+
+      setStats((prev) => ({
+        ...prev,
+        totalMerchants: count?.toLocaleString() || "0",
+      }));
+    } catch (error) {
+      setStats((prev) => ({ ...prev, totalMerchants: "0" }));
+    }
+  };
+
+  const refreshData = () => {
+    setRefreshKey((prev) => prev + 1);
+    fetchStats();
+  };
+
   const overviewCards = [
     {
       icon: "building-line.svg",
-      value: "1,250",
+      value: stats.totalMerchants,
       title: "Total Merchants",
-      rate: "+12.5%",
+      rate: "Live",
       trend: "up",
     },
     {
       icon: "qr-scan-line.svg",
-      value: "12,250",
+      value: stats.totalVerifications,
       title: "Total Verifications",
-      rate: "+12.5%",
+      rate: "0.0%",
       trend: "up",
     },
     {
       icon: "tabler_currency-naira.svg",
-      value: "₦12,550,450",
+      value: stats.totalRevenue,
       title: "Total Revenue",
-      rate: "+12.5%",
+      rate: "0.0%",
       trend: "up",
     },
     {
       icon: "time-line-2.svg",
-      value: "98.5%",
+      value: stats.activeRate,
       title: "Active Merchants",
-      rate: "+2.5%",
+      rate: "0.0%",
       trend: "up",
     },
   ];
 
   return (
-    <>
+    <div className="content_wrapper">
+      <AddMerchantModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onRefresh={refreshData}
+      />
       <PageHeader
         title="Merchants"
         description="Manage registered merchants and their accounts"
+        notificationIconRoute="/super-admin/notifications"
       />
 
       <div className="content_area">
@@ -76,22 +121,39 @@ const MerchantsPage = () => {
           <div className="top_area">
             <p className="section_title">All Merchants</p>
 
-            <div className="filter_actions">
+            <div className="page_title_actions_wrapper">
+              <CustomSelect
+                options={[
+                  { value: "all", label: "All Status" },
+                  { value: "active", label: "Active" },
+                  { value: "pending", label: "Pending" },
+                ]}
+                value={filterStatus}
+                onSelect={setFilterStatus}
+                placeholder="Filter Records"
+                className="service_selector_custom"
+                placement="bottom"
+              />
+
               <button className="secondary_button">
-                <span className="material-symbols-outlined">filter_list</span>
-                Filter Records
-              </button>
-              <button className="primary_button">
                 <span className="material-symbols-outlined">download</span>
                 Export as CSV
+              </button>
+
+              <button
+                className="primary_button"
+                onClick={() => setIsModalOpen(true)}
+              >
+                <span className="material-symbols-outlined">add</span>
+                <p>Add Merchant</p>
               </button>
             </div>
           </div>
 
-          <AdminMerchantsTable />
+          <AdminMerchantsTable key={refreshKey} filter={filterStatus} />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

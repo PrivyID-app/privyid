@@ -1,13 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import AdminAuditTable from "../components/AdminAuditTable";
 import CustomSelect from "../../../shared/components/CustomSelect";
+import { supabase } from "../../../shared/services/supabase";
 import "../super-admin.css";
 
 const AuditLogsPage = () => {
   const [filterAction, setFilterAction] = useState("all");
   const [filterStatus, setFilterStatus] = useState("all");
   const [dateRange, setDateRange] = useState("7days");
+  const [logCount, setLogCount] = useState(0);
+
+  useEffect(() => {
+    fetchLogCount();
+  }, []);
+
+  const fetchLogCount = async () => {
+    try {
+      const { count } = await supabase
+        .from("audit_logs")
+        .select("*", { count: "exact", head: true });
+      setLogCount(count || 0);
+    } catch (error) {
+      // Table might not exist yet
+      setLogCount(0);
+    }
+  };
 
   const actionOptions = [
     { value: "all", label: "All Actions" },
@@ -45,6 +63,7 @@ const AuditLogsPage = () => {
       <PageHeader
         title="Audit Logs"
         description="View system logs and activity trails"
+        notificationIconRoute="/super-admin/notifications"
       />
 
       <div className="content_area">
@@ -101,11 +120,13 @@ const AuditLogsPage = () => {
               Export as JSON
             </button>
 
-            <button className="primary_button" onClick={() => handleExport("csv")}>
+            <button
+              className="primary_button"
+              onClick={() => handleExport("csv")}
+            >
               <span className="material-symbols-outlined">download</span>
               Export as CSV
             </button>
-            
           </div>
         </div>
 
@@ -113,7 +134,7 @@ const AuditLogsPage = () => {
         <div className="recent_verifications">
           <div className="top_area">
             <p className="section_title">Activity Logs</p>
-            <p className="log_count">Showing 10 of 1,245 logs</p>
+            <p className="log_count">Total Logs: {logCount.toLocaleString()}</p>
           </div>
 
           <AdminAuditTable />

@@ -36,7 +36,7 @@ const LandingPage = () => {
           existed or has been moved.
         </p>
 
-        <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+        <div style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}>
           <Link to="/onboarding" className="notfound_onboarding_link">
             <SpecialButton icon="vpn_key">Get API keys</SpecialButton>
           </Link>

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { ACCOUNT_TYPE_STEPS } from "../onboarding.constants";
+import { supabase } from "../../../shared/services/supabase";
+import { useGlobal } from "../../../app/GlobalContext";
 import selectBoxFill from "../../../assets/images/Radio-selected [1.0].svg";
 import selectBoxInactive from "../../../assets/images/select-box-circle-fill-inactive.svg";
 import infoIcon from "../../../assets/images/information-fill-dark.svg";
@@ -67,9 +69,6 @@ export const BusinessVerificationLeftTopContent = () => {
     </div>
   );
 };
-
-import { supabase } from "../../../shared/services/supabase";
-import { useGlobal } from "../../../app/GlobalContext";
 
 const BusinessVerificationStep = ({ onNext, onBack }) => {
   const { showToast } = useGlobal();

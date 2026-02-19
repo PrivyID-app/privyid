@@ -1,17 +1,10 @@
 import React from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./PageHeader.css";
-import { supabase } from "../../shared/services/supabase";
 
 const PageHeader = ({ title, description, notificationIconRoute }) => {
   const location = useLocation();
-  const navigate = useNavigate();
   const isNotificationActive = location.pathname === notificationIconRoute;
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    navigate("/");
-  };
 
   return (
     <div className="page_title">
@@ -33,14 +26,6 @@ const PageHeader = ({ title, description, notificationIconRoute }) => {
             <div className="notification_indicator_dot" />
           </Link>
         )}
-
-        <button
-          className="logout_button_header"
-          onClick={handleLogout}
-          title="Logout"
-        >
-          <span className="material-symbols-outlined">logout</span>
-        </button>
       </div>
     </div>
   );

@@ -166,6 +166,7 @@ const SupportPage = () => {
       <PageHeader
         title="Support"
         description="Manage merchant support tickets and queries"
+        notificationIconRoute="/super-admin/notifications"
       />
 
       <div className="content_area">

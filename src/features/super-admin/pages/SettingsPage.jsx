@@ -45,6 +45,7 @@ const SettingsPage = () => {
       <PageHeader
         title="Settings"
         description="Configure platform settings and preferences"
+        notificationIconRoute="/super-admin/notifications"
       />
       <div className="content_area settings_content">
         <Tabs tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />

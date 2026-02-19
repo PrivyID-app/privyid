@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useOnboarding } from "../onboarding.context";
+import { useGlobal } from "../../../app/GlobalContext";
+import { supabase } from "../../../shared/services/supabase";
 import userAddFill from "../../../assets/images/user-add-fill.svg";
 import infoFill from "../../../assets/images/information-fill.svg";
 import googleLogo from "../../../assets/images/Google logo [1.0].svg";
@@ -46,9 +48,6 @@ export const SignupLeftContent = () => (
     </div>
   </>
 );
-
-import { useGlobal } from "../../../app/GlobalContext";
-import { supabase } from "../../../shared/services/supabase";
 
 const SignupStep = ({ onNext, onLoginClick }) => {
   const { showToast } = useGlobal();

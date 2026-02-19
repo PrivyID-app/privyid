@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import SharedWebNav from "../../../../shared/components/WebNav";
 import SpecialButton from "../../../../shared/components/SpecialButton";
 import "../../../../app/pages/LandingPage.css";
+import { supabase } from "../../../../shared/services/supabase";
 
 // Import assets from the project
 import imgLogo from "../../../../assets/images/Logo dark.svg";
@@ -12,6 +13,38 @@ import bgPattern from "../../../../assets/images/404-bg.svg";
 import pattern from "../../../../assets/images/hero-check-vector.svg";
 
 export default function PrivyIdHomepage() {
+  const testConnection = async () => {
+    try {
+      // Get the real count of merchants
+      const { count, error } = await supabase
+        .from("merchants")
+        .select("*", { count: "exact", head: true });
+
+      if (error) {
+        // If it's a permission error, it still means the connection is working!
+        if (
+          error.code === "PGRST301" ||
+          error.message.includes("permission denied")
+        ) {
+          alert(
+            "✅ Connection Successful!\n\nYour app is talking to Supabase, but you might need to check your 'Policies' to see details.",
+          );
+        } else {
+          throw error;
+        }
+      } else {
+        alert(
+          `✅ Connection Successful!\n\nI found ${count || 0} merchants in your 'merchants' table.`,
+        );
+      }
+    } catch (err: any) {
+      console.error("Connection Error:", err);
+      alert(
+        `❌ Connection Failed.\n\nError: ${err.message || "Unknown error"}`,
+      );
+    }
+  };
+
   return (
     <div className="landing-page">
       <SharedWebNav />
@@ -63,12 +96,11 @@ export default function PrivyIdHomepage() {
                 Get started free
               </SpecialButton>
               <SpecialButton
-                as={Link}
-                to="/onboarding?mode=signup"
                 variant="secondary"
-                icon="login"
+                icon="database"
+                onClick={testConnection}
               >
-                Sign in with Google
+                Test Database
               </SpecialButton>
             </div>
           </div>

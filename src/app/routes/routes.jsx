@@ -6,7 +6,8 @@ import LoginPage from "../pages/LoginPage";
 import MarketingPage from "../../features/marketing/pages/MarketingPage";
 
 import NotFound from "../../shared/components/NotFound";
-import MobileVerificationPage from "../../features/mobile-verification/MobileVerificationPage"; // Import MobileVerificationPage
+import ProtectedRoute from "../../shared/components/ProtectedRoute";
+import MobileVerificationPage from "../../features/mobile-verification/MobileVerificationPage";
 
 // Merchant KYC Imports
 import MerchantKycLayout from "../../features/merchant-kyc/layouts/MerchantKycLayout";
@@ -151,18 +152,23 @@ const router = createHashRouter([
   },
   {
     path: "/super-admin",
-    element: <SuperAdminLayout />,
+    element: <ProtectedRoute />, // Wrap everything in the guard
     children: [
-      { index: true, element: <AdminDashboard /> },
-      { path: "merchants", element: <AdminMerchants /> },
-      { path: "verifications", element: <AdminVerifications /> },
-      { path: "analytics", element: <AdminAnalytics /> },
-      { path: "api", element: <AdminApi /> },
-      { path: "audit-logs", element: <AdminAuditLogs /> },
-      { path: "settings", element: <AdminSettings /> },
-      { path: "support", element: <AdminSupport /> },
-      { path: "user-profile", element: <AdminProfile /> },
-      { path: "notifications", element: <AdminNotifications /> },
+      {
+        element: <SuperAdminLayout />,
+        children: [
+          { index: true, element: <AdminDashboard /> },
+          { path: "merchants", element: <AdminMerchants /> },
+          { path: "verifications", element: <AdminVerifications /> },
+          { path: "analytics", element: <AdminAnalytics /> },
+          { path: "api", element: <AdminApi /> },
+          { path: "audit-logs", element: <AdminAuditLogs /> },
+          { path: "settings", element: <AdminSettings /> },
+          { path: "support", element: <AdminSupport /> },
+          { path: "user-profile", element: <AdminProfile /> },
+          { path: "notifications", element: <AdminNotifications /> },
+        ],
+      },
     ],
   },
 

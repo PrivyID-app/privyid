@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import AdminDashboardTable from "../components/AdminDashboardTable";
 import CustomSelect from "../../../shared/components/CustomSelect";
+import AddMerchantModal from "../components/AddMerchantModal";
+import { supabase } from "../../../shared/services/supabase";
 import {
+  ResponsiveContainer,
   LineChart,
   Line,
   BarChart,
@@ -11,69 +14,92 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  ResponsiveContainer,
 } from "recharts";
-
-// Icons
 import BuildingLineIcon from "../../../assets/images/building-line.svg";
 import QrScanLineIcon from "../../../assets/images/qr-scan-line.svg";
 import CurrencyNairaIcon from "../../../assets/images/tabler_currency-naira.svg";
 import TimeLine2Icon from "../../../assets/images/time-line-2.svg";
 
 const DashboardOverview = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [activityTimeframe, setActivityTimeframe] = useState("this_month");
   const [performanceTimeframe, setPerformanceTimeframe] = useState("this_year");
+  const [recentVerifications, setRecentVerifications] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState({
+    totalMerchants: "...",
+    totalVerifications: "...",
+    totalRevenue: "₦0",
+    avgResponseTime: "0.0s",
+  });
 
-  // Mock Data for Table
-  const recentVerifications = [
-    {
-      id: "PRY-2024-001",
-      type: "Enterprise",
-      name: "Ironclad Systems",
-      status: "Verified",
-      verifications: "1,203",
-      date: "15 Sep 2024",
-      time: "10:30 AM",
-    },
-    {
-      id: "PRY-2024-002",
-      type: "SMB",
-      name: "Alpha Corp",
-      status: "Pending",
-      verifications: "850",
-      date: "15 Sep 2024",
-      time: "11:15 AM",
-    },
-    {
-      id: "PRY-2024-003",
-      type: "Enterprise",
-      name: "Beta Ltd",
-      status: "Rejected",
-      verifications: "205",
-      date: "14 Sep 2024",
-      time: "09:45 AM",
-    },
-    {
-      id: "PRY-2024-004",
-      type: "Startup",
-      name: "Gamma Inc",
-      status: "Verified",
-      verifications: "420",
-      date: "14 Sep 2024",
-      time: "02:30 PM",
-    },
-    {
-      id: "PRY-2024-005",
-      type: "SMB",
-      name: "Delta Group",
-      status: "Verified",
-      verifications: "3,100",
-      date: "13 Sep 2024",
-      time: "04:20 PM",
-    },
-  ];
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
 
-  // Mock Data for Charts
+  const fetchDashboardData = async () => {
+    setLoading(true);
+    try {
+      // 1. Fetch Total Counts
+      const { count: mCount } = await supabase
+        .from("merchants")
+        .select("*", { count: "exact", head: true });
+
+      const { count: vCount } = await supabase
+        .from("verifications")
+        .select("*", { count: "exact", head: true });
+
+      setStats((prev) => ({
+        ...prev,
+        totalMerchants: mCount?.toLocaleString() || "0",
+        totalVerifications: vCount?.toLocaleString() || "0",
+      }));
+
+      // 2. Fetch Recent Verifications (Last 5)
+      const { data: vData, error: vError } = await supabase
+        .from("verifications")
+        .select(
+          `
+          id,
+          verification_type,
+          status,
+          created_at,
+          merchants (
+            business_name
+          )
+        `,
+        )
+        .order("created_at", { ascending: false })
+        .limit(5);
+
+      if (vError) throw vError;
+
+      const mappedData = vData.map((v) => ({
+        id: v.id.substring(0, 8).toUpperCase(),
+        type: v.verification_type?.toUpperCase() || "N/A",
+        name: v.merchants?.business_name || "Unknown Merchant",
+        status: v.status.charAt(0).toUpperCase() + v.status.slice(1),
+        verifications: "1", // This row represents 1 verification
+        date: new Date(v.created_at).toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        }),
+        time: new Date(v.created_at).toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        }),
+      }));
+
+      setRecentVerifications(mappedData);
+    } catch (error) {
+      console.error("Dashboard Fetch Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const activityData = [
     { name: "Mon", verifications: 400 },
     { name: "Tue", verifications: 600 },
@@ -103,12 +129,21 @@ const DashboardOverview = () => {
           <p className="section_title">Quick Actions</p>
 
           <div className="filter_wrapper">
-            <button className="primary_button">
+            <button
+              className="primary_button"
+              onClick={() => setIsModalOpen(true)}
+            >
               <span className="material-symbols-outlined">add</span>
               <p>Add Merchants</p>
             </button>
           </div>
         </div>
+
+        <AddMerchantModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onRefresh={fetchDashboardData}
+        />
 
         <div className="overview_wrapper">
           {/* Card 1: Total Merchants */}
@@ -127,7 +162,7 @@ const DashboardOverview = () => {
             </div>
 
             <div className="card_content">
-              <p className="card_value">1,250</p>
+              <p className="card_value">{stats.totalMerchants}</p>
               <p className="card_title">Total Merchants</p>
             </div>
           </div>
@@ -148,7 +183,7 @@ const DashboardOverview = () => {
             </div>
 
             <div className="card_content">
-              <p className="card_value">12,250</p>
+              <p className="card_value">{stats.totalVerifications}</p>
               <p className="card_title">Total Verifications</p>
             </div>
           </div>
@@ -190,7 +225,7 @@ const DashboardOverview = () => {
             </div>
 
             <div className="card_content">
-              <p className="card_value">1.8s</p>
+              <p className="card_value">{stats.avgResponseTime}</p>
               <p className="card_title">Average Response Time</p>
             </div>
           </div>
@@ -309,10 +344,16 @@ const DashboardOverview = () => {
             </a>
           </div>
 
-          <AdminDashboardTable
-            data={recentVerifications}
-            idLabel="Verification No."
-          />
+          {loading ? (
+            <div style={{ padding: "2rem", textAlign: "center" }}>
+              Loading activity...
+            </div>
+          ) : (
+            <AdminDashboardTable
+              data={recentVerifications}
+              idLabel="Verification No."
+            />
+          )}
         </div>
       </div>
     </div>
