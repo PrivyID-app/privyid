@@ -1,16 +1,11 @@
-import React, { useState } from "react";
-import { useOnboarding } from "../onboarding.context";
-import { ACCOUNT_TYPE_STEPS } from "../onboarding.constants";
-import selectBoxFill from "../../../assets/images/Radio-selected [1.0].svg";
-import selectBoxInactive from "../../../assets/images/select-box-circle-fill-inactive.svg";
-import shieldLine from "../../../assets/images/shield-line.svg";
-import shinningStar from "../../../assets/images/shining-2-line.svg";
-import buildingLine from "../../../assets/images/building-line.svg";
-import ServiceCard from "../components/ServiceCard";
+import { supabase } from "../../../shared/services/supabase";
+import { useGlobal } from "../../../app/GlobalContext";
 
 const ServiceTypeStep = ({ onNext, onBack }) => {
+  const { showToast } = useGlobal();
   const { selectedServices, setSelectedServices } = useOnboarding();
-  const [currentSubStep] = useState(1); // 1 is index for 'Select Service'
+  const [currentSubStep] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   const services = [
     {
@@ -34,17 +29,38 @@ const ServiceTypeStep = ({ onNext, onBack }) => {
   ];
 
   const toggleService = (serviceId) => {
-    const isSelected = selectedServices.includes(serviceId);
-    if (isSelected) {
-      setSelectedServices([]);
-    } else {
-      setSelectedServices([serviceId]);
-    }
+    setSelectedServices([serviceId]);
   };
 
-  const handleNext = () => {
-    if (selectedServices.length > 0) {
+  const handleNext = async () => {
+    if (selectedServices.length === 0) return;
+
+    setLoading(true);
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData?.user) throw new Error("User not authenticated.");
+
+      const serviceMap = {
+        kyc_only: "kyc",
+        kyb_only: "kyb",
+        kyc_kyb: "combined",
+      };
+
+      const { error } = await supabase
+        .from("merchants")
+        .update({
+          service_type: serviceMap[selectedServices[0]],
+          onboarding_step: "service_customization",
+        })
+        .eq("id", userData.user.id);
+
+      if (error) throw error;
+
       onNext();
+    } catch (error) {
+      showToast(error.message || "Failed to save service type.", "error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -98,9 +114,9 @@ const ServiceTypeStep = ({ onNext, onBack }) => {
         <button
           className="next_button"
           onClick={handleNext}
-          disabled={selectedServices.length === 0}
+          disabled={selectedServices.length === 0 || loading}
         >
-          Next
+          {loading ? "Saving..." : "Next"}
         </button>
       </div>
     </div>

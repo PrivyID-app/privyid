@@ -1,16 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { useOnboarding } from "../onboarding.context";
-import { ACCOUNT_TYPE_STEPS, ONBOARDING_STEPS } from "../onboarding.constants";
-import selectBoxFill from "../../../assets/images/Radio-selected [1.0].svg";
-import selectBoxInactive from "../../../assets/images/select-box-circle-fill-inactive.svg";
-import checkboxGreen from "../../../assets/images/Checkbox-green [1.0].svg";
-import cardPatternWhite from "../../../assets/images/card-pattern-white-bg.svg";
-import cardPatternBlack from "../../../assets/images/card-pattern.svg";
-import CustomSelect from "../../../shared/components/CustomSelect";
+import { supabase } from "../../../shared/services/supabase";
+import { useGlobal } from "../../../app/GlobalContext";
 
 const ServiceTypeKYCStep = ({ onNext, onBack, onStepChange }) => {
+  const { showToast } = useGlobal();
   const { kycOptions, setKycOptions, setSelectedServices } = useOnboarding();
-  const [currentSubStep] = useState(1); // Still under 'Select Service' step index 1
+  const [currentSubStep] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   const kycServices = [
     { id: "drivers_license", title: "Driver's License" },
@@ -21,7 +16,6 @@ const ServiceTypeKYCStep = ({ onNext, onBack, onStepChange }) => {
     { id: "utility_bill", title: "Utility Bill Verification" },
   ];
 
-  // Initialize selection from context if it's an array, otherwise default to empty
   const [selectedIds, setSelectedIds] = useState(
     Array.isArray(kycOptions) ? kycOptions : [],
   );
@@ -55,9 +49,29 @@ const ServiceTypeKYCStep = ({ onNext, onBack, onStepChange }) => {
     }
   };
 
-  const handleNext = () => {
-    if (selectedIds.length > 0) {
+  const handleNext = async () => {
+    if (selectedIds.length === 0) return;
+
+    setLoading(true);
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData?.user) throw new Error("User not authenticated.");
+
+      const { error } = await supabase
+        .from("merchants")
+        .update({
+          service_options: { kyc: selectedIds },
+          onboarding_step: "business_verification",
+        })
+        .eq("id", userData.user.id);
+
+      if (error) throw error;
+
       onNext();
+    } catch (error) {
+      showToast(error.message || "Failed to save KYC options.", "error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -190,9 +204,9 @@ const ServiceTypeKYCStep = ({ onNext, onBack, onStepChange }) => {
         <button
           className="next_button"
           onClick={handleNext}
-          disabled={selectedIds.length === 0}
+          disabled={selectedIds.length === 0 || loading}
         >
-          Next
+          {loading ? "Saving..." : "Next"}
         </button>
       </div>
     </div>

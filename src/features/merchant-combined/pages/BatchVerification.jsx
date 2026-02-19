@@ -1,106 +1,145 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import VerificationTable from "../../../shared/components/VerificationTable";
 import FileDropzone from "../../../shared/components/FileDropzone";
 import FilterDropdown from "../../../shared/components/FilterDropdown";
+import { supabase } from "../../../shared/services/supabase";
+import { useGlobal } from "../../../app/GlobalContext";
 
 const BatchVerification = () => {
-  const verifications = [
-    {
-      id: "#COMB-KYC-001",
-      type: "Passport",
-      name: "John Doe",
-      status: "Approved",
-      batch: "#BATCH4001",
-      date: "15 Sep 2024",
-      time: "10:30 AM",
-    },
-    {
-      id: "#COMB-KYC-002",
-      type: "Driver License",
-      name: "Jane Smith",
-      status: "Pending",
-      batch: "#BATCH4002",
-      date: "16 Sep 2024",
-      time: "11:45 AM",
-    },
-    {
-      id: "#COMB-KYC-003",
-      type: "National ID",
-      name: "Mark Wilson",
-      status: "Approved",
-      batch: "#BATCH4003",
-      date: "16 Sep 2024",
-      time: "02:20 PM",
-    },
-    {
-      id: "#COMB-KYC-004",
-      type: "Passport",
-      name: "Sarah Parker",
-      status: "Rejected",
-      batch: "#BATCH4004",
-      date: "17 Sep 2024",
-      time: "09:15 AM",
-    },
-    {
-      id: "#COMB-KYC-005",
-      type: "Driver License",
-      name: "Tom Harris",
-      status: "Approved",
-      batch: "#BATCH4005",
-      date: "17 Sep 2024",
-      time: "01:40 PM",
-    },
-    {
-      id: "#COMB-KYC-006",
-      type: "National ID",
-      name: "Alice Cooper",
-      status: "Pending",
-      batch: "#BATCH4006",
-      date: "18 Sep 2024",
-      time: "10:00 AM",
-    },
-    {
-      id: "#COMB-KYC-007",
-      type: "Passport",
-      name: "Bob Dylan",
-      status: "Approved",
-      batch: "#BATCH4007",
-      date: "18 Sep 2024",
-      time: "03:30 PM",
-    },
-    {
-      id: "#COMB-KYC-008",
-      type: "Driver License",
-      name: "Charlie Brown",
-      status: "Approved",
-      batch: "#BATCH4008",
-      date: "19 Sep 2024",
-      time: "11:50 AM",
-    },
-    {
-      id: "#COMB-KYC-009",
-      type: "National ID",
-      name: "Diana Prince",
-      status: "Rejected",
-      batch: "#BATCH4009",
-      date: "19 Sep 2024",
-      time: "04:10 PM",
-    },
-    {
-      id: "#COMB-KYC-010",
-      type: "Passport",
-      name: "Edward Norton",
-      status: "Approved",
-      batch: "#BATCH4010",
-      date: "20 Sep 2024",
-      time: "10:30 AM",
-    },
-  ];
+  const { showToast } = useGlobal();
+  const [verifications, setVerifications] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [uploading, setUploading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
 
-  const handleFileSelect = (file) => {
-    console.log("File selected:", file.name);
+  useEffect(() => {
+    fetchVerifications();
+  }, [statusFilter]);
+
+  const fetchVerifications = async () => {
+    setLoading(true);
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData?.user) throw new Error("Not logged in");
+
+      let query = supabase
+        .from("verifications")
+        .select("*")
+        .eq("merchant_id", userData.user.id)
+        .order("created_at", { ascending: false });
+
+      if (statusFilter !== "all") {
+        query = query.eq("status", statusFilter);
+      }
+
+      const { data, error } = await query;
+      if (error) throw error;
+
+      setVerifications(
+        (data || []).map((v) => ({
+          id: v.id.split("-")[0].toUpperCase(),
+          type: v.type,
+          name: v.customer_name,
+          status: v.status.charAt(0).toUpperCase() + v.status.slice(1),
+          batch: v.batch_id
+            ? `#BATCH-${v.batch_id.split("-")[0].toUpperCase()}`
+            : "Single",
+          date: new Date(v.created_at).toLocaleDateString(),
+          time: new Date(v.created_at).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+        })),
+      );
+    } catch (error) {
+      showToast(error.message || "Failed to fetch verifications.", "error");
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const handleFileSelect = async (file) => {
+    if (!file) return;
+    setUploading(true);
+    showToast(`Uploading ${file.name}...`, "info");
+
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData?.user) throw new Error("Not logged in");
+
+      const { data: batch, error: batchError } = await supabase
+        .from("batches")
+        .insert([
+          {
+            merchant_id: userData.user.id,
+            name: file.name,
+            status: "processing",
+            total_records: 3,
+          },
+        ])
+        .select()
+        .single();
+
+      if (batchError) throw batchError;
+
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+
+      const simulatedRecords = [
+        {
+          merchant_id: userData.user.id,
+          batch_id: batch.id,
+          customer_name: "John Doe",
+          customer_email: "john@example.com",
+          status: "approved",
+          type: "Passport",
+          source: "batch",
+        },
+        {
+          merchant_id: userData.user.id,
+          batch_id: batch.id,
+          customer_name: "Jane Smith",
+          customer_email: "jane@example.com",
+          status: "pending",
+          type: "Driver License",
+          source: "batch",
+        },
+        {
+          merchant_id: userData.user.id,
+          batch_id: batch.id,
+          customer_name: "Mark Wilson",
+          customer_email: "mark@example.com",
+          status: "approved",
+          type: "National ID",
+          source: "batch",
+        },
+      ];
+
+      const { error: recordsError } = await supabase
+        .from("verifications")
+        .insert(simulatedRecords);
+      if (recordsError) throw recordsError;
+
+      await supabase
+        .from("batches")
+        .update({ status: "completed" })
+        .eq("id", batch.id);
+
+      showToast("Batch processed successfully!", "success");
+      fetchVerifications();
+    } catch (error) {
+      showToast(error.message || "Failed to process batch.", "error");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const filteredVerifications = verifications.filter(
+    (v) =>
+      v.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      v.id.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
 
   return (
     <>
@@ -113,11 +152,21 @@ const BatchVerification = () => {
         <div className="quick_actions">
           <p className="section_title">Quick Actions</p>
           <div className="filter_wrapper">
-            <button className="secondary_button">
+            <button
+              className="secondary_button"
+              onClick={() =>
+                (window.location.href =
+                  "/merchant-combined/single-verification")
+              }
+            >
               <span className="material-symbols-outlined">add</span>
               <p>Single Verification</p>
             </button>
-            <button className="primary_button">
+            <button className="secondary_button">
+              <span className="material-symbols-outlined">add</span>
+              <p>API Integration</p>
+            </button>
+            <button className="primary_button disabled" disabled>
               <span className="material-symbols-outlined">description</span>
               <p>New Batch Verification</p>
             </button>
@@ -125,7 +174,12 @@ const BatchVerification = () => {
         </div>
 
         <div className="supporting_documents_section">
-          <FileDropzone onFileSelect={handleFileSelect} />
+          <FileDropzone onFileSelect={handleFileSelect} disabled={uploading} />
+          {uploading && (
+            <div className="upload_status">
+              Processing batch... Please wait.
+            </div>
+          )}
         </div>
 
         <div className="recent_verifications">
@@ -139,9 +193,10 @@ const BatchVerification = () => {
                 type="text"
                 placeholder="Search records..."
                 className="search_input"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-
             <div className="filter_wrapper">
               <FilterDropdown
                 options={[
@@ -150,16 +205,19 @@ const BatchVerification = () => {
                   { label: "Pending", value: "pending" },
                   { label: "Rejected", value: "rejected" },
                 ]}
-                onFilterChange={(val) => console.log("Filter:", val)}
+                onFilterChange={setStatusFilter}
               />
-
               <button className="secondary_button">
                 <span className="material-symbols-outlined">download</span>
                 <p>Download as CSV</p>
               </button>
             </div>
           </div>
-          <VerificationTable data={verifications} />
+          {loading ? (
+            <div className="loading_state">Loading verifications...</div>
+          ) : (
+            <VerificationTable data={filteredVerifications} />
+          )}
         </div>
       </div>
     </>

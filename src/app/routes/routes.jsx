@@ -138,6 +138,7 @@ const router = createHashRouter([
       { path: "api", element: <CombinedApi /> },
       { path: "tokens", element: <CombinedTokens /> },
       { path: "settings", element: <CombinedSettings /> },
+      { path: "support", element: <CombinedSupport /> },
       { path: "user-profile", element: <CombinedProfile /> },
       { path: "notifications", element: <CombinedNotifications /> },
     ],

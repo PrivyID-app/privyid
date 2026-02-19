@@ -1,50 +1,106 @@
-import React, { useState } from 'react';
-import { useOnboarding } from '../onboarding.context';
-import userAddFill from '../../../assets/images/user-add-fill.svg';
-import infoFill from '../../../assets/images/information-fill.svg';
-import googleLogo from '../../../assets/images/Google logo [1.0].svg';
-import appleLogo from '../../../assets/images/Apple Logos [1.0].svg';
-import checkboxGreen from '../../../assets/images/Checkbox-green [1.0].svg';
+import React, { useState } from "react";
+import { useOnboarding } from "../onboarding.context";
+import userAddFill from "../../../assets/images/user-add-fill.svg";
+import infoFill from "../../../assets/images/information-fill.svg";
+import googleLogo from "../../../assets/images/Google logo [1.0].svg";
+import appleLogo from "../../../assets/images/Apple Logos [1.0].svg";
+import checkboxGreen from "../../../assets/images/Checkbox-green [1.0].svg";
 
 export const SignupLeftContent = () => (
   <>
-    <p className="onboarding_left_footer_text_bg">Start Verifying Identities in Minutes</p>
-    <p className="onboarding_left_footer_text_sm">Join 1,000+ merchants who trust PrivyID for enterprise-grade identity verification.</p>
+    <p className="onboarding_left_footer_text_bg">
+      Start Verifying Identities in Minutes
+    </p>
+    <p className="onboarding_left_footer_text_sm">
+      Join 1,000+ merchants who trust PrivyID for enterprise-grade identity
+      verification.
+    </p>
     <div className="feature_wrapper">
       <div className="feature">
         <img src={checkboxGreen} alt="feature" />
         <div className="feature_text">
           <p className="feature_text_bg">100 Free Verifications</p>
-          <p className="feature_text_sm">Test our platform with no credit card required</p>
+          <p className="feature_text_sm">
+            Test our platform with no credit card required
+          </p>
         </div>
       </div>
       <div className="feature">
         <img src={checkboxGreen} alt="feature" />
         <div className="feature_text">
           <p className="feature_text_bg">5-Minute Setup</p>
-          <p className="feature_text_sm">Guided onboarding gets you live quickly</p>
+          <p className="feature_text_sm">
+            Guided onboarding gets you live quickly
+          </p>
         </div>
       </div>
       <div className="feature">
         <img src={checkboxGreen} alt="feature" />
         <div className="feature_text">
           <p className="feature_text_bg">Enterprise Security</p>
-          <p className="feature_text_sm">SOC 2 Type II certified, GDPR compliant</p>
+          <p className="feature_text_sm">
+            SOC 2 Type II certified, GDPR compliant
+          </p>
         </div>
       </div>
     </div>
   </>
 );
 
-const SignupStep = ({ onNext, onLoginClick }) => {
-  const { setKycOptions } = useOnboarding();
-  const [email, setEmail] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+import { useGlobal } from "../../../app/GlobalContext";
+import { supabase } from "../../../shared/services/supabase";
 
-  const handleSubmit = (e) => {
+const SignupStep = ({ onNext, onLoginClick }) => {
+  const { showToast } = useGlobal();
+  const { setKycOptions } = useOnboarding();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  React.useEffect(() => {
+    const isMobile =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent,
+      );
+    if (isMobile) {
+      showToast(
+        "Please use a laptop or desktop for a better experience.",
+        "info",
+      );
+    }
+  }, [showToast]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setKycOptions({ email });
-    onNext();
+    if (password !== confirmPassword) {
+      showToast("Passwords do not match!", "error");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+
+      showToast("Account created! Sending verification code...", "success");
+
+      // Save email to context for verification step
+      setKycOptions({ email });
+
+      // In a real scenario, we'd trigger the 4-digit code generation here.
+      // For now, we proceed to the verification step.
+      onNext();
+    } catch (error) {
+      showToast(error.message || "Signup failed.", "error");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -64,14 +120,16 @@ const SignupStep = ({ onNext, onLoginClick }) => {
 
       <form className="login_form" onSubmit={handleSubmit}>
         <div className="input_group">
-          <label className="input_label" htmlFor="signup_email">Email</label>
+          <label className="input_label" htmlFor="signup_email">
+            Email
+          </label>
           <div className="input_wrapper">
-            <input 
-              className="input" 
-              type="email" 
-              id="signup_email" 
-              name="email" 
-              placeholder="Enter your email" 
+            <input
+              className="input"
+              type="email"
+              id="signup_email"
+              name="email"
+              placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -81,19 +139,23 @@ const SignupStep = ({ onNext, onLoginClick }) => {
         </div>
 
         <div className="input_group">
-          <label className="input_label" htmlFor="password">Password</label>
+          <label className="input_label" htmlFor="password">
+            Password
+          </label>
           <div className="input_wrapper">
-            <input 
-              className="input" 
-              type={showPassword ? "text" : "password"} 
-              id="password" 
-              name="password" 
-              placeholder="Enter your password" 
+            <input
+              className="input"
+              type={showPassword ? "text" : "password"}
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
             <span className="material-symbols-outlined icon">lock</span>
-            <span 
-              className="material-symbols-outlined icon-eye" 
+            <span
+              className="material-symbols-outlined icon-eye"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? "visibility_off" : "visibility"}
@@ -105,24 +167,32 @@ const SignupStep = ({ onNext, onLoginClick }) => {
           <div className="hint_icon">
             <img src={infoFill} alt="hint_icon" />
           </div>
-          <p className="hint_text">Must contain 1 uppercase letter, 1 number, min. 8 characters.</p>
+          <p className="hint_text">
+            Must contain 1 uppercase letter, 1 number, min. 8 characters.
+          </p>
         </div>
 
         <div className="input_group">
-          <label className="input_label" htmlFor="confirm_password">Confirm Password</label>
+          <label className="input_label" htmlFor="confirm_password">
+            Confirm Password
+          </label>
           <div className="input_wrapper">
-            <input 
-              className="input" 
-              type={showPassword ? "text" : "password"} 
-              id="confirm_password" 
-              placeholder="Confirm password" 
+            <input
+              className="input"
+              type={showPassword ? "text" : "password"}
+              id="confirm_password"
+              placeholder="Confirm password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
             <span className="material-symbols-outlined icon">lock</span>
           </div>
         </div>
 
-        <button className="login_button" type="submit">Register</button>
+        <button className="login_button" type="submit" disabled={loading}>
+          {loading ? "Registering..." : "Register"}
+        </button>
       </form>
 
       <div className="alt_login">
@@ -145,12 +215,19 @@ const SignupStep = ({ onNext, onLoginClick }) => {
 
       <div className="login_footer">
         <p className="login_footer_text_sm Terms">
-          By clicking Register, you agree to accept PrivyID Terms and Conditions.
+          By clicking Register, you agree to accept PrivyID Terms and
+          Conditions.
         </p>
-        <p className="login_footer_text_sm" style={{ marginTop: '1rem' }}>
-          Already have an account?{' '}
+        <p className="login_footer_text_sm" style={{ marginTop: "1rem" }}>
+          Already have an account?{" "}
           <span className="login_footer_link">
-            <a className="login_footer_link" onClick={onLoginClick} style={{ cursor: 'pointer' }}>Login</a>
+            <a
+              className="login_footer_link"
+              onClick={onLoginClick}
+              style={{ cursor: "pointer" }}
+            >
+              Login
+            </a>
           </span>
         </p>
       </div>

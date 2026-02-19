@@ -68,7 +68,12 @@ export const BusinessVerificationLeftTopContent = () => {
   );
 };
 
+import { supabase } from "../../../shared/services/supabase";
+import { useGlobal } from "../../../app/GlobalContext";
+
 const BusinessVerificationStep = ({ onNext, onBack }) => {
+  const { showToast } = useGlobal();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     business_name: "",
     business_type: "",
@@ -113,6 +118,56 @@ const BusinessVerificationStep = ({ onNext, onBack }) => {
     formData.tax_id &&
     formData.country &&
     formData.business_address;
+
+  const handleNextSubmit = async () => {
+    if (!isFormValid) return;
+
+    setLoading(true);
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData?.user) throw new Error("User not authenticated.");
+
+      // For document upload, in real app we'd use supabase.storage
+      // Here we simulate and just save URLs if they exist
+      let docUrl = null;
+      if (formData.supporting_documents) {
+        // Simulation: docUrl = `merchants/${userData.user.id}/docs/${formData.supporting_documents.name}`;
+        docUrl = "https://example.com/simulated-upload-path.pdf";
+      }
+
+      const { error: bizError } = await supabase
+        .from("business_details")
+        .upsert([
+          {
+            merchant_id: userData.user.id,
+            business_name: formData.business_name,
+            registration_number: formData.registration_number,
+            tax_id: formData.tax_id,
+            country: formData.country,
+            business_address: formData.business_address,
+            supporting_documents_url: docUrl,
+          },
+        ]);
+
+      if (bizError) throw bizError;
+
+      const { error: merchError } = await supabase
+        .from("merchants")
+        .update({
+          onboarding_step: "integration",
+        })
+        .eq("id", userData.user.id);
+
+      if (merchError) throw merchError;
+
+      showToast("Business details saved!", "success");
+      onNext();
+    } catch (error) {
+      showToast(error.message || "Failed to save business details.", "error");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="business_verification">
@@ -323,10 +378,10 @@ const BusinessVerificationStep = ({ onNext, onBack }) => {
           </button>
           <button
             className="next_button"
-            onClick={onNext}
-            disabled={!isFormValid}
+            onClick={handleNextSubmit}
+            disabled={!isFormValid || loading}
           >
-            Next
+            {loading ? "Saving..." : "Next"}
           </button>
         </div>
       </div>

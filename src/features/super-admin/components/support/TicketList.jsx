@@ -1,114 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../super-admin.css";
-import ImageCheckbox from "../../../../shared/components/ImageCheckbox"; // Import ImageCheckbox
+import ImageCheckbox from "../../../../shared/components/ImageCheckbox";
+import { supabase } from "../../../../shared/services/supabase";
 
 const TicketList = ({ onSelectTicket }) => {
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [selectedRows, setSelectedRows] = useState(new Set());
   const [selectAll, setSelectAll] = useState(false);
+  const [tickets, setTickets] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const tickets = [
-    {
-      id: "TKT-001",
-      merchant: "Ironclad Systems",
-      subject: "API Integration Issue",
-      priority: "high",
-      status: "open",
-      assignedTo: "John Doe",
-      created: "2024-09-15 10:30",
-      lastUpdate: "2024-09-15 14:20",
-    },
-    {
-      id: "TKT-002",
-      merchant: "TechFlow Solutions",
-      subject: "Verification Delay",
-      priority: "medium",
-      status: "in_progress",
-      assignedTo: "Sarah Johnson",
-      created: "2024-09-14 15:45",
-      lastUpdate: "2024-09-15 09:15",
-    },
-    {
-      id: "TKT-003",
-      merchant: "Quantum Dynamics",
-      subject: "Billing Discrepancy",
-      priority: "high",
-      status: "open",
-      assignedTo: "Unassigned",
-      created: "2024-09-14 11:20",
-      lastUpdate: "2024-09-14 11:20",
-    },
-    {
-      id: "TKT-004",
-      merchant: "CloudNine Inc",
-      subject: "Account Access Problem",
-      priority: "critical",
-      status: "open",
-      assignedTo: "Emma Wright",
-      created: "2024-09-14 09:30",
-      lastUpdate: "2024-09-14 16:45",
-    },
-    {
-      id: "TKT-005",
-      merchant: "BlueWave Corp",
-      subject: "Feature Request",
-      priority: "low",
-      status: "resolved",
-      assignedTo: "Michael Chen",
-      created: "2024-09-13 14:15",
-      lastUpdate: "2024-09-14 10:30",
-    },
-    {
-      id: "TKT-006",
-      merchant: "GreenLeaf Ventures",
-      subject: "Documentation Clarification",
-      priority: "low",
-      status: "closed",
-      assignedTo: "Sarah Johnson",
-      created: "2024-09-12 16:00",
-      lastUpdate: "2024-09-13 11:20",
-    },
-    {
-      id: "TKT-007",
-      merchant: "NexGen Technologies",
-      subject: "Webhook Not Firing",
-      priority: "medium",
-      status: "in_progress",
-      assignedTo: "John Doe",
-      created: "2024-09-12 10:45",
-      lastUpdate: "2024-09-15 08:30",
-    },
-    {
-      id: "TKT-008",
-      merchant: "Innovate Labs",
-      subject: "Rate Limit Increase Request",
-      priority: "medium",
-      status: "resolved",
-      assignedTo: "Emma Wright",
-      created: "2024-09-11 13:20",
-      lastUpdate: "2024-09-12 15:40",
-    },
-    {
-      id: "TKT-009",
-      merchant: "Stellar Enterprises",
-      subject: "Payment Gateway Error",
-      priority: "high",
-      status: "in_progress",
-      assignedTo: "Michael Chen",
-      created: "2024-09-11 09:15",
-      lastUpdate: "2024-09-15 12:10",
-    },
-    {
-      id: "TKT-010",
-      merchant: "Apex Holdings",
-      subject: "API Key Not Working",
-      priority: "critical",
-      status: "resolved",
-      assignedTo: "John Doe",
-      created: "2024-09-10 11:30",
-      lastUpdate: "2024-09-11 14:25",
-    },
-  ];
+  useEffect(() => {
+    fetchTickets();
+  }, [selectedFilter]);
+
+  const fetchTickets = async () => {
+    setLoading(true);
+    try {
+      let query = supabase
+        .from("tickets")
+        .select(
+          `
+          *,
+          merchants (
+            company_name
+          )
+        `,
+        )
+        .order("created_at", { ascending: false });
+
+      if (selectedFilter !== "all") {
+        query = query.eq("status", selectedFilter);
+      }
+
+      const { data, error } = await query;
+
+      if (error) throw error;
+      setTickets(data || []);
+    } catch (error) {
+      console.error("Error fetching tickets:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const toggleSelectAll = () => {
     if (selectAll) {
@@ -134,10 +68,7 @@ const TicketList = ({ onSelectTicket }) => {
     });
   };
 
-  const filteredTickets =
-    selectedFilter === "all"
-      ? tickets
-      : tickets.filter((t) => t.status === selectedFilter);
+  const filteredTickets = tickets;
 
   const getPriorityClass = (priority) => {
     switch (priority) {
@@ -220,53 +151,61 @@ const TicketList = ({ onSelectTicket }) => {
         </div>
 
         <div className="table_body">
-          {filteredTickets.map((ticket) => (
-            <div key={ticket.id} className="table_row">
-              <div className="cell checkbox_cell">
-                <ImageCheckbox
-                  checked={selectedRows.has(ticket.id)}
-                  onChange={() => toggleRow(ticket.id)}
-                />
+          {loading ? (
+            <div className="table_empty">Loading tickets...</div>
+          ) : filteredTickets.length === 0 ? (
+            <div className="table_empty">No tickets found.</div>
+          ) : (
+            filteredTickets.map((ticket) => (
+              <div key={ticket.id} className="table_row">
+                <div className="cell checkbox_cell">
+                  <ImageCheckbox
+                    checked={selectedRows.has(ticket.id)}
+                    onChange={() => toggleRow(ticket.id)}
+                  />
+                </div>
+                <div className="cell">
+                  <p>#{ticket.id.split("-")[0].toUpperCase()}</p>
+                </div>
+                <div className="cell">
+                  <p>{ticket.merchants?.company_name || "N/A"}</p>
+                </div>
+                <div className="cell">
+                  <p>{ticket.subject}</p>
+                </div>
+                <div className="cell">
+                  <span
+                    className={`priority_badge ${getPriorityClass(ticket.priority)}`}
+                  >
+                    {ticket.priority.charAt(0).toUpperCase() +
+                      ticket.priority.slice(1)}
+                  </span>
+                </div>
+                <div className="cell">
+                  <p className={`status ${getStatusClass(ticket.status)}`}>
+                    {ticket.status.replace("_", " ").charAt(0).toUpperCase() +
+                      ticket.status.replace("_", " ").slice(1)}
+                  </p>
+                </div>
+                <div className="cell">
+                  <p>{ticket.assigned_to || "Unassigned"}</p>
+                </div>
+                <div className="cell">
+                  <p>{new Date(ticket.created_at).toLocaleDateString()}</p>
+                </div>
+                <div className="cell action_cell">
+                  <button
+                    className="action_button"
+                    onClick={() => onSelectTicket(ticket)}
+                  >
+                    <span className="material-symbols-outlined">
+                      visibility
+                    </span>
+                  </button>
+                </div>
               </div>
-              <div className="cell">
-                <p>{ticket.id}</p>
-              </div>
-              <div className="cell">
-                <p>{ticket.merchant}</p>
-              </div>
-              <div className="cell">
-                <p>{ticket.subject}</p>
-              </div>
-              <div className="cell">
-                <span
-                  className={`priority_badge ${getPriorityClass(ticket.priority)}`}
-                >
-                  {ticket.priority.charAt(0).toUpperCase() +
-                    ticket.priority.slice(1)}
-                </span>
-              </div>
-              <div className="cell">
-                <p className={`status ${getStatusClass(ticket.status)}`}>
-                  {ticket.status.replace("_", " ").charAt(0).toUpperCase() +
-                    ticket.status.replace("_", " ").slice(1)}
-                </p>
-              </div>
-              <div className="cell">
-                <p>{ticket.assignedTo}</p>
-              </div>
-              <div className="cell">
-                <p>{ticket.lastUpdate}</p>
-              </div>
-              <div className="cell action_cell">
-                <button
-                  className="action_button"
-                  onClick={() => onSelectTicket(ticket)}
-                >
-                  <span className="material-symbols-outlined">visibility</span>
-                </button>
-              </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
     </div>

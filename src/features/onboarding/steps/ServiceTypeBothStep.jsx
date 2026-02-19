@@ -8,8 +8,11 @@ import checkboxGreen from "../../../assets/images/Checkbox-green [1.0].svg";
 import cardPatternWhite from "../../../assets/images/card-pattern-white-bg.svg";
 import cardPatternBlack from "../../../assets/images/card-pattern.svg";
 import CustomSelect from "../../../shared/components/CustomSelect";
+import { supabase } from "../../../shared/services/supabase";
+import { useGlobal } from "../../../app/GlobalContext";
 
 const ServiceTypeBothStep = ({ onNext, onBack, onStepChange }) => {
+  const { showToast } = useGlobal();
   const {
     kycOptions,
     setKycOptions,
@@ -19,6 +22,7 @@ const ServiceTypeBothStep = ({ onNext, onBack, onStepChange }) => {
   } = useOnboarding();
   const [currentSubStep] = useState(1);
   const [activeTab, setActiveTab] = useState("kyc");
+  const [loading, setLoading] = useState(false);
 
   const kycServices = [
     { id: "drivers_license", title: "Driver's License" },
@@ -89,6 +93,32 @@ const ServiceTypeBothStep = ({ onNext, onBack, onStepChange }) => {
     } else if (value === "kyb") {
       setSelectedServices(["kyb_only"]);
       onStepChange(ONBOARDING_STEPS.SERVICE_TYPE_KYB);
+    }
+  };
+
+  const handleNext = async () => {
+    if (selectedKycIds.length === 0 || selectedKybIds.length === 0) return;
+
+    setLoading(true);
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData?.user) throw new Error("User not authenticated.");
+
+      const { error } = await supabase
+        .from("merchants")
+        .update({
+          service_options: { kyc: selectedKycIds, kyb: selectedKybIds },
+          onboarding_step: "business_verification",
+        })
+        .eq("id", userData.user.id);
+
+      if (error) throw error;
+
+      onNext();
+    } catch (error) {
+      showToast(error.message || "Failed to save service options.", "error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -239,10 +269,14 @@ const ServiceTypeBothStep = ({ onNext, onBack, onStepChange }) => {
         </button>
         <button
           className="next_button"
-          onClick={onNext}
-          disabled={selectedKycIds.length === 0 || selectedKybIds.length === 0}
+          onClick={handleNext}
+          disabled={
+            selectedKycIds.length === 0 ||
+            selectedKybIds.length === 0 ||
+            loading
+          }
         >
-          Next
+          {loading ? "Saving..." : "Next"}
         </button>
       </div>
     </div>

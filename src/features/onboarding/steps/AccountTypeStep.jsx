@@ -1,19 +1,12 @@
-import React, { useState } from "react";
-import { useOnboarding } from "../onboarding.context";
-import { ACCOUNT_PLANS, ACCOUNT_TYPE_STEPS } from "../onboarding.constants";
-import rocketLine from "../../../assets/images/rocket-line.svg";
-import buildingLine from "../../../assets/images/building-line.svg";
-import checkboxDefault from "../../../assets/images/Checkbox [1.0].svg";
-import checkboxGreen from "../../../assets/images/Checkbox-green [1.0].svg";
-import selectBoxFill from "../../../assets/images/Radio-selected [1.0].svg";
-import selectBoxInactive from "../../../assets/images/select-box-circle-fill-inactive.svg";
-import cardPatternBlack from "../../../assets/images/card-pattern.svg";
-import cardPatternWhite from "../../../assets/images/card-pattern-white-bg.svg";
+import { supabase } from "../../../shared/services/supabase";
+import { useGlobal } from "../../../app/GlobalContext";
 
 const AccountTypeStep = ({ onNext, onBack }) => {
+  const { showToast } = useGlobal();
   const { accountType, setAccountType } = useOnboarding();
   const [selectedPlan, setSelectedPlan] = useState(accountType);
   const [currentSubStep] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const plans = [
     {
@@ -47,9 +40,30 @@ const AccountTypeStep = ({ onNext, onBack }) => {
     setAccountType(planId);
   };
 
-  const handleNext = () => {
-    if (selectedPlan) {
+  const handleNext = async () => {
+    if (!selectedPlan) return;
+
+    setLoading(true);
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData?.user) throw new Error("User not authenticated.");
+
+      const { error } = await supabase.from("merchants").upsert([
+        {
+          id: userData.user.id,
+          company_type:
+            selectedPlan === ACCOUNT_PLANS.STARTUP ? "Startup" : "Enterprise",
+          onboarding_step: "service_type",
+        },
+      ]);
+
+      if (error) throw error;
+
       onNext();
+    } catch (error) {
+      showToast(error.message || "Failed to save account type.", "error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -157,9 +171,9 @@ const AccountTypeStep = ({ onNext, onBack }) => {
         <button
           className="next_button"
           onClick={handleNext}
-          disabled={!selectedPlan}
+          disabled={!selectedPlan || loading}
         >
-          Next
+          {loading ? "Saving..." : "Next"}
         </button>
       </div>
     </div>

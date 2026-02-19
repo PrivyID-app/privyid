@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import VerticalStepIndicator from "../../../shared/components/VerticalStepIndicator";
 import "./SingleVerification.css";
-
-// Icons
 import UserIcon from "../../../assets/images/user-6-line.svg";
 import BodyScanGrey from "../../../assets/images/body-scan-line-grey.svg";
 import BodyScanGreen from "../../../assets/images/body-scan-line-green.svg";
@@ -12,9 +10,13 @@ import FileTextActive from "../../../assets/images/file-text-line.svg";
 import CardPatternWhite from "../../../assets/images/card-pattern-white-bg.svg";
 import CardPatternBlack from "../../../assets/images/card-pattern.svg";
 import CheckboxIcon from "../../../assets/images/Checkbox [1.0].svg";
+import { supabase } from "../../../shared/services/supabase";
+import { useGlobal } from "../../../app/GlobalContext";
 
 const SingleVerification = () => {
+  const { showToast } = useGlobal();
   const [currentStep, setCurrentStep] = useState(0);
+  const [verifying, setVerifying] = useState(false);
   const [formData, setFormData] = useState({
     userName: "",
     userEmail: "",
@@ -43,9 +45,42 @@ const SingleVerification = () => {
     },
   ];
 
-  const handleNext = () => {
-    if (currentStep < steps.length - 1) {
+  const handleNext = async () => {
+    if (currentStep === 1) {
+      await performVerification();
+    } else if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const performVerification = async () => {
+    setVerifying(true);
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData?.user) throw new Error("Not logged in");
+
+      // Simulate API call delay
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      const { error } = await supabase.from("verifications").insert([
+        {
+          merchant_id: userData.user.id,
+          customer_name: formData.userName,
+          customer_email: formData.userEmail,
+          status: "approved", // Simulating successful verification
+          type: formData.idType,
+          source: "single",
+        },
+      ]);
+
+      if (error) throw error;
+
+      setCurrentStep(2);
+      showToast("Verification completed successfully!", "success");
+    } catch (error) {
+      showToast(error.message || "Verification failed.", "error");
+    } finally {
+      setVerifying(false);
     }
   };
 
@@ -127,7 +162,9 @@ const SingleVerification = () => {
                       onChange={updateFormData}
                       required
                     />
-                    <span className="material-symbols-outlined sv_form_icon">mail</span>
+                    <span className="material-symbols-outlined sv_form_icon">
+                      mail
+                    </span>
                   </div>
                 </div>
 
@@ -209,15 +246,19 @@ const SingleVerification = () => {
               ))}
             </div>
             <div className="button_wrapper">
-              <button className="back_button" onClick={handleBack}>
+              <button
+                className="back_button"
+                onClick={handleBack}
+                disabled={verifying}
+              >
                 Back
               </button>
               <button
                 className="next_button"
                 onClick={handleNext}
-                disabled={!formData.idType}
+                disabled={!formData.idType || verifying}
               >
-                Next
+                {verifying ? "Verifying..." : "Next"}
               </button>
             </div>
           </div>

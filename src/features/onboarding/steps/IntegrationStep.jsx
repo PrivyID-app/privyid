@@ -8,9 +8,14 @@ import codeLine from "../../../assets/images/code-line.svg";
 import aiGenerate from "../../../assets/images/ai-generate.svg";
 import ServiceCard from "../components/ServiceCard";
 
+import { supabase } from "../../../shared/services/supabase";
+import { useGlobal } from "../../../app/GlobalContext";
+
 const IntegrationStep = ({ onNext, onBack }) => {
+  const { showToast } = useGlobal();
   const { integrationMethod, setIntegrationMethod } = useOnboarding();
-  const currentSubStep = 3; // Index for 'Integration' in ACCOUNT_TYPE_STEPS
+  const currentSubStep = 3;
+  const [loading, setLoading] = useState(false);
 
   const methods = [
     {
@@ -37,9 +42,50 @@ const IntegrationStep = ({ onNext, onBack }) => {
     setIntegrationMethod(id);
   };
 
-  const handleNext = () => {
-    if (integrationMethod) {
+  const handleNext = async () => {
+    if (!integrationMethod) return;
+
+    setLoading(true);
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData?.user) throw new Error("User not authenticated.");
+
+      // 1. Update merchant integration method
+      const { error: merchError } = await supabase
+        .from("merchants")
+        .update({
+          integration_method: integrationMethod,
+          onboarding_step: "setup",
+        })
+        .eq("id", userData.user.id);
+
+      if (merchError) throw merchError;
+
+      // 2. Generate API key if API access requested
+      if (integrationMethod !== "dashboard") {
+        const apiKey = `sk_live_${Math.random().toString(36).substring(2, 15)}${Math.random().toString(36).substring(2, 15)}`;
+
+        const { error: tokenError } = await supabase.from("api_tokens").upsert(
+          [
+            {
+              merchant_id: userData.user.id,
+              name: "Default Token",
+              token: apiKey,
+              is_active: true,
+            },
+          ],
+          { onConflict: "merchant_id, name" },
+        );
+
+        if (tokenError) throw tokenError;
+      }
+
+      showToast("Integration method saved!", "success");
       onNext();
+    } catch (error) {
+      showToast(error.message || "Failed to save integration method.", "error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -95,9 +141,9 @@ const IntegrationStep = ({ onNext, onBack }) => {
         <button
           className="next_button"
           onClick={handleNext}
-          disabled={!integrationMethod}
+          disabled={!integrationMethod || loading}
         >
-          Next
+          {loading ? "Saving..." : "Next"}
         </button>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Tabs from "./Tabs";
 import Accordion from "./Accordion";
 import FileDropzone from "./FileDropzone";
@@ -8,12 +8,87 @@ import Table from "./Table";
 import Drawer from "./Drawer";
 import CustomSelect from "./CustomSelect";
 import styles from "./SupportContent.module.css";
+import { supabase } from "../services/supabase";
+import { useGlobal } from "../../app/GlobalContext";
+import TicketConversation from "./TicketConversation";
 
 const SupportContent = () => {
+  const { showToast } = useGlobal();
   const [activeTab, setActiveTab] = useState("submit-ticket");
-  const [priority, setPriority] = useState("low");
+  const [priority, setPriority] = useState("medium");
   const [category, setCategory] = useState("technical");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [tickets, setTickets] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [formData, setFormData] = useState({ subject: "", description: "" });
+  const [selectedTicketId, setSelectedTicketId] = useState(null);
+
+  useEffect(() => {
+    if (activeTab === "tickets") {
+      fetchTickets();
+    }
+  }, [activeTab]);
+
+  const fetchTickets = async () => {
+    setLoading(true);
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData?.user) return;
+
+      const { data, error } = await supabase
+        .from("tickets")
+        .select("*")
+        .eq("merchant_id", userData.user.id)
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      setTickets(data || []);
+    } catch (error) {
+      console.error("Error fetching tickets:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmitTicket = async (e) => {
+    e.preventDefault();
+    if (!formData.subject || !formData.description) {
+      showToast("Please fill in all required fields.", "error");
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData?.user) throw new Error("Not logged in");
+
+      const { error } = await supabase.from("tickets").insert([
+        {
+          merchant_id: userData.user.id,
+          subject: formData.subject,
+          message: formData.description,
+          priority,
+          status: "open",
+        },
+      ]);
+
+      if (error) throw error;
+
+      showToast("Ticket submitted successfully!", "success");
+      setFormData({ subject: "", description: "" });
+      setActiveTab("tickets");
+    } catch (error) {
+      showToast(error.message || "Failed to submit ticket.", "error");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   const categoryOptions = [
     { label: "Technical Issue", value: "technical" },
@@ -25,31 +100,6 @@ const SupportContent = () => {
     { label: "Submit Ticket", key: "submit-ticket" },
     { label: "Tickets", key: "tickets" },
     { label: "Resources", key: "resources" },
-  ];
-
-  // Mock Ticket Data
-  const tickets = [
-    {
-      id: "TKT-1234",
-      issue: "API Authentication Issue",
-      category: "Technical",
-      status: "In Progress",
-      date: "24-01-2026",
-    },
-    {
-      id: "TKT-1198",
-      issue: "Batch Verification Pricing",
-      category: "Billing",
-      status: "Resolved",
-      date: "24-01-2026",
-    },
-    {
-      id: "TKT-1150",
-      issue: "Webhook Not Triggering",
-      category: "Technical",
-      status: "Pending",
-      date: "23-01-2026",
-    },
   ];
 
   const resources = [
@@ -92,43 +142,53 @@ const SupportContent = () => {
   ];
 
   const columns = [
-    { header: "Ticket ID", key: "id", width: "120px" },
-    { header: "Issue", key: "issue" },
-    { header: "Category", key: "category", width: "150px" },
+    {
+      header: "Ticket ID",
+      key: "id",
+      width: "120px",
+      render: (val) => `#${val.split("-")[0].toUpperCase()}`,
+    },
+    { header: "Subject", key: "subject" },
+    {
+      header: "Priority",
+      key: "priority",
+      width: "100px",
+      render: (val) => val.toUpperCase(),
+    },
     {
       header: "Status",
       key: "status",
       width: "150px",
       render: (val) => <StatusChip status={val} />,
     },
-    { header: "Date", key: "date", width: "150px" },
+    {
+      header: "Date",
+      key: "created_at",
+      width: "150px",
+      render: (val) => new Date(val).toLocaleDateString(),
+    },
   ];
 
   const actions = [
-    { icon: "visibility", onClick: (row) => console.log("View", row) },
-    { icon: "delete", onClick: (row) => console.log("Delete", row) },
+    { icon: "visibility", onClick: (row) => setSelectedTicketId(row.id) },
   ];
 
   const renderSubmitTicket = () => (
     <div className={styles.frame}>
       <div className={styles.contentWrapper}>
-        {/* Priority Selection */}
-        <div className={styles.priorityOptions}>
-          {["low", "medium", "high", "urgent"].map((p) => (
-            <RadioButton
-              key={p}
-              checked={priority === p}
-              onChange={() => setPriority(p)}
-              label={p.charAt(0).toUpperCase() + p.slice(1)}
-              className={
-                styles[`radio${p.charAt(0).toUpperCase() + p.slice(1)}`]
-              }
-            />
-          ))}
-        </div>
+        <form onSubmit={handleSubmitTicket} className={styles.form}>
+          {/* Priority Selection */}
+          <div className={styles.priorityOptions}>
+            {["low", "medium", "high", "urgent"].map((p) => (
+              <RadioButton
+                key={p}
+                checked={priority === p}
+                onChange={() => setPriority(p)}
+                label={p.charAt(0).toUpperCase() + p.slice(1)}
+              />
+            ))}
+          </div>
 
-        {/* Form Group */}
-        <div className={styles.form}>
           <div className={styles.inputFields}>
             <div className={styles.inputGroup}>
               <div className={styles.label}>
@@ -137,18 +197,11 @@ const SupportContent = () => {
               <input
                 className={styles.inputBasic}
                 type="text"
+                name="subject"
                 placeholder="Brief Description of your issue"
-              />
-            </div>
-            <div className={styles.inputGroup}>
-              <div className={styles.label}>
-                Category <span className={styles.required}>*</span>
-              </div>
-              <CustomSelect
-                options={categoryOptions}
-                value={category}
-                onSelect={setCategory}
-                placeholder="Select Category"
+                value={formData.subject}
+                onChange={handleInputChange}
+                required
               />
             </div>
           </div>
@@ -159,7 +212,11 @@ const SupportContent = () => {
             </div>
             <textarea
               className={styles.textAreaBasic}
+              name="description"
               placeholder="Please provide detailed information about your issue"
+              value={formData.description}
+              onChange={handleInputChange}
+              required
             />
           </div>
 
@@ -168,16 +225,16 @@ const SupportContent = () => {
           </div>
 
           <div className={styles.buttonWrapper}>
-            <button className={styles.draftButton}>
-              <span className="material-symbols-outlined">save</span>
-              Save as Draft
-            </button>
-            <button className="primary_button">
+            <button
+              type="submit"
+              className="primary_button"
+              disabled={submitting}
+            >
               <span className="material-symbols-outlined">send</span>
-              Submit Ticket
+              {submitting ? "Submitting..." : "Submit Ticket"}
             </button>
           </div>
-        </div>
+        </form>
       </div>
 
       {/* FAQ Sidebar */}
@@ -210,48 +267,48 @@ const SupportContent = () => {
             can retry with valid documents.
           </div>
         </Accordion>
-        <Accordion title="Can I test the API before live?">
-          <div
-            style={{
-              padding: "0.5rem",
-              color: "var(--text-sub-500)",
-              fontSize: "0.875rem",
-            }}
+      </div>
+    </div>
+  );
+
+  const renderTickets = () => {
+    if (selectedTicketId) {
+      return (
+        <TicketConversation
+          ticketId={selectedTicketId}
+          onBack={() => {
+            setSelectedTicketId(null);
+            fetchTickets();
+          }}
+        />
+      );
+    }
+
+    return (
+      <div className={styles.ticketsSection}>
+        <div className={styles.searchBar}>
+          <button
+            className="primary_button"
+            onClick={() => setActiveTab("submit-ticket")}
           >
-            Yes, use the Sandbox environment keys provided in the API tab.
-          </div>
-        </Accordion>
-      </div>
-    </div>
-  );
-
-  const renderTickets = () => (
-    <div className={styles.ticketsSection}>
-      <div className={styles.searchBar}>
-        <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
-          <input
-            className={styles.inputBasic}
-            placeholder="Search tickets..."
-            style={{ width: "300px" }}
-          />
+            <span className="material-symbols-outlined">add</span>
+            New Ticket
+          </button>
         </div>
-        <button
-          className="primary_button"
-          onClick={() => setActiveTab("submit-ticket")}
-        >
-          <span className="material-symbols-outlined">add</span>
-          New Ticket
-        </button>
-      </div>
 
-      <Table
-        columns={columns}
-        data={tickets}
-        showCheckbox={true}
-        actions={actions}
-      />
-    </div>
-  );
+        {loading ? (
+          <p>Loading tickets...</p>
+        ) : (
+          <Table
+            columns={columns}
+            data={tickets}
+            showCheckbox={false}
+            actions={actions}
+          />
+        )}
+      </div>
+    );
+  };
 
   const renderResources = () => (
     <div className={styles.resourcesSection}>

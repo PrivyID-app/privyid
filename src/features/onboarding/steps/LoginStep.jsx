@@ -1,25 +1,87 @@
-import React, { useState } from 'react';
-import userFill from '../../../assets/images/user-fill.svg';
-import checkboxIcon from '../../../assets/images/Checkbox [1.0].svg';
-import googleLogo from '../../../assets/images/Google logo [1.0].svg';
-import appleLogo from '../../../assets/images/Apple Logos [1.0].svg';
+import { supabase } from "../../../shared/services/supabase";
+import { useGlobal } from "../../../app/GlobalContext";
+import { useNavigate } from "react-router-dom";
 
-const LoginStep = ({ onNext, onSignupClick, onLoginSuccess }) => { // Added onLoginSuccess
+const LoginStep = ({ onNext, onSignupClick, onLoginSuccess }) => {
+  const navigate = useNavigate();
+  const { showToast } = useGlobal();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    const isMobile =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent,
+      );
+    if (isMobile) {
+      showToast(
+        "Please use a laptop or desktop for a better experience.",
+        "info",
+      );
+    }
+  }, [showToast]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simulate login logic
-    if (email === 'test@example.com' && password === 'password') {
-      if (onLoginSuccess) {
-        onLoginSuccess({ email: email }); // Pass some user data
-      } else {
-        onNext(); // Continue onboarding if no direct login success handler
+    setLoading(true);
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+
+      const user = data.user;
+
+      // 1. Check if Super Admin
+      const { data: adminData } = await supabase
+        .from("super_admins")
+        .select("*")
+        .eq("id", user.id)
+        .single();
+
+      if (adminData) {
+        showToast("Welcome back, Super Admin!", "success");
+        navigate("/super-admin");
+        return;
       }
-    } else {
-      alert('Invalid credentials for demo. Use test@example.com / password');
+
+      // 2. Check if Merchant
+      const { data: merchantData } = await supabase
+        .from("merchants")
+        .select("*")
+        .eq("id", user.id)
+        .single();
+
+      if (merchantData) {
+        if (merchantData.onboarding_step === "completed") {
+          showToast("Login successful!", "success");
+          const serviceMap = {
+            kyc: "/merchant-kyc",
+            kyb: "/merchant-kyb",
+            combined: "/merchant-combined",
+          };
+          navigate(
+            serviceMap[merchantData.service_type] || "/merchant-combined",
+          );
+        } else {
+          showToast("Resuming your onboarding flow...", "info");
+          // Logic to resume onboarding could be implemented in OnboardingFlow.jsx
+          // For now, we just go to onboarding starting point or handle in parent
+          onNext();
+        }
+      } else {
+        // New user or profile missing
+        onNext();
+      }
+    } catch (error) {
+      showToast(error.message || "Invalid credentials.", "error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -40,7 +102,9 @@ const LoginStep = ({ onNext, onSignupClick, onLoginSuccess }) => { // Added onLo
 
       <form className="login_form" onSubmit={handleSubmit}>
         <div className="input_group">
-          <label className="input_label" htmlFor="email">Email</label>
+          <label className="input_label" htmlFor="email">
+            Email
+          </label>
           <div className="input_wrapper">
             <input
               className="input"
@@ -56,7 +120,9 @@ const LoginStep = ({ onNext, onSignupClick, onLoginSuccess }) => { // Added onLo
         </div>
 
         <div className="input_group">
-          <label className="input_label" htmlFor="password">Password</label>
+          <label className="input_label" htmlFor="password">
+            Password
+          </label>
           <div className="input_wrapper">
             <input
               className="input"
@@ -79,13 +145,22 @@ const LoginStep = ({ onNext, onSignupClick, onLoginSuccess }) => { // Added onLo
 
         <div className="forgot_password">
           <div className="checkbox">
-            <img src={checkboxIcon} alt="Checkbox" className="checkbox_icon checked" id="remember_me" />
+            <img
+              src={checkboxIcon}
+              alt="Checkbox"
+              className="checkbox_icon checked"
+              id="remember_me"
+            />
             <p className="checkbox_label">Remember me</p>
           </div>
-          <a className="forgot_password_link" href="#">Forgot password?</a>
+          <a className="forgot_password_link" href="#">
+            Forgot password?
+          </a>
         </div>
 
-        <button className="login_button" type="submit">Login</button>
+        <button className="login_button" type="submit" disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
+        </button>
       </form>
 
       <div className="alt_login">
@@ -108,9 +183,15 @@ const LoginStep = ({ onNext, onSignupClick, onLoginSuccess }) => { // Added onLo
 
       <div className="login_footer">
         <p className="login_footer_text_sm">
-          Don't have an account?{' '}
+          Don't have an account?{" "}
           <span className="login_footer_link">
-            <a className="login_footer_link" onClick={onSignupClick} style={{ cursor: 'pointer' }}>Sign Up</a>
+            <a
+              className="login_footer_link"
+              onClick={onSignupClick}
+              style={{ cursor: "pointer" }}
+            >
+              Sign Up
+            </a>
           </span>
         </p>
       </div>

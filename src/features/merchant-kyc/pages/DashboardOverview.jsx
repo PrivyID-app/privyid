@@ -1,30 +1,19 @@
-import React, { useState } from "react";
-import PageHeader from "../../../components/PageHeader/PageHeader";
-import VerificationTable from "../../../shared/components/VerificationTable";
-import {
-  LineChart,
-  Line,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
-
-// Icons
-import FileTextIcon from "../../../assets/images/file-text-line.svg";
-import FileCheckIcon from "../../../assets/images/file-check-fill.svg";
-import TimeLineIcon from "../../../assets/images/time-line.svg";
-import ErrorWarningIcon from "../../../assets/images/error-warning-line.svg";
-import CheckboxIcon from "../../../assets/images/Checkbox [1.0].svg";
-import CheckboxActiveIcon from "../../../assets/images/Checkbox-active [1.0].svg";
-import CustomSelect from "../../../shared/components/CustomSelect";
+import { supabase } from "../../../shared/services/supabase";
+import { useNavigate } from "react-router-dom";
+import "../../../shared/styles/extra-pages.css";
 
 const DashboardOverview = () => {
+  const navigate = useNavigate();
   const [timeframe, setTimeframe] = useState("this_month");
   const [performanceQuarter, setPerformanceQuarter] = useState("quarter1");
+  const [viewingAsMerchant, setViewingAsMerchant] = useState(
+    localStorage.getItem("admin_viewing_merchant_id"),
+  );
+
+  const handleReturnToAdmin = () => {
+    localStorage.removeItem("admin_viewing_merchant_id");
+    navigate("/super-admin");
+  };
 
   const timeframeOptions = [
     { label: "This Month", value: "this_month" },
@@ -114,6 +103,24 @@ const DashboardOverview = () => {
       />
 
       <div className="content_area">
+        {viewingAsMerchant && (
+          <div className="admin_view_banner">
+            <div className="banner_info">
+              <span className="material-symbols-outlined">visibility</span>
+              <p>
+                Viewing Dashboard as Merchant ID:{" "}
+                <strong>{viewingAsMerchant}</strong>
+              </p>
+            </div>
+            <button
+              className="primary_button btn-sm"
+              onClick={handleReturnToAdmin}
+            >
+              Return to Admin Panel
+            </button>
+          </div>
+        )}
+
         {/* Quick Actions */}
         <div className="quick_actions">
           <p className="section_title">Quick Actions</p>

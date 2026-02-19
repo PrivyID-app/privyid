@@ -154,8 +154,15 @@
   color: var(--text-white-0);
 }
 
-.merchant_combined_layout .active_tab .tab-link .icon_title span.material-symbols-outlined,
-.merchant_combined_layout .active_tab .tab-link span.material-symbols-outlined.arrow_icon {
+.merchant_combined_layout
+  .active_tab
+  .tab-link
+  .icon_title
+  span.material-symbols-outlined,
+.merchant_combined_layout
+  .active_tab
+  .tab-link
+  span.material-symbols-outlined.arrow_icon {
   color: var(--text-white-0);
 }
 
@@ -290,11 +297,44 @@
   display: flex;
   flex-direction: column;
   padding: 1rem 0.75rem;
-  row-gap: 1rem;
+  row-gap: 1.5rem;
   overflow-y: auto;
   overflow-x: auto;
   flex: 1;
-  min-height: 0; /* allow flex child to shrink and enable scrolling */
+  min-height: 0;
+}
+
+.admin_view_banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background-color: #fff7e6;
+  border: 1px solid #ffe7ba;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.banner_info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #d46b08;
+}
+
+.banner_info span {
+  font-size: 20px;
+}
+
+.banner_info p {
+  font-size: 14px;
+  margin: 0;
+}
+
+.btn-sm {
+  padding: 6px 12px !important;
+  font-size: 12px !important;
+  height: auto !important;
 }
 
 /* Modern scrollbar styling */

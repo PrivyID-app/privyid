@@ -1,14 +1,9 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useOnboarding } from "../onboarding.context";
-import { ACCOUNT_TYPE_STEPS } from "../onboarding.constants";
-import selectBoxFill from "../../../assets/images/Radio-selected [1.0].svg";
-import selectBoxInactive from "../../../assets/images/select-box-circle-fill-inactive.svg";
-import trafficLights from "../../../assets/images/Traffic Lights (Big Sur).svg";
-import StatusModal from "../../../shared/components/StatusModal";
+import { supabase } from "../../../shared/services/supabase";
+import { useGlobal } from "../../../app/GlobalContext";
 
 const SetupStep = ({ onBack }) => {
   const navigate = useNavigate();
+  const { showToast } = useGlobal();
   const { selectedServices } = useOnboarding();
   const [activeTab, setActiveTab] = useState("sandbox");
   const [copiedKey, setCopiedKey] = useState(null);
@@ -17,15 +12,41 @@ const SetupStep = ({ onBack }) => {
   const [modalType, setModalType] = useState("success");
   const [modalTitle, setModalTitle] = useState("");
   const [modalDescription, setModalDescription] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [apiKeys, setApiKeys] = useState({
+    sandbox: "sk_test_51Hxxxxxx",
+    production: "Production Key Not Found",
+  });
 
-  const currentSubStep = 4; // Index for 'Setup' in ACCOUNT_TYPE_STEPS
+  const currentSubStep = 4;
 
-  const sandboxKey = "sk_test_51Hxxxxxx";
-  const productionKey = "sk_live_51HqLyjWDarjtT1zdp7dcA89";
+  useEffect(() => {
+    fetchApiKeys();
+  }, []);
+
+  const fetchApiKeys = async () => {
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData?.user) return;
+
+      const { data, error } = await supabase
+        .from("api_tokens")
+        .select("token")
+        .eq("merchant_id", userData.user.id)
+        .eq("name", "Default Token")
+        .single();
+
+      if (data) {
+        setApiKeys((prev) => ({ ...prev, production: data.token }));
+      }
+    } catch (error) {
+      console.error("Error fetching API keys:", error);
+    }
+  };
 
   const codeSnippet = `const PrivyID = require('privyid');
 
-                        const client = new PrivyID('sk_live_51HqLyjWDarjtT1zdp7dcA89');
+                        const client = new PrivyID('${apiKeys.production}');
 
                         // Verify a passport
                         
@@ -45,7 +66,7 @@ const SetupStep = ({ onBack }) => {
     setModalDescription(
       "The code snippet has been copied to your clipboard successfully.",
     );
-    setModalType("success"); // Set modal type
+    setModalType("success");
     setShowModal(true);
   };
 
@@ -55,25 +76,49 @@ const SetupStep = ({ onBack }) => {
     setModalDescription(
       "Your API key has been copied securely to your clipboard.",
     );
-    setModalType("success"); // Set modal type
+    setModalType("success");
     setShowModal(true);
     setCopiedKey(key);
     setTimeout(() => setCopiedKey(null), 2000);
   };
 
-  const handleComplete = () => {
-    // Navigate based on selected service type
-    if (selectedServices.includes("kyc_only")) {
-      navigate("/merchant-kyc");
-    } else if (selectedServices.includes("kyb_only")) {
-      navigate("/merchant-kyb");
-    } else if (selectedServices.includes("kyc_kyb")) {
-      navigate("/merchant-combined");
+  const handleComplete = async () => {
+    setLoading(true);
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData?.user) throw new Error("User not authenticated.");
+
+      const { error } = await supabase
+        .from("merchants")
+        .update({
+          onboarding_step: "completed",
+        })
+        .eq("id", userData.user.id);
+
+      if (error) throw error;
+
+      showToast("Onboarding complete!", "success");
+
+      // Navigate based on selected service type
+      if (selectedServices.includes("kyc_only")) {
+        navigate("/merchant-kyc");
+      } else if (selectedServices.includes("kyb_only")) {
+        navigate("/merchant-kyb");
+      } else if (selectedServices.includes("kyc_kyb")) {
+        navigate("/merchant-combined");
+      } else {
+        // Fallback or default
+        navigate("/merchant-combined");
+      }
+    } catch (error) {
+      showToast(error.message || "Failed to complete setup.", "error");
+    } finally {
+      setLoading(false);
     }
   };
 
   const renderTabContent = () => {
-    const key = activeTab === "sandbox" ? sandboxKey : productionKey;
+    const key = activeTab === "sandbox" ? apiKeys.sandbox : apiKeys.production;
     const description =
       activeTab === "sandbox"
         ? "Test environment for development. No real verifications processed."
@@ -214,8 +259,12 @@ const SetupStep = ({ onBack }) => {
         <button className="back_button" onClick={onBack}>
           Back
         </button>
-        <button className="next_button complete_btn" onClick={handleComplete}>
-          Complete Setup{" "}
+        <button
+          className="next_button complete_btn"
+          onClick={handleComplete}
+          disabled={loading}
+        >
+          {loading ? "Completing..." : "Complete Setup"}
           <span className="material-symbols-outlined">check_circle</span>
         </button>
       </div>

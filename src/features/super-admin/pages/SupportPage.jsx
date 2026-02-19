@@ -1,12 +1,68 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import TicketList from "../components/support/TicketList";
-import CustomSelect from "../../../shared/components/CustomSelect"; // Import CustomSelect
+import CustomSelect from "../../../shared/components/CustomSelect";
+import { supabase } from "../../../shared/services/supabase";
 import "../super-admin.css";
 
 const SupportPage = () => {
   const [selectedTicket, setSelectedTicket] = useState(null);
+  const [messages, setMessages] = useState([]);
   const [response, setResponse] = useState("");
+  const [loadingMessages, setLoadingMessages] = useState(false);
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    if (selectedTicket) {
+      fetchTicketMessages(selectedTicket.id);
+
+      const subscription = supabase
+        .channel(`public:ticket_messages:ticket_id=eq.${selectedTicket.id}`)
+        .on(
+          "postgres_changes",
+          {
+            event: "INSERT",
+            schema: "public",
+            table: "ticket_messages",
+            filter: `ticket_id=eq.${selectedTicket.id}`,
+          },
+          (payload) => {
+            setMessages((prev) => [...prev, payload.new]);
+          },
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(subscription);
+      };
+    }
+  }, [selectedTicket]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const fetchTicketMessages = async (ticketId) => {
+    setLoadingMessages(true);
+    try {
+      const { data, error } = await supabase
+        .from("ticket_messages")
+        .select("*")
+        .eq("ticket_id", ticketId)
+        .order("created_at", { ascending: true });
+
+      if (error) throw error;
+      setMessages(data || []);
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+    } finally {
+      setLoadingMessages(false);
+    }
+  };
 
   const supportStats = [
     {
@@ -54,22 +110,54 @@ const SupportPage = () => {
     { value: "Michael Chen", label: "Michael Chen" },
   ];
 
-  const handleAssignTicket = (ticketId, adminName) => {
-    console.log(`Assigning ticket ${ticketId} to ${adminName}`);
-    // In a real application, you would update the ticket state here
-    setSelectedTicket((prev) => ({ ...prev, assignedTo: adminName }));
+  const handleAssignTicket = async (ticketId, adminName) => {
+    try {
+      const { error } = await supabase
+        .from("tickets")
+        .update({ assigned_to: adminName })
+        .eq("id", ticketId);
+
+      if (error) throw error;
+      setSelectedTicket((prev) => ({ ...prev, assigned_to: adminName }));
+    } catch (error) {
+      console.error("Error assigning ticket:", error);
+    }
   };
 
-  const handleUpdateStatus = (ticketId, newStatus) => {
-    console.log(`Updating ticket ${ticketId} status to ${newStatus}`);
-    // In a real application, you would update the ticket state here
-    setSelectedTicket((prev) => ({ ...prev, status: newStatus }));
+  const handleUpdateStatus = async (ticketId, newStatus) => {
+    try {
+      const { error } = await supabase
+        .from("tickets")
+        .update({ status: newStatus })
+        .eq("id", ticketId);
+
+      if (error) throw error;
+      setSelectedTicket((prev) => ({ ...prev, status: newStatus }));
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
   };
 
-  const handleSendResponse = () => {
-    if (selectedTicket && response) {
-      console.log(`Sending response to ticket ${selectedTicket.id}:`, response);
-      setResponse("");
+  const handleSendResponse = async () => {
+    if (selectedTicket && response.trim()) {
+      try {
+        const { data: userData } = await supabase.auth.getUser();
+        if (!userData?.user) throw new Error("Not logged in");
+
+        const { error } = await supabase.from("ticket_messages").insert([
+          {
+            ticket_id: selectedTicket.id,
+            sender_id: userData.user.id,
+            sender_type: "admin",
+            message: response.trim(),
+          },
+        ]);
+
+        if (error) throw error;
+        setResponse("");
+      } catch (error) {
+        console.error("Error sending response:", error);
+      }
     }
   };
 
@@ -124,8 +212,9 @@ const SupportPage = () => {
                 <div>
                   <h2>{selectedTicket.subject}</h2>
                   <p className="ticket_meta">
-                    Ticket ID: {selectedTicket.id} | Created:{" "}
-                    {selectedTicket.created}
+                    Ticket ID: #{selectedTicket.id.split("-")[0].toUpperCase()}{" "}
+                    | Created:{" "}
+                    {new Date(selectedTicket.created_at).toLocaleString()}
                   </p>
                 </div>
                 <div className="ticket_actions">
@@ -139,7 +228,7 @@ const SupportPage = () => {
                   />
                   <CustomSelect
                     options={assignOptions}
-                    value={selectedTicket.assignedTo}
+                    value={selectedTicket.assigned_to || "Unassigned"}
                     onSelect={(value) =>
                       handleAssignTicket(selectedTicket.id, value)
                     }
@@ -151,38 +240,58 @@ const SupportPage = () => {
               <div className="ticket_info_grid">
                 <div className="info_item">
                   <label>Merchant</label>
-                  <p>{selectedTicket.merchant}</p>
+                  <p>{selectedTicket.merchants?.company_name || "N/A"}</p>
                 </div>
                 <div className="info_item">
                   <label>Priority</label>
-                  <p>{selectedTicket.priority}</p>
+                  <p>{selectedTicket.priority?.toUpperCase()}</p>
                 </div>
                 <div className="info_item">
                   <label>Assigned To</label>
-                  <p>{selectedTicket.assignedTo}</p>
+                  <p>{selectedTicket.assigned_to || "Unassigned"}</p>
                 </div>
                 <div className="info_item">
                   <label>Last Updated</label>
-                  <p>{selectedTicket.lastUpdate}</p>
+                  <p>
+                    {new Date(selectedTicket.created_at).toLocaleDateString()}
+                  </p>
                 </div>
               </div>
 
               <div className="ticket_conversation">
                 <h3>Conversation</h3>
                 <div className="conversation_thread">
+                  {/* Initial Message */}
                   <div className="message merchant_message">
                     <div className="message_header">
-                      <strong>{selectedTicket.merchant}</strong>
+                      <strong>{selectedTicket.merchants?.company_name}</strong>
                       <span className="message_time">
-                        {selectedTicket.created}
+                        {new Date(selectedTicket.created_at).toLocaleString()}
                       </span>
                     </div>
-                    <p>
-                      I'm experiencing issues with the API integration. The
-                      webhook endpoints are not receiving the verification
-                      completion events. Can you please help?
-                    </p>
+                    <p>{selectedTicket.message}</p>
                   </div>
+
+                  {/* Reply Thread */}
+                  {messages.map((msg) => (
+                    <div
+                      key={msg.id}
+                      className={`message ${msg.sender_type === "admin" ? "admin_message" : "merchant_message"}`}
+                    >
+                      <div className="message_header">
+                        <strong>
+                          {msg.sender_type === "admin"
+                            ? "Support Agent"
+                            : selectedTicket.merchants?.company_name}
+                        </strong>
+                        <span className="message_time">
+                          {new Date(msg.created_at).toLocaleString()}
+                        </span>
+                      </div>
+                      <p>{msg.message}</p>
+                    </div>
+                  ))}
+                  <div ref={messagesEndRef} />
                 </div>
               </div>
 
@@ -196,7 +305,6 @@ const SupportPage = () => {
                   className="response_textarea"
                 />
                 <div className="composer_actions">
-
                   <button className="secondary_button">
                     <span className="material-symbols-outlined">
                       attach_file
@@ -204,11 +312,13 @@ const SupportPage = () => {
                     Attach File
                   </button>
 
-                  <button className="primary_button" onClick={handleSendResponse}>
+                  <button
+                    className="primary_button"
+                    onClick={handleSendResponse}
+                  >
                     <span className="material-symbols-outlined">send</span>
                     Send Response
                   </button>
-                  
                 </div>
               </div>
             </div>

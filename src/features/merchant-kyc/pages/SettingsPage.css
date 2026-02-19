@@ -323,33 +323,41 @@
   color: var(--text-sub-600);
 }
 
-/* User List */
+/* User List Management */
 .user_list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   margin-top: 24px;
 }
 
 .user_item {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid var(--stroke-soft-200);
-  padding: 16px 0;
+  padding: 16px;
+  background-color: var(--white);
+  border: 1px solid var(--stroke-soft-200);
+  border-radius: 12px;
+  gap: 16px;
+  transition: all 0.2s;
 }
 
-.user_item:last-child {
-  border-bottom: none;
+.user_item:hover {
+  border-color: var(--stroke-sub-300);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .user_avatar {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
+  width: 40px;
+  height: 40px;
   background-color: var(--state-information-lighter);
   color: var(--state-information-base);
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 400;
-  margin-right: 1rem;
+  font-weight: 500;
+  font-size: 16px;
 }
 
 .user_info {
@@ -357,36 +365,66 @@
 }
 
 .user_name {
-  font-weight: 400;
+  font-weight: 500;
   color: var(--text-strong-950);
+  font-size: 14px;
 }
 
 .user_email {
-  font-size: 0.8rem;
+  font-size: 13px;
   color: var(--text-sub-600);
 }
 
 .user_role {
-  font-size: 0.8rem;
-  padding: 2px 8px;
-  border-radius: 4px;
-  background-color: var(--bg-weak-50);
+  font-size: 12px;
   color: var(--text-strong-950);
-  margin-right: 16px;
+  background-color: var(--bg-weak-50);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 400;
 }
 
-.add_user_btn {
+.status_pill {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: capitalize;
+  padding: 4px 10px;
+  border-radius: 99px;
+  min-width: 70px;
+  text-align: center;
+}
+
+.status_pill.pending {
+  background-color: #fff7e6;
+  color: #fa8c16;
+  border: 1px solid #ffd591;
+}
+
+.status_pill.active {
+  background-color: #f6ffed;
+  color: #52c41a;
+  border: 1px solid #b7eb8f;
+}
+
+.hint_text {
+  font-size: 14px;
+  color: var(--text-soft-400);
+  font-style: italic;
+  padding: 20px 0;
+}
+
+.modal_form {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  background-color: var(--state-success-base);
-  color: var(--text-white-0);
-  border: none;
-  border-radius: 8px;
-  font-weight: 400;
-  cursor: pointer;
-  margin-bottom: 24px;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.input_label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-strong-950);
+  margin-bottom: 8px;
 }
 
 /* Verification Link */
