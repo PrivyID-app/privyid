@@ -169,9 +169,12 @@ const SupportContent = () => {
     },
   ];
 
-  const actions = [
-    { icon: "visibility", onClick: (row) => setSelectedTicketId(row.id) },
-  ];
+  const openTicketDrawer = (row) => {
+    setSelectedTicketId(row.id);
+    setIsDrawerOpen(true);
+  };
+
+  const actions = [{ icon: "chat", onClick: openTicketDrawer }];
 
   const renderSubmitTicket = () => (
     <div className={styles.frame}>
@@ -271,44 +274,40 @@ const SupportContent = () => {
     </div>
   );
 
-  const renderTickets = () => {
-    if (selectedTicketId) {
-      return (
-        <TicketConversation
-          ticketId={selectedTicketId}
-          onBack={() => {
-            setSelectedTicketId(null);
-            fetchTickets();
-          }}
-        />
-      );
-    }
-
-    return (
-      <div className={styles.ticketsSection}>
-        <div className={styles.searchBar}>
-          <button
-            className="primary_button"
-            onClick={() => setActiveTab("submit-ticket")}
-          >
-            <span className="material-symbols-outlined">add</span>
-            New Ticket
-          </button>
-        </div>
-
-        {loading ? (
-          <p>Loading tickets...</p>
-        ) : (
-          <Table
-            columns={columns}
-            data={tickets}
-            showCheckbox={false}
-            actions={actions}
-          />
-        )}
+  const renderTickets = () => (
+    <div className={styles.ticketsSection}>
+      <div className={styles.searchBar}>
+        <button
+          className="primary_button"
+          onClick={() => setActiveTab("submit-ticket")}
+        >
+          <span className="material-symbols-outlined">add</span>
+          New Ticket
+        </button>
       </div>
-    );
-  };
+
+      {loading ? (
+        <p>Loading tickets...</p>
+      ) : tickets.length === 0 ? (
+        <div className={styles.emptyState}>
+          <span
+            className="material-symbols-outlined"
+            style={{ fontSize: "48px", color: "var(--text-soft-400)" }}
+          >
+            inbox
+          </span>
+          <p>No tickets yet. Submit one above!</p>
+        </div>
+      ) : (
+        <Table
+          columns={columns}
+          data={tickets}
+          showCheckbox={false}
+          actions={actions}
+        />
+      )}
+    </div>
+  );
 
   const renderResources = () => (
     <div className={styles.resourcesSection}>
@@ -476,35 +475,26 @@ const SupportContent = () => {
         </div>
       </div>
 
-      {/* Live Chat Drawer */}
+      {/* Ticket Conversation Drawer */}
       <Drawer
         isOpen={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-        title="Live Chat Support"
-        width="450px"
+        onClose={() => {
+          setIsDrawerOpen(false);
+          setSelectedTicketId(null);
+        }}
+        title="Ticket Conversation"
+        width="520px"
       >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            height: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "1rem",
-            color: "var(--text-soft-400)",
-          }}
-        >
-          <span
-            className="material-symbols-outlined"
-            style={{ fontSize: "48px" }}
-          >
-            chat_bubble_outline
-          </span>
-          <p>How can we help you today?</p>
-          <button className="primary_button" style={{ width: "100%" }}>
-            Start Conversation
-          </button>
-        </div>
+        {selectedTicketId && (
+          <TicketConversation
+            ticketId={selectedTicketId}
+            onBack={() => {
+              setIsDrawerOpen(false);
+              setSelectedTicketId(null);
+              fetchTickets();
+            }}
+          />
+        )}
       </Drawer>
     </div>
   );
