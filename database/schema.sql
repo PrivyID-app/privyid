@@ -12,21 +12,40 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 -- Merchants Table: Stores business information for clients using the API
+-- The 'id' corresponds to the Supabase Auth User ID (auth.uid())
 CREATE TABLE IF NOT EXISTS merchants (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID REFERENCES users(id),
-    business_name TEXT NOT NULL,
+    id UUID PRIMARY KEY REFERENCES auth.users(id),
+    email TEXT UNIQUE NOT NULL,
+    business_name TEXT,
+    slogan TEXT,
+    logo_url TEXT,
     website_url TEXT,
     account_type TEXT CHECK (account_type IN ('individual', 'business')),
+    company_type TEXT, -- Startup, Enterprise
+    service_type TEXT CHECK (service_type IN ('kyc', 'kyb', 'combined')),
+    verification_url_slug TEXT UNIQUE,
+    onboarding_step TEXT DEFAULT 'verify_email',
     verification_status TEXT DEFAULT 'pending',
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Merchant Users Table: For team management
+CREATE TABLE IF NOT EXISTS merchant_users (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    merchant_id UUID REFERENCES auth.users(id) NOT NULL,
+    user_id UUID REFERENCES auth.users(id), -- If they are already a platform user
+    email TEXT NOT NULL,
+    full_name TEXT,
+    role TEXT NOT NULL DEFAULT 'member' CHECK (role IN ('owner', 'admin', 'member')),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(merchant_id, email)
 );
 
 -- API Tokens Table: Stores API credentials for merchants
 CREATE TABLE IF NOT EXISTS api_tokens (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     merchant_id UUID REFERENCES auth.users(id) NOT NULL,
-    name TEXT NOT NULL, -- e.g., 'Default Token'
+    name TEXT NOT NULL,
     token TEXT NOT NULL,
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
@@ -50,26 +69,84 @@ CREATE TABLE IF NOT EXISTS business_details (
 -- Verifications Table: Tracks identity verification requests
 CREATE TABLE IF NOT EXISTS verifications (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    merchant_id UUID REFERENCES merchants(id),
-    user_identifier TEXT NOT NULL, -- ID provided by the merchant
-    status TEXT NOT NULL CHECK (status IN ('initiated', 'pending', 'completed', 'failed', 'expired')),
-    verification_type TEXT CHECK (verification_type IN ('kyc', 'kyb', 'both')),
-    token TEXT UNIQUE NOT NULL, -- The PrivyID token returned to the merchant
-    metadata JSONB, -- Additional data provided by the merchant or captured during flow
+    merchant_id UUID REFERENCES auth.users(id) NOT NULL,
+    customer_name TEXT,
+    customer_email TEXT,
+    user_identifier TEXT, -- Optional, provided by merchant
+    status TEXT NOT NULL DEFAULT 'initiated' CHECK (status IN ('initiated', 'pending', 'approved', 'rejected', 'failed', 'expired')),
+    type TEXT, -- ID type or service type (Passport, Driver License, etc.)
+    source TEXT DEFAULT 'api' CHECK (source IN ('api', 'single', 'batch')),
+    token TEXT UNIQUE,
+    metadata JSONB,
     completed_at TIMESTAMP WITH TIME ZONE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- Audit Logs Table: Tracks sensitive actions in the platform
-CREATE TABLE IF NOT EXISTS audit_logs (
+-- Support Tickets Table: Stores support requests from merchants
+CREATE TABLE IF NOT EXISTS tickets (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    actor_id UUID REFERENCES users(id),
-    action TEXT NOT NULL,
-    resource_type TEXT NOT NULL,
-    resource_id UUID,
-    ip_address TEXT,
+    merchant_id UUID REFERENCES auth.users(id) NOT NULL,
+    subject TEXT NOT NULL,
+    message TEXT NOT NULL,
+    priority TEXT NOT NULL CHECK (priority IN ('low', 'medium', 'high', 'urgent')),
+    status TEXT NOT NULL DEFAULT 'open',
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Ticket Messages Table: Stores the conversation within a ticket
+CREATE TABLE IF NOT EXISTS ticket_messages (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    ticket_id UUID REFERENCES tickets(id) ON DELETE CASCADE NOT NULL,
+    sender_id UUID REFERENCES auth.users(id) NOT NULL,
+    sender_type TEXT NOT NULL CHECK (sender_type IN ('merchant', 'admin')),
+    message TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Enable RLS on all tables
+ALTER TABLE merchants ENABLE ROW LEVEL SECURITY;
+ALTER TABLE merchant_users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE api_tokens ENABLE ROW LEVEL SECURITY;
+ALTER TABLE business_details ENABLE ROW LEVEL SECURITY;
+ALTER TABLE verifications ENABLE ROW LEVEL SECURITY;
+ALTER TABLE tickets ENABLE ROW LEVEL SECURITY;
+ALTER TABLE ticket_messages ENABLE ROW LEVEL SECURITY;
+
+-- RLS Policies
+
+-- Merchants
+CREATE POLICY "Merchants can view/update own profile" ON merchants
+    FOR ALL USING (id = auth.uid());
+
+-- Merchant Users
+CREATE POLICY "Merchants can manage their team" ON merchant_users
+    FOR ALL USING (merchant_id = auth.uid());
+
+-- API Tokens
+CREATE POLICY "Merchants can manage their own tokens" ON api_tokens
+    FOR ALL USING (merchant_id = auth.uid());
+
+-- Business Details
+CREATE POLICY "Merchants can manage their business details" ON business_details
+    FOR ALL USING (merchant_id = auth.uid());
+
+-- Verifications
+CREATE POLICY "Merchants can manage their own verifications" ON verifications
+    FOR ALL USING (merchant_id = auth.uid());
+
+-- Tickets
+CREATE POLICY "Merchants can manage their own tickets" ON tickets
+    FOR ALL USING (merchant_id = auth.uid());
+
+-- Ticket Messages
+CREATE POLICY "Merchants can view/insert messages for their tickets" ON ticket_messages
+    FOR ALL USING (
+        EXISTS (
+            SELECT 1 FROM tickets 
+            WHERE tickets.id = ticket_messages.ticket_id 
+            AND tickets.merchant_id = auth.uid()
+        )
+    );
 
 -- Verification Codes Table: Stores 4-digit PINs for email verification
 CREATE TABLE IF NOT EXISTS verification_codes (

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import VerificationTable from "../../../shared/components/VerificationTable";
+import { supabase } from "../../../shared/services/supabase";
 
 // Icons
 import FileTextIcon from "../../../assets/images/file-text-line.svg";
@@ -9,99 +10,64 @@ import TimeLineIcon from "../../../assets/images/time-line.svg";
 import ErrorWarningIcon from "../../../assets/images/error-warning-line.svg";
 
 const TokensPage = () => {
-  // Mock Data for Table
-  const tokens = [
-    {
-      id: "tok_abc123def456",
-      type: "Passport",
-      name: "John Doe",
-      status: "Approved",
-      batch: "#BATCH1001",
-      date: "15 Sep 2024",
-      time: "10:30 AM",
-    },
-    {
-      id: "tok_xyz789ghi012",
-      type: "Driver License",
-      name: "Jane Smith",
-      status: "Pending",
-      batch: "#BATCH1002",
-      date: "16 Sep 2024",
-      time: "11:45 AM",
-    },
-    {
-      id: "tok_uvw345jkl678",
-      type: "National ID",
-      name: "Mike Johnson",
-      status: "Rejected",
-      batch: "#BATCH1003",
-      date: "17 Sep 2024",
-      time: "09:15 AM",
-    },
-    {
-      id: "tok_rst901mno345",
-      type: "Tax ID",
-      name: "Sarah Williams",
-      status: "Approved",
-      batch: "#BATCH1004",
-      date: "18 Sep 2024",
-      time: "02:20 PM",
-    },
-    {
-      id: "tok_opq678stu901",
-      type: "Passport",
-      name: "Chris Brown",
-      status: "Approved",
-      batch: "#BATCH1005",
-      date: "19 Sep 2024",
-      time: "04:10 PM",
-    },
-    {
-      id: "tok_def234ghi567",
-      type: "Driver License",
-      name: "Emily Davis",
-      status: "Approved",
-      batch: "#BATCH1006",
-      date: "20 Sep 2024",
-      time: "09:00 AM",
-    },
-    {
-      id: "tok_jkl567mno890",
-      type: "National ID",
-      name: "David Wilson",
-      status: "Pending",
-      batch: "#BATCH1007",
-      date: "20 Sep 2024",
-      time: "10:30 AM",
-    },
-    {
-      id: "tok_pqr890stu123",
-      type: "Passport",
-      name: "Sophia Martinez",
-      status: "Rejected",
-      batch: "#BATCH1008",
-      date: "21 Sep 2024",
-      time: "11:15 AM",
-    },
-    {
-      id: "tok_vwx123yz456",
-      type: "Tax ID",
-      name: "James Anderson",
-      status: "Approved",
-      batch: "#BATCH1009",
-      date: "21 Sep 2024",
-      time: "01:45 PM",
-    },
-    {
-      id: "tok_abc789def012",
-      type: "Driver License",
-      name: "Olivia Thomas",
-      status: "Approved",
-      batch: "#BATCH1010",
-      date: "22 Sep 2024",
-      time: "03:20 PM",
-    },
-  ];
+  const [tokens, setTokens] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState({
+    total: 0,
+    active: 0,
+    pending: 0,
+    revoked: 0,
+  });
+
+  useEffect(() => {
+    fetchTokens();
+  }, []);
+
+  const fetchTokens = async () => {
+    setLoading(true);
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData?.user) return;
+
+      const { data, error } = await supabase
+        .from("api_tokens")
+        .select("*")
+        .eq("merchant_id", userData.user.id)
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+
+      const mappedTokens = data.map((t) => ({
+        id: t.token.substring(0, 12) + "...",
+        type: "API Key",
+        name: t.name,
+        status: t.is_active ? "Approved" : "Rejected",
+        batch: "#SYSTEM",
+        date: new Date(t.created_at).toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        }),
+        time: new Date(t.created_at).toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        }),
+      }));
+
+      setTokens(mappedTokens);
+      setStats({
+        total: mappedTokens.length,
+        active: mappedTokens.filter((t) => t.status === "Approved").length,
+        pending: 0,
+        revoked: mappedTokens.filter((t) => t.status === "Rejected").length,
+      });
+    } catch (error) {
+      console.error("Error fetching tokens:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="content_wrapper">
@@ -114,7 +80,7 @@ const TokensPage = () => {
       <div className="content_area">
         <div className="recent_verifications">
           <div className="top_area">
-            <p className="section_title">Recent Verifications</p>
+            <p className="section_title">API Tokens</p>
 
             <div className="search_box">
               <span className="material-symbols-outlined search_icon">
@@ -122,20 +88,15 @@ const TokensPage = () => {
               </span>
               <input
                 type="text"
-                placeholder="Search by name, email, or ID"
+                placeholder="Search by name"
                 className="search_input"
               />
             </div>
 
             <div className="filter_wrapper">
-              <button className="secondary_button">
-                <span className="material-symbols-outlined">filter_list</span>
-                <p>Filter Records</p>
-              </button>
-
-              <button className="secondary_button">
-                <span className="material-symbols-outlined">download</span>
-                <p>Download as CSV</p>
+              <button className="secondary_button" onClick={fetchTokens}>
+                <span className="material-symbols-outlined">refresh</span>
+                <p>Refresh</p>
               </button>
             </div>
           </div>
@@ -147,15 +108,9 @@ const TokensPage = () => {
                 <div className="overview_card_icon">
                   <img src={FileTextIcon} alt="Total Tokens Issued" />
                 </div>
-                <div className="card_rate">
-                  <span className="material-symbols-outlined up_icon">
-                    arrow_upward
-                  </span>
-                  <p className="rate_value">+12.5%</p>
-                </div>
               </div>
               <div className="card_content">
-                <p className="card_value">1,250</p>
+                <p className="card_value">{stats.total}</p>
                 <p className="card_title">Total Tokens Issued</p>
               </div>
             </div>
@@ -166,15 +121,9 @@ const TokensPage = () => {
                 <div className="overview_card_icon">
                   <img src={FileCheckIcon} alt="Active Tokens" />
                 </div>
-                <div className="card_rate">
-                  <span className="material-symbols-outlined up_icon">
-                    arrow_upward
-                  </span>
-                  <p className="rate_value">+10.2%</p>
-                </div>
               </div>
               <div className="card_content">
-                <p className="card_value">950</p>
+                <p className="card_value">{stats.active}</p>
                 <p className="card_title">Active Tokens</p>
               </div>
             </div>
@@ -185,15 +134,9 @@ const TokensPage = () => {
                 <div className="overview_card_icon">
                   <img src={TimeLineIcon} alt="Pending Tokens" />
                 </div>
-                <div className="card_rate">
-                  <span className="material-symbols-outlined up_icon">
-                    arrow_upward
-                  </span>
-                  <p className="rate_value">+5.4%</p>
-                </div>
               </div>
               <div className="card_content">
-                <p className="card_value">150</p>
+                <p className="card_value">{stats.pending}</p>
                 <p className="card_title">Pending Tokens</p>
               </div>
             </div>
@@ -204,32 +147,21 @@ const TokensPage = () => {
                 <div className="overview_card_icon">
                   <img src={ErrorWarningIcon} alt="Revoked Tokens" />
                 </div>
-                <div
-                  className="card_rate"
-                  style={{ color: "var(--state-error-base)" }}
-                >
-                  <span
-                    className="material-symbols-outlined up_icon"
-                    style={{ transform: "rotate(180deg)" }}
-                  >
-                    arrow_upward
-                  </span>
-                  <p
-                    className="rate_value"
-                    style={{ color: "var(--state-error-base)" }}
-                  >
-                    +1.2%
-                  </p>
-                </div>
               </div>
               <div className="card_content">
-                <p className="card_value">50</p>
+                <p className="card_value">{stats.revoked}</p>
                 <p className="card_title">Revoked Tokens</p>
               </div>
             </div>
           </div>
 
-          <VerificationTable data={tokens} idLabel="Token No." />
+          {loading ? (
+            <div className="no_data_message">Loading tokens...</div>
+          ) : tokens.length > 0 ? (
+            <VerificationTable data={tokens} idLabel="Token No." />
+          ) : (
+            <div className="no_data_message">No API tokens found.</div>
+          )}
         </div>
       </div>
     </div>

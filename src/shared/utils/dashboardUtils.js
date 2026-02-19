@@ -48,3 +48,33 @@ export const calculateStats = (vStats) => {
     ).length,
   };
 };
+
+export const formatVerificationData = (verifications) => {
+  return verifications.map((v) => ({
+    id: v.id.substring(0, 8).toUpperCase(),
+    type: v.metadata?.id_type || v.type?.toUpperCase() || "N/A",
+    name:
+      v.customer_name ||
+      v.metadata?.full_name ||
+      v.user_identifier ||
+      "Unknown",
+    status: v.status.charAt(0).toUpperCase() + v.status.slice(1),
+    batch:
+      v.metadata?.batch_no ||
+      (v.source === "single"
+        ? "#SINGLE"
+        : v.source === "batch"
+          ? "#BATCH"
+          : "API"),
+    date: new Date(v.created_at).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    }),
+    time: new Date(v.created_at).toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    }),
+  }));
+};

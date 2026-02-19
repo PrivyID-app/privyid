@@ -1,101 +1,77 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import VerificationTable from "../../../shared/components/VerificationTable";
 import FilterDropdown from "../../../shared/components/FilterDropdown";
+import { supabase } from "../../../shared/services/supabase";
+import { formatVerificationData } from "../../../shared/utils/dashboardUtils";
 
 const History = () => {
-  const verifications = [
-    {
-      id: "#KYC20240915001",
-      type: "Passport",
-      name: "John Doe",
-      status: "Approved",
-      batch: "#BATCH1001",
-      date: "15 Sep 2024",
-      time: "10:30 AM",
-    },
-    {
-      id: "#KYC20240915002",
-      type: "Driver License",
-      name: "Jane Smith",
-      status: "Pending",
-      batch: "#BATCH1002",
-      date: "16 Sep 2024",
-      time: "11:45 AM",
-    },
-    {
-      id: "#KYC20240915003",
-      type: "National ID",
-      name: "Mike Johnson",
-      status: "Rejected",
-      batch: "#BATCH1003",
-      date: "17 Sep 2024",
-      time: "09:15 AM",
-    },
-    {
-      id: "#KYC20240915004",
-      type: "National ID",
-      name: "Sarah Williams",
-      status: "Approved",
-      batch: "#BATCH1004",
-      date: "17 Sep 2024",
-      time: "09:15 AM",
-    },
-    {
-      id: "#KYC20240915005",
-      type: "Passport",
-      name: "Chris Brown",
-      status: "Approved",
-      batch: "#BATCH1005",
-      date: "17 Sep 2024",
-      time: "09:15 AM",
-    },
-    {
-      id: "#KYC20240915006",
-      type: "Driver License",
-      name: "Emma Wilson",
-      status: "Approved",
-      batch: "#BATCH1006",
-      date: "18 Sep 2024",
-      time: "02:30 PM",
-    },
-    {
-      id: "#KYC20240915007",
-      type: "National ID",
-      name: "Daniel Garcia",
-      status: "Pending",
-      batch: "#BATCH1007",
-      date: "18 Sep 2024",
-      time: "03:45 PM",
-    },
-    {
-      id: "#KYC20240915008",
-      type: "Passport",
-      name: "Olivia Martinez",
-      status: "Approved",
-      batch: "#BATCH1008",
-      date: "19 Sep 2024",
-      time: "10:15 AM",
-    },
-    {
-      id: "#KYC20240915009",
-      type: "National ID",
-      name: "James Lee",
-      status: "Rejected",
-      batch: "#BATCH1009",
-      date: "19 Sep 2024",
-      time: "11:30 AM",
-    },
-    {
-      id: "#KYC20240915010",
-      type: "Driver License",
-      name: "Sophia Taylor",
-      status: "Approved",
-      batch: "#BATCH1010",
-      date: "20 Sep 2024",
-      time: "01:45 PM",
-    },
-  ];
+  const [verifications, setVerifications] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    fetchHistory();
+  }, [filter]);
+
+  const fetchHistory = async () => {
+    setLoading(true);
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData?.user) return;
+
+      let query = supabase
+        .from("verifications")
+        .select("*")
+        .eq("merchant_id", userData.user.id)
+        .order("created_at", { ascending: false });
+
+      if (filter !== "all") {
+        query = query.eq("status", filter);
+      }
+
+      const { data, error } = await query;
+      if (error) throw error;
+
+      setVerifications(formatVerificationData(data || []));
+    } catch (error) {
+      console.error("Error fetching history:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const downloadData = (format) => {
+    if (verifications.length === 0) return;
+
+    let content = "";
+    const fileName = `verifications_history_${new Date().toISOString().split("T")[0]}`;
+
+    if (format === "csv") {
+      const headers = Object.keys(verifications[0]).join(",");
+      const rows = verifications.map((v) => Object.values(v).join(","));
+      content = [headers, ...rows].join("\n");
+    } else {
+      content = JSON.stringify(verifications, null, 2);
+    }
+
+    const blob = new Blob([content], {
+      type: format === "csv" ? "text/csv" : "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${fileName}.${format}`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const filteredData = verifications.filter(
+    (v) =>
+      v.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      v.id.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
 
   return (
     <>
@@ -118,6 +94,8 @@ const History = () => {
                 type="text"
                 placeholder="Search by name, email, or ID"
                 className="search_input"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
 
@@ -129,17 +107,37 @@ const History = () => {
                   { label: "Pending", value: "pending" },
                   { label: "Rejected", value: "rejected" },
                 ]}
-                onFilterChange={(val) => console.log("Filter:", val)}
+                onFilterChange={(val) => setFilter(val)}
               />
 
-              <button className="secondary_button">
-                <span className="material-symbols-outlined">download</span>
-                <p>Download as CSV</p>
-              </button>
+              <div style={{ display: "flex", gap: "8px" }}>
+                <button
+                  className="secondary_button"
+                  onClick={() => downloadData("csv")}
+                >
+                  <span className="material-symbols-outlined">download</span>
+                  <p>CSV</p>
+                </button>
+                <button
+                  className="secondary_button"
+                  onClick={() => downloadData("json")}
+                >
+                  <span className="material-symbols-outlined">download</span>
+                  <p>JSON</p>
+                </button>
+              </div>
             </div>
           </div>
 
-          <VerificationTable data={verifications} />
+          {loading ? (
+            <div className="no_data_message">Loading history...</div>
+          ) : filteredData.length > 0 ? (
+            <VerificationTable data={filteredData} />
+          ) : (
+            <div className="no_data_message">
+              No verification records found.
+            </div>
+          )}
         </div>
       </div>
     </>

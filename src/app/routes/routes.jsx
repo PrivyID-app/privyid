@@ -8,6 +8,7 @@ import DocumentationPage from "../../features/marketing/pages/DocumentationPage"
 
 import NotFound from "../../shared/components/NotFound";
 import ProtectedRoute from "../../shared/components/ProtectedRoute";
+import MerchantPortalGuard from "../../shared/components/MerchantPortalGuard";
 import MobileVerificationPage from "../../features/mobile-verification/MobileVerificationPage";
 
 // Merchant KYC Imports
@@ -93,56 +94,71 @@ const router = createHashRouter([
   // Merchant KYC Routes
   {
     path: "/merchant-kyc",
-    element: <MerchantKycLayout />,
+    element: <MerchantPortalGuard />,
     children: [
-      { index: true, element: <KycDashboard /> },
-      { path: "single-verification", element: <KycSingle /> },
-      { path: "batch-verification", element: <KycBatch /> },
-      { path: "history", element: <KycHistory /> },
-      { path: "api", element: <KycApi /> },
-      { path: "tokens", element: <KycTokens /> },
-      { path: "settings", element: <KycSettings /> },
-      { path: "support", element: <KycSupport /> },
-      { path: "user-profile", element: <KycProfile /> },
-      { path: "notifications", element: <KycNotifications /> },
+      {
+        element: <MerchantKycLayout />,
+        children: [
+          { index: true, element: <KycDashboard /> },
+          { path: "single-verification", element: <KycSingle /> },
+          { path: "batch-verification", element: <KycBatch /> },
+          { path: "history", element: <KycHistory /> },
+          { path: "api", element: <KycApi /> },
+          { path: "tokens", element: <KycTokens /> },
+          { path: "settings", element: <KycSettings /> },
+          { path: "support", element: <KycSupport /> },
+          { path: "user-profile", element: <KycProfile /> },
+          { path: "notifications", element: <KycNotifications /> },
+        ],
+      },
     ],
   },
 
   // Merchant KYB Routes
   {
     path: "/merchant-kyb",
-    element: <MerchantKybLayout />,
+    element: <MerchantPortalGuard />,
     children: [
-      { index: true, element: <KybDashboard /> },
-      { path: "single-verification", element: <KybSingle /> },
-      { path: "batch-verification", element: <KybBatch /> },
-      { path: "history", element: <KybHistory /> },
-      { path: "api", element: <KybApi /> },
-      { path: "tokens", element: <KybTokens /> },
-      { path: "settings", element: <KybSettings /> },
-      { path: "support", element: <KybSupport /> },
-      { path: "user-profile", element: <KybProfile /> },
-      { path: "notifications", element: <KybNotifications /> },
+      {
+        element: <MerchantKybLayout />,
+        children: [
+          { index: true, element: <KybDashboard /> },
+          { path: "single-verification", element: <KybSingle /> },
+          { path: "batch-verification", element: <KybBatch /> },
+          { path: "history", element: <KybHistory /> },
+          { path: "api", element: <KybApi /> },
+          { path: "tokens", element: <KybTokens /> },
+          { path: "settings", element: <KybSettings /> },
+          { path: "support", element: <KybSupport /> },
+          { path: "user-profile", element: <KybProfile /> },
+          { path: "notifications", element: <KybNotifications /> },
+        ],
+      },
     ],
   },
 
   // Merchant Combined Routes
   {
     path: "/merchant-combined",
-    element: <MerchantCombinedLayout />,
+    element: <MerchantPortalGuard />,
     children: [
-      { index: true, element: <CombinedDashboard /> },
-      { path: "single-verification", element: <CombinedSingle /> },
-      { path: "batch-verification", element: <CombinedBatch /> },
-      { path: "single-business", element: <CombinedSingleBusiness /> },
-      { path: "batch-business", element: <CombinedBatchBusiness /> },
-      { path: "history", element: <CombinedHistory /> },
-      { path: "api", element: <CombinedApi /> },
-      { path: "tokens", element: <CombinedTokens /> },
-      { path: "settings", element: <CombinedSettings /> },
-      { path: "support", element: <CombinedSupport /> },
-      { path: "user-profile", element: <CombinedProfile /> },
-      { path: "notifications", element: <CombinedNotifications /> },
+      {
+        element: <MerchantCombinedLayout />,
+        children: [
+          { index: true, element: <CombinedDashboard /> },
+          { path: "single-verification", element: <CombinedSingle /> },
+          { path: "batch-verification", element: <CombinedBatch /> },
+          { path: "single-business", element: <CombinedSingleBusiness /> },
+          { path: "batch-business", element: <CombinedBatchBusiness /> },
+          { path: "history", element: <CombinedHistory /> },
+          { path: "api", element: <CombinedApi /> },
+          { path: "tokens", element: <CombinedTokens /> },
+          { path: "settings", element: <CombinedSettings /> },
+          { path: "support", element: <CombinedSupport /> },
+          { path: "user-profile", element: <CombinedProfile /> },
+          { path: "notifications", element: <CombinedNotifications /> },
+        ],
+      },
     ],
   },
 

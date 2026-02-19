@@ -50,12 +50,6 @@ const FileDropzone = ({ onFileSelect }) => {
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        onClick={(e) => {
-          // Prevent accidental double triggers if label click behavior is inconsistent
-          if (e.target.tagName !== "INPUT") {
-            handleClick();
-          }
-        }}
       >
         <div className="dropzone_content">
           <div className="dropzone_icon">
