@@ -393,8 +393,8 @@
 }
 
 .overview_card_icon {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -688,6 +688,7 @@
 }
 
 .secondary_button {
+  width: 14rem;
   display: flex;
   flex-direction: row;
   align-items: center;

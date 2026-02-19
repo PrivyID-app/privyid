@@ -258,7 +258,7 @@ const MobileVerificationPage = () => {
               <img src={logoBlack} alt="privyID logo" />
             </div>
 
-            <div className="status success">
+            <div className="mob_status success">
               <div className="icon_wrapper">
                 <span className="material-symbols-outlined">check_circle</span>
               </div>

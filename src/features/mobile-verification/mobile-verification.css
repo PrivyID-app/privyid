@@ -344,7 +344,7 @@ form::-webkit-scrollbar-thumb {
 }
 
 /* Status Screen */
-.status {
+.mob_status {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -354,7 +354,7 @@ form::-webkit-scrollbar-thumb {
   text-align: center;
   animation: fadeIn 0.5s ease-out;
   overflow-y: auto;
-  width: 100%;
+  /* width: 100%; */
 }
 
 .icon_wrapper {

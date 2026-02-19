@@ -27,9 +27,16 @@ const AnalyticsPage = () => {
   const dateRangeOptions = [
     { value: "monthly", label: "Monthly" },
     { value: "quarterly", label: "Quarterly" },
-    { value: "yearly", label: "Yearly" },
   ];
-  
+
+  const formatRevenue = (value) => {
+    if (value >= 1000000) {
+      return `${(value / 1000000).toFixed(0)}m`;
+    } else if (value >= 1000) {
+      return `${(value / 1000).toFixed(0)}k`;
+    }
+    return value;
+  };
 
   // Revenue Trends Data
   const revenueData = [
@@ -76,8 +83,6 @@ const AnalyticsPage = () => {
     { name: "Pending", value: 2000, color: "#f59e0b" }, // amber-500
     { name: "Rejected", value: 1000, color: "#ef4444" }, // red-500
   ];
-
-
 
   const metricsCards = [
     {
@@ -163,8 +168,10 @@ const AnalyticsPage = () => {
               <LineChart data={revenueData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
-                <YAxis />
-                <Tooltip />
+                <YAxis tickFormatter={formatRevenue} />
+                <Tooltip
+                  formatter={(value, name) => [formatRevenue(value), name]}
+                />
                 <Legend />
                 <Line
                   type="monotone"
@@ -204,7 +211,11 @@ const AnalyticsPage = () => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="KYC" fill="var(--state-feature-base)" name="KYC" />
+                <Bar
+                  dataKey="KYC"
+                  fill="var(--state-feature-base)"
+                  name="KYC"
+                />
                 <Bar dataKey="KYB" fill="var(--state-stable-base)" name="KYB" />
               </BarChart>
             </ResponsiveContainer>
@@ -265,8 +276,7 @@ const AnalyticsPage = () => {
         </div>
 
         {/* Export Button */}
-        <div className="analytics_actions">
-        </div>
+        <div className="analytics_actions"></div>
       </div>
     </>
   );

@@ -413,8 +413,8 @@
 }
 
 .merchant_kyc_layout .overview_card_icon {
-  width: 1rem;
-  height: 1rem;
+  width: 1.5rem;
+  height: auto;
 }
 
 .merchant_kyc_layout .card_icon img {
@@ -514,7 +514,7 @@
 }
 
 .search_input {
-  min-width: 30rem;
+  min-width: 25rem;
   display: flex;
   flex-direction: row;
   padding: 1rem 2rem;
