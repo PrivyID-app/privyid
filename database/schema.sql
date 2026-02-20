@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS users (
     email TEXT UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
     full_name TEXT,
+    is_admin BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
@@ -74,6 +75,7 @@ CREATE TABLE IF NOT EXISTS verifications (
     customer_email TEXT,
     user_identifier TEXT, -- Optional, provided by merchant
     status TEXT NOT NULL DEFAULT 'initiated' CHECK (status IN ('initiated', 'pending', 'approved', 'rejected', 'failed', 'expired')),
+    verification_type TEXT, -- e.g. 'kyc', 'kyb'
     type TEXT, -- ID type or service type (Passport, Driver License, etc.)
     source TEXT DEFAULT 'api' CHECK (source IN ('api', 'single', 'batch')),
     token TEXT UNIQUE,
@@ -116,7 +118,10 @@ ALTER TABLE ticket_messages ENABLE ROW LEVEL SECURITY;
 
 -- Merchants
 CREATE POLICY "Merchants can view/update own profile" ON merchants
-    FOR ALL USING (id = auth.uid());
+    FOR ALL USING (
+        id = auth.uid() OR 
+        EXISTS (SELECT 1 FROM users WHERE id = auth.uid() AND is_admin = TRUE)
+    );
 
 -- Merchant Users
 CREATE POLICY "Merchants can manage their team" ON merchant_users
@@ -128,11 +133,17 @@ CREATE POLICY "Merchants can manage their own tokens" ON api_tokens
 
 -- Business Details
 CREATE POLICY "Merchants can manage their business details" ON business_details
-    FOR ALL USING (merchant_id = auth.uid());
+    FOR ALL USING (
+        merchant_id = auth.uid() OR 
+        EXISTS (SELECT 1 FROM users WHERE id = auth.uid() AND is_admin = TRUE)
+    );
 
 -- Verifications
 CREATE POLICY "Merchants can manage their own verifications" ON verifications
-    FOR ALL USING (merchant_id = auth.uid());
+    FOR ALL USING (
+        merchant_id = auth.uid() OR 
+        EXISTS (SELECT 1 FROM users WHERE id = auth.uid() AND is_admin = TRUE)
+    );
 
 -- Tickets
 CREATE POLICY "Merchants can manage their own tickets" ON tickets
