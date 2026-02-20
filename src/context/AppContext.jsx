@@ -6,13 +6,23 @@ import { supabase } from "../shared/services/supabase";
 
 export const AppProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    const savedUser = localStorage.getItem("user_data");
-    return savedUser ? JSON.parse(savedUser) : null;
+    try {
+      const savedUser = localStorage.getItem("user_data");
+      return savedUser ? JSON.parse(savedUser) : null;
+    } catch (e) {
+      console.error("Error parsing user data:", e);
+      return null;
+    }
   });
 
   const [company, setCompany] = useState(() => {
-    const savedCompany = localStorage.getItem("company_data");
-    return savedCompany ? JSON.parse(savedCompany) : null;
+    try {
+      const savedCompany = localStorage.getItem("company_data");
+      return savedCompany ? JSON.parse(savedCompany) : null;
+    } catch (e) {
+      console.error("Error parsing company data:", e);
+      return null;
+    }
   });
 
   const [loading, setLoading] = useState(true);

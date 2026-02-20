@@ -1,18 +1,38 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/src/assets/images/Logo Icon white.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Onboarding - PrivyID</title>
-    <meta name="description" content="Start your journey with PrivyID. Scalable KYC and KYB solutions for your business.">
-    <meta name="keywords" content="PrivyID, KYC onboarding, KYB integration, identity verification">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.7.0/fonts/remixicon.css" rel="stylesheet" />
 
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/src/assets/images/Logo Icon white.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Onboarding - PrivyID</title>
+  <meta name="description" content="Start your journey with PrivyID. Scalable KYC and KYB solutions for your business.">
+  <meta name="keywords" content="PrivyID, KYC onboarding, KYB integration, identity verification">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.7.0/fonts/remixicon.css" rel="stylesheet" />
+
+  <script>
+    console.log("HTML_SCRIPT: Starting Absolute Bootstrap Sequence...");
+    window.onerror = function (msg, url, line, col, error) {
+      console.error("HTML_SCRIPT_ERROR:", msg, "at", url, ":", line);
+      alert("CRITICAL BOOT ERROR: " + msg);
+      return false;
+    };
+    window.addEventListener("unhandledrejection", function (event) {
+      console.error("HTML_SCRIPT_PROMISE_ERROR:", event.reason);
+      alert("CRITICAL PROMISE ERROR: " + event.reason);
+    });
+  </script>
+</head>
+
+<body>
+  <div id="root">
+    <h1 style="font-family: sans-serif; padding: 20px; color: #333;">
+      SYSTEM STATUS: HTML LOADED, WAITING FOR REACT...
+    </h1>
+  </div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
 </html>

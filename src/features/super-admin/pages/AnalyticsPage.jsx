@@ -20,7 +20,6 @@ import {
 } from "recharts";
 import TopPerformingMerchantsTable from "../components/TopPerformingMerchantsTable";
 import CustomSelect from "../../../shared/components/CustomSelect";
-import { formatRevenue } from "../../../shared/utils/dashboardUtils";
 import "../super-admin.css";
 
 const AnalyticsPage = () => {

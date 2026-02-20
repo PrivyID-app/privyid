@@ -9,11 +9,9 @@ function App() {
   return (
     <div className="App">
       <GlobalProvider>
-        <AppProvider>
-          <OnboardingProvider>
-            <AppRoutes />
-          </OnboardingProvider>
-        </AppProvider>
+        <OnboardingProvider>
+          <AppRoutes />
+        </OnboardingProvider>
       </GlobalProvider>
     </div>
   );
