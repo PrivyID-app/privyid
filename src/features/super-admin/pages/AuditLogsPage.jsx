@@ -10,6 +10,7 @@ const AuditLogsPage = () => {
   const [filterStatus, setFilterStatus] = useState("all");
   const [dateRange, setDateRange] = useState("7days");
   const [logCount, setLogCount] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     fetchLogCount();
@@ -106,6 +107,8 @@ const AuditLogsPage = () => {
                 id="search_logs"
                 placeholder="Search by user, resource, or IP..."
                 className="search_input"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
           </div>
@@ -137,7 +140,11 @@ const AuditLogsPage = () => {
             <p className="log_count">Total Logs: {logCount.toLocaleString()}</p>
           </div>
 
-          <AdminAuditTable />
+          <AdminAuditTable
+            filterAction={filterAction}
+            filterStatus={filterStatus}
+            searchTerm={searchTerm}
+          />
         </div>
       </div>
     </>

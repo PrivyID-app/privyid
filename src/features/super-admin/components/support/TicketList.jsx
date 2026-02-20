@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../super-admin.css";
 import ImageCheckbox from "../../../../shared/components/ImageCheckbox";
+import CustomSelect from "../../../../shared/components/CustomSelect";
 import { supabase } from "../../../../shared/services/supabase";
 
 const TicketList = ({ onSelectTicket }) => {
@@ -9,6 +10,14 @@ const TicketList = ({ onSelectTicket }) => {
   const [selectAll, setSelectAll] = useState(false);
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const filterOptions = [
+    { value: "all", label: "All Tickets" },
+    { value: "open", label: "Open" },
+    { value: "in_progress", label: "In Progress" },
+    { value: "resolved", label: "Resolved" },
+    { value: "closed", label: "Closed" },
+  ];
 
   useEffect(() => {
     fetchTickets();
@@ -23,7 +32,7 @@ const TicketList = ({ onSelectTicket }) => {
           `
           *,
           merchants (
-            company_name
+            business_name
           )
         `,
         )
@@ -103,36 +112,12 @@ const TicketList = ({ onSelectTicket }) => {
   return (
     <div className="ticket_list_container">
       <div className="ticket_filters">
-        <button
-          className="secondary_button"
-          onClick={() => setSelectedFilter("all")}
-        >
-          All Tickets
-        </button>
-        <button
-          className="secondary_button"
-          onClick={() => setSelectedFilter("open")}
-        >
-          Open
-        </button>
-        <button
-          className="secondary_button"
-          onClick={() => setSelectedFilter("in_progress")}
-        >
-          In Progress
-        </button>
-        <button
-          className="secondary_button"
-          onClick={() => setSelectedFilter("resolved")}
-        >
-          Resolved
-        </button>
-        <button
-          className="secondary_button"
-          onClick={() => setSelectedFilter("closed")}
-        >
-          Closed
-        </button>
+        <CustomSelect
+          options={filterOptions}
+          value={selectedFilter}
+          onSelect={setSelectedFilter}
+          className="filter_select"
+        />
       </div>
 
       <div className="merchant_table tickets_table">
@@ -168,7 +153,7 @@ const TicketList = ({ onSelectTicket }) => {
                   <p>#{ticket.id.split("-")[0].toUpperCase()}</p>
                 </div>
                 <div className="cell">
-                  <p>{ticket.merchants?.company_name || "N/A"}</p>
+                  <p>{ticket.merchants?.business_name || "N/A"}</p>
                 </div>
                 <div className="cell">
                   <p>{ticket.subject}</p>

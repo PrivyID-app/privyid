@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import { supabase } from "../../../shared/services/supabase";
+import CustomSelect from "../../../shared/components/CustomSelect";
 
 const AddMerchantModal = ({ isOpen, onClose, onRefresh }) => {
   const [loading, setLoading] = useState(false);
@@ -9,6 +9,18 @@ const AddMerchantModal = ({ isOpen, onClose, onRefresh }) => {
     service_type: "combined",
     company_type: "Limited Liability",
   });
+
+  const serviceOptions = [
+    { value: "combined", label: "Combined (KYC + KYB)" },
+    { value: "kyc", label: "KYC Only" },
+    { value: "kyb", label: "KYB Only" },
+  ];
+
+  const companyOptions = [
+    { value: "Limited Liability", label: "Limited Liability" },
+    { value: "Sole Proprietorship", label: "Sole Proprietorship" },
+    { value: "Enterprise", label: "Enterprise" },
+  ];
 
   if (!isOpen) return null;
 
@@ -76,30 +88,24 @@ const AddMerchantModal = ({ isOpen, onClose, onRefresh }) => {
 
           <div className="form_group">
             <label>Service Type</label>
-            <select
+            <CustomSelect
+              options={serviceOptions}
               value={formData.service_type}
-              onChange={(e) =>
-                setFormData({ ...formData, service_type: e.target.value })
+              onSelect={(value) =>
+                setFormData({ ...formData, service_type: value })
               }
-            >
-              <option value="combined">Combined (KYC + KYB)</option>
-              <option value="kyc">KYC Only</option>
-              <option value="kyb">KYB Only</option>
-            </select>
+            />
           </div>
 
           <div className="form_group">
             <label>Company Type</label>
-            <select
+            <CustomSelect
+              options={companyOptions}
               value={formData.company_type}
-              onChange={(e) =>
-                setFormData({ ...formData, company_type: e.target.value })
+              onSelect={(value) =>
+                setFormData({ ...formData, company_type: value })
               }
-            >
-              <option value="Limited Liability">Limited Liability</option>
-              <option value="Sole Proprietorship">Sole Proprietorship</option>
-              <option value="Enterprise">Enterprise</option>
-            </select>
+            />
           </div>
 
           <div className="form_actions">

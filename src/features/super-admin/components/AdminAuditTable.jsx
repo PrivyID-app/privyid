@@ -4,7 +4,11 @@ import ImageCheckbox from "../../../shared/components/ImageCheckbox";
 import Pagination from "../../../shared/components/Pagination";
 import { supabase } from "../../../shared/services/supabase";
 
-const AdminAuditTable = () => {
+const AdminAuditTable = ({
+  filterAction = "all",
+  filterStatus = "all",
+  searchTerm = "",
+}) => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [auditLogs, setAuditLogs] = useState([]);
@@ -13,15 +17,30 @@ const AdminAuditTable = () => {
 
   useEffect(() => {
     fetchAuditLogs();
-  }, []);
+  }, [filterAction, filterStatus, searchTerm]);
 
   const fetchAuditLogs = async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase
-        .from("audit_logs")
-        .select("*")
-        .order("created_at", { ascending: false });
+      let query = supabase.from("audit_logs").select("*");
+
+      if (filterAction !== "all") {
+        query = query.eq("action_type", filterAction);
+      }
+
+      if (filterStatus !== "all") {
+        query = query.eq("status", filterStatus);
+      }
+
+      if (searchTerm) {
+        query = query.or(
+          `user_email.ilike.%${searchTerm}%,action_type.ilike.%${searchTerm}%,resource_id.ilike.%${searchTerm}%,ip_address.ilike.%${searchTerm}%`,
+        );
+      }
+
+      const { data, error } = await query.order("created_at", {
+        ascending: false,
+      });
 
       if (error) {
         // If audit_logs table doesn't exist yet, show a helpful message

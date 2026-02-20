@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../super-admin.css";
 import ImageCheckbox from "../../../shared/components/ImageCheckbox";
 import Pagination from "../../../shared/components/Pagination";
+import VerificationModal from "../../../shared/components/VerificationModal";
 import { supabase } from "../../../shared/services/supabase";
 
 const AdminVerificationsTable = () => {
@@ -9,6 +10,8 @@ const AdminVerificationsTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [verifications, setVerifications] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedData, setSelectedData] = useState(null);
   const itemsPerPage = 10;
 
   useEffect(() => {
@@ -84,6 +87,11 @@ const AdminVerificationsTable = () => {
     setSelectedRows((prev) =>
       prev.includes(id) ? prev.filter((rowId) => rowId !== id) : [...prev, id],
     );
+  };
+
+  const handleViewDetails = (item) => {
+    setSelectedData(item);
+    setIsModalOpen(true);
   };
 
   const getStatusClass = (status) => {
@@ -185,7 +193,10 @@ const AdminVerificationsTable = () => {
                 <p>{verification.time}</p>
               </div>
               <div className="cell action_cell">
-                <button className="action_button">
+                <button
+                  className="action_button"
+                  onClick={() => handleViewDetails(verification)}
+                >
                   <span className="material-symbols-outlined">visibility</span>
                 </button>
               </div>
@@ -198,6 +209,12 @@ const AdminVerificationsTable = () => {
         totalPages={totalPages}
         onPageChange={setCurrentPage}
         onPageSelect={setCurrentPage}
+      />
+
+      <VerificationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        data={selectedData}
       />
     </div>
   );

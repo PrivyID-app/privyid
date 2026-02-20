@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import "../../super-admin.css";
+import CustomSelect from "../../../shared/components/CustomSelect";
 
 const WebhookManager = () => {
   const [webhooks, setWebhooks] = useState([
@@ -27,16 +27,17 @@ const WebhookManager = () => {
   ]);
 
   const [showAddForm, setShowAddForm] = useState(false);
+  const [newEvent, setNewEvent] = useState("verification.completed");
 
-  const eventTypes = [
-    "verification.completed",
-    "verification.failed",
-    "merchant.created",
-    "merchant.updated",
-    "payment.received",
-    "payment.failed",
-    "api.key.generated",
-    "api.key.revoked",
+  const eventTypeOptions = [
+    { value: "verification.completed", label: "verification.completed" },
+    { value: "verification.failed", label: "verification.failed" },
+    { value: "merchant.created", label: "merchant.created" },
+    { value: "merchant.updated", label: "merchant.updated" },
+    { value: "payment.received", label: "payment.received" },
+    { value: "payment.failed", label: "payment.failed" },
+    { value: "api.key.generated", label: "api.key.generated" },
+    { value: "api.key.revoked", label: "api.key.revoked" },
   ];
 
   const handleToggleStatus = (id) => {
@@ -80,13 +81,12 @@ const WebhookManager = () => {
           <h4>Add New Webhook</h4>
           <div className="form_group">
             <label>Event Type</label>
-            <select className="form_input">
-              {eventTypes.map((event) => (
-                <option key={event} value={event}>
-                  {event}
-                </option>
-              ))}
-            </select>
+            <CustomSelect
+              options={eventTypeOptions}
+              value={newEvent}
+              onSelect={setNewEvent}
+              className="form_input"
+            />
           </div>
           <div className="form_group">
             <label>Webhook URL</label>

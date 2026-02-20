@@ -241,7 +241,7 @@ const SupportPage = () => {
               <div className="ticket_info_grid">
                 <div className="info_item">
                   <label>Merchant</label>
-                  <p>{selectedTicket.merchants?.company_name || "N/A"}</p>
+                  <p>{selectedTicket.merchants?.business_name || "N/A"}</p>
                 </div>
                 <div className="info_item">
                   <label>Priority</label>
@@ -265,7 +265,7 @@ const SupportPage = () => {
                   {/* Initial Message */}
                   <div className="message merchant_message">
                     <div className="message_header">
-                      <strong>{selectedTicket.merchants?.company_name}</strong>
+                      <strong>{selectedTicket.merchants?.business_name}</strong>
                       <span className="message_time">
                         {new Date(selectedTicket.created_at).toLocaleString()}
                       </span>
@@ -283,7 +283,7 @@ const SupportPage = () => {
                         <strong>
                           {msg.sender_type === "admin"
                             ? "Support Agent"
-                            : selectedTicket.merchants?.company_name}
+                            : selectedTicket.merchants?.business_name}
                         </strong>
                         <span className="message_time">
                           {new Date(msg.created_at).toLocaleString()}

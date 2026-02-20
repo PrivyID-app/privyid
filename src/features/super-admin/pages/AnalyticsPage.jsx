@@ -20,15 +20,24 @@ import {
 } from "recharts";
 import TopPerformingMerchantsTable from "../components/TopPerformingMerchantsTable";
 import CustomSelect from "../../../shared/components/CustomSelect";
+import { formatRevenue } from "../../../shared/utils/dashboardUtils";
 import "../super-admin.css";
 
 const AnalyticsPage = () => {
   const [dateRange, setDateRange] = useState("monthly");
+  const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({
     totalRevenue: "₦0",
-    activeMerchants: "...",
+    activeMerchants: "0",
     successRate: "0.0%",
     uptime: "99.9%",
+  });
+
+  const [chartsData, setChartsData] = useState({
+    revenue: [],
+    volume: [],
+    merchantGrowth: [],
+    statusBreakdown: [],
   });
 
   useEffect(() => {
@@ -36,18 +45,150 @@ const AnalyticsPage = () => {
   }, []);
 
   const fetchAnalyticsData = async () => {
+    setLoading(true);
     try {
-      // Fetch merchant counts for metrics
-      const { count: mCount } = await supabase
+      // 1. Fetch Merchants for Growth and Active count
+      const { data: merchants, error: mError } = await supabase
         .from("merchants")
-        .select("*", { count: "exact", head: true });
+        .select("created_at")
+        .order("created_at", { ascending: true });
 
-      setStats((prev) => ({
-        ...prev,
-        activeMerchants: mCount?.toLocaleString() || "0",
+      if (mError) throw mError;
+
+      // 2. Fetch Verifications for all other metrics
+      const { data: verifications, error: vError } = await supabase
+        .from("verifications")
+        .select("status, created_at, verification_type");
+
+      if (vError) throw vError;
+
+      const months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      const currentMonthIndex = new Date().getMonth();
+      const last12Months = [];
+      for (let i = 8; i >= 0; i--) {
+        const d = new Date();
+        d.setMonth(currentMonthIndex - i);
+        last12Months.push(months[d.getMonth()]);
+      }
+
+      // Aggregate Revenue & Volume
+      const revAndVol = last12Months.map((m) => ({
+        month: m,
+        revenue: 0,
+        target: 2000000,
+        KYC: 0,
+        KYB: 0,
       }));
+
+      let totalRev = 0;
+      verifications.forEach((v) => {
+        const date = new Date(v.created_at);
+        const mName = months[date.getMonth()];
+        const item = revAndVol.find((i) => i.month === mName);
+
+        if (item) {
+          // Assume ₦500 per verification for revenue calculation demo
+          const price = 500;
+          item.revenue += price;
+          totalRev += price;
+
+          if (v.verification_type?.toLowerCase() === "kyb") {
+            item.KYB += 1;
+          } else {
+            item.KYC += 1;
+          }
+        }
+      });
+
+      // Aggregate Merchant Growth
+      const growthData = last12Months.map((m) => ({ month: m, merchants: 0 }));
+      let cumulativeMerchants = 0;
+      // We need to account for merchants before the last 9 months too
+      const startOfWindow = new Date();
+      startOfWindow.setMonth(currentMonthIndex - 8);
+      startOfWindow.setDate(1);
+
+      cumulativeMerchants = merchants.filter(
+        (m) => new Date(m.created_at) < startOfWindow,
+      ).length;
+
+      merchants
+        .filter((m) => new Date(m.created_at) >= startOfWindow)
+        .forEach((m) => {
+          const date = new Date(m.created_at);
+          const mName = months[date.getMonth()];
+          const item = growthData.find((i) => i.month === mName);
+          if (item) item.merchants += 1;
+        });
+
+      let runningTotal = cumulativeMerchants;
+      growthData.forEach((g) => {
+        runningTotal += g.merchants;
+        g.merchants = runningTotal;
+      });
+
+      // Status Breakdown
+      const statusData = [
+        {
+          name: "Approved",
+          value: verifications.filter((v) => v.status === "approved").length,
+          color: "#22c55e",
+        },
+        {
+          name: "Pending",
+          value: verifications.filter((v) =>
+            ["pending", "initiated"].includes(v.status),
+          ).length,
+          color: "#f59e0b",
+        },
+        {
+          name: "Rejected",
+          value: verifications.filter((v) =>
+            ["rejected", "failed"].includes(v.status),
+          ).length,
+          color: "#ef4444",
+        },
+      ];
+
+      const successRate =
+        verifications.length > 0
+          ? (
+              (verifications.filter((v) => v.status === "approved").length /
+                verifications.length) *
+              100
+            ).toFixed(1)
+          : "0.0";
+
+      setStats({
+        totalRevenue: `₦${totalRev.toLocaleString()}`,
+        activeMerchants: merchants.length.toString(),
+        successRate: `${successRate}%`,
+        uptime: "99.9%",
+      });
+
+      setChartsData({
+        revenue: revAndVol,
+        volume: revAndVol,
+        merchantGrowth: growthData,
+        statusBreakdown: statusData,
+      });
     } catch (error) {
-      console.error("Error fetching analytics stats:", error);
+      console.error("Error fetching analytics data:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -65,51 +206,7 @@ const AnalyticsPage = () => {
     return value;
   };
 
-  // Revenue Trends Data
-  const revenueData = [
-    { month: "Jan", revenue: 2400000, target: 2000000 },
-    { month: "Feb", revenue: 3200000, target: 2500000 },
-    { month: "Mar", revenue: 2800000, target: 2700000 },
-    { month: "Apr", revenue: 4100000, target: 3000000 },
-    { month: "May", revenue: 3900000, target: 3200000 },
-    { month: "Jun", revenue: 4500000, target: 3500000 },
-    { month: "Jul", revenue: 5200000, target: 4000000 },
-    { month: "Aug", revenue: 4800000, target: 4200000 },
-    { month: "Sep", revenue: 5600000, target: 4500000 },
-  ];
-
-  // Verification Volume Data
-  const verificationData = [
-    { month: "Jan", KYC: 4000, KYB: 2400 },
-    { month: "Feb", KYC: 3000, KYB: 1398 },
-    { month: "Mar", KYC: 2000, KYB: 9800 },
-    { month: "Apr", KYC: 2780, KYB: 3908 },
-    { month: "May", KYC: 1890, KYB: 4800 },
-    { month: "Jun", KYC: 2390, KYB: 3800 },
-    { month: "Jul", KYC: 3490, KYB: 4300 },
-    { month: "Aug", KYC: 4200, KYB: 5100 },
-    { month: "Sep", KYC: 4800, KYB: 5600 },
-  ];
-
-  // Merchant Growth Data
-  const merchantGrowthData = [
-    { month: "Jan", merchants: 120 },
-    { month: "Feb", merchants: 180 },
-    { month: "Mar", merchants: 250 },
-    { month: "Apr", merchants: 340 },
-    { month: "May", merchants: 450 },
-    { month: "Jun", merchants: 580 },
-    { month: "Jul", merchants: 720 },
-    { month: "Aug", merchants: 890 },
-    { month: "Sep", merchants: 1050 },
-  ];
-
-  // Verification Status Breakdown Data
-  const verificationStatusData = [
-    { name: "Approved", value: 7000, color: "#22c55e" }, // green-500
-    { name: "Pending", value: 2000, color: "#f59e0b" }, // amber-500
-    { name: "Rejected", value: 1000, color: "#ef4444" }, // red-500
-  ];
+  // Status data comes from chartsData.statusBreakdown
 
   const metricsCards = [
     {
@@ -193,7 +290,7 @@ const AnalyticsPage = () => {
               />
             </div>
             <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={revenueData}>
+              <LineChart data={chartsData.revenue}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
                 <YAxis tickFormatter={formatRevenue} />
@@ -233,7 +330,7 @@ const AnalyticsPage = () => {
               />
             </div>
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={verificationData}>
+              <BarChart data={chartsData.volume}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
                 <YAxis />
@@ -255,7 +352,7 @@ const AnalyticsPage = () => {
               <p>Merchant Growth</p>
             </div>
             <ResponsiveContainer width="100%" height={300}>
-              <AreaChart data={merchantGrowthData}>
+              <AreaChart data={chartsData.merchantGrowth}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
                 <YAxis />
@@ -281,7 +378,7 @@ const AnalyticsPage = () => {
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
-                  data={verificationStatusData}
+                  data={chartsData.statusBreakdown}
                   dataKey="value"
                   nameKey="name"
                   cx="50%"
@@ -289,7 +386,7 @@ const AnalyticsPage = () => {
                   outerRadius={80}
                   label
                 >
-                  {verificationStatusData.map((entry, index) => (
+                  {chartsData.statusBreakdown.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
