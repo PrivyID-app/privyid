@@ -61,52 +61,64 @@ const AdminDashboardTable = ({ data = [], idLabel = "Verification No." }) => {
       </div>
 
       <div className="table_body">
-        {data.map((item, index) => (
+        {data.length === 0 ? (
           <div
-            className={`table_row ${selectedRows.has(index) ? "selected_row" : ""}`}
-            key={index}
+            style={{
+              padding: "3rem",
+              textAlign: "center",
+              color: "var(--text-soft-400)",
+            }}
           >
-            <div className="cell checkbox_cell">
-              <ImageCheckbox
-                checked={selectedRows.has(index)}
-                onChange={(e) => {
-                  e.stopPropagation();
-                  toggleRow(index);
-                }}
-              />
-            </div>
-            <div className="cell">
-              <p>{item.id}</p>
-            </div>
-            <div className="cell">
-              <p>{item.type}</p>
-            </div>
-            <div className="cell">
-              <p>{item.name}</p>
-            </div>
-            <div className="cell">
-              <p className={`status ${item.status.toLowerCase()}`}>
-                {item.status}
-              </p>
-            </div>
-            <div className="cell">
-              <p>{item.verifications}</p>
-            </div>
-            <div className="cell">
-              <p>{item.date}</p>
-            </div>
-            <div className="cell">
-              <p>{item.time}</p>
-            </div>
-            <div className="cell action_cell">
-              <button className="action_button">
-                <span className="material-symbols-outlined table_action">
-                  visibility
-                </span>
-              </button>
-            </div>
+            No records found.
           </div>
-        ))}
+        ) : (
+          data.map((item, index) => (
+            <div
+              className={`table_row ${selectedRows.has(index) ? "selected_row" : ""}`}
+              key={index}
+            >
+              <div className="cell checkbox_cell">
+                <ImageCheckbox
+                  checked={selectedRows.has(index)}
+                  onChange={(e) => {
+                    e.stopPropagation();
+                    toggleRow(index);
+                  }}
+                />
+              </div>
+              <div className="cell">
+                <p>{item.id}</p>
+              </div>
+              <div className="cell">
+                <p>{item.type}</p>
+              </div>
+              <div className="cell">
+                <p>{item.name}</p>
+              </div>
+              <div className="cell">
+                <p className={`status ${item.status?.toLowerCase() || ""}`}>
+                  {item.status || "N/A"}
+                </p>
+              </div>
+              <div className="cell">
+                <p>{item.verifications}</p>
+              </div>
+              <div className="cell">
+                <p>{item.date}</p>
+              </div>
+              <div className="cell">
+                <p>{item.time}</p>
+              </div>
+              <div className="cell action_cell">
+                <button className="action_button">
+                  <span className="material-symbols-outlined table_action">
+                    visibility
+                  </span>
+                </button>
+              </div>
+            </div>
+          ))
+        )}
       </div>
 
       <div className="pagination">

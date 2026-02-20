@@ -94,7 +94,7 @@ const AnalyticsPage = () => {
       }));
 
       let totalRev = 0;
-      verifications.forEach((v) => {
+      (verifications || []).forEach((v) => {
         const date = new Date(v.created_at);
         const mName = months[date.getMonth()];
         const item = revAndVol.find((i) => i.month === mName);
@@ -164,7 +164,7 @@ const AnalyticsPage = () => {
       ];
 
       const successRate =
-        verifications.length > 0
+        (verifications?.length || 0) > 0
           ? (
               (verifications.filter((v) => v.status === "approved").length /
                 verifications.length) *
@@ -174,7 +174,7 @@ const AnalyticsPage = () => {
 
       setStats({
         totalRevenue: `₦${totalRev.toLocaleString()}`,
-        activeMerchants: merchants.length.toString(),
+        activeMerchants: (merchants || []).length.toString(),
         successRate: `${successRate}%`,
         uptime: "99.9%",
       });

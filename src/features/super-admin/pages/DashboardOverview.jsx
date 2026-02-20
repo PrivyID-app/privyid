@@ -19,6 +19,7 @@ import BuildingLineIcon from "../../../assets/images/building-line.svg";
 import QrScanLineIcon from "../../../assets/images/qr-scan-line.svg";
 import CurrencyNairaIcon from "../../../assets/images/tabler_currency-naira.svg";
 import TimeLine2Icon from "../../../assets/images/time-line-2.svg";
+import "../super-admin.css";
 
 const DashboardOverview = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -79,6 +80,7 @@ const DashboardOverview = () => {
 
       if (allVerifications && Array.isArray(allVerifications)) {
         allVerifications.forEach((v) => {
+          if (!v.created_at) return;
           const d = new Date(v.created_at);
           const day = dayNames[d.getDay()];
           if (dailyDataMap[day] !== undefined) {
@@ -113,12 +115,12 @@ const DashboardOverview = () => {
       setPerformanceData(formattedPerformance);
 
       // 5. Total Revenue (Assume ₦500 per verification)
-      const totalRev = allVerifications.length * 500;
+      const totalRev = (allVerifications?.length || 0) * 500;
 
       setStats((prev) => ({
         ...prev,
         totalMerchants: mCount?.toLocaleString() || "0",
-        totalVerifications: allVerifications.length.toLocaleString(),
+        totalVerifications: (allVerifications?.length || 0).toLocaleString(),
         totalRevenue: `₦${totalRev.toLocaleString()}`,
         avgResponseTime: "0.2s",
       }));
@@ -143,22 +145,28 @@ const DashboardOverview = () => {
       if (vError) throw vError;
       console.log("Recent Verifications fetched:", vData?.length);
 
-      const mappedData = vData.map((v) => ({
-        id: v.id.substring(0, 8).toUpperCase(),
+      const mappedData = (vData || []).map((v) => ({
+        id: v.id?.substring(0, 8).toUpperCase() || "N/A",
         type: v.verification_type?.toUpperCase() || "N/A",
         name: v.merchants?.business_name || "Unknown Merchant",
-        status: v.status.charAt(0).toUpperCase() + v.status.slice(1),
+        status: v.status
+          ? v.status.charAt(0).toUpperCase() + v.status.slice(1)
+          : "N/A",
         verifications: "1", // This row represents 1 verification
-        date: new Date(v.created_at).toLocaleDateString("en-GB", {
-          day: "2-digit",
-          month: "short",
-          year: "numeric",
-        }),
-        time: new Date(v.created_at).toLocaleTimeString("en-US", {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-        }),
+        date: v.created_at
+          ? new Date(v.created_at).toLocaleDateString("en-GB", {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+            })
+          : "N/A",
+        time: v.created_at
+          ? new Date(v.created_at).toLocaleTimeString("en-US", {
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: true,
+            })
+          : "N/A",
       }));
 
       setRecentVerifications(mappedData);

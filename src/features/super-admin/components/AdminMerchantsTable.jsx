@@ -40,7 +40,7 @@ const AdminMerchantsTable = ({ filter = "all" }) => {
       if (mError) throw mError;
 
       // Map to table structure, checking for different possible name columns
-      const mapped = merchantsData.map((m) => ({
+      const mapped = (merchantsData || []).map((m) => ({
         id: m.id,
         businessName:
           m.business_name ||

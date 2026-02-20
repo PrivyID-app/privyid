@@ -1,5 +1,6 @@
+import React, { useState } from "react";
 import "../../super-admin.css";
-import CustomSelect from "../../../shared/components/CustomSelect";
+import CustomSelect from "../../../../shared/components/CustomSelect";
 
 const WebhookManager = () => {
   const [webhooks, setWebhooks] = useState([

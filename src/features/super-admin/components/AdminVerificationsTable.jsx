@@ -39,7 +39,7 @@ const AdminVerificationsTable = () => {
 
       if (error) throw error;
 
-      const mapped = data.map((v) => ({
+      const mapped = (data || []).map((v) => ({
         id: v.id.substring(0, 8).toUpperCase(),
         businessType: v.merchants?.company_type || "N/A",
         businessName: v.merchants?.business_name || "Unknown Merchant",

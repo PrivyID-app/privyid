@@ -50,7 +50,7 @@ const AdminAuditTable = ({
           throw error;
         }
       } else {
-        const mapped = data.map((log) => ({
+        const mapped = (data || []).map((log) => ({
           id: log.id.substring(0, 8).toUpperCase(),
           timestamp: new Date(log.created_at).toLocaleString(),
           user: log.user_email || "System",
