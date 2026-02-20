@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation, useParams } from "react-router-dom";
 import { supabase } from "../services/supabase";
 
 const MerchantPortalGuard = () => {
@@ -7,6 +7,7 @@ const MerchantPortalGuard = () => {
   const [merchant, setMerchant] = useState(null);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
+  const { merchantId } = useParams();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -19,7 +20,7 @@ const MerchantPortalGuard = () => {
         // Fetch merchant profile to check service_type
         const { data, error } = await supabase
           .from("merchants")
-          .select("service_type")
+          .select("id, service_type")
           .eq("id", session.user.id)
           .single();
 
@@ -63,25 +64,37 @@ const MerchantPortalGuard = () => {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
+  // Enforce that the merchantId in the URL matches the logged-in user
+  if (merchantId && merchantId !== session.user.id) {
+    // If they try to access another merchant's ID, redirect to their own portal
+    return (
+      <Navigate
+        to={`/m/${session.user.id}/${merchant?.service_type || "kyc"}`}
+        replace
+      />
+    );
+  }
+
   // Check if user has access to the current portal path
   const path = location.pathname;
-  const serviceType = merchant?.service_type;
+  const serviceType = merchant?.service_type || "kyc";
 
   if (serviceType === "combined") {
     // Combined accounts can access all merchant portals
     return <Outlet />;
   }
 
-  if (path.startsWith("/merchant-kyc") && serviceType !== "kyc") {
-    return <Navigate to={`/merchant-${serviceType}`} replace />;
+  // Prevent cross-access between KYC and KYB if not combined
+  if (path.includes("/kyc") && serviceType !== "kyc") {
+    return <Navigate to={`/m/${session.user.id}/${serviceType}`} replace />;
   }
 
-  if (path.startsWith("/merchant-kyb") && serviceType !== "kyb") {
-    return <Navigate to={`/merchant-${serviceType}`} replace />;
+  if (path.includes("/kyb") && serviceType !== "kyb") {
+    return <Navigate to={`/m/${session.user.id}/${serviceType}`} replace />;
   }
 
-  if (path.startsWith("/merchant-combined") && serviceType !== "combined") {
-    return <Navigate to={`/merchant-${serviceType}`} replace />;
+  if (path.includes("/combined") && serviceType !== "combined") {
+    return <Navigate to={`/m/${session.user.id}/${serviceType}`} replace />;
   }
 
   return <Outlet />;

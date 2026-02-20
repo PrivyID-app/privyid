@@ -67,12 +67,12 @@ const LoginStep = ({ onNext, onSignupClick, onLoginSuccess }) => {
         if (merchantData.onboarding_step === "completed") {
           showToast("Login successful!", "success");
           const serviceMap = {
-            kyc: "/merchant-kyc",
-            kyb: "/merchant-kyb",
-            combined: "/merchant-combined",
+            kyc: `/m/${user.id}/kyc`,
+            kyb: `/m/${user.id}/kyb`,
+            combined: `/m/${user.id}/combined`,
           };
           navigate(
-            serviceMap[merchantData.service_type] || "/merchant-combined",
+            serviceMap[merchantData.service_type] || `/m/${user.id}/combined`,
           );
         } else {
           showToast("Resuming your onboarding flow...", "info");

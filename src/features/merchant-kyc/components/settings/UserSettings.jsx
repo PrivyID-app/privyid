@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import { supabase } from "../../../../shared/services/supabase";
 import { useGlobal } from "../../../../app/GlobalContext";
 import Modal from "../../../../shared/components/Modal";
@@ -14,6 +15,9 @@ const UserSettings = () => {
     role: "Viewer",
   });
   const [submitting, setSubmitting] = useState(false);
+  const [viewingAsMerchant] = useState(
+    localStorage.getItem("admin_viewing_merchant_id"),
+  );
 
   useEffect(() => {
     fetchUsers();
@@ -25,10 +29,12 @@ const UserSettings = () => {
       const { data: userData } = await supabase.auth.getUser();
       if (!userData?.user) return;
 
+      const merchantId = viewingAsMerchant || userData.user.id;
+
       const { data, error } = await supabase
         .from("merchant_users")
         .select("*")
-        .eq("merchant_id", userData.user.id)
+        .eq("merchant_id", merchantId)
         .order("created_at", { ascending: false });
 
       if (error) throw error;
@@ -52,9 +58,11 @@ const UserSettings = () => {
       const { data: userData } = await supabase.auth.getUser();
       if (!userData?.user) throw new Error("Not logged in");
 
+      const merchantId = viewingAsMerchant || userData.user.id;
+
       const { error } = await supabase.from("merchant_users").insert([
         {
-          merchant_id: userData.user.id,
+          merchant_id: merchantId,
           name: formData.name,
           email: formData.email,
           role: formData.role,

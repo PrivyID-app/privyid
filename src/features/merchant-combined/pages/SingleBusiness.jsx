@@ -12,9 +12,13 @@ import FileTextActive from "../../../assets/images/file-text-line.svg";
 import CardPatternWhite from "../../../assets/images/card-pattern-white-bg.svg";
 import CardPatternBlack from "../../../assets/images/card-pattern.svg";
 import CheckboxIcon from "../../../assets/images/Checkbox [1.0].svg";
+import { supabase } from "../../../shared/services/supabase";
+import { useGlobal } from "../../../app/GlobalContext";
 
 const SingleBusiness = () => {
+  const { showToast } = useGlobal();
   const [currentStep, setCurrentStep] = useState(0);
+  const [verifying, setVerifying] = useState(false);
   const [formData, setFormData] = useState({
     businessName: "",
     businessEmail: "",
@@ -43,9 +47,50 @@ const SingleBusiness = () => {
     },
   ];
 
-  const handleNext = () => {
-    if (currentStep < steps.length - 1) {
+  const handleNext = async () => {
+    if (currentStep === 1) {
+      await performVerification();
+    } else if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const performVerification = async () => {
+    setVerifying(true);
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData?.user) throw new Error("Not logged in");
+
+      // Simulate API call delay
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      const merchantId =
+        localStorage.getItem("admin_viewing_merchant_id") || userData.user.id;
+
+      const { error } = await supabase.from("verifications").insert([
+        {
+          merchant_id: merchantId,
+          customer_name: formData.businessName,
+          customer_email: formData.businessEmail,
+          status: "approved",
+          verification_type: "kyb",
+          type: formData.idType,
+          source: "single",
+          metadata: {
+            id_type: formData.idType,
+            registration_number: formData.regNumber,
+          },
+        },
+      ]);
+
+      if (error) throw error;
+
+      setCurrentStep(2);
+      showToast("Business verification completed successfully!", "success");
+    } catch (error) {
+      showToast(error.message || "Verification failed.", "error");
+    } finally {
+      setVerifying(false);
     }
   };
 
@@ -126,7 +171,9 @@ const SingleBusiness = () => {
                       onChange={updateFormData}
                       required
                     />
-                    <span className="material-symbols-outlined sv_form_icon">mail</span>
+                    <span className="material-symbols-outlined sv_form_icon">
+                      mail
+                    </span>
                   </div>
                 </div>
 

@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { supabase } from "../../../../shared/services/supabase";
 import "../../pages/SettingsPage.css";
 import Toast from "../../../../shared/components/Toast";
 
@@ -7,8 +8,22 @@ const VerificationLinkSettings = () => {
   const [uploadedFileName, setUploadedFileName] = useState("");
   const [toast, setToast] = useState(null);
   const fileInputRef = useRef(null);
-  const url =
-    "https://verify.privyid.com/session/id_9Kx2LmQ7uR4tY8xN3aH1?merchant=mk_4821&env=...";
+  const [viewingAsMerchant] = useState(
+    localStorage.getItem("admin_viewing_merchant_id"),
+  );
+
+  const getMerchantId = async () => {
+    const { data: userData } = await supabase.auth.getUser();
+    return viewingAsMerchant || userData?.user?.id || "unknown";
+  };
+
+  const [merchantId, setMerchantId] = useState("loading...");
+
+  React.useEffect(() => {
+    getMerchantId().then(setMerchantId);
+  }, []);
+
+  const url = `https://verify.privyid.com/session/id_9Kx2LmQ7uR4tY8xN3aH1?merchant=${merchantId}&env=sandbox`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(url).then(() => {

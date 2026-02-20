@@ -93,7 +93,7 @@ const router = createHashRouter([
 
   // Merchant KYC Routes
   {
-    path: "/merchant-kyc",
+    path: "/m/:merchantId/kyc",
     element: <MerchantPortalGuard />,
     children: [
       {
@@ -116,7 +116,7 @@ const router = createHashRouter([
 
   // Merchant KYB Routes
   {
-    path: "/merchant-kyb",
+    path: "/m/:merchantId/kyb",
     element: <MerchantPortalGuard />,
     children: [
       {
@@ -139,7 +139,7 @@ const router = createHashRouter([
 
   // Merchant Combined Routes
   {
-    path: "/merchant-combined",
+    path: "/m/:merchantId/combined",
     element: <MerchantPortalGuard />,
     children: [
       {

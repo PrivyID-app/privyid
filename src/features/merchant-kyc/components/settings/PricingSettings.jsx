@@ -1,8 +1,24 @@
 import React, { useState } from "react";
 import "../../pages/SettingsPage.css";
+import { useGlobal } from "../../../../app/GlobalContext";
 
 const PricingSettings = () => {
+  const { showToast } = useGlobal();
   const [billingCycle, setBillingCycle] = useState("monthly");
+
+  const handleSelectPlan = (planName, amount) => {
+    showToast(
+      `Redirecting to Paystack Checkout for ${planName} plan (₦${amount})...`,
+      "info",
+    );
+    // Mock Paystack redirection
+    setTimeout(() => {
+      showToast(
+        "Payment successful! Your account has been upgraded.",
+        "success",
+      );
+    }, 2500);
+  };
 
   return (
     <div className="settings_section">

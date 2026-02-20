@@ -165,17 +165,38 @@ const DashboardOverview = () => {
           <p className="section_title">Quick Actions</p>
 
           <div className="filter_wrapper">
-            <button className="secondary_button">
+            <button
+              className="secondary_button"
+              onClick={() =>
+                navigate(
+                  `/m/${viewingAsMerchant || userData?.user?.id}/kyb/single-verification`,
+                )
+              }
+            >
               <span className="material-symbols-outlined">add</span>
               <p>Single Business</p>
             </button>
 
-            <button className="secondary_button">
-              <span className="material-symbols-outlined">add</span>
+            <button
+              className="secondary_button"
+              onClick={() =>
+                navigate(
+                  `/m/${viewingAsMerchant || userData?.user?.id}/kyb/api`,
+                )
+              }
+            >
+              <span className="material-symbols-outlined">code</span>
               <p>API Integration</p>
             </button>
 
-            <button className="primary_button">
+            <button
+              className="primary_button"
+              onClick={() =>
+                navigate(
+                  `/m/${viewingAsMerchant || userData?.user?.id}/kyb/batch-verification`,
+                )
+              }
+            >
               <span className="material-symbols-outlined">docs</span>
               <p>Batch Business</p>
             </button>

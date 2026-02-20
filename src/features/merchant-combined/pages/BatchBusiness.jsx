@@ -1,106 +1,155 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import VerificationTable from "../../../shared/components/VerificationTable";
 import FileDropzone from "../../../shared/components/FileDropzone";
 import FilterDropdown from "../../../shared/components/FilterDropdown";
+import { supabase } from "../../../shared/services/supabase";
+import { useGlobal } from "../../../app/GlobalContext";
 
 const BatchBusiness = () => {
-  const verifications = [
-    {
-      id: "#COMB-KYB-001",
-      type: "Business License",
-      name: "Global Corp",
-      status: "Approved",
-      batch: "#BATCH5001",
-      date: "15 Sep 2024",
-      time: "10:30 AM",
-    },
-    {
-      id: "#COMB-KYB-002",
-      type: "Tax ID",
-      name: "Tech Solutions Ltd",
-      status: "Pending",
-      batch: "#BATCH5002",
-      date: "16 Sep 2024",
-      time: "11:45 AM",
-    },
-    {
-      id: "#COMB-KYB-003",
-      type: "Articles of Association",
-      name: "Summit Enterprises",
-      status: "Approved",
-      batch: "#BATCH5003",
-      date: "16 Sep 2024",
-      time: "03:10 PM",
-    },
-    {
-      id: "#COMB-KYB-004",
-      type: "Business License",
-      name: "Oceanic Ventures",
-      status: "Rejected",
-      batch: "#BATCH5004",
-      date: "17 Sep 2024",
-      time: "09:00 AM",
-    },
-    {
-      id: "#COMB-KYB-005",
-      type: "Tax ID",
-      name: "Alpha Retail Group",
-      status: "Approved",
-      batch: "#BATCH5005",
-      date: "17 Sep 2024",
-      time: "01:25 PM",
-    },
-    {
-      id: "#COMB-KYB-006",
-      type: "Articles of Association",
-      name: "Pioneer Consulting",
-      status: "Pending",
-      batch: "#BATCH5006",
-      date: "18 Sep 2024",
-      time: "10:40 AM",
-    },
-    {
-      id: "#COMB-KYB-007",
-      type: "Business License",
-      name: "Green Valley Foods",
-      status: "Approved",
-      batch: "#BATCH5007",
-      date: "18 Sep 2024",
-      time: "02:50 PM",
-    },
-    {
-      id: "#COMB-KYB-008",
-      type: "Tax ID",
-      name: "Swift Logistics",
-      status: "Approved",
-      batch: "#BATCH5008",
-      date: "19 Sep 2024",
-      time: "11:15 AM",
-    },
-    {
-      id: "#COMB-KYB-009",
-      type: "Articles of Association",
-      name: "Blue Wave Media",
-      status: "Rejected",
-      batch: "#BATCH5009",
-      date: "19 Sep 2024",
-      time: "04:30 PM",
-    },
-    {
-      id: "#COMB-KYB-010",
-      type: "Business License",
-      name: "Horizon Estates",
-      status: "Approved",
-      batch: "#BATCH5010",
-      date: "20 Sep 2024",
-      time: "09:20 AM",
-    },
-  ];
+  const { showToast } = useGlobal();
+  const [verifications, setVerifications] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [uploading, setUploading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [viewingAsMerchant] = useState(
+    localStorage.getItem("admin_viewing_merchant_id"),
+  );
+  useEffect(() => {
+    fetchVerifications();
+  }, [statusFilter]);
 
-  const handleFileSelect = (file) => {
-    console.log("File selected:", file.name);
+  const fetchVerifications = async () => {
+    setLoading(true);
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData?.user) throw new Error("Not logged in");
+
+      const merchantId = viewingAsMerchant || userData.user.id;
+
+      let query = supabase
+        .from("verifications")
+        .select("*")
+        .eq("merchant_id", merchantId)
+        .eq("verification_type", "kyb")
+        .order("created_at", { ascending: false });
+
+      if (statusFilter !== "all") {
+        query = query.eq("status", statusFilter);
+      }
+
+      const { data, error } = await query;
+      if (error) throw error;
+
+      setVerifications(
+        (data || []).map((v) => ({
+          id: v.id.split("-")[0].toUpperCase(),
+          type: v.type,
+          name: v.customer_name,
+          status: v.status.charAt(0).toUpperCase() + v.status.slice(1),
+          batch: v.batch_id
+            ? `#BATCH-${v.batch_id.split("-")[0].toUpperCase()}`
+            : "Single",
+          date: new Date(v.created_at).toLocaleDateString(),
+          time: new Date(v.created_at).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+        })),
+      );
+    } catch (error) {
+      showToast(error.message || "Failed to fetch verifications.", "error");
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const handleFileSelect = async (file) => {
+    if (!file) return;
+    setUploading(true);
+    showToast(`Uploading ${file.name}...`, "info");
+
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData?.user) throw new Error("Not logged in");
+
+      const merchantId = viewingAsMerchant || userData.user.id;
+
+      const { data: batch, error: batchError } = await supabase
+        .from("batches")
+        .insert([
+          {
+            merchant_id: merchantId,
+            name: file.name,
+            status: "processing",
+            total_records: 3,
+          },
+        ])
+        .select()
+        .single();
+
+      if (batchError) throw batchError;
+
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+
+      const simulatedRecords = [
+        {
+          merchant_id: merchantId,
+          batch_id: batch.id,
+          customer_name: "Tech Global Corp",
+          customer_email: "hr@techglobal.com",
+          status: "approved",
+          verification_type: "kyb",
+          type: "Business License",
+          source: "batch",
+        },
+        {
+          merchant_id: merchantId,
+          batch_id: batch.id,
+          customer_name: "Nexus Solutions",
+          customer_email: "contact@nexus.com",
+          status: "pending",
+          verification_type: "kyb",
+          type: "Tax ID",
+          source: "batch",
+        },
+        {
+          merchant_id: merchantId,
+          batch_id: batch.id,
+          customer_name: "Aurora Inc",
+          customer_email: "admin@aurora.com",
+          status: "approved",
+          verification_type: "kyb",
+          type: "Articles of Association",
+          source: "batch",
+        },
+      ];
+
+      const { error: recordsError } = await supabase
+        .from("verifications")
+        .insert(simulatedRecords);
+      if (recordsError) throw recordsError;
+
+      await supabase
+        .from("batches")
+        .update({ status: "completed" })
+        .eq("id", batch.id);
+
+      showToast("Batch processed successfully!", "success");
+      fetchVerifications();
+    } catch (error) {
+      showToast(error.message || "Failed to process batch.", "error");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const filteredVerifications = verifications.filter(
+    (v) =>
+      v.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      v.id.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
 
   return (
     <>
@@ -125,7 +174,12 @@ const BatchBusiness = () => {
         </div>
 
         <div className="supporting_documents_section">
-          <FileDropzone onFileSelect={handleFileSelect} />
+          <FileDropzone onFileSelect={handleFileSelect} disabled={uploading} />
+          {uploading && (
+            <div className="upload_status">
+              Processing batch... Please wait.
+            </div>
+          )}
         </div>
 
         <div className="recent_verifications">
@@ -139,6 +193,8 @@ const BatchBusiness = () => {
                 type="text"
                 placeholder="Search businesses..."
                 className="search_input"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
 
@@ -150,7 +206,7 @@ const BatchBusiness = () => {
                   { label: "Pending", value: "pending" },
                   { label: "Rejected", value: "rejected" },
                 ]}
-                onFilterChange={(val) => console.log("Filter:", val)}
+                onFilterChange={setStatusFilter}
               />
 
               <button className="secondary_button">
@@ -159,7 +215,11 @@ const BatchBusiness = () => {
               </button>
             </div>
           </div>
-          <VerificationTable data={verifications} />
+          {loading ? (
+            <div className="loading_state">Loading records...</div>
+          ) : (
+            <VerificationTable data={filteredVerifications} />
+          )}
         </div>
       </div>
     </>

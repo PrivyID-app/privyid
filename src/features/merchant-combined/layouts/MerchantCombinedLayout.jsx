@@ -1,59 +1,60 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import "../merchant-combined.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 
 const MerchantCombinedLayout = () => {
+  const { merchantId } = useParams();
+
   const combinedLinks = [
     {
-      to: "/merchant-combined",
+      to: `/m/${merchantId}/combined`,
       icon: "dashboard",
       label: "Overview",
       end: true,
     },
     {
-      to: "/merchant-combined/single-verification",
+      to: `/m/${merchantId}/combined/single-verification`,
       icon: "draft",
       label: "Single Verification",
     },
     {
-      to: "/merchant-combined/batch-verification",
+      to: `/m/${merchantId}/combined/batch-verification`,
       icon: "docs",
       label: "Batch Verification",
     },
     {
-      to: "/merchant-combined/single-business",
+      to: `/m/${merchantId}/combined/single-business`,
       icon: "draft",
       label: "Single Business",
     },
     {
-      to: "/merchant-combined/batch-business",
+      to: `/m/${merchantId}/combined/batch-business`,
       icon: "docs",
       label: "Batch Business",
     },
     {
-      to: "/merchant-combined/history",
+      to: `/m/${merchantId}/combined/history`,
       icon: "schedule",
       label: "History",
     },
     {
-      to: "/merchant-combined/api",
+      to: `/m/${merchantId}/combined/api`,
       icon: "code",
       label: "API & Developers",
     },
     {
-      to: "/merchant-combined/tokens",
+      to: `/m/${merchantId}/combined/tokens`,
       icon: "token",
       label: "Tokens",
     },
     {
-      to: "/merchant-combined/settings",
+      to: `/m/${merchantId}/combined/settings`,
       icon: "settings",
       label: "Settings",
       section: "OTHERS",
     },
     {
-      to: "/merchant-combined/support",
+      to: `/m/${merchantId}/combined/support`,
       icon: "headphones",
       label: "Support",
       section: "OTHERS",

@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useAppContext } from "../../context/appContextHooks";
 import NavTabIndicator from "../../assets/images/nav-tab-rectangle.svg";
 
@@ -13,6 +13,7 @@ const Sidebar = ({
   user: userProp, // Accept user as a prop
   onLogout, // Accept onLogout as a prop
 }) => {
+  const navigate = useNavigate();
   const context = useAppContext();
   const user = userProp || context.user;
   const company = {
@@ -99,7 +100,20 @@ const Sidebar = ({
       </div>
 
       <div className="buttom_section">
-        <div className="user_content">
+        <div
+          className="user_content"
+          onClick={() => {
+            const path = window.location.hash || window.location.pathname;
+            const match = path.match(/\/m\/([^\/]+)\/([^\/]+)/);
+            if (match) {
+              const [_, mId, type] = match;
+              navigate(`/m/${mId}/${type}/user-profile`);
+            } else if (path.includes("super-admin")) {
+              navigate("/super-admin/user-profile");
+            }
+          }}
+          style={{ cursor: "pointer" }}
+        >
           <div className="avatar">
             <img src={user?.avatar} alt="Avatar" />
           </div>
@@ -109,26 +123,6 @@ const Sidebar = ({
               {user?.name || "Admin"}
             </p>
             <p className="top_section_slogan truncate_text">{user?.email}</p>
-          </div>
-
-          <div
-            className="logout_trigger"
-            onClick={onLogout}
-            title="Logout"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              cursor: "pointer",
-              color: "var(--text-soft-400)",
-              marginLeft: "0.5rem",
-            }}
-          >
-            <span
-              className="material-symbols-outlined"
-              style={{ fontSize: "1.25rem" }}
-            >
-              logout
-            </span>
           </div>
         </div>
       </div>

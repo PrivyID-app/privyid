@@ -1,49 +1,50 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import "../merchant-kyb.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 
 const MerchantKybLayout = () => {
+  const { merchantId } = useParams();
+
   const kybLinks = [
     {
-      to: "/merchant-kyb",
+      to: `/m/${merchantId}/kyb`,
       icon: "dashboard",
       label: "Overview",
       end: true,
     },
     {
-      to: "/merchant-kyb/single-verification",
+      to: `/m/${merchantId}/kyb/single-verification`,
       icon: "draft",
       label: "Single Business",
     },
     {
-      to: "/merchant-kyb/batch-verification",
+      to: `/m/${merchantId}/kyb/batch-verification`,
       icon: "docs",
       label: "Batch Business",
     },
     {
-      to: "/merchant-kyb/history",
+      to: `/m/${merchantId}/kyb/history`,
       icon: "schedule",
       label: "History",
     },
     {
-      to: "/merchant-kyb/api",
+      to: `/m/${merchantId}/kyb/api`,
       icon: "code",
       label: "API & Developers",
     },
     {
-      to: "/merchant-kyb/tokens",
+      to: `/m/${merchantId}/kyb/tokens`,
       icon: "token",
       label: "Tokens",
     },
     {
-      to: "/merchant-kyb/settings",
+      to: `/m/${merchantId}/kyb/settings`,
       icon: "settings",
       label: "Settings",
       section: "OTHERS",
     },
     {
-      to: "/merchant-kyb/support",
+      to: `/m/${merchantId}/kyb/support`,
       icon: "headphones",
       label: "Support",
       section: "OTHERS",

@@ -10,6 +10,9 @@ const History = () => {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
+  const [viewingAsMerchant] = useState(
+    localStorage.getItem("admin_viewing_merchant_id"),
+  );
 
   useEffect(() => {
     fetchHistory();
@@ -21,10 +24,12 @@ const History = () => {
       const { data: userData } = await supabase.auth.getUser();
       if (!userData?.user) return;
 
+      const merchantId = viewingAsMerchant || userData.user.id;
+
       let query = supabase
         .from("verifications")
         .select("*")
-        .eq("merchant_id", userData.user.id)
+        .eq("merchant_id", merchantId)
         .order("created_at", { ascending: false });
 
       if (filter !== "all") {

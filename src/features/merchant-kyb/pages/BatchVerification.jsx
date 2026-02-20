@@ -13,6 +13,9 @@ const BatchVerification = () => {
   const [uploading, setUploading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [viewingAsMerchant] = useState(
+    localStorage.getItem("admin_viewing_merchant_id"),
+  );
 
   useEffect(() => {
     fetchVerifications();
@@ -21,13 +24,12 @@ const BatchVerification = () => {
   const fetchVerifications = async () => {
     setLoading(true);
     try {
-      const { data: userData } = await supabase.auth.getUser();
-      if (!userData?.user) throw new Error("Not logged in");
+      const merchantId = viewingAsMerchant || userData.user.id;
 
       let query = supabase
         .from("verifications")
         .select("*")
-        .eq("merchant_id", userData.user.id)
+        .eq("merchant_id", merchantId)
         .order("created_at", { ascending: false });
 
       if (statusFilter !== "all") {
@@ -66,14 +68,13 @@ const BatchVerification = () => {
     showToast(`Uploading ${file.name}...`, "info");
 
     try {
-      const { data: userData } = await supabase.auth.getUser();
-      if (!userData?.user) throw new Error("Not logged in");
+      const merchantId = viewingAsMerchant || userData.user.id;
 
       const { data: batch, error: batchError } = await supabase
         .from("batches")
         .insert([
           {
-            merchant_id: userData.user.id,
+            merchant_id: merchantId,
             name: file.name,
             status: "processing",
             total_records: 3,
@@ -88,29 +89,32 @@ const BatchVerification = () => {
 
       const simulatedRecords = [
         {
-          merchant_id: userData.user.id,
+          merchant_id: merchantId,
           batch_id: batch.id,
           customer_name: "Global Corp Ltd",
           customer_email: "info@globalcorp.com",
           status: "approved",
+          verification_type: "kyb",
           type: "Business License",
           source: "batch",
         },
         {
-          merchant_id: userData.user.id,
+          merchant_id: merchantId,
           batch_id: batch.id,
           customer_name: "Tech Ventures Inc",
           customer_email: "contact@techventures.com",
           status: "pending",
+          verification_type: "kyb",
           type: "Tax ID",
           source: "batch",
         },
         {
-          merchant_id: userData.user.id,
+          merchant_id: merchantId,
           batch_id: batch.id,
           customer_name: "Summit Enterprises",
           customer_email: "hello@summit.com",
           status: "approved",
+          verification_type: "kyb",
           type: "Articles of Association",
           source: "batch",
         },

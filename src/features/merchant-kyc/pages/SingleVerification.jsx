@@ -62,14 +62,22 @@ const SingleVerification = () => {
       // Simulate API call delay
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
+      const merchantId =
+        localStorage.getItem("admin_viewing_merchant_id") || userData.user.id;
+
       const { error } = await supabase.from("verifications").insert([
         {
-          merchant_id: userData.user.id,
+          merchant_id: merchantId,
           customer_name: formData.userName,
           customer_email: formData.userEmail,
-          status: "approved", // Simulating successful verification
+          status: "approved",
+          verification_type: "kyc",
           type: formData.idType,
           source: "single",
+          metadata: {
+            id_type: formData.idType,
+            id_number: formData.idNumber,
+          },
         },
       ]);
 

@@ -19,6 +19,10 @@ const TokensPage = () => {
     revoked: 0,
   });
 
+  const [viewingAsMerchant] = useState(
+    localStorage.getItem("admin_viewing_merchant_id"),
+  );
+
   useEffect(() => {
     fetchTokens();
   }, []);
@@ -29,10 +33,12 @@ const TokensPage = () => {
       const { data: userData } = await supabase.auth.getUser();
       if (!userData?.user) return;
 
+      const merchantId = viewingAsMerchant || userData.user.id;
+
       const { data, error } = await supabase
         .from("api_tokens")
         .select("*")
-        .eq("merchant_id", userData.user.id)
+        .eq("merchant_id", merchantId)
         .order("created_at", { ascending: false });
 
       if (error) throw error;

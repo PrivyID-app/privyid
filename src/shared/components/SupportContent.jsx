@@ -23,6 +23,9 @@ const SupportContent = () => {
   const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({ subject: "", description: "" });
   const [selectedTicketId, setSelectedTicketId] = useState(null);
+  const [viewingAsMerchant] = useState(
+    localStorage.getItem("admin_viewing_merchant_id"),
+  );
 
   useEffect(() => {
     if (activeTab === "tickets") {
@@ -36,10 +39,12 @@ const SupportContent = () => {
       const { data: userData } = await supabase.auth.getUser();
       if (!userData?.user) return;
 
+      const merchantId = viewingAsMerchant || userData.user.id;
+
       const { data, error } = await supabase
         .from("tickets")
         .select("*")
-        .eq("merchant_id", userData.user.id)
+        .eq("merchant_id", merchantId)
         .order("created_at", { ascending: false });
 
       if (error) throw error;
@@ -68,9 +73,11 @@ const SupportContent = () => {
       const { data: userData } = await supabase.auth.getUser();
       if (!userData?.user) throw new Error("Not logged in");
 
+      const merchantId = viewingAsMerchant || userData.user.id;
+
       const { error } = await supabase.from("tickets").insert([
         {
-          merchant_id: userData.user.id,
+          merchant_id: merchantId,
           subject: formData.subject,
           message: formData.description,
           priority,

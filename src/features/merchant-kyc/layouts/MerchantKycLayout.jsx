@@ -1,51 +1,52 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import "../merchant-kyc.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import UserProfile from "../pages/UserProfile";
 import Notifications from "../pages/Notifications";
 
 const MerchantKycLayout = () => {
+  const { merchantId } = useParams();
+
   const kycLinks = [
     {
-      to: "/merchant-kyc",
+      to: `/m/${merchantId}/kyc`,
       icon: "dashboard",
       label: "Overview",
       end: true,
     },
     {
-      to: "/merchant-kyc/single-verification",
+      to: `/m/${merchantId}/kyc/single-verification`,
       icon: "draft",
       label: "Single Verification",
     },
     {
-      to: "/merchant-kyc/batch-verification",
+      to: `/m/${merchantId}/kyc/batch-verification`,
       icon: "docs",
       label: "Batch Verification",
     },
     {
-      to: "/merchant-kyc/history",
+      to: `/m/${merchantId}/kyc/history`,
       icon: "schedule",
       label: "History",
     },
     {
-      to: "/merchant-kyc/api",
+      to: `/m/${merchantId}/kyc/api`,
       icon: "code",
       label: "API & Developers",
     },
     {
-      to: "/merchant-kyc/tokens",
+      to: `/m/${merchantId}/kyc/tokens`,
       icon: "token",
       label: "Tokens",
     },
     {
-      to: "/merchant-kyc/settings",
+      to: `/m/${merchantId}/kyc/settings`,
       icon: "settings",
       label: "Settings",
       section: "OTHERS",
     },
     {
-      to: "/merchant-kyc/support",
+      to: `/m/${merchantId}/kyc/support`,
       icon: "headphones",
       label: "Support",
       section: "OTHERS",
