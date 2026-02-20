@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import VerificationTable from "../../../shared/components/VerificationTable";
 import FileDropzone from "../../../shared/components/FileDropzone";
@@ -13,17 +14,29 @@ const BatchVerification = () => {
   const [uploading, setUploading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [merchantId, setMerchantId] = useState(null);
+  const navigate = useNavigate();
   const [viewingAsMerchant] = useState(
     localStorage.getItem("admin_viewing_merchant_id"),
   );
 
   useEffect(() => {
+    const getMerchantId = async () => {
+      const { data: userData } = await supabase.auth.getUser();
+      if (userData?.user) {
+        setMerchantId(viewingAsMerchant || userData.user.id);
+      }
+    };
+    getMerchantId();
     fetchVerifications();
-  }, [statusFilter]);
+  }, [statusFilter, viewingAsMerchant]);
 
   const fetchVerifications = async () => {
     setLoading(true);
     try {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData?.user) throw new Error("Not logged in");
+
       const merchantId = viewingAsMerchant || userData.user.id;
 
       let query = supabase
@@ -68,6 +81,9 @@ const BatchVerification = () => {
     showToast(`Uploading ${file.name}...`, "info");
 
     try {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData?.user) throw new Error("Not logged in");
+
       const merchantId = viewingAsMerchant || userData.user.id;
 
       const { data: batch, error: batchError } = await supabase
@@ -150,7 +166,9 @@ const BatchVerification = () => {
       <PageHeader
         title="Batch Business Verification"
         description="Upload and verify multiple businesses at once"
-        notificationIconRoute="/merchant-kyb/notifications"
+        notificationIconRoute={
+          merchantId ? `/m/${merchantId}/kyb/notifications` : null
+        }
       />
       <div className="content_area">
         <div className="quick_actions">
@@ -159,7 +177,7 @@ const BatchVerification = () => {
             <button
               className="secondary_button"
               onClick={() =>
-                (window.location.href = "/merchant-kyb/single-verification")
+                navigate(`/m/${merchantId}/kyb/single-verification`)
               }
             >
               <span className="material-symbols-outlined">add</span>

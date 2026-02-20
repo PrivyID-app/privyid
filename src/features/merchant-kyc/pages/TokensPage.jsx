@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import VerificationTable from "../../../shared/components/VerificationTable";
 import { supabase } from "../../../shared/services/supabase";
@@ -10,8 +11,10 @@ import TimeLineIcon from "../../../assets/images/time-line.svg";
 import ErrorWarningIcon from "../../../assets/images/error-warning-line.svg";
 
 const TokensPage = () => {
+  const { merchantId: urlMerchantId } = useParams();
   const [tokens, setTokens] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [merchantId, setMerchantId] = useState(null);
   const [stats, setStats] = useState({
     total: 0,
     active: 0,
@@ -33,43 +36,50 @@ const TokensPage = () => {
       const { data: userData } = await supabase.auth.getUser();
       if (!userData?.user) return;
 
-      const merchantId = viewingAsMerchant || userData.user.id;
+      const mId = urlMerchantId || viewingAsMerchant || userData.user.id;
+      setMerchantId(mId);
 
+      // 1. Fetch Verifications (Showing them as "Verified Results" on this page)
       const { data, error } = await supabase
-        .from("api_tokens")
+        .from("verifications")
         .select("*")
-        .eq("merchant_id", merchantId)
+        .eq("merchant_id", mId)
         .order("created_at", { ascending: false });
 
       if (error) throw error;
 
-      const mappedTokens = data.map((t) => ({
-        id: t.token.substring(0, 12) + "...",
-        type: "API Key",
-        name: t.name,
-        status: t.is_active ? "Approved" : "Rejected",
-        batch: "#SYSTEM",
-        date: new Date(t.created_at).toLocaleDateString("en-GB", {
+      const mappedReports = data.map((v) => ({
+        id: v.id.substring(0, 8).toUpperCase(),
+        type: v.verification_type?.toUpperCase() || "KYC",
+        name: v.customer_name || v.metadata?.full_name || "Unknown",
+        status: v.status.charAt(0).toUpperCase() + v.status.slice(1),
+        batch: v.metadata?.batch_no || "#SINGLE",
+        date: new Date(v.created_at).toLocaleDateString("en-GB", {
           day: "2-digit",
           month: "short",
           year: "numeric",
         }),
-        time: new Date(t.created_at).toLocaleTimeString("en-US", {
+        time: new Date(v.created_at).toLocaleTimeString("en-US", {
           hour: "2-digit",
           minute: "2-digit",
           hour12: true,
         }),
       }));
 
-      setTokens(mappedTokens);
+      setTokens(mappedReports);
+
+      const vApproved = data.filter((v) => v.status === "approved").length;
+      const vRejected = data.filter((v) => v.status === "rejected").length;
+      const vPending = data.filter((v) => v.status === "pending").length;
+
       setStats({
-        total: mappedTokens.length,
-        active: mappedTokens.filter((t) => t.status === "Approved").length,
-        pending: 0,
-        revoked: mappedTokens.filter((t) => t.status === "Rejected").length,
+        total: data.length,
+        active: vApproved,
+        pending: vPending,
+        revoked: vRejected,
       });
     } catch (error) {
-      console.error("Error fetching tokens:", error);
+      console.error("Error fetching verification reports:", error);
     } finally {
       setLoading(false);
     }
@@ -78,15 +88,21 @@ const TokensPage = () => {
   return (
     <div className="content_wrapper">
       <PageHeader
-        title="Token Management"
-        description="Manage your usage tokens and billing"
-        notificationIconRoute="/merchant-kyc/notifications"
+        title="Verification Reports"
+        description="View your verified results and session tokens"
+        notificationIconRoute={
+          urlMerchantId
+            ? `/m/${urlMerchantId}/kyc/notifications`
+            : merchantId
+              ? `/m/${merchantId}/kyc/notifications`
+              : null
+        }
       />
 
       <div className="content_area">
         <div className="recent_verifications">
           <div className="top_area">
-            <p className="section_title">API Tokens</p>
+            <p className="section_title">Verified Reports</p>
 
             <div className="search_box">
               <span className="material-symbols-outlined search_icon">
@@ -162,11 +178,13 @@ const TokensPage = () => {
           </div>
 
           {loading ? (
-            <div className="no_data_message">Loading tokens...</div>
+            <div className="no_data_message">Loading reports...</div>
           ) : tokens.length > 0 ? (
-            <VerificationTable data={tokens} idLabel="Token No." />
+            <VerificationTable data={tokens} idLabel="Report ID" />
           ) : (
-            <div className="no_data_message">No API tokens found.</div>
+            <div className="no_data_message">
+              No verification reports found.
+            </div>
           )}
         </div>
       </div>

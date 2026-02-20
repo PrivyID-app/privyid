@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import VerificationTable from "../../../shared/components/VerificationTable";
 import FileDropzone from "../../../shared/components/FileDropzone";
@@ -13,12 +14,21 @@ const BatchBusiness = () => {
   const [uploading, setUploading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [merchantId, setMerchantId] = useState(null);
+  const navigate = useNavigate();
   const [viewingAsMerchant] = useState(
     localStorage.getItem("admin_viewing_merchant_id"),
   );
   useEffect(() => {
+    const getMerchantId = async () => {
+      const { data: userData } = await supabase.auth.getUser();
+      if (userData?.user) {
+        setMerchantId(viewingAsMerchant || userData.user.id);
+      }
+    };
+    getMerchantId();
     fetchVerifications();
-  }, [statusFilter]);
+  }, [statusFilter, viewingAsMerchant]);
 
   const fetchVerifications = async () => {
     setLoading(true);
@@ -156,13 +166,20 @@ const BatchBusiness = () => {
       <PageHeader
         title="Batch Business Verification"
         description="Upload and verify multiple businesses at once"
-        notificationIconRoute="/merchant-combined/notifications"
+        notificationIconRoute={
+          merchantId ? `/m/${merchantId}/combined/notifications` : null
+        }
       />
       <div className="content_area">
         <div className="quick_actions">
           <p className="section_title">Quick Actions</p>
           <div className="filter_wrapper">
-            <button className="secondary_button">
+            <button
+              className="secondary_button"
+              onClick={() =>
+                navigate(`/m/${merchantId}/combined/single-business`)
+              }
+            >
               <span className="material-symbols-outlined">add</span>
               <p>Single Business</p>
             </button>

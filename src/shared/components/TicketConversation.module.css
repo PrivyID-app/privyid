@@ -18,16 +18,19 @@
 
 .back_btn {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: 8px;
-  background: none;
-  border: none;
-  color: var(--text-soft-400);
+  justify-content: center;
+  column-gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  background-color: var(--bg-white-0);
+  color: var(--text-sub-600) !important;
+  font-size: 1rem;
+  font-weight: 300;
+  border: 1px solid var(--stroke-sub-300);
   cursor: pointer;
-  font-size: 14px;
-  padding: 8px;
-  border-radius: 6px;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
 }
 
 .back_btn:hover {
@@ -41,7 +44,7 @@
 
 .subject {
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--text-dark-900);
   margin: 0;
 }
@@ -127,19 +130,21 @@
 }
 
 .sender_name {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 400;
 }
 
 .time {
-  font-size: 10px;
-  opacity: 0.7;
+  font-size: 0.75rem;
+  font-weight: 300;
 }
 
 .message_body {
-  font-size: 14px;
+  font-size: 1rem;
+  font-weight: 300;
   line-height: 1.5;
   white-space: pre-wrap;
+  color: var(--text-sub-600);
 }
 
 .input_area {
@@ -155,7 +160,7 @@
   border: 1px solid var(--border-soft);
   border-radius: 8px;
   padding: 12px;
-  font-size: 14px;
+  font-size: 1rem;
   resize: none;
   height: 44px;
   max-height: 120px;

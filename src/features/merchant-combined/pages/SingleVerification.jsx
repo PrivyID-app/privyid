@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import VerticalStepIndicator from "../../../shared/components/VerticalStepIndicator";
 import "../../merchant-kyc/pages/SingleVerification.css";
@@ -13,6 +13,7 @@ import CardPatternWhite from "../../../assets/images/card-pattern-white-bg.svg";
 import CardPatternBlack from "../../../assets/images/card-pattern.svg";
 import CheckboxIcon from "../../../assets/images/Checkbox [1.0].svg";
 import { supabase } from "../../../shared/services/supabase";
+import { VerificationService } from "../../../shared/services/verification.service";
 import { useGlobal } from "../../../app/GlobalContext";
 
 const SingleVerification = () => {
@@ -25,6 +26,21 @@ const SingleVerification = () => {
     idNumber: "",
     idType: "",
   });
+  const [merchantId, setMerchantId] = useState(null);
+
+  const [viewingAsMerchant] = useState(
+    localStorage.getItem("admin_viewing_merchant_id"),
+  );
+
+  useEffect(() => {
+    const getMerchantId = async () => {
+      const { data: userData } = await supabase.auth.getUser();
+      if (userData?.user) {
+        setMerchantId(viewingAsMerchant || userData.user.id);
+      }
+    };
+    getMerchantId();
+  }, [viewingAsMerchant]);
 
   const steps = [
     {
@@ -67,26 +83,28 @@ const SingleVerification = () => {
       const merchantId =
         localStorage.getItem("admin_viewing_merchant_id") || userData.user.id;
 
-      const { error } = await supabase.from("verifications").insert([
-        {
-          merchant_id: merchantId,
-          customer_name: formData.userName,
-          customer_email: formData.userEmail,
-          status: "approved",
-          verification_type: "kyc",
-          type: formData.idType,
-          source: "single",
-          metadata: {
-            id_type: formData.idType,
-            id_number: formData.idNumber,
-          },
+      const result = await VerificationService.processSingleVerification({
+        merchant_id: merchantId,
+        customer_name: formData.userName,
+        customer_email: formData.userEmail,
+        verification_type: "kyc", // Defaulting to kyc for the combined simulation
+        type: formData.idType,
+        metadata: {
+          id_type: formData.idType,
+          id_number: formData.idNumber,
         },
-      ]);
+      });
 
-      if (error) throw error;
+      if (result.error) throw new Error(result.error);
 
+      // Even if DB logging failed in demo mode, we continue for the presentation
       setCurrentStep(2);
-      showToast("Verification completed successfully!", "success");
+      showToast(
+        result.status === "approved"
+          ? "Verification completed successfully!"
+          : "Verification was rejected by the provider.",
+        result.status === "approved" ? "success" : "warning",
+      );
     } catch (error) {
       showToast(error.message || "Verification failed.", "error");
     } finally {
@@ -332,7 +350,9 @@ const SingleVerification = () => {
       <PageHeader
         title="Single Verification"
         description="Verify individual user details quickly and securely"
-        notificationIconRoute="/merchant-combined/notifications"
+        notificationIconRoute={
+          merchantId ? `/m/${merchantId}/combined/notifications` : null
+        }
       />
 
       <div className="content_area">

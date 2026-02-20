@@ -35,6 +35,7 @@ const DashboardOverview = () => {
   const [loading, setLoading] = useState(true);
   const [recentVerifications, setRecentVerifications] = useState([]);
   const [lineChartData, setLineChartData] = useState([]);
+  const [merchantId, setMerchantId] = useState(null);
   const [stats, setStats] = useState({
     total: 0,
     approved: 0,
@@ -56,13 +57,14 @@ const DashboardOverview = () => {
       const { data: userData } = await supabase.auth.getUser();
       if (!userData?.user) return;
 
-      const merchantId = viewingAsMerchant || userData.user.id;
+      const mId = viewingAsMerchant || userData.user.id;
+      setMerchantId(mId);
 
       // 1. Fetch All Verifications for Stats and Chart (Combined)
       const { data: vAll, error: sError } = await supabase
         .from("verifications")
         .select("*")
-        .eq("merchant_id", merchantId);
+        .eq("merchant_id", mId);
 
       if (sError) throw sError;
 
@@ -137,7 +139,9 @@ const DashboardOverview = () => {
       <PageHeader
         title="Combined Dashboard Overview"
         description="Monitor both KYC and KYB verification activity"
-        notificationIconRoute="/merchant-combined/notifications"
+        notificationIconRoute={
+          merchantId ? `/m/${merchantId}/combined/notifications` : null
+        }
       />
 
       <div className="content_area">
@@ -167,9 +171,7 @@ const DashboardOverview = () => {
             <button
               className="secondary_button"
               onClick={() =>
-                navigate(
-                  `/m/${viewingAsMerchant || userData?.user?.id}/combined/single-verification`,
-                )
+                navigate(`/m/${merchantId}/combined/single-verification`)
               }
             >
               <span className="material-symbols-outlined">add</span>
@@ -179,9 +181,7 @@ const DashboardOverview = () => {
             <button
               className="secondary_button"
               onClick={() =>
-                navigate(
-                  `/m/${viewingAsMerchant || userData?.user?.id}/combined/single-business`,
-                )
+                navigate(`/m/${merchantId}/combined/single-business`)
               }
             >
               <span className="material-symbols-outlined">add</span>
@@ -190,11 +190,7 @@ const DashboardOverview = () => {
 
             <button
               className="secondary_button"
-              onClick={() =>
-                navigate(
-                  `/m/${viewingAsMerchant || userData?.user?.id}/combined/api`,
-                )
-              }
+              onClick={() => navigate(`/m/${merchantId}/combined/api`)}
             >
               <span className="material-symbols-outlined">code</span>
               <p>API Integration</p>
@@ -203,9 +199,7 @@ const DashboardOverview = () => {
             <button
               className="primary_button"
               onClick={() =>
-                navigate(
-                  `/m/${viewingAsMerchant || userData?.user?.id}/combined/batch-verification`,
-                )
+                navigate(`/m/${merchantId}/combined/batch-verification`)
               }
             >
               <span className="material-symbols-outlined">docs</span>

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { supabase } from "../../../shared/services/supabase";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import Tabs from "../../../shared/components/Tabs";
 import GeneralSettings from "../components/settings/GeneralSettings";
@@ -11,6 +12,20 @@ import "./SettingsPage.css";
 
 const SettingsPage = () => {
   const [activeTab, setActiveTab] = useState("general");
+  const [merchantId, setMerchantId] = useState(null);
+  const [viewingAsMerchant] = useState(
+    localStorage.getItem("admin_viewing_merchant_id"),
+  );
+
+  useEffect(() => {
+    const getMerchantId = async () => {
+      const { data: userData } = await supabase.auth.getUser();
+      if (userData?.user) {
+        setMerchantId(viewingAsMerchant || userData.user.id);
+      }
+    };
+    getMerchantId();
+  }, [viewingAsMerchant]);
 
   const tabs = [
     { label: "General", key: "general" },
@@ -45,7 +60,9 @@ const SettingsPage = () => {
       <PageHeader
         title="Settings"
         description="Manage your account preferences"
-        notificationIconRoute="/merchant-kyc/notifications"
+        notificationIconRoute={
+          merchantId ? `/m/${merchantId}/kyc/notifications` : null
+        }
       />
       <div className="content_area settings_content">
         <Tabs tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />

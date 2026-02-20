@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import VerticalStepIndicator from "../../../shared/components/VerticalStepIndicator";
 import "../../merchant-kyc/pages/SingleVerification.css";
@@ -13,6 +13,7 @@ import CardPatternWhite from "../../../assets/images/card-pattern-white-bg.svg";
 import CardPatternBlack from "../../../assets/images/card-pattern.svg";
 import CheckboxIcon from "../../../assets/images/Checkbox [1.0].svg";
 import { supabase } from "../../../shared/services/supabase";
+import { VerificationService } from "../../../shared/services/verification.service";
 import { useGlobal } from "../../../app/GlobalContext";
 
 const SingleVerification = () => {
@@ -25,6 +26,21 @@ const SingleVerification = () => {
     regNumber: "", // Adapted for KYB
     idType: "",
   });
+  const [merchantId, setMerchantId] = useState(null);
+
+  const [viewingAsMerchant] = useState(
+    localStorage.getItem("admin_viewing_merchant_id"),
+  );
+
+  useEffect(() => {
+    const getMerchantId = async () => {
+      const { data: userData } = await supabase.auth.getUser();
+      if (userData?.user) {
+        setMerchantId(viewingAsMerchant || userData.user.id);
+      }
+    };
+    getMerchantId();
+  }, [viewingAsMerchant]);
 
   const steps = [
     {
@@ -61,32 +77,31 @@ const SingleVerification = () => {
       const { data: userData } = await supabase.auth.getUser();
       if (!userData?.user) throw new Error("Not logged in");
 
-      // Simulate API call delay
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
       const merchantId =
         localStorage.getItem("admin_viewing_merchant_id") || userData.user.id;
 
-      const { error } = await supabase.from("verifications").insert([
-        {
-          merchant_id: merchantId,
-          customer_name: formData.businessName,
-          customer_email: formData.businessEmail,
-          status: "approved",
-          verification_type: "kyb",
-          type: formData.idType,
-          source: "single",
-          metadata: {
-            id_type: formData.idType,
-            registration_number: formData.regNumber,
-          },
+      const result = await VerificationService.processSingleVerification({
+        merchant_id: merchantId,
+        customer_name: formData.businessName,
+        customer_email: formData.businessEmail,
+        verification_type: "kyb",
+        type: formData.idType,
+        metadata: {
+          id_type: formData.idType,
+          registration_number: formData.regNumber,
         },
-      ]);
+      });
 
-      if (error) throw error;
+      if (result.error) throw new Error(result.error);
 
+      // Even if DB logging failed in demo mode, we continue for the presentation
       setCurrentStep(2);
-      showToast("Business verification completed successfully!", "success");
+      showToast(
+        result.status === "approved"
+          ? "Business verification completed successfully!"
+          : "Business verification was rejected by the provider.",
+        result.status === "approved" ? "success" : "warning",
+      );
     } catch (error) {
       showToast(error.message || "Verification failed.", "error");
     } finally {
@@ -333,7 +348,9 @@ const SingleVerification = () => {
       <PageHeader
         title="Single Business Verification"
         description="Verify individual business records quickly and securely"
-        notificationIconRoute="/merchant-kyb/notifications"
+        notificationIconRoute={
+          merchantId ? `/m/${merchantId}/kyb/notifications` : null
+        }
       />
 
       <div className="content_area">

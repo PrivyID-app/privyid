@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import VerificationTable from "../../../shared/components/VerificationTable";
 import FileDropzone from "../../../shared/components/FileDropzone";
@@ -13,10 +14,22 @@ const BatchVerification = () => {
   const [uploading, setUploading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [merchantId, setMerchantId] = useState(null);
+  const navigate = useNavigate();
+  const [viewingAsMerchant] = useState(
+    localStorage.getItem("admin_viewing_merchant_id"),
+  );
 
   useEffect(() => {
+    const getMerchantId = async () => {
+      const { data: userData } = await supabase.auth.getUser();
+      if (userData?.user) {
+        setMerchantId(viewingAsMerchant || userData.user.id);
+      }
+    };
+    getMerchantId();
     fetchVerifications();
-  }, [statusFilter]);
+  }, [statusFilter, viewingAsMerchant]);
 
   const fetchVerifications = async () => {
     setLoading(true);
@@ -24,10 +37,12 @@ const BatchVerification = () => {
       const { data: userData } = await supabase.auth.getUser();
       if (!userData?.user) throw new Error("Not logged in");
 
+      const merchantId = viewingAsMerchant || userData.user.id;
+
       let query = supabase
         .from("verifications")
         .select("*")
-        .eq("merchant_id", userData.user.id)
+        .eq("merchant_id", merchantId)
         .order("created_at", { ascending: false });
 
       if (statusFilter !== "all") {
@@ -69,11 +84,13 @@ const BatchVerification = () => {
       const { data: userData } = await supabase.auth.getUser();
       if (!userData?.user) throw new Error("Not logged in");
 
+      const merchantId = viewingAsMerchant || userData.user.id;
+
       const { data: batch, error: batchError } = await supabase
         .from("batches")
         .insert([
           {
-            merchant_id: userData.user.id,
+            merchant_id: merchantId,
             name: file.name,
             status: "processing",
             total_records: 3,
@@ -88,7 +105,7 @@ const BatchVerification = () => {
 
       const simulatedRecords = [
         {
-          merchant_id: userData.user.id,
+          merchant_id: merchantId,
           batch_id: batch.id,
           customer_name: "John Doe",
           customer_email: "john@example.com",
@@ -98,7 +115,7 @@ const BatchVerification = () => {
           source: "batch",
         },
         {
-          merchant_id: userData.user.id,
+          merchant_id: merchantId,
           batch_id: batch.id,
           customer_name: "Jane Smith",
           customer_email: "jane@example.com",
@@ -108,7 +125,7 @@ const BatchVerification = () => {
           source: "batch",
         },
         {
-          merchant_id: userData.user.id,
+          merchant_id: merchantId,
           batch_id: batch.id,
           customer_name: "Mark Wilson",
           customer_email: "mark@example.com",
@@ -149,7 +166,9 @@ const BatchVerification = () => {
       <PageHeader
         title="Batch KYC Verification"
         description="Upload and verify multiple individual customers at once"
-        notificationIconRoute="/merchant-combined/notifications"
+        notificationIconRoute={
+          merchantId ? `/m/${merchantId}/combined/notifications` : null
+        }
       />
       <div className="content_area">
         <div className="quick_actions">
@@ -158,8 +177,7 @@ const BatchVerification = () => {
             <button
               className="secondary_button"
               onClick={() =>
-                (window.location.href =
-                  "/merchant-combined/single-verification")
+                navigate(`/m/${merchantId}/combined/single-verification`)
               }
             >
               <span className="material-symbols-outlined">add</span>

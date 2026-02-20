@@ -13,10 +13,18 @@ const History = () => {
   const [viewingAsMerchant] = useState(
     localStorage.getItem("admin_viewing_merchant_id"),
   );
+  const [merchantId, setMerchantId] = useState(null);
 
   useEffect(() => {
+    const getMerchantId = async () => {
+      const { data: userData } = await supabase.auth.getUser();
+      if (userData?.user) {
+        setMerchantId(viewingAsMerchant || userData.user.id);
+      }
+    };
+    getMerchantId();
     fetchHistory();
-  }, [filter]);
+  }, [filter, viewingAsMerchant]);
 
   const fetchHistory = async () => {
     setLoading(true);
@@ -83,7 +91,9 @@ const History = () => {
       <PageHeader
         title="Verification History"
         description="View and manage past verification requests"
-        notificationIconRoute="/merchant-kyc/notifications"
+        notificationIconRoute={
+          merchantId ? `/m/${merchantId}/kyc/notifications` : null
+        }
       />
 
       <div className="content_area">

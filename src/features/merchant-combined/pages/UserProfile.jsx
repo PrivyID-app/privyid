@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { supabase } from "../../../shared/services/supabase";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import Tabs from "../../../shared/components/Tabs";
 import ProfileImage from "../../../shared/components/Profile/ProfileImage";
@@ -9,6 +10,20 @@ import "../../../shared/styles/extra-pages.css";
 
 const UserProfile = () => {
   const [activeTab, setActiveTab] = useState("account");
+  const [merchantId, setMerchantId] = useState(null);
+  const [viewingAsMerchant] = useState(
+    localStorage.getItem("admin_viewing_merchant_id"),
+  );
+
+  useEffect(() => {
+    const getMerchantId = async () => {
+      const { data: userData } = await supabase.auth.getUser();
+      if (userData?.user) {
+        setMerchantId(viewingAsMerchant || userData.user.id);
+      }
+    };
+    getMerchantId();
+  }, [viewingAsMerchant]);
 
   const tabs = [
     { label: "Account Details", key: "account" },
@@ -34,7 +49,9 @@ const UserProfile = () => {
       <PageHeader
         title="User Profile"
         description="View and manage your account details"
-        notificationIconRoute="/merchant-combined/notifications"
+        notificationIconRoute={
+          merchantId ? `/m/${merchantId}/combined/notifications` : null
+        }
       />
 
       <div className="content_area">

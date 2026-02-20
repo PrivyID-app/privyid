@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { supabase } from "../../../shared/services/supabase";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import VerificationTable from "../../../shared/components/VerificationTable";
 import FilterDropdown from "../../../shared/components/FilterDropdown";
 
 const History = () => {
+  const [merchantId, setMerchantId] = useState(null);
+  const [viewingAsMerchant] = useState(
+    localStorage.getItem("admin_viewing_merchant_id"),
+  );
+
+  useEffect(() => {
+    const getMerchantId = async () => {
+      const { data: userData } = await supabase.auth.getUser();
+      if (userData?.user) {
+        setMerchantId(viewingAsMerchant || userData.user.id);
+      }
+    };
+    getMerchantId();
+  }, [viewingAsMerchant]);
   const verifications = [
     {
       id: "#COMB20240915001",
@@ -102,7 +117,9 @@ const History = () => {
       <PageHeader
         title="Combined Verification History"
         description="View and manage all past verification requests"
-        notificationIconRoute="/merchant-combined/notifications"
+        notificationIconRoute={
+          merchantId ? `/m/${merchantId}/combined/notifications` : null
+        }
       />
 
       <div className="content_area">

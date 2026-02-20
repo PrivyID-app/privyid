@@ -1,31 +1,36 @@
-import React from "react";
-import PageTitle from "../../../shared/components/PageTitle";
+import React, { useState, useEffect } from "react";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 import NotificationsContent from "../../../shared/components/NotificationsContent";
-import { useLocation } from "react-router-dom";
+import { supabase } from "../../../shared/services/supabase";
 
 const NotificationsPage = () => {
-  const location = useLocation();
-  const isNotificationActive = location.pathname === "/merchant-kyc/notifications";
+  const [merchantId, setMerchantId] = useState(null);
+  const [viewingAsMerchant] = useState(
+    localStorage.getItem("admin_viewing_merchant_id"),
+  );
+
+  useEffect(() => {
+    const getMerchantId = async () => {
+      const { data: userData } = await supabase.auth.getUser();
+      if (userData?.user) {
+        setMerchantId(viewingAsMerchant || userData.user.id);
+      }
+    };
+    getMerchantId();
+  }, []);
 
   return (
-    <div
-      className="notifications_page_wrapper"
-      style={{
-        flex: 1,
-        backgroundColor: "#fff",
-        borderRadius: "16px",
-        display: "flex",
-        flexDirection: "column",
-        overflow: "hidden",
-      }}
-    >
-      <PageTitle
+    <div className="content_wrapper">
+      <PageHeader
         title="Notifications"
-        subtitle="Manage your personal account settings and preferences"
-        notificationIconRoute="/merchant-kyc/notifications"
-        isNotificationActive={isNotificationActive}
+        description="Stay updated with your verification alerts and system messages"
+        notificationIconRoute={
+          merchantId ? `/m/${merchantId}/kyc/notifications` : null
+        }
       />
-      <NotificationsContent />
+      <div className="content_area">
+        <NotificationsContent />
+      </div>
     </div>
   );
 };

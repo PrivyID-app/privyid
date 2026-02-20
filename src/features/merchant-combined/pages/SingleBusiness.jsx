@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import VerticalStepIndicator from "../../../shared/components/VerticalStepIndicator";
 import "../../merchant-kyc/pages/SingleVerification.css"; // Reuse KYC styles
@@ -25,6 +25,21 @@ const SingleBusiness = () => {
     regNumber: "",
     idType: "",
   });
+  const [merchantId, setMerchantId] = useState(null);
+
+  const [viewingAsMerchant] = useState(
+    localStorage.getItem("admin_viewing_merchant_id"),
+  );
+
+  useEffect(() => {
+    const getMerchantId = async () => {
+      const { data: userData } = await supabase.auth.getUser();
+      if (userData?.user) {
+        setMerchantId(viewingAsMerchant || userData.user.id);
+      }
+    };
+    getMerchantId();
+  }, [viewingAsMerchant]);
 
   const steps = [
     {
@@ -328,7 +343,9 @@ const SingleBusiness = () => {
       <PageHeader
         title="Single Business Verification"
         description="Verify individual business records quickly and securely"
-        notificationIconRoute="/merchant-combined/notifications"
+        notificationIconRoute={
+          merchantId ? `/m/${merchantId}/combined/notifications` : null
+        }
       />
 
       <div className="content_area">

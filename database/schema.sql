@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS users (
 -- Merchants Table: Stores business information for clients using the API
 -- The 'id' corresponds to the Supabase Auth User ID (auth.uid())
 CREATE TABLE IF NOT EXISTS merchants (
-    id UUID PRIMARY KEY REFERENCES auth.users(id),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     email TEXT UNIQUE NOT NULL,
     business_name TEXT,
     slogan TEXT,
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS merchants (
 -- Merchant Users Table: For team management
 CREATE TABLE IF NOT EXISTS merchant_users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    merchant_id UUID REFERENCES auth.users(id) NOT NULL,
+    merchant_id UUID REFERENCES merchants(id) NOT NULL,
     user_id UUID REFERENCES auth.users(id), -- If they are already a platform user
     email TEXT NOT NULL,
     full_name TEXT,
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS merchant_users (
 -- API Tokens Table: Stores API credentials for merchants
 CREATE TABLE IF NOT EXISTS api_tokens (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    merchant_id UUID REFERENCES auth.users(id) NOT NULL,
+    merchant_id UUID REFERENCES merchants(id) NOT NULL,
     name TEXT NOT NULL,
     token TEXT NOT NULL,
     is_active BOOLEAN DEFAULT TRUE,
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS api_tokens (
 -- Business Details Table: Stores KYB information for merchants
 CREATE TABLE IF NOT EXISTS business_details (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    merchant_id UUID REFERENCES auth.users(id) NOT NULL,
+    merchant_id UUID REFERENCES merchants(id) NOT NULL,
     business_name TEXT NOT NULL,
     registration_number TEXT NOT NULL,
     tax_id TEXT NOT NULL,
@@ -70,7 +70,8 @@ CREATE TABLE IF NOT EXISTS business_details (
 -- Verifications Table: Tracks identity verification requests
 CREATE TABLE IF NOT EXISTS verifications (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    merchant_id UUID REFERENCES auth.users(id) NOT NULL,
+    merchant_id UUID REFERENCES merchants(id) NOT NULL,
+    batch_id UUID, -- Optional, links to a batch upload
     customer_name TEXT,
     customer_email TEXT,
     user_identifier TEXT, -- Optional, provided by merchant
@@ -84,10 +85,23 @@ CREATE TABLE IF NOT EXISTS verifications (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Batches Table: Tracks bulk verification uploads
+CREATE TABLE IF NOT EXISTS batches (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    merchant_id UUID REFERENCES merchants(id) NOT NULL,
+    name TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'processing' CHECK (status IN ('processing', 'completed', 'failed')),
+    total_records INTEGER DEFAULT 0,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Add foreign key to verifications after batches is created
+ALTER TABLE verifications ADD CONSTRAINT fk_verifications_batch FOREIGN KEY (batch_id) REFERENCES batches(id) ON DELETE SET NULL;
+
 -- Support Tickets Table: Stores support requests from merchants
 CREATE TABLE IF NOT EXISTS tickets (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    merchant_id UUID REFERENCES auth.users(id) NOT NULL,
+    merchant_id UUID REFERENCES merchants(id) NOT NULL,
     subject TEXT NOT NULL,
     message TEXT NOT NULL,
     priority TEXT NOT NULL CHECK (priority IN ('low', 'medium', 'high', 'urgent')),
@@ -111,6 +125,7 @@ ALTER TABLE merchant_users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE api_tokens ENABLE ROW LEVEL SECURITY;
 ALTER TABLE business_details ENABLE ROW LEVEL SECURITY;
 ALTER TABLE verifications ENABLE ROW LEVEL SECURITY;
+ALTER TABLE batches ENABLE ROW LEVEL SECURITY;
 ALTER TABLE tickets ENABLE ROW LEVEL SECURITY;
 ALTER TABLE ticket_messages ENABLE ROW LEVEL SECURITY;
 
@@ -140,6 +155,13 @@ CREATE POLICY "Merchants can manage their business details" ON business_details
 
 -- Verifications
 CREATE POLICY "Merchants can manage their own verifications" ON verifications
+    FOR ALL USING (
+        merchant_id = auth.uid() OR 
+        EXISTS (SELECT 1 FROM users WHERE id = auth.uid() AND is_admin = TRUE)
+    );
+
+-- Batches
+CREATE POLICY "Merchants can manage their own batches" ON batches
     FOR ALL USING (
         merchant_id = auth.uid() OR 
         EXISTS (SELECT 1 FROM users WHERE id = auth.uid() AND is_admin = TRUE)
