@@ -36,6 +36,7 @@ const LoginPage = () => {
       <LoginStep
         onLoginSuccess={handleLoginSuccess}
         onSignupClick={handleSignupClick}
+        onNext={() => navigate("/onboarding")}
       />
     </OnboardingLayout>
   );

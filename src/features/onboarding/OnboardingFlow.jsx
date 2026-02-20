@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "../../shared/services/supabase";
 import { useGlobal } from "../../app/GlobalContext";
 import { useOnboarding } from "./onboarding.context";
 import { ONBOARDING_STEPS, STEP_ORDER } from "./onboarding.constants";
@@ -25,6 +26,126 @@ const OnboardingFlow = () => {
   const { showToast } = useGlobal();
   const [currentStep, setCurrentStep] = useState(ONBOARDING_STEPS.SIGNUP); // Default to SIGNUP as requested
 
+  const {
+    selectedServices,
+    setSelectedServices,
+    setAccountType,
+    setKycOptions,
+    setKybOptions,
+    setIntegrationMethod,
+  } = useOnboarding();
+
+  const handleLoginSuccess = useCallback(
+    (data) => {
+      const { user, merchant } = data;
+
+      if (merchant.onboarding_step === "completed") {
+        const serviceMap = {
+          kyc: `/m/${user.id}/kyc`,
+          kyb: `/m/${user.id}/kyb`,
+          combined: `/m/${user.id}/combined`,
+        };
+        navigate(serviceMap[merchant.service_type] || `/m/${user.id}/combined`);
+        return;
+      }
+
+      // Resume Onboarding
+      showToast("Resuming your onboarding flow...", "info");
+
+      // Map service_type back to selectedServices
+      const serviceReverseMap = {
+        kyc: ["kyc_only"],
+        kyb: ["kyb_only"],
+        combined: ["kyc_kyb"],
+      };
+
+      if (merchant.service_type) {
+        setSelectedServices(serviceReverseMap[merchant.service_type]);
+      }
+
+      // Map database step name to internal ONBOARDING_STEPS
+      const stepMap = {
+        verify_email: ONBOARDING_STEPS.VERIFY_EMAIL,
+        welcome: ONBOARDING_STEPS.WELCOME,
+        account_type: ONBOARDING_STEPS.ACCOUNT_TYPE,
+        service_type: ONBOARDING_STEPS.SERVICE_TYPE,
+        service_customization:
+          merchant.service_type === "kyc"
+            ? ONBOARDING_STEPS.SERVICE_TYPE_KYC
+            : merchant.service_type === "kyb"
+              ? ONBOARDING_STEPS.SERVICE_TYPE_KYB
+              : ONBOARDING_STEPS.SERVICE_TYPE_BOTH,
+        business_verification: ONBOARDING_STEPS.BUSINESS_VERIFICATION,
+        integration: ONBOARDING_STEPS.INTEGRATION,
+        setup: ONBOARDING_STEPS.SETUP,
+      };
+
+      const nextStep =
+        stepMap[merchant.onboarding_step] || ONBOARDING_STEPS.WELCOME;
+      setCurrentStep(nextStep);
+    },
+    [navigate, setSelectedServices, showToast],
+  );
+
+  const checkResumption = useCallback(async () => {
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data: merchant } = await supabase
+        .from("merchants")
+        .select("*")
+        .eq("id", user.id)
+        .single();
+
+      if (merchant) {
+        handleLoginSuccess({ user, merchant });
+      } else {
+        // Auth session exists but no merchant profile by ID.
+        // Check by email to handle orphaned records.
+        const { data: byEmail } = await supabase
+          .from("merchants")
+          .select("*")
+          .eq("email", user.email)
+          .single();
+
+        if (byEmail) {
+          console.log(
+            "Auth session found but ID mismatch. Updating merchant ID...",
+          );
+          await supabase
+            .from("merchants")
+            .update({ id: user.id })
+            .eq("email", user.email);
+          byEmail.id = user.id;
+          handleLoginSuccess({ user, merchant: byEmail });
+        } else {
+          // Profile totally missing
+          console.log(
+            "Auth session found but no merchant profile. Initializing...",
+          );
+          const { data: newMerchant, error: merchError } = await supabase
+            .from("merchants")
+            .upsert({
+              id: user.id,
+              email: user.email,
+              onboarding_step: "verify_email",
+            })
+            .select()
+            .single();
+
+          if (newMerchant) {
+            handleLoginSuccess({ user, merchant: newMerchant });
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Resumption check failed:", error);
+    }
+  }, [handleLoginSuccess]);
+
   useEffect(() => {
     // Check for mode parameter in URL
     const params = new URLSearchParams(window.location.search);
@@ -34,17 +155,10 @@ const OnboardingFlow = () => {
       setCurrentStep(ONBOARDING_STEPS.LOGIN);
     } else if (mode === "signup") {
       setCurrentStep(ONBOARDING_STEPS.SIGNUP);
+    } else {
+      checkResumption();
     }
-  }, []);
-
-  const {
-    selectedServices,
-    setSelectedServices,
-    setAccountType,
-    setKycOptions,
-    setKybOptions,
-    setIntegrationMethod,
-  } = useOnboarding();
+  }, [checkResumption]);
 
   // Reset onboarding state when component mounts or when returning to login
   useEffect(() => {
@@ -145,55 +259,6 @@ const OnboardingFlow = () => {
 
   const handleLoginClick = () => {
     setCurrentStep(ONBOARDING_STEPS.LOGIN);
-  };
-
-  const handleLoginSuccess = (data) => {
-    const { user, merchant } = data;
-
-    if (merchant.onboarding_step === "completed") {
-      const serviceMap = {
-        kyc: `/m/${user.id}/kyc`,
-        kyb: `/m/${user.id}/kyb`,
-        combined: `/m/${user.id}/combined`,
-      };
-      navigate(serviceMap[merchant.service_type] || `/m/${user.id}/combined`);
-      return;
-    }
-
-    // Resume Onboarding
-    showToast("Resuming your onboarding flow...", "info");
-
-    // Map service_type back to selectedServices
-    const serviceReverseMap = {
-      kyc: ["kyc_only"],
-      kyb: ["kyb_only"],
-      combined: ["kyc_kyb"],
-    };
-
-    if (merchant.service_type) {
-      setSelectedServices(serviceReverseMap[merchant.service_type]);
-    }
-
-    // Map database step name to internal ONBOARDING_STEPS
-    const stepMap = {
-      verify_email: ONBOARDING_STEPS.VERIFY_EMAIL,
-      welcome: ONBOARDING_STEPS.WELCOME,
-      account_type: ONBOARDING_STEPS.ACCOUNT_TYPE,
-      service_type: ONBOARDING_STEPS.SERVICE_TYPE,
-      service_customization:
-        merchant.service_type === "kyc"
-          ? ONBOARDING_STEPS.SERVICE_TYPE_KYC
-          : merchant.service_type === "kyb"
-            ? ONBOARDING_STEPS.SERVICE_TYPE_KYB
-            : ONBOARDING_STEPS.SERVICE_TYPE_BOTH,
-      business_verification: ONBOARDING_STEPS.BUSINESS_VERIFICATION,
-      integration: ONBOARDING_STEPS.INTEGRATION,
-      setup: ONBOARDING_STEPS.SETUP,
-    };
-
-    const nextStep =
-      stepMap[merchant.onboarding_step] || ONBOARDING_STEPS.WELCOME;
-    setCurrentStep(nextStep);
   };
 
   const renderLeftContent = () => {

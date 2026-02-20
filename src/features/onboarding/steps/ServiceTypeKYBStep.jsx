@@ -13,7 +13,8 @@ import cardPatternBlack from "../../../assets/images/card-pattern.svg";
 
 const ServiceTypeKYBStep = ({ onNext, onBack, onStepChange }) => {
   const { showToast } = useGlobal();
-  const { kybOptions, setKybOptions, setSelectedServices } = useOnboarding();
+  const { kybOptions, setKybOptions, setSelectedServices, tempUser } =
+    useOnboarding();
   const [currentSubStep] = useState(1);
   const [loading, setLoading] = useState(false);
 
@@ -65,7 +66,9 @@ const ServiceTypeKYBStep = ({ onNext, onBack, onStepChange }) => {
     setLoading(true);
     try {
       const { data: userData } = await supabase.auth.getUser();
-      if (!userData?.user) throw new Error("User not authenticated.");
+      const user = userData?.user || tempUser;
+
+      if (!user) throw new Error("User session not found.");
 
       const { error } = await supabase
         .from("merchants")
@@ -73,7 +76,7 @@ const ServiceTypeKYBStep = ({ onNext, onBack, onStepChange }) => {
           service_options: { kyb: selectedIds },
           onboarding_step: "business_verification",
         })
-        .eq("id", userData.user.id);
+        .eq("id", user.id);
 
       if (error) throw error;
 

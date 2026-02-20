@@ -51,7 +51,7 @@ export const SignupLeftContent = () => (
 
 const SignupStep = ({ onNext, onLoginClick }) => {
   const { showToast } = useGlobal();
-  const { setKycOptions } = useOnboarding();
+  const { setKycOptions, setTempUser } = useOnboarding();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -89,6 +89,32 @@ const SignupStep = ({ onNext, onLoginClick }) => {
       });
 
       if (error) throw error;
+
+      const user = data.user;
+      if (user) {
+        setTempUser(user);
+        // Initialize merchant record immediately
+        // Use upsert with onConflict: 'email' if your schema allows,
+        // but since ID is PK and might have changed, we do a manual check or update
+        const { data: existing } = await supabase
+          .from("merchants")
+          .select("id")
+          .eq("email", user.email)
+          .single();
+
+        if (existing) {
+          await supabase
+            .from("merchants")
+            .update({ id: user.id, onboarding_step: "verify_email" })
+            .eq("email", user.email);
+        } else {
+          await supabase.from("merchants").insert({
+            id: user.id,
+            email: user.email,
+            onboarding_step: "verify_email",
+          });
+        }
+      }
 
       showToast("Account created! Sending verification code...", "success");
 

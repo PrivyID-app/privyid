@@ -13,7 +13,7 @@ import { useGlobal } from "../../../app/GlobalContext";
 
 const IntegrationStep = ({ onNext, onBack }) => {
   const { showToast } = useGlobal();
-  const { integrationMethod, setIntegrationMethod } = useOnboarding();
+  const { integrationMethod, setIntegrationMethod, tempUser } = useOnboarding();
   const currentSubStep = 3;
   const [loading, setLoading] = useState(false);
 
@@ -48,7 +48,9 @@ const IntegrationStep = ({ onNext, onBack }) => {
     setLoading(true);
     try {
       const { data: userData } = await supabase.auth.getUser();
-      if (!userData?.user) throw new Error("User not authenticated.");
+      const user = userData?.user || tempUser;
+
+      if (!user) throw new Error("User session not found.");
 
       // 1. Update merchant integration method
       const { error: merchError } = await supabase
@@ -57,7 +59,7 @@ const IntegrationStep = ({ onNext, onBack }) => {
           integration_method: integrationMethod,
           onboarding_step: "setup",
         })
-        .eq("id", userData.user.id);
+        .eq("id", user.id);
 
       if (merchError) throw merchError;
 
@@ -68,7 +70,7 @@ const IntegrationStep = ({ onNext, onBack }) => {
         const { error: tokenError } = await supabase.from("api_tokens").upsert(
           [
             {
-              merchant_id: userData.user.id,
+              merchant_id: user.id,
               name: "Default Token",
               token: apiKey,
               is_active: true,

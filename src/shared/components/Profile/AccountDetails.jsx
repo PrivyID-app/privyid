@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import { useAppContext } from "../../../context/appContextHooks";
+import { supabase } from "../../services/supabase";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useGlobal } from "../../../app/GlobalContext";
 
 const AccountDetails = () => {
   const { user, updateUser } = useAppContext();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { showToast } = useGlobal();
   const [formData, setFormData] = useState({ ...user });
 
   const handleChange = (e) => {
@@ -13,7 +19,24 @@ const AccountDetails = () => {
   const handleSave = (e) => {
     e.preventDefault();
     updateUser(formData);
-    alert("Account details updated successfully!");
+    showToast("Account details updated successfully!", "success");
+  };
+
+  const handleLogout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+
+      showToast("Logged out successfully", "success");
+
+      if (location.pathname.includes("super-admin")) {
+        navigate("/super-admin/login");
+      } else {
+        navigate("/onboarding?mode=login");
+      }
+    } catch (error) {
+      showToast(error.message || "Logout failed", "error");
+    }
   };
 
   return (
@@ -78,7 +101,11 @@ const AccountDetails = () => {
 
           <div className="form_actions">
             <div className="danger_zone">
-              <button type="button" className="btn_logout">
+              <button
+                type="button"
+                className="btn_logout"
+                onClick={handleLogout}
+              >
                 Log out
               </button>
               <button type="button" className="btn_delete">

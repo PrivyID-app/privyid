@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import confetti from "canvas-confetti";
 import { supabase } from "../../../shared/services/supabase";
+import { useOnboarding } from "../onboarding.context";
 
 const WelcomeStep = ({ onNext }) => {
+  const { tempUser } = useOnboarding();
   const canvasRef = useRef(null);
   const [loading, setLoading] = useState(false);
 
@@ -35,11 +37,12 @@ const WelcomeStep = ({ onNext }) => {
     setLoading(true);
     try {
       const { data: userData } = await supabase.auth.getUser();
-      if (userData?.user) {
+      const user = userData?.user || tempUser;
+      if (user) {
         await supabase
           .from("merchants")
           .update({ onboarding_step: "account_type" })
-          .eq("id", userData.user.id);
+          .eq("id", user.id);
       }
     } catch (error) {
       console.error("Error updating onboarding step:", error);

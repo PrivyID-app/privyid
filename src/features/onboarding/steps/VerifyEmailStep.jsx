@@ -6,7 +6,7 @@ import mailCheckFill from "../../../assets/images/mail-check-fill.svg";
 
 const VerifyEmailStep = ({ onNext }) => {
   const { showToast } = useGlobal();
-  const { kycOptions } = useOnboarding();
+  const { kycOptions, tempUser } = useOnboarding();
   const [code, setCode] = useState(["", "", "", ""]);
   const [loading, setLoading] = useState(false);
   const inputs = useRef([]);
@@ -98,14 +98,13 @@ const VerifyEmailStep = ({ onNext }) => {
 
       // 2. Manage Merchant Record
       const { data: userData } = await supabase.auth.getUser();
-      if (userData?.user) {
-        // We use upsert with onConflict: 'email' to handle cases where
-        // a user signs up again with the same email but a new Auth ID.
-        // If this still fails with "duplicate key", it might be a PK conflict
-        // or other constraint. We'll try to update purely by email first.
+      const user = userData?.user || tempUser;
+
+      if (user) {
+        // We use upsert with onConflict: 'email' ...
         const { error: merchError } = await supabase.from("merchants").upsert({
-          id: userData.user.id,
-          email: kycOptions.email || userData.user.email,
+          id: user.id,
+          email: kycOptions.email || user.email,
           onboarding_step: "welcome",
         });
 

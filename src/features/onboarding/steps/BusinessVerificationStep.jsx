@@ -71,7 +71,10 @@ export const BusinessVerificationLeftTopContent = () => {
   );
 };
 
+import { useOnboarding } from "../onboarding.context";
+
 const BusinessVerificationStep = ({ onNext, onBack }) => {
+  const { tempUser } = useOnboarding();
   const { showToast } = useGlobal();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -125,13 +128,15 @@ const BusinessVerificationStep = ({ onNext, onBack }) => {
     setLoading(true);
     try {
       const { data: userData } = await supabase.auth.getUser();
-      if (!userData?.user) throw new Error("User not authenticated.");
+      const user = userData?.user || tempUser;
+
+      if (!user) throw new Error("User session not found.");
 
       // For document upload, in real app we'd use supabase.storage
       // Here we simulate and just save URLs if they exist
       let docUrl = null;
       if (formData.supporting_documents) {
-        // Simulation: docUrl = `merchants/${userData.user.id}/docs/${formData.supporting_documents.name}`;
+        // Simulation: docUrl = `merchants/${user.id}/docs/${formData.supporting_documents.name}`;
         docUrl = "https://example.com/simulated-upload-path.pdf";
       }
 
@@ -139,7 +144,7 @@ const BusinessVerificationStep = ({ onNext, onBack }) => {
         .from("business_details")
         .upsert([
           {
-            merchant_id: userData.user.id,
+            merchant_id: user.id,
             business_name: formData.business_name,
             registration_number: formData.registration_number,
             tax_id: formData.tax_id,
@@ -156,7 +161,7 @@ const BusinessVerificationStep = ({ onNext, onBack }) => {
         .update({
           onboarding_step: "integration",
         })
-        .eq("id", userData.user.id);
+        .eq("id", user.id);
 
       if (merchError) throw merchError;
 

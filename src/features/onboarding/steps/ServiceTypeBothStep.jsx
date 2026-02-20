@@ -19,6 +19,7 @@ const ServiceTypeBothStep = ({ onNext, onBack, onStepChange }) => {
     kybOptions,
     setKybOptions,
     setSelectedServices,
+    tempUser,
   } = useOnboarding();
   const [currentSubStep] = useState(1);
   const [activeTab, setActiveTab] = useState("kyc");
@@ -102,7 +103,9 @@ const ServiceTypeBothStep = ({ onNext, onBack, onStepChange }) => {
     setLoading(true);
     try {
       const { data: userData } = await supabase.auth.getUser();
-      if (!userData?.user) throw new Error("User not authenticated.");
+      const user = userData?.user || tempUser;
+
+      if (!user) throw new Error("User session not found.");
 
       const { error } = await supabase
         .from("merchants")
@@ -110,7 +113,7 @@ const ServiceTypeBothStep = ({ onNext, onBack, onStepChange }) => {
           service_options: { kyc: selectedKycIds, kyb: selectedKybIds },
           onboarding_step: "business_verification",
         })
-        .eq("id", userData.user.id);
+        .eq("id", user.id);
 
       if (error) throw error;
 

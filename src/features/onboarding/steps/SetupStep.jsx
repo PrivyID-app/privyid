@@ -13,7 +13,7 @@ import trafficLights from "../../../assets/images/Traffic Lights (Big Sur).svg";
 const SetupStep = ({ onBack }) => {
   const navigate = useNavigate();
   const { showToast } = useGlobal();
-  const { selectedServices } = useOnboarding();
+  const { selectedServices, tempUser } = useOnboarding();
   const [activeTab, setActiveTab] = useState("sandbox");
   const [copiedKey, setCopiedKey] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -36,12 +36,14 @@ const SetupStep = ({ onBack }) => {
   const fetchApiKeys = async () => {
     try {
       const { data: userData } = await supabase.auth.getUser();
-      if (!userData?.user) return;
+      const user = userData?.user || tempUser;
+
+      if (!user) return;
 
       const { data, error } = await supabase
         .from("api_tokens")
         .select("token")
-        .eq("merchant_id", userData.user.id)
+        .eq("merchant_id", user.id)
         .eq("name", "Default Token")
         .single();
 
@@ -95,14 +97,16 @@ const SetupStep = ({ onBack }) => {
     setLoading(true);
     try {
       const { data: userData } = await supabase.auth.getUser();
-      if (!userData?.user) throw new Error("User not authenticated.");
+      const user = userData?.user || tempUser;
+
+      if (!user) throw new Error("User session not found.");
 
       const { error } = await supabase
         .from("merchants")
         .update({
           onboarding_step: "completed",
         })
-        .eq("id", userData.user.id);
+        .eq("id", user.id);
 
       if (error) throw error;
 

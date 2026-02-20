@@ -13,7 +13,7 @@ import selectBoxInactive from "../../../assets/images/select-box-circle-fill-ina
 
 const ServiceTypeStep = ({ onNext, onBack }) => {
   const { showToast } = useGlobal();
-  const { selectedServices, setSelectedServices } = useOnboarding();
+  const { selectedServices, setSelectedServices, tempUser } = useOnboarding();
   const [currentSubStep] = useState(1);
   const [loading, setLoading] = useState(false);
 
@@ -48,7 +48,11 @@ const ServiceTypeStep = ({ onNext, onBack }) => {
     setLoading(true);
     try {
       const { data: userData } = await supabase.auth.getUser();
-      if (!userData?.user) throw new Error("User not authenticated.");
+      const user = userData?.user || tempUser;
+
+      if (!user) {
+        throw new Error("User session not found.");
+      }
 
       const serviceMap = {
         kyc_only: "kyc",
@@ -62,7 +66,7 @@ const ServiceTypeStep = ({ onNext, onBack }) => {
           service_type: serviceMap[selectedServices[0]],
           onboarding_step: "service_customization",
         })
-        .eq("id", userData.user.id);
+        .eq("id", user.id);
 
       if (error) throw error;
 

@@ -15,7 +15,7 @@ import cardPatternBlack from "../../../assets/images/card-pattern.svg";
 
 const AccountTypeStep = ({ onNext, onBack }) => {
   const { showToast } = useGlobal();
-  const { accountType, setAccountType } = useOnboarding();
+  const { accountType, setAccountType, tempUser } = useOnboarding();
   const [selectedPlan, setSelectedPlan] = useState(accountType);
   const [currentSubStep] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -58,7 +58,13 @@ const AccountTypeStep = ({ onNext, onBack }) => {
     setLoading(true);
     try {
       const { data: userData } = await supabase.auth.getUser();
-      if (!userData?.user) throw new Error("User not authenticated.");
+      const user = userData?.user || tempUser;
+
+      if (!user) {
+        throw new Error(
+          "User session not found. Please ensure your email is confirmed or try logging in again.",
+        );
+      }
 
       const { error } = await supabase
         .from("merchants")
@@ -67,7 +73,7 @@ const AccountTypeStep = ({ onNext, onBack }) => {
             selectedPlan === ACCOUNT_PLANS.STARTUP ? "Startup" : "Enterprise",
           onboarding_step: "service_type",
         })
-        .eq("id", userData.user.id);
+        .eq("id", user.id);
 
       if (error) throw error;
 

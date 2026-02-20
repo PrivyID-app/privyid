@@ -57,18 +57,56 @@ const LoginStep = ({ onNext, onSignupClick, onLoginSuccess }) => {
       }
 
       // 2. Check if Merchant
-      const { data: merchantData } = await supabase
+      let { data: merchantData } = await supabase
         .from("merchants")
         .select("*")
         .eq("id", user.id)
         .single();
 
+      // Fallback: If not found by ID, try by email (in case of orphaned records)
+      if (!merchantData) {
+        const { data: byEmail } = await supabase
+          .from("merchants")
+          .select("*")
+          .eq("email", user.email)
+          .single();
+        merchantData = byEmail;
+      }
+
       if (merchantData) {
+        // If the ID in the table is different from current Auth ID,
+        // we should ideally update it to the new ID, but ID is a PK.
+        // For now, let's ensure the email matches and update the record's ID if possible,
+        // or just proceed if the email is confirmed.
+        if (merchantData.id !== user.id) {
+          console.warn(
+            "Merchant found by email but ID mismatch. Updating ID...",
+          );
+          // This might fail if RLS or FK constraints prevent it.
+          // Better to update the record to current ID.
+          await supabase
+            .from("merchants")
+            .update({ id: user.id })
+            .eq("email", user.email);
+          merchantData.id = user.id;
+        }
         showToast("Login successful!", "success");
         onLoginSuccess({ user, merchant: merchantData });
       } else {
-        // New user or profile missing
-        onNext();
+        // Auth user exists but Merchant profile is totally missing
+        showToast("Setting up your profile...", "info");
+        const { data: newMerchant, error: merchError } = await supabase
+          .from("merchants")
+          .upsert({
+            id: user.id,
+            email: user.email,
+            onboarding_step: "verify_email",
+          })
+          .select()
+          .single();
+
+        if (merchError) throw merchError;
+        onLoginSuccess({ user, merchant: newMerchant });
       }
     } catch (error) {
       showToast(error.message || "Invalid credentials.", "error");

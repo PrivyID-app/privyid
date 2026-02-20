@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState } from "react";
 
 const OnboardingContext = createContext(null);
 
@@ -8,6 +8,8 @@ export const OnboardingProvider = ({ children }) => {
   const [kycOptions, setKycOptions] = useState({});
   const [kybOptions, setKybOptions] = useState({});
   const [integrationMethod, setIntegrationMethod] = useState(null);
+
+  const [tempUser, setTempUser] = useState(null);
 
   const value = {
     accountType,
@@ -20,6 +22,8 @@ export const OnboardingProvider = ({ children }) => {
     setKybOptions,
     integrationMethod,
     setIntegrationMethod,
+    tempUser,
+    setTempUser,
   };
 
   return (
@@ -33,7 +37,7 @@ export const OnboardingProvider = ({ children }) => {
 export const useOnboarding = () => {
   const context = useContext(OnboardingContext);
   if (!context) {
-    throw new Error('useOnboarding must be used within OnboardingProvider');
+    throw new Error("useOnboarding must be used within OnboardingProvider");
   }
   return context;
 };

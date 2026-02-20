@@ -9,6 +9,7 @@ import DocumentationPage from "../../features/marketing/pages/DocumentationPage"
 import NotFound from "../../shared/components/NotFound";
 import ProtectedRoute from "../../shared/components/ProtectedRoute";
 import MerchantPortalGuard from "../../shared/components/MerchantPortalGuard";
+import MobileDeviceWarning from "../../shared/components/MobileDeviceWarning";
 import MobileVerificationPage from "../../features/mobile-verification/MobileVerificationPage";
 
 // Merchant KYC Imports
@@ -204,7 +205,12 @@ const router = createHashRouter([
 ]);
 
 const AppRoutes = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <MobileDeviceWarning />
+      <RouterProvider router={router} />
+    </>
+  );
 };
 
 export default AppRoutes;

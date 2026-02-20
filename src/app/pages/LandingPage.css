@@ -26,8 +26,6 @@ body {
   flex: 1;
 }
 
-
-
 /* Common Section Styles */
 .landing-section {
   padding: 80px 20px;
@@ -351,4 +349,70 @@ body {
 .notfound_home_link {
   text-decoration: none;
   margin-top: 1rem;
+}
+/* Mobile Responsiveness */
+@media screen and (max-width: 1024px) {
+  .testimonial-card {
+    grid-template-columns: 1fr;
+    padding: 32px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .hero-title {
+    font-size: 36px;
+  }
+
+  .stat-row {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .stat-divider {
+    display: none;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .how-it-works-grid {
+    grid-template-columns: 1fr;
+    border-radius: 20px;
+  }
+
+  .step-card {
+    border-right: none;
+    border-bottom: 1px solid var(--stroke-soft-200);
+  }
+
+  .step-card:last-child {
+    border-bottom: none;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    padding: 0 20px;
+  }
+
+  .hero-actions button,
+  .hero-actions a {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .landing-section {
+    padding: 60px 16px;
+  }
+
+  .hero-title {
+    font-size: 28px;
+  }
 }
