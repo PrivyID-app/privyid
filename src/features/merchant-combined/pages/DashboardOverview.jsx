@@ -75,19 +75,24 @@ const DashboardOverview = () => {
       const { data: vRecent, error: vError } = await supabase
         .from("verifications")
         .select("*")
-        .eq("merchant_id", merchantId)
+        .eq("merchant_id", mId)
         .order("created_at", { ascending: false })
-        .limit(5);
+        .limit(10);
 
       if (vError) throw vError;
 
-      const mappedData = vRecent.map((v) => ({
+      const mappedData = (vRecent || []).map((v) => ({
         id: v.id.substring(0, 8).toUpperCase(),
         type:
           v.metadata?.id_type || v.verification_type?.toUpperCase() || "N/A",
-        name: v.metadata?.full_name || v.user_identifier || "Unknown",
+        name:
+          v.metadata?.full_name ||
+          v.customer_name ||
+          v.user_identifier ||
+          "Unknown",
         status: v.status.charAt(0).toUpperCase() + v.status.slice(1),
-        batch: v.metadata?.batch_no || "#SINGLE",
+        batch:
+          v.metadata?.batch_no || (v.source === "batch" ? "#BATCH" : "#SINGLE"),
         date: new Date(v.created_at).toLocaleDateString("en-GB", {
           day: "2-digit",
           month: "short",

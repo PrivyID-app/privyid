@@ -80,6 +80,7 @@ const GeneralSettings = () => {
           placeholder="ACME Ltd"
           value={formData.name}
           onChange={handleChange}
+          disabled
         />
       </div>
 

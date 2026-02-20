@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { supabase } from "../../../../shared/services/supabase";
 import "../../pages/SettingsPage.css";
 import Toast from "../../../../shared/components/Toast";
@@ -17,13 +18,8 @@ const VerificationLinkSettings = () => {
     return viewingAsMerchant || userData?.user?.id || "unknown";
   };
 
-  const [merchantId, setMerchantId] = useState("loading...");
-
-  React.useEffect(() => {
-    getMerchantId().then(setMerchantId);
-  }, []);
-
-  const url = `https://verify.privyid.com/session/id_9Kx2LmQ7uR4tY8xN3aH1?merchant=${merchantId}&env=sandbox`;
+  const { merchantId } = useParams();
+  const url = `${window.location.protocol}//${window.location.host}/#/mobile-verification?merchant_id=${merchantId}`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(url).then(() => {

@@ -41,10 +41,10 @@ const AdminVerificationsTable = () => {
 
       const mapped = (data || []).map((v) => ({
         id: v.id.substring(0, 8).toUpperCase(),
-        businessType: v.merchants?.company_type || "N/A",
-        businessName: v.merchants?.business_name || "Unknown Merchant",
-        status: v.status.toLowerCase(),
-        count: "1", // Single verification record
+        type: v.verification_type?.toUpperCase() || "N/A",
+        name: v.merchants?.business_name || "Unknown Merchant",
+        status: v.status.charAt(0).toUpperCase() + v.status.slice(1),
+        batch: v.metadata?.batch_no || "SINGLE",
         date: new Date(v.created_at).toLocaleDateString("en-GB", {
           day: "2-digit",
           month: "short",
@@ -55,6 +55,10 @@ const AdminVerificationsTable = () => {
           minute: "2-digit",
           hour12: true,
         }),
+        // Keep original field for table display if needed, but match Modal expectations
+        businessType: v.merchants?.company_type || "N/A",
+        businessName: v.merchants?.business_name || "Unknown Merchant",
+        count: "1",
       }));
 
       setVerifications(mapped);

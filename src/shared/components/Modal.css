@@ -13,9 +13,9 @@
 }
 
 .modal_container {
-  background-color: var(--white);
+  background-color: var(--bg-white-0);
   width: 90%;
-  max-width: 500px;
+  max-width: 54rem;
   border-radius: 16px;
   overflow: hidden;
   box-shadow:
@@ -45,7 +45,7 @@
 
 .modal_title {
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--text-dark-900);
 }
 

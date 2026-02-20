@@ -3,11 +3,13 @@ import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useAppContext } from "../../context/appContextHooks";
 import NavTabIndicator from "../../assets/images/nav-tab-rectangle.svg";
 
+import AdminLogo from "../../assets/images/privyid-admin.svg";
+
 const Sidebar = ({
   links = [],
   className = "",
   activeIndicator = NavTabIndicator,
-  logo,
+  logo = AdminLogo, // Default to Super Admin logo
   companyName: companyNameProp,
   slogan: sloganProp,
   user: userProp, // Accept user as a prop
@@ -19,7 +21,7 @@ const Sidebar = ({
   const company = {
     name: companyNameProp || context.company?.name || "PrivyID",
     slogan: sloganProp || context.company?.slogan || "Identity Infrastructure",
-    logo: logo || context.company?.logo,
+    logo: logo,
   };
 
   // Determine which logo to use

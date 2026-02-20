@@ -5,6 +5,10 @@ import VerificationTable from "../../../shared/components/VerificationTable";
 import FilterDropdown from "../../../shared/components/FilterDropdown";
 
 const History = () => {
+  const [verifications, setVerifications] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
   const [merchantId, setMerchantId] = useState(null);
   const [viewingAsMerchant] = useState(
     localStorage.getItem("admin_viewing_merchant_id"),
@@ -18,99 +22,61 @@ const History = () => {
       }
     };
     getMerchantId();
-  }, [viewingAsMerchant]);
-  const verifications = [
-    {
-      id: "#COMB20240915001",
-      type: "Passport",
-      name: "John Doe",
-      status: "Approved",
-      batch: "#BATCH3001",
-      date: "15 Sep 2024",
-      time: "10:30 AM",
-    },
-    {
-      id: "#COMB20240915002",
-      type: "Business License",
-      name: "Global Corp",
-      status: "Pending",
-      batch: "#BATCH3002",
-      date: "16 Sep 2024",
-      time: "11:45 AM",
-    },
-    {
-      id: "#COMB20240915003",
-      type: "National ID",
-      name: "Sarah Williams",
-      status: "Approved",
-      batch: "#BATCH3003",
-      date: "17 Sep 2024",
-      time: "09:15 AM",
-    },
-    {
-      id: "#COMB20240915004",
-      type: "Tax ID",
-      name: "InnoTech Ltd",
-      status: "Rejected",
-      batch: "#BATCH3004",
-      date: "17 Sep 2024",
-      time: "04:30 PM",
-    },
-    {
-      id: "#COMB20240915005",
-      type: "Passport",
-      name: "Chris Brown",
-      status: "Approved",
-      batch: "#BATCH3005",
-      date: "17 Sep 2024",
-      time: "09:15 AM",
-    },
-    {
-      id: "#COMB20240915006",
-      type: "Business License",
-      name: "Alpha Retail",
-      status: "Approved",
-      batch: "#BATCH3006",
-      date: "18 Sep 2024",
-      time: "09:00 AM",
-    },
-    {
-      id: "#COMB20240915007",
-      type: "Driver License",
-      name: "Emma Wilson",
-      status: "Approved",
-      batch: "#BATCH3007",
-      date: "18 Sep 2024",
-      time: "02:30 PM",
-    },
-    {
-      id: "#COMB20240915008",
-      type: "Tax ID",
-      name: "Swift Logistics",
-      status: "Pending",
-      batch: "#BATCH3008",
-      date: "18 Sep 2024",
-      time: "11:15 AM",
-    },
-    {
-      id: "#COMB20240915009",
-      type: "Passport",
-      name: "Olivia Martinez",
-      status: "Approved",
-      batch: "#BATCH3009",
-      date: "19 Sep 2024",
-      time: "10:15 AM",
-    },
-    {
-      id: "#COMB20240915010",
-      type: "Business License",
-      name: "Prime Real Estate",
-      status: "Approved",
-      batch: "#BATCH3010",
-      date: "19 Sep 2024",
-      time: "01:45 PM",
-    },
-  ];
+    fetchHistory();
+  }, [filter, viewingAsMerchant]);
+
+  const fetchHistory = async () => {
+    setLoading(true);
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData?.user) return;
+
+      const mId = viewingAsMerchant || userData.user.id;
+
+      let query = supabase
+        .from("verifications")
+        .select("*")
+        .eq("merchant_id", mId)
+        .order("created_at", { ascending: false });
+
+      if (filter !== "all") {
+        query = query.eq("status", filter);
+      }
+
+      const { data, error } = await query;
+      if (error) throw error;
+
+      const { formatVerificationData } =
+        await import("../../../shared/utils/dashboardUtils");
+      setVerifications(formatVerificationData(data || []));
+    } catch (error) {
+      console.error("Error fetching history:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const { error } = await supabase
+        .from("verifications")
+        .delete()
+        .eq("id", id);
+
+      if (error) throw error;
+      fetchHistory();
+    } catch (error) {
+      console.error("Error deleting verification:", error);
+      alert("Failed to delete record. Please try again.");
+    }
+  };
+
+  const filteredData = verifications.filter(
+    (v) =>
+      v.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      v.displayId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      v.id.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
 
   return (
     <>
@@ -135,6 +101,8 @@ const History = () => {
                 type="text"
                 placeholder="Search by name, email, or ID"
                 className="search_input"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
 
@@ -146,7 +114,7 @@ const History = () => {
                   { label: "Pending", value: "pending" },
                   { label: "Rejected", value: "rejected" },
                 ]}
-                onFilterChange={(val) => console.log("Filter:", val)}
+                onFilterChange={(val) => setFilter(val)}
               />
 
               <button className="secondary_button">
@@ -156,7 +124,15 @@ const History = () => {
             </div>
           </div>
 
-          <VerificationTable data={verifications} />
+          {loading ? (
+            <div className="no_data_message">Loading history...</div>
+          ) : filteredData.length > 0 ? (
+            <VerificationTable data={filteredData} onDelete={handleDelete} />
+          ) : (
+            <div className="no_data_message">
+              No verification records found.
+            </div>
+          )}
         </div>
       </div>
     </>

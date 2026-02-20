@@ -33,12 +33,48 @@ const ProtectedRoute = ({ redirectPath = "/super-admin/login" }) => {
       <div
         style={{
           display: "flex",
+          flexDirection: "column",
           height: "100vh",
           alignItems: "center",
           justifyContent: "center",
+          backgroundColor: "#f8f9fa",
+          gap: "20px",
         }}
       >
-        <p>Verifying session...</p>
+        <img
+          src="/src/assets/images/privyid-admin.svg"
+          alt="PrivyID Logo"
+          style={{ width: "140px", animation: "pulse 2s infinite ease-in-out" }}
+        />
+        <div
+          style={{
+            width: "40px",
+            height: "40px",
+            border: "3px solid rgba(0,0,0,0.1)",
+            borderTopColor: "#5AC4AF",
+            borderRadius: "50%",
+            animation: "spin 1s linear infinite",
+          }}
+        ></div>
+        <p
+          style={{
+            fontFamily: "sans-serif",
+            color: "#666",
+            fontSize: "14px",
+            margin: "0",
+          }}
+        >
+          Verifying session...
+        </p>
+        <style>
+          {`
+            @keyframes spin { to { transform: rotate(360deg); } }
+            @keyframes pulse {
+              0%, 100% { opacity: 0.8; transform: scale(1); }
+              50% { opacity: 1; transform: scale(1.05); }
+            }
+          `}
+        </style>
       </div>
     );
   }

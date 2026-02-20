@@ -51,7 +51,8 @@ export const calculateStats = (vStats) => {
 
 export const formatVerificationData = (verifications) => {
   return verifications.map((v) => ({
-    id: v.id.substring(0, 8).toUpperCase(),
+    id: v.id, // Keep full UUID for logic
+    displayId: v.id.substring(0, 8).toUpperCase(),
     type: v.metadata?.id_type || v.type?.toUpperCase() || "N/A",
     name:
       v.customer_name ||

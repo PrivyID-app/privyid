@@ -7,8 +7,8 @@ const VerificationLinkSettings = () => {
   const [uploadedFileName, setUploadedFileName] = useState("");
   const [toast, setToast] = useState(null);
   const fileInputRef = useRef(null);
-  const url =
-    "https://verify.privyid.com/session/id_9Kx2LmQ7uR4tY8xN3aH1?merchant=mk_4821&env=...";
+  const { merchantId } = useParams();
+  const url = `${window.location.protocol}//${window.location.host}/#/mobile-verification?merchant_id=${merchantId}`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(url).then(() => {

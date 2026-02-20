@@ -4,16 +4,20 @@ import CheckboxActiveIcon from "../../assets/images/Checkbox-active [1.0].svg";
 import VerificationModal from "./VerificationModal";
 import Pagination from "./Pagination";
 import StatusChip from "./StatusChip";
+import DeleteConfirmationModal from "./DeleteConfirmationModal";
 
 const VerificationTable = ({
   data = [],
   idLabel = "Verification No.",
   loading = false,
+  onDelete = () => {}, // Accept onDelete prop
 }) => {
   const [selectedRows, setSelectedRows] = useState(new Set());
   const [selectAll, setSelectAll] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
+  const [recordToDelete, setRecordToDelete] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
@@ -50,6 +54,19 @@ const VerificationTable = ({
   const handleViewDetails = (item) => {
     setSelectedData(item);
     setIsModalOpen(true);
+  };
+
+  const handleDeleteClick = (item) => {
+    setRecordToDelete(item);
+    setIsDeleteModalOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (recordToDelete) {
+      onDelete(recordToDelete.id);
+      setIsDeleteModalOpen(false);
+      setRecordToDelete(null);
+    }
   };
 
   return (
@@ -124,7 +141,7 @@ const VerificationTable = ({
                   />
                 </div>
                 <div className="cell">
-                  <p>{item.id}</p>
+                  <p>{item.displayId || item.id}</p>
                 </div>
                 <div className="cell">
                   <p>{item.type}</p>
@@ -154,7 +171,10 @@ const VerificationTable = ({
                     </span>
                   </button>
 
-                  <button className="action_button">
+                  <button
+                    className="action_button"
+                    onClick={() => handleDeleteClick(item)}
+                  >
                     <span className="material-symbols-outlined table_action delete_icon">
                       delete
                     </span>
@@ -177,6 +197,13 @@ const VerificationTable = ({
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         data={selectedData}
+      />
+
+      <DeleteConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={confirmDelete}
+        itemName={`Record #${recordToDelete?.displayId || recordToDelete?.id}`}
       />
     </div>
   );

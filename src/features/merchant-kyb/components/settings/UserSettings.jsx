@@ -1,11 +1,21 @@
 import React, { useState } from "react";
 import "../../pages/SettingsPage.css";
+import AddUserModal from "../../../../shared/components/AddUserModal";
 
 const UserSettings = () => {
-  const [users] = useState([
+  const [users, setUsers] = useState([
     { id: 1, name: "Emma Wright", email: "emma@company.com", role: "Admin" },
     { id: 2, name: "John Doe", email: "john@company.com", role: "Viewer" },
   ]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleAddUser = (newUserData) => {
+    const newUser = {
+      id: users.length + 1,
+      ...newUserData,
+    };
+    setUsers([...users, newUser]);
+  };
 
   return (
     <div className="settings_section">
@@ -17,6 +27,7 @@ const UserSettings = () => {
       <button
         className="primary_btn"
         style={{ marginBottom: "24px", gap: "8px" }}
+        onClick={() => setIsModalOpen(true)}
       >
         <span className="material-symbols-outlined">add</span>
         Add New User
@@ -37,6 +48,12 @@ const UserSettings = () => {
           </div>
         ))}
       </div>
+
+      <AddUserModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onAdd={handleAddUser}
+      />
     </div>
   );
 };

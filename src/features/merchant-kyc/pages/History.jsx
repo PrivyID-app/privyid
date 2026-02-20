@@ -55,6 +55,23 @@ const History = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    try {
+      const { error } = await supabase
+        .from("verifications")
+        .delete()
+        .eq("id", id);
+
+      if (error) throw error;
+
+      // Refresh the list
+      fetchHistory();
+    } catch (error) {
+      console.error("Error deleting verification:", error);
+      alert("Failed to delete record. Please try again.");
+    }
+  };
+
   const downloadData = (format) => {
     if (verifications.length === 0) return;
 
@@ -147,7 +164,7 @@ const History = () => {
           {loading ? (
             <div className="no_data_message">Loading history...</div>
           ) : filteredData.length > 0 ? (
-            <VerificationTable data={filteredData} />
+            <VerificationTable data={filteredData} onDelete={handleDelete} />
           ) : (
             <div className="no_data_message">
               No verification records found.

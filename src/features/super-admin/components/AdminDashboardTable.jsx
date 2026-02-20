@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import ImageCheckbox from "../../../shared/components/ImageCheckbox"; // Import the new Checkbox component
 import CustomSelect from "../../../shared/components/CustomSelect";
+import VerificationModal from "../../../shared/components/VerificationModal";
 
 const AdminDashboardTable = ({ data = [], idLabel = "Verification No." }) => {
   const [selectedRows, setSelectedRows] = useState(new Set());
   const [selectAll, setSelectAll] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedData, setSelectedData] = useState(null);
 
   const toggleSelectAll = () => {
     if (selectAll) {
@@ -26,6 +29,11 @@ const AdminDashboardTable = ({ data = [], idLabel = "Verification No." }) => {
       setSelectAll(next.size === data.length);
       return next;
     });
+  };
+
+  const handleView = (item) => {
+    setSelectedData(item);
+    setIsModalOpen(true);
   };
 
   return (
@@ -101,7 +109,7 @@ const AdminDashboardTable = ({ data = [], idLabel = "Verification No." }) => {
                 </p>
               </div>
               <div className="cell">
-                <p>{item.verifications}</p>
+                <p>{item.verifications || "1"}</p>
               </div>
               <div className="cell">
                 <p>{item.date}</p>
@@ -110,7 +118,10 @@ const AdminDashboardTable = ({ data = [], idLabel = "Verification No." }) => {
                 <p>{item.time}</p>
               </div>
               <div className="cell action_cell">
-                <button className="action_button">
+                <button
+                  className="action_button"
+                  onClick={() => handleView(item)}
+                >
                   <span className="material-symbols-outlined table_action">
                     visibility
                   </span>
@@ -122,36 +133,25 @@ const AdminDashboardTable = ({ data = [], idLabel = "Verification No." }) => {
       </div>
 
       <div className="pagination">
-        <p className="pagination_title">Page 1 of 5</p>
+        <p className="pagination_title">Page 1 of 1</p>
         <div className="pagination_buttons">
           <button className="pagination_button">
             <span className="material-symbols-outlined">chevron_left</span>
           </button>
           <div className="page">
             <button className="page_button active_page">1</button>
-            <button className="page_button">2</button>
-            <button className="page_button">3</button>
-            <button className="page_button">4</button>
-            <button className="page_button">5</button>
           </div>
           <button className="pagination_button">
             <span className="material-symbols-outlined">chevron_right</span>
           </button>
         </div>
-        <CustomSelect
-          options={[
-            { value: "1", label: "1/Page 5" },
-            { value: "2", label: "2/Page 5" },
-            { value: "3", label: "3/Page 5" },
-            { value: "4", label: "4/Page 5" },
-            { value: "5", label: "5/Page 5" },
-          ]}
-          value="1"
-          onSelect={(val) => console.log("Page:", val)}
-          className="service_selector_custom page_dropdown_custom"
-          placement="top"
-        />
       </div>
+
+      <VerificationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        data={selectedData}
+      />
     </div>
   );
 };

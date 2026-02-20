@@ -171,7 +171,7 @@ const TicketList = ({ onSelectTicket }) => {
                   <p>#{ticket.id.split("-")[0].toUpperCase()}</p>
                 </div>
                 <div className="cell">
-                  <p>{ticket.merchants?.business_name || "N/A"}</p>
+                  <p>{ticket.merchants?.business_name || "Unknown Merchant"}</p>
                 </div>
                 <div className="cell">
                   <p>{ticket.subject}</p>
@@ -186,8 +186,11 @@ const TicketList = ({ onSelectTicket }) => {
                 </div>
                 <div className="cell">
                   <p className={`status ${getStatusClass(ticket.status)}`}>
-                    {ticket.status.replace("_", " ").charAt(0).toUpperCase() +
-                      ticket.status.replace("_", " ").slice(1)}
+                    {(ticket.status || "open")
+                      .replace("_", " ")
+                      .charAt(0)
+                      .toUpperCase() +
+                      (ticket.status || "open").replace("_", " ").slice(1)}
                   </p>
                 </div>
                 <div className="cell">

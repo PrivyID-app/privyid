@@ -22,14 +22,21 @@ const VerificationsPage = () => {
         .from("merchants")
         .select("*", { count: "exact", head: true });
 
-      const { count: vCount } = await supabase
+      const { data: vData, error: vError } = await supabase
         .from("verifications")
-        .select("*", { count: "exact", head: true });
+        .select("status");
+
+      if (vError) throw vError;
+
+      const vCount = vData?.length || 0;
+      const totalRevenue = vCount * 500; // Assuming 500 per verification
 
       setStats((prev) => ({
         ...prev,
         totalMerchants: mCount?.toLocaleString() || "0",
-        totalVerifications: vCount?.toLocaleString() || "0",
+        totalVerifications: vCount.toLocaleString(),
+        totalRevenue: `₦${totalRevenue.toLocaleString()}`,
+        avgResponseTime: "0.2s",
       }));
     } catch (error) {
       console.error("Error fetching verification stats:", error);
