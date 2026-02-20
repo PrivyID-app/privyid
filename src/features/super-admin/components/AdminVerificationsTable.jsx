@@ -21,7 +21,7 @@ const AdminVerificationsTable = () => {
   const fetchVerifications = async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase
+      const { data: initialData, error: initialError } = await supabase
         .from("verifications")
         .select(
           `
@@ -37,16 +37,34 @@ const AdminVerificationsTable = () => {
         )
         .order("created_at", { ascending: false });
 
-      console.log("Verifications raw data:", data);
+      let finalData = initialData;
 
-      const mapped = (data || []).map((v) => ({
-        id: v.id.substring(0, 8).toUpperCase(),
-        type: v.verification_type?.toUpperCase() || "N/A",
+      if (initialError) {
+        console.error("Primary Fetch Error (Verifications):", initialError);
+        // Fallback to simple select if join fails
+        const { data: simpleData, error: simpleError } = await supabase
+          .from("verifications")
+          .select("*")
+          .order("created_at", { ascending: false });
+
+        if (simpleError) throw simpleError;
+        finalData = simpleData;
+      }
+
+      console.log("Verifications raw data:", finalData);
+
+      const mapped = (finalData || []).map((v) => ({
+        id: v.id?.substring(0, 8).toUpperCase() || "N/A",
+        type:
+          v.verification_type?.toUpperCase() || v.type?.toUpperCase() || "N/A",
         name:
           v.merchants?.business_name ||
           v.metadata?.merchant_name ||
-          "Unknown Merchant",
-        status: v.status.charAt(0).toUpperCase() + v.status.slice(1),
+          v.customer_name ||
+          "Unknown",
+        status:
+          (v.status || "pending").charAt(0).toUpperCase() +
+          (v.status || "pending").slice(1),
         batch: v.metadata?.batch_no || "SINGLE",
         date: new Date(v.created_at).toLocaleDateString("en-GB", {
           day: "2-digit",
@@ -58,16 +76,16 @@ const AdminVerificationsTable = () => {
           minute: "2-digit",
           hour12: true,
         }),
-        // Keep original field for table display if needed, but match Modal expectations
-        businessType: v.merchants?.company_type || "N/A",
-        businessName: v.merchants?.business_name || "Unknown Merchant",
+        businessType:
+          v.merchants?.company_type || v.metadata?.business_type || "N/A",
+        businessName: v.merchants?.business_name || v.customer_name || "N/A",
         count: "1",
       }));
 
       console.log("Mapped Verifications:", mapped.length);
       setVerifications(mapped);
     } catch (error) {
-      console.error("Error fetching verifications:", error);
+      console.error("Error in fetchVerifications:", error);
     } finally {
       setLoading(false);
     }

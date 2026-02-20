@@ -56,12 +56,25 @@ const TicketList = ({ onSelectTicket }) => {
         query = query.eq("status", selectedFilter);
       }
 
-      const { data, error } = await query;
+      const { data: initialData, error: initialError } = await query;
 
-      if (error) throw error;
-      console.log("TOTAL TICKETS FETCHED (GLOBAL):", data?.length);
-      console.log("TICKETS DATA SAMPLE:", data?.slice(0, 2));
-      setTickets(data || []);
+      let finalData = initialData;
+
+      if (initialError) {
+        console.error("Primary Fetch Error (Tickets):", initialError);
+        // Fallback to simple select if join fails
+        const { data: simpleData, error: simpleError } = await supabase
+          .from("tickets")
+          .select("*")
+          .order("created_at", { ascending: false });
+
+        if (simpleError) throw simpleError;
+        finalData = simpleData;
+      }
+
+      console.log("TOTAL TICKETS FETCHED (GLOBAL):", finalData?.length);
+      console.log("TICKETS DATA SAMPLE:", finalData?.slice(0, 2));
+      setTickets(finalData || []);
     } catch (error) {
       console.error("Error fetching tickets:", error);
       // Log more detailed error if possible

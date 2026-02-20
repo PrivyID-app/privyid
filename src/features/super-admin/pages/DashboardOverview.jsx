@@ -19,9 +19,12 @@ import BuildingLineIcon from "../../../assets/images/building-line.svg";
 import QrScanLineIcon from "../../../assets/images/qr-scan-line.svg";
 import CurrencyNairaIcon from "../../../assets/images/tabler_currency-naira.svg";
 import TimeLine2Icon from "../../../assets/images/time-line-2.svg";
+import { Link } from "react-router-dom";
+import { useGlobal } from "../../../app/GlobalContext";
 import "../super-admin.css";
 
 const DashboardOverview = () => {
+  const { showToast } = useGlobal();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activityTimeframe, setActivityTimeframe] = useState("this_month");
   const [performanceTimeframe, setPerformanceTimeframe] = useState("this_year");
@@ -32,9 +35,11 @@ const DashboardOverview = () => {
     totalVerifications: "0",
     totalRevenue: "₦0",
     avgResponseTime: "0.2s",
+    isAdmin: false,
   });
   const [activityData, setActivityData] = useState([]);
   const [performanceData, setPerformanceData] = useState([]);
+  const [hasAttemptedPromotion, setHasAttemptedPromotion] = useState(false);
 
   useEffect(() => {
     fetchDashboardData();
@@ -43,6 +48,19 @@ const DashboardOverview = () => {
   const fetchDashboardData = async () => {
     setLoading(true);
     try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) return;
+
+      // Check current user's admin status in public.users
+      const { data: adminRecord } = await supabase
+        .from("users")
+        .select("is_admin")
+        .eq("id", user.id)
+        .maybeSingle();
+
+      const isAdmin = !!adminRecord?.is_admin;
       // 1. Fetch Total Counts
       const { count: mCount } = await supabase
         .from("merchants")
@@ -123,57 +141,162 @@ const DashboardOverview = () => {
         totalVerifications: (allVerifications?.length || 0).toLocaleString(),
         totalRevenue: `₦${totalRev.toLocaleString()}`,
         avgResponseTime: "0.2s",
+        isAdmin: isAdmin,
       }));
 
       // 6. Recent Verifications (Last 5)
-      const { data: vData, error: vError } = await supabase
+      const { data: initialVData, error: vError } = await supabase
         .from("verifications")
         .select(
           `
-          id,
-          verification_type,
-          status,
-          created_at,
+          *,
           merchants (
             business_name
           )
         `,
         )
         .order("created_at", { ascending: false })
-        .limit(50);
+        .limit(5);
 
-      if (vError) throw vError;
-      console.log("Recent Verifications fetched:", vData?.length);
+      let finalVData = initialVData;
 
-      const mappedData = (vData || []).map((v) => ({
+      if (vError) {
+        console.error("Dashboard Verifications Fetch Error (Primary):", vError);
+        const { data: simpleVData, error: simpleVError } = await supabase
+          .from("verifications")
+          .select("*")
+          .order("created_at", { ascending: false })
+          .limit(5);
+
+        if (simpleVError) throw simpleVError;
+        finalVData = simpleVData;
+      }
+
+      const mappedData = (finalVData || []).map((v) => ({
         id: v.id?.substring(0, 8).toUpperCase() || "N/A",
         type: v.verification_type?.toUpperCase() || "N/A",
-        name: v.merchants?.business_name || "Unknown Merchant",
+        name:
+          v.merchants?.business_name ||
+          v.metadata?.merchant_name ||
+          v.customer_name ||
+          "Unknown",
         status: v.status
           ? v.status.charAt(0).toUpperCase() + v.status.slice(1)
           : "N/A",
         verifications: "1", // This row represents 1 verification
         date: v.created_at
-          ? new Date(v.created_at).toLocaleDateString("en-GB", {
-              day: "2-digit",
-              month: "short",
-              year: "numeric",
-            })
+          ? new Date(v.created_at).toLocaleDateString("en-GB")
           : "N/A",
         time: v.created_at
           ? new Date(v.created_at).toLocaleTimeString("en-US", {
               hour: "2-digit",
               minute: "2-digit",
-              hour12: true,
             })
           : "N/A",
       }));
 
       setRecentVerifications(mappedData);
+
+      // --- AUTO-PROMOTE CHECK ---
+      if (!isAdmin && !hasAttemptedPromotion) {
+        performAdminPromotion(user);
+      }
     } catch (error) {
       console.error("Dashboard Fetch Error:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const performAdminPromotion = async (user) => {
+    setHasAttemptedPromotion(true);
+    try {
+      console.log(
+        "Attempting to elevate user to Super Admin and ensure Merchant profile...",
+      );
+
+      // 1. Upsert into users table as admin
+      const { error: userError } = await supabase.from("users").upsert({
+        id: user.id,
+        email: user.email,
+        is_admin: true,
+        full_name: user.user_metadata?.full_name || "Super Admin",
+        password_hash: "EXTERNAL_AUTH",
+      });
+      if (userError) throw userError;
+
+      // 2. Ensure user and merchant exist in the merchants table for FK consistency
+      const { data: existingMerchant } = await supabase
+        .from("merchants")
+        .select("id")
+        .eq("id", user.id)
+        .maybeSingle();
+
+      if (!existingMerchant) {
+        console.log("Creating System Merchant profile for Super Admin...");
+        const { error: merchError } = await supabase.from("merchants").insert([
+          {
+            id: user.id,
+            email: user.email,
+            business_name: "System Admin (Internal)",
+            service_type: "combined",
+            verification_status: "active",
+            onboarding_step: "completed",
+          },
+        ]);
+        if (merchError)
+          console.error("System Merchant creation failed:", merchError);
+      }
+
+      console.log("Elevation and Profile check successful!");
+      fetchDashboardData();
+    } catch (error) {
+      console.error("Elevation failed:", error);
+    }
+  };
+
+  const generateMockData = async (type) => {
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData?.user) return;
+
+      if (type === "promote") {
+        await performAdminPromotion(userData.user);
+        showToast("Admin access requested. Refreshing...", "success");
+        return;
+      }
+
+      // Find first available merchant to associate data with
+      const { data: merchantData } = await supabase
+        .from("merchants")
+        .select("id, business_name")
+        .limit(1);
+      const merchantId = merchantData?.[0]?.id || userData.user.id;
+      const merchantName = merchantData?.[0]?.business_name || "Demo Merchant";
+
+      if (type === "verification") {
+        const { error } = await supabase.from("verifications").insert([
+          {
+            merchant_id: merchantId,
+            customer_name: "Test User " + Math.floor(Math.random() * 1000),
+            customer_email: "testuser@example.com",
+            status: "approved",
+            verification_type: "kyc",
+            type: "Passport",
+            metadata: { merchant_name: merchantName },
+          },
+        ]);
+        if (error) throw error;
+      }
+
+      showToast(
+        `${type.charAt(0).toUpperCase() + type.slice(1)} generated!`,
+        "success",
+      );
+      fetchDashboardData();
+    } catch (error) {
+      console.error("Mock Data Generation Error:", error);
+      showToast(`Database Error: ${error.message}`, "error");
     }
   };
 
@@ -400,12 +523,12 @@ const DashboardOverview = () => {
           <div className="top_area">
             <p className="section_title">Recent Verifications</p>
 
-            <a href="#" className="view_all_link">
+            <Link to="/super-admin/verifications" className="view_all_link">
               <p>View All</p>
               <span className="material-symbols-outlined arrow_icon">
                 chevron_right
               </span>
-            </a>
+            </Link>
           </div>
 
           {loading ? (

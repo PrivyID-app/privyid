@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "../../../shared/services/supabase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import CustomSelect from "../../../shared/components/CustomSelect";
 import VerificationTable from "../../../shared/components/VerificationTable";
@@ -364,12 +364,15 @@ const DashboardOverview = () => {
                 className="search_input"
               />
             </div>
-            <a href="/merchant-combined/history" className="view_all_link">
+            <Link
+              to={`/m/${merchantId}/combined/history`}
+              className="view_all_link"
+            >
               <p>View All</p>
               <span className="material-symbols-outlined arrow_icon">
                 chevron_right
               </span>
-            </a>
+            </Link>
           </div>
 
           {loading ? (
