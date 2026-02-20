@@ -18,6 +18,7 @@ const SupportPage = () => {
 
   useEffect(() => {
     if (selectedTicket) {
+      console.log("Selected Ticket:", selectedTicket.id);
       fetchTicketMessages(selectedTicket.id);
 
       const subscription = supabase
@@ -31,7 +32,9 @@ const SupportPage = () => {
             filter: `ticket_id=eq.${selectedTicket.id}`,
           },
           (payload) => {
-            setMessages((prev) => [...prev, payload.new]);
+            if (payload && payload.new) {
+              setMessages((prev) => [...prev, payload.new]);
+            }
           },
         )
         .subscribe();
@@ -56,6 +59,7 @@ const SupportPage = () => {
         .order("created_at", { ascending: true });
 
       if (error) throw error;
+      console.log("Ticket Messages fetched:", data?.length);
       setMessages(data || []);
     } catch (error) {
       console.error("Error fetching messages:", error);

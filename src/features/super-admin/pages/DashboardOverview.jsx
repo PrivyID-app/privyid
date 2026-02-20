@@ -62,6 +62,8 @@ const DashboardOverview = () => {
         .from("verifications")
         .select("status, created_at, verification_type");
 
+      console.log("All Verifications fetched:", allVerifications?.length);
+
       if (vAllError) throw vAllError;
 
       // 3. Aggregate Chart Data (Verification Activity - Daily)
@@ -75,13 +77,15 @@ const DashboardOverview = () => {
         dailyDataMap[dayNames[d.getDay()]] = 0;
       }
 
-      allVerifications.forEach((v) => {
-        const d = new Date(v.created_at);
-        const day = dayNames[d.getDay()];
-        if (dailyDataMap[day] !== undefined) {
-          dailyDataMap[day] += 1;
-        }
-      });
+      if (allVerifications && Array.isArray(allVerifications)) {
+        allVerifications.forEach((v) => {
+          const d = new Date(v.created_at);
+          const day = dayNames[d.getDay()];
+          if (dailyDataMap[day] !== undefined) {
+            dailyDataMap[day] += 1;
+          }
+        });
+      }
 
       const formattedActivity = Object.entries(dailyDataMap).map(
         ([name, verifications]) => ({ name, verifications }),
@@ -90,12 +94,13 @@ const DashboardOverview = () => {
 
       // 4. Performance Summary (Status Split)
       const statusCounts = {
-        Approved: allVerifications.filter((v) => v.status === "approved")
-          .length,
-        Pending: allVerifications.filter((v) =>
+        Approved: (allVerifications || []).filter(
+          (v) => v.status === "approved",
+        ).length,
+        Pending: (allVerifications || []).filter((v) =>
           ["pending", "initiated"].includes(v.status),
         ).length,
-        Rejected: allVerifications.filter((v) =>
+        Rejected: (allVerifications || []).filter((v) =>
           ["rejected", "failed"].includes(v.status),
         ).length,
       };
@@ -136,6 +141,7 @@ const DashboardOverview = () => {
         .limit(5);
 
       if (vError) throw vError;
+      console.log("Recent Verifications fetched:", vData?.length);
 
       const mappedData = vData.map((v) => ({
         id: v.id.substring(0, 8).toUpperCase(),

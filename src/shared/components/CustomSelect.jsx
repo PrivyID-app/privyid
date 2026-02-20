@@ -53,7 +53,9 @@ const CustomSelect = ({
     };
   }, [isOpen, placement]);
 
-  const selectedOption = options.find((opt) => opt.value === value);
+  const selectedOption = (options || []).find(
+    (opt) => opt && opt.value === value,
+  );
 
   return (
     <div

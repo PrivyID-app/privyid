@@ -29,7 +29,9 @@ const TicketConversation = ({ ticketId, onBack }) => {
           filter: `ticket_id=eq.${ticketId}`,
         },
         (payload) => {
-          setMessages((prev) => [...prev, payload.new]);
+          if (payload && payload.new) {
+            setMessages((prev) => [...prev, payload.new]);
+          }
         },
       )
       .subscribe();

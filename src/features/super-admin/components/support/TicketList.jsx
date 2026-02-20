@@ -26,6 +26,20 @@ const TicketList = ({ onSelectTicket }) => {
   const fetchTickets = async () => {
     setLoading(true);
     try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      console.log("Current User ID:", user?.id);
+
+      if (user) {
+        const { data: adminData } = await supabase
+          .from("users")
+          .select("is_admin")
+          .eq("id", user.id)
+          .single();
+        console.log("Admin Status from public.users:", adminData?.is_admin);
+      }
+
       let query = supabase
         .from("tickets")
         .select(
@@ -45,9 +59,13 @@ const TicketList = ({ onSelectTicket }) => {
       const { data, error } = await query;
 
       if (error) throw error;
+      console.log("Tickets fetched:", data?.length);
       setTickets(data || []);
     } catch (error) {
       console.error("Error fetching tickets:", error);
+      // Log more detailed error if possible
+      if (error.details) console.error("Error details:", error.details);
+      if (error.hint) console.error("Error hint:", error.hint);
     } finally {
       setLoading(false);
     }
