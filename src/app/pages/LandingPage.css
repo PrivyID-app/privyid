@@ -401,6 +401,11 @@ body {
     padding: 0 20px;
   }
 
+  .landing-section{
+    height: 70vh;
+    justify-content: center;
+  }
+
   .hero-actions button,
   .hero-actions a {
     width: 100%;

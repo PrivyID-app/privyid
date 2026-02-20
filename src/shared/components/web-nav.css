@@ -110,8 +110,16 @@
   }
 
   .nav_links.active {
+    height: 20rem;
     display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
     z-index: 1001;
+  }
+
+  .nav_link{
+    /* margin-bottom: 2rem; */
+    width: 100%;
   }
 
   .nav_action_buttons {
@@ -122,13 +130,14 @@
     width: 100%;
     background: var(--bg-white-0);
     flex-direction: column;
-    padding: 0 2rem 2rem;
+    padding: 2rem 2rem;
     row-gap: 1rem;
   }
 
   .nav_action_buttons.active {
     display: flex;
     z-index: 1001;
+    gap: 2rem;
   }
 
   .logo_link_container {
