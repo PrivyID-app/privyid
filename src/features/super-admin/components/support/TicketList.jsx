@@ -59,7 +59,8 @@ const TicketList = ({ onSelectTicket }) => {
       const { data, error } = await query;
 
       if (error) throw error;
-      console.log("Tickets fetched:", data?.length);
+      console.log("TOTAL TICKETS FETCHED (GLOBAL):", data?.length);
+      console.log("TICKETS DATA SAMPLE:", data?.slice(0, 2));
       setTickets(data || []);
     } catch (error) {
       console.error("Error fetching tickets:", error);

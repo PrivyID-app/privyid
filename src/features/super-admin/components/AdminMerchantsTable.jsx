@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useGlobal } from "../../../app/GlobalContext";
 import ImageCheckbox from "../../../shared/components/ImageCheckbox";
 import Pagination from "../../../shared/components/Pagination";
+import MerchantDetailsModal from "../../../shared/components/MerchantDetailsModal";
 
 const AdminMerchantsTable = ({ filter = "all" }) => {
   const navigate = useNavigate();
@@ -12,6 +13,8 @@ const AdminMerchantsTable = ({ filter = "all" }) => {
   const [loading, setLoading] = useState(true);
   const [selectedRows, setSelectedRows] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedMerchant, setSelectedMerchant] = useState(null);
   const itemsPerPage = 10;
 
   useEffect(() => {
@@ -39,7 +42,6 @@ const AdminMerchantsTable = ({ filter = "all" }) => {
 
       if (mError) throw mError;
 
-      // Map to table structure, checking for different possible name columns
       const mapped = (merchantsData || []).map((m) => ({
         id: m.id,
         businessName:
@@ -62,7 +64,6 @@ const AdminMerchantsTable = ({ filter = "all" }) => {
       setMerchants(mapped);
     } catch (error) {
       console.error("Fetch Error:", error);
-      // If fetching with join failed, try even simpler
       try {
         const { data: simpleData } = await supabase
           .from("merchants")
@@ -88,7 +89,6 @@ const AdminMerchantsTable = ({ filter = "all" }) => {
   const addDemoMerchant = async () => {
     try {
       const demoEmail = `demo_${Math.floor(Math.random() * 1000)}@example.com`;
-      // Try an insert with both business_name and email to satisfy most common constraints
       const { error } = await supabase.from("merchants").insert([
         {
           business_name: "Demo Store " + Math.floor(Math.random() * 100),
@@ -97,7 +97,6 @@ const AdminMerchantsTable = ({ filter = "all" }) => {
       ]);
 
       if (error) {
-        // Fallback: try just email if business_name is the problem
         const { error: retryError } = await supabase
           .from("merchants")
           .insert([{ email: demoEmail }]);
@@ -105,28 +104,22 @@ const AdminMerchantsTable = ({ filter = "all" }) => {
       }
 
       showToast("✅ Demo Merchant Added!", "success");
-      fetchMerchants(); // Refresh list
+      fetchMerchants();
     } catch (error) {
       console.error("Full Error Info:", error);
       showToast(
-        `Error: ${error.message || "Please run the SQL Repair script I sent."}`,
+        `Error: ${error.message || "Failed to add merchant."}`,
         "error",
       );
     }
   };
 
-  const handleViewDashboard = (merchant) => {
-    // Store viewing merchant ID for the dashboard to pick up
-    localStorage.setItem("admin_viewing_merchant_id", merchant.id);
-
-    const serviceMap = {
-      kyc: "/merchant-kyc",
-      kyb: "/merchant-kyb",
-      combined: "/merchant-combined",
-    };
-
-    navigate(serviceMap[merchant.serviceType] || "/merchant-combined");
+  const handleOpenModal = (merchant) => {
+    setSelectedMerchant(merchant);
+    setIsModalOpen(true);
   };
+
+  // No dashboard navigation for now
 
   const totalPages = Math.ceil(merchants.length / itemsPerPage);
   const paginatedMerchants = merchants.slice(
@@ -248,7 +241,17 @@ const AdminMerchantsTable = ({ filter = "all" }) => {
                 <p title={merchant.id}>{merchant.id.substring(0, 8)}...</p>
               </div>
               <div className="cell">
-                <p>{merchant.businessName}</p>
+                <p
+                  title={merchant.businessName}
+                  style={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    maxWidth: "150px",
+                  }}
+                >
+                  {merchant.businessName}
+                </p>
               </div>
               <div className="cell">
                 <p>{merchant.businessType}</p>
@@ -267,11 +270,14 @@ const AdminMerchantsTable = ({ filter = "all" }) => {
               <div className="cell">
                 <p>{merchant.joinDate}</p>
               </div>
-              <div className="cell action_cell">
+              <div
+                className="cell action_cell"
+                style={{ display: "flex", gap: "8px" }}
+              >
                 <button
                   className="action_button"
-                  onClick={() => handleViewDashboard(merchant)}
-                  title="View Merchant Dashboard"
+                  onClick={() => handleOpenModal(merchant)}
+                  title="View Merchant Details"
                 >
                   <span className="material-symbols-outlined">visibility</span>
                 </button>
@@ -286,6 +292,12 @@ const AdminMerchantsTable = ({ filter = "all" }) => {
           onPageSelect={setCurrentPage}
         />
       </div>
+
+      <MerchantDetailsModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        merchant={selectedMerchant}
+      />
     </div>
   );
 };
