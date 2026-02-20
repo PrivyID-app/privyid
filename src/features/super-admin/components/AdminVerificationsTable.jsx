@@ -37,15 +37,12 @@ const AdminVerificationsTable = () => {
         )
         .order("created_at", { ascending: false });
 
-      console.log("Verifications raw data:", data);
+      if (error) throw error;
 
       const mapped = (data || []).map((v) => ({
         id: v.id.substring(0, 8).toUpperCase(),
         type: v.verification_type?.toUpperCase() || "N/A",
-        name:
-          v.merchants?.business_name ||
-          v.metadata?.merchant_name ||
-          "Unknown Merchant",
+        name: v.merchants?.business_name || "Unknown Merchant",
         status: v.status.charAt(0).toUpperCase() + v.status.slice(1),
         batch: v.metadata?.batch_no || "SINGLE",
         date: new Date(v.created_at).toLocaleDateString("en-GB", {
@@ -64,7 +61,6 @@ const AdminVerificationsTable = () => {
         count: "1",
       }));
 
-      console.log("Mapped Verifications:", mapped.length);
       setVerifications(mapped);
     } catch (error) {
       console.error("Error fetching verifications:", error);

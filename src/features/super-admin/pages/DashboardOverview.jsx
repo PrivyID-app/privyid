@@ -140,7 +140,7 @@ const DashboardOverview = () => {
         `,
         )
         .order("created_at", { ascending: false })
-        .limit(50);
+        .limit(5);
 
       if (vError) throw vError;
       console.log("Recent Verifications fetched:", vData?.length);
