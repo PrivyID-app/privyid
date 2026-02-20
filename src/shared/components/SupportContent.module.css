@@ -409,8 +409,9 @@
 }
 
 .resourceCardsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: 1rem;
 }
 
@@ -424,6 +425,7 @@
   cursor: pointer;
   transition: all 0.2s;
   position: relative;
+  flex: 1 1 calc(30% - 1rem);
 }
 
 .resourceCard:hover {

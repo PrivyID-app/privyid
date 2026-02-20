@@ -64,22 +64,8 @@ const LoginStep = ({ onNext, onSignupClick, onLoginSuccess }) => {
         .single();
 
       if (merchantData) {
-        if (merchantData.onboarding_step === "completed") {
-          showToast("Login successful!", "success");
-          const serviceMap = {
-            kyc: `/m/${user.id}/kyc`,
-            kyb: `/m/${user.id}/kyb`,
-            combined: `/m/${user.id}/combined`,
-          };
-          navigate(
-            serviceMap[merchantData.service_type] || `/m/${user.id}/combined`,
-          );
-        } else {
-          showToast("Resuming your onboarding flow...", "info");
-          // Logic to resume onboarding could be implemented in OnboardingFlow.jsx
-          // For now, we just go to onboarding starting point or handle in parent
-          onNext();
-        }
+        showToast("Login successful!", "success");
+        onLoginSuccess({ user, merchant: merchantData });
       } else {
         // New user or profile missing
         onNext();

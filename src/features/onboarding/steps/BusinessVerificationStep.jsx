@@ -19,7 +19,7 @@ export const BusinessVerificationLeftContent = () => {
         <img src={infoIcon} alt="Info" className="info_icon" />
       </div>
 
-      <div className="modal_content">
+      <div className="info_modal_content">
         <div className="modal_title">
           <p className="modal_content_title modal_title_dark">
             Expected Processing Time - 24 hours
@@ -51,7 +51,7 @@ export const BusinessVerificationLeftTopContent = () => {
         <img src={infoIcon} alt="Info" className="info_icon" />
       </div>
 
-      <div className="modal_content">
+      <div className="info_modal_content">
         <div className="modal_title">
           <p className="modal_content_title">Why KYB?</p>
           <span
@@ -208,7 +208,7 @@ const BusinessVerificationStep = ({ onNext, onBack }) => {
         <div className="business_verification_body">
           <form
             id="business_verification_form"
-            className="business_verification_form"
+            className="on_business_verification_form"
             noValidate
           >
             <div className="bv_input_group">

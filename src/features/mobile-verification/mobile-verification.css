@@ -80,7 +80,7 @@
 }
 
 /* Forms */
-form {
+.mob_details_form {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;

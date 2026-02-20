@@ -103,14 +103,11 @@ const VerifyEmailStep = ({ onNext }) => {
         // a user signs up again with the same email but a new Auth ID.
         // If this still fails with "duplicate key", it might be a PK conflict
         // or other constraint. We'll try to update purely by email first.
-        const { error: merchError } = await supabase.from("merchants").upsert(
-          {
-            id: userData.user.id,
-            email: kycOptions.email || userData.user.email,
-            onboarding_step: "welcome",
-          },
-          { onConflict: "email" },
-        );
+        const { error: merchError } = await supabase.from("merchants").upsert({
+          id: userData.user.id,
+          email: kycOptions.email || userData.user.email,
+          onboarding_step: "welcome",
+        });
 
         if (merchError) {
           console.error(

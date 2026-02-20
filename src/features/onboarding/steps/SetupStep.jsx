@@ -109,15 +109,16 @@ const SetupStep = ({ onBack }) => {
       showToast("Onboarding complete!", "success");
 
       // Navigate based on selected service type
+      const userId = userData.user.id;
       if (selectedServices.includes("kyc_only")) {
-        navigate("/merchant-kyc");
+        navigate(`/m/${userId}/kyc`);
       } else if (selectedServices.includes("kyb_only")) {
-        navigate("/merchant-kyb");
+        navigate(`/m/${userId}/kyb`);
       } else if (selectedServices.includes("kyc_kyb")) {
-        navigate("/merchant-combined");
+        navigate(`/m/${userId}/combined`);
       } else {
         // Fallback or default
-        navigate("/merchant-combined");
+        navigate(`/m/${userId}/combined`);
       }
     } catch (error) {
       showToast(error.message || "Failed to complete setup.", "error");

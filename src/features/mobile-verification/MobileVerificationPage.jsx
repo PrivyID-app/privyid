@@ -49,7 +49,7 @@ const MobileVerificationPage = () => {
             </p>
 
             <form id="details" onSubmit={handleNext}>
-              <div className="input_group">
+              <div className="input_group mob_details_form">
                 <label>First Name</label>
                 <input type="text" placeholder="John" required />
               </div>

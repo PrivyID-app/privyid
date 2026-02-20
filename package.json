@@ -1,6 +1,7 @@
 {
   "name": "temp_react",
   "private": true,
+  "license": "UNLICENSED",
   "version": "0.0.0",
   "type": "module",
   "homepage": "https://privyid-app.github.io/privyid/",
