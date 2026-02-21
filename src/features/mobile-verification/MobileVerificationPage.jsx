@@ -229,52 +229,13 @@ const MobileVerificationPage = () => {
 
     try {
       const merchantId =
-        new URLSearchParams(window.location.search).get("merchant_id") ||
-        "unknown_merchant";
+        new URLSearchParams(window.location.search).get("merchant_id") || null;
 
-      const uid = Math.random().toString(36).substring(2, 10);
-      const timestamp = Date.now();
-
-      // ── Helper: upload a File or dataURL blob to Supabase Storage ──
-      const uploadFile = async (fileOrDataUrl, path) => {
-        let blob;
-        if (typeof fileOrDataUrl === "string") {
-          // Convert base64 dataURL → Blob
-          const res = await fetch(fileOrDataUrl);
-          blob = await res.blob();
-        } else {
-          blob = fileOrDataUrl;
-        }
-        const { error } = await supabase.storage
-          .from("verification-docs")
-          .upload(path, blob, { upsert: true });
-        if (error) throw new Error(`Upload failed (${path}): ${error.message}`);
-
-        const { data } = supabase.storage
-          .from("verification-docs")
-          .getPublicUrl(path);
-        return data.publicUrl;
-      };
-
-      // ── 1. Upload documents ──────────────────
-      setProcessingStatus("Uploading ID documents…");
-      const frontUrl = await uploadFile(
-        frontFile,
-        `${merchantId}/${uid}_front.jpg`,
-      );
-      const backUrl = await uploadFile(
-        backFile,
-        `${merchantId}/${uid}_back.jpg`,
-      );
-
-      // ── 2. Upload selfie ─────────────────────
-      setProcessingStatus("Uploading selfie…");
-      const selfieUrl = await uploadFile(
-        capturedDataUrl,
-        `${merchantId}/${uid}_selfie.jpg`,
-      );
-
-      // ── 3. Insert verification record ────────
+      // ── Insert verification record ────────────
+      // File uploads are skipped for the unauthenticated mobile flow —
+      // Supabase Storage RLS blocks anon inserts. File names and a
+      // selfie_captured flag are stored in metadata instead.
+      // TODO: wire up actual file storage once auth context is available.
       setProcessingStatus("Submitting verification…");
       const { error: dbError } = await supabase.from("verifications").insert([
         {
@@ -284,14 +245,13 @@ const MobileVerificationPage = () => {
           type: "kyc",
           status: "pending",
           source: "mobile_link",
-          user_identifier: `mobile_${uid}_${timestamp}`,
           metadata: {
             id_type: form.verificationType,
             id_number: form.idNumber,
             full_name: `${form.firstName} ${form.lastName}`.trim(),
-            front_doc_url: frontUrl,
-            back_doc_url: backUrl,
-            selfie_url: selfieUrl,
+            front_doc_name: frontFile?.name ?? null,
+            back_doc_name: backFile?.name ?? null,
+            selfie_captured: capturedDataUrl !== null,
             submitted_at: new Date().toISOString(),
             source: "mobile_link",
           },
