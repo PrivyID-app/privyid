@@ -455,6 +455,25 @@ select,
 }
 
 /* =========================================
+   PROCESSING SPINNER
+   ========================================= */
+.mvf_spinner {
+  width: 56px;
+  height: 56px;
+  border: 4px solid rgba(23, 27, 52, 0.12);
+  border-top-color: #171b34;
+  border-radius: 50%;
+  animation: mvf_spin 0.9s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes mvf_spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================
    RESULT / SUCCESS SCREEN
    ========================================= */
 .mvf_result_icon {

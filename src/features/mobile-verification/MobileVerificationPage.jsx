@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import "./mobile-verification.css";
 import Logo from "../../assets/images/Logo black.svg";
+import { supabase } from "../../shared/services/supabase";
 
 // ─────────────────────────────────────────────
 // Constants
@@ -28,7 +29,7 @@ const MAX_SIZE = 5 * 1024 * 1024; // 5 MB
 // Component
 // ─────────────────────────────────────────────
 const MobileVerificationPage = () => {
-  // Step: 1 | 2 | 3 | 4 | "success"
+  // Step: 1 | 2 | 3 | 4 | "processing" | "success" | "error"
   const [step, setStep] = useState(1);
 
   // Step 1 form state
@@ -39,6 +40,10 @@ const MobileVerificationPage = () => {
     idNumber: "",
   });
   const [step1Error, setStep1Error] = useState("");
+
+  // Submission state
+  const [processingStatus, setProcessingStatus] = useState("");
+  const [submitError, setSubmitError] = useState("");
 
   // Step 2 upload state
   const [frontFile, setFrontFile] = useState(null);
@@ -217,9 +222,90 @@ const MobileVerificationPage = () => {
   };
 
   // ── Submit Verification ──────────────────────
-  const submitVerification = () => {
+  const submitVerification = async () => {
     stopStream();
-    setStep("success");
+    setStep("processing");
+    setSubmitError("");
+
+    try {
+      const merchantId =
+        new URLSearchParams(window.location.search).get("merchant_id") ||
+        "unknown_merchant";
+
+      const uid = Math.random().toString(36).substring(2, 10);
+      const timestamp = Date.now();
+
+      // ── Helper: upload a File or dataURL blob to Supabase Storage ──
+      const uploadFile = async (fileOrDataUrl, path) => {
+        let blob;
+        if (typeof fileOrDataUrl === "string") {
+          // Convert base64 dataURL → Blob
+          const res = await fetch(fileOrDataUrl);
+          blob = await res.blob();
+        } else {
+          blob = fileOrDataUrl;
+        }
+        const { error } = await supabase.storage
+          .from("verification-docs")
+          .upload(path, blob, { upsert: true });
+        if (error) throw new Error(`Upload failed (${path}): ${error.message}`);
+
+        const { data } = supabase.storage
+          .from("verification-docs")
+          .getPublicUrl(path);
+        return data.publicUrl;
+      };
+
+      // ── 1. Upload documents ──────────────────
+      setProcessingStatus("Uploading ID documents…");
+      const frontUrl = await uploadFile(
+        frontFile,
+        `${merchantId}/${uid}_front.jpg`,
+      );
+      const backUrl = await uploadFile(
+        backFile,
+        `${merchantId}/${uid}_back.jpg`,
+      );
+
+      // ── 2. Upload selfie ─────────────────────
+      setProcessingStatus("Uploading selfie…");
+      const selfieUrl = await uploadFile(
+        capturedDataUrl,
+        `${merchantId}/${uid}_selfie.jpg`,
+      );
+
+      // ── 3. Insert verification record ────────
+      setProcessingStatus("Submitting verification…");
+      const { error: dbError } = await supabase.from("verifications").insert([
+        {
+          merchant_id: merchantId,
+          customer_name: `${form.firstName} ${form.lastName}`.trim(),
+          verification_type: form.verificationType,
+          type: "kyc",
+          status: "pending",
+          source: "mobile_link",
+          user_identifier: `mobile_${uid}_${timestamp}`,
+          metadata: {
+            id_type: form.verificationType,
+            id_number: form.idNumber,
+            full_name: `${form.firstName} ${form.lastName}`.trim(),
+            front_doc_url: frontUrl,
+            back_doc_url: backUrl,
+            selfie_url: selfieUrl,
+            submitted_at: new Date().toISOString(),
+            source: "mobile_link",
+          },
+        },
+      ]);
+
+      if (dbError) throw new Error(dbError.message);
+
+      setStep("success");
+    } catch (err) {
+      console.error("[MobileVerification] Submission error:", err);
+      setSubmitError(err.message || "An unexpected error occurred.");
+      setStep("error");
+    }
   };
 
   // ─────────────────────────────────────────────
@@ -527,6 +613,69 @@ const MobileVerificationPage = () => {
     </div>
   );
 
+  const renderProcessing = () => (
+    <div className="mvf_step active" id="step_processing">
+      <div className="mvf_header">
+        <div className="mvf_logo">
+          <img src={Logo} alt="PrivyID logo" />
+        </div>
+      </div>
+
+      <div className="mvf_body mvf_body_result">
+        <div className="mvf_spinner" />
+        <h2 className="mvf_result_title" style={{ marginTop: "1.5rem" }}>
+          Please wait…
+        </h2>
+        <p className="mvf_result_msg">{processingStatus}</p>
+        <p
+          className="mvf_result_msg"
+          style={{ marginTop: "0.5rem", fontSize: "0.75rem" }}
+        >
+          Do not close this window.
+        </p>
+      </div>
+    </div>
+  );
+
+  const renderError = () => (
+    <div className="mvf_step active" id="step_error">
+      <div className="mvf_header">
+        <div className="mvf_logo">
+          <img src={Logo} alt="PrivyID logo" />
+        </div>
+      </div>
+
+      <div className="mvf_body mvf_body_result">
+        <div className="mvf_result_icon mvf_result_failed">
+          <span>!</span>
+        </div>
+        <h2 className="mvf_result_title">Submission Failed</h2>
+        <p className="mvf_result_msg">{submitError}</p>
+      </div>
+
+      <div className="mvf_actions">
+        <button
+          className="secondary_button"
+          onClick={() => {
+            setCapturedDataUrl(null);
+            setSelfieSuccess(false);
+            setStep(1);
+          }}
+        >
+          Start Over
+        </button>
+        <button
+          className="primary_button"
+          onClick={() => {
+            setStep(4);
+          }}
+        >
+          Retry
+        </button>
+      </div>
+    </div>
+  );
+
   const renderSuccess = () => (
     <div className="mvf_step active" id="step_success">
       <div className="mvf_header">
@@ -576,6 +725,8 @@ const MobileVerificationPage = () => {
           {step === 2 && renderStep2()}
           {step === 3 && renderStep3()}
           {step === 4 && renderStep4()}
+          {step === "processing" && renderProcessing()}
+          {step === "error" && renderError()}
           {step === "success" && renderSuccess()}
         </div>
       </div>
