@@ -544,7 +544,7 @@ select,
     background 0.2s ease,
     transform 0.1s ease,
     box-shadow 0.2s ease;
-  flex: 1;
+  /* flex: 1; */
 }
 
 .primary_button:hover {
@@ -574,7 +574,7 @@ select,
     border-color 0.2s,
     background 0.2s,
     transform 0.1s;
-  flex: 1;
+  /* flex: 1; */
 }
 
 .secondary_button:hover {

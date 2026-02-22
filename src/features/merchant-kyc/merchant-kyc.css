@@ -649,6 +649,7 @@
 }
 
 .primary_button {
+  width: fit-content;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -670,6 +671,7 @@
 }
 
 .secondary_button {
+  width: fit-content;
   display: flex;
   flex-direction: row;
   align-items: center;

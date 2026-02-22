@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import "./mobile-verification.css";
 import Logo from "../../assets/images/Logo black.svg";
 import { supabase } from "../../shared/services/supabase";
+import { useSearchParams } from "react-router-dom";
 
 // ─────────────────────────────────────────────
 // Constants
@@ -29,6 +30,9 @@ const MAX_SIZE = 5 * 1024 * 1024; // 5 MB
 // Component
 // ─────────────────────────────────────────────
 const MobileVerificationPage = () => {
+  const [searchParams] = useSearchParams();
+  const merchantIdFromUrl = searchParams.get("merchant_id");
+
   // Step: 1 | 2 | 3 | 4 | "processing" | "success" | "error"
   const [step, setStep] = useState(1);
 
@@ -228,8 +232,7 @@ const MobileVerificationPage = () => {
     setSubmitError("");
 
     try {
-      const merchantId =
-        new URLSearchParams(window.location.search).get("merchant_id") || null;
+      const merchantId = merchantIdFromUrl || null;
 
       // ── Insert verification record ────────────
       // File uploads are skipped for the unauthenticated mobile flow —

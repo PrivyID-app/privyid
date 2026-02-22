@@ -18,15 +18,16 @@
 
 ## 🎯 Overview
 
-PrivyID is a modern, privacy-focused KYC (Know Your Customer) and KYB (Know Your Business) verification platform. Built with React and Vite, it provides a seamless experience for merchants to verify customer identities and businesses while maintaining the highest standards of data privacy and security.
+PrivyID is a **state-of-the-art**, privacy-first KYC (Know Your Customer) and KYB (Know Your Business) verification infrastructure. Designed for high-growth businesses, it offers a **premium, mobile-first experience** for identity verification, coupled with a powerful administration suite.
 
-### Key Highlights
+### 💎 Premium Features
 
-- **Multi-Tenant Architecture**: Separate flows for KYC, KYB, and Combined verification
-- **Super Admin Dashboard**: Comprehensive platform management and analytics
-- **Real-time Analytics**: Track verifications, revenue, and merchant performance
-- **API-First Design**: RESTful APIs with comprehensive documentation
-- **Secure & Compliant**: Built with security and regulatory compliance in mind
+- **Dynamic Mobile Flow**: Adaptive verification interface optimized for all devices.
+- **Biometric Ready**: Integrated selfie-capture with orientation sensing.
+- **RLS-Protected Infrastructure**: Multi-tenant data isolation via Supabase Row-Level Security.
+- **Vercel Native**: One-click deployment with integrated Analytics and performance tracking.
+- **Enterprise Dashboard**: Rich data visualizations using Recharts and smooth micro-animations.
+- **Advanced API**: Developer-centric integration with sandbox/production toggles.
 
 ---
 
@@ -34,12 +35,13 @@ PrivyID is a modern, privacy-focused KYC (Know Your Customer) and KYB (Know Your
 
 ### For Merchants
 
-- **Single & Batch Verification**: Process individual or bulk verification requests
-- **Real-time Dashboard**: Monitor verification status and analytics
-- **API Integration**: Easy-to-use REST APIs with SDKs
-- **Token Management**: Secure API token generation and management
-- **Webhook Support**: Real-time event notifications
-- **Comprehensive History**: Track all verification activities
+- **Mobile-First Verification**: Generatable links for customers to complete KYC on their mobile devices (Selfie + ID Upload).
+- **Single & Batch Verification**: Process individual or bulk verification requests.
+- **Real-time Dashboard**: Monitor verification status and analytics.
+- **API Integration**: Easy-to-use REST APIs with SDKs.
+- **Token Management**: Secure API token generation and management.
+- **Webhook Support**: Real-time event notifications.
+- **Comprehensive History**: Track all verification activities with deep filtering.
 
 ### For Super Admins
 
@@ -57,23 +59,20 @@ PrivyID is a modern, privacy-focused KYC (Know Your Customer) and KYB (Know Your
 
 ### Frontend
 
-- **React 18** - UI library
-- **React Router DOM** - Client-side routing
-- **Vite** - Build tool and dev server
+- **React 19** - UI library
+- **React Router DOM 7** - Client-side routing with Hash Router
+- **Vite 7** - Build tool and dev server
+- **Tailwind CSS 4** - Styling framework
 - **Recharts** - Data visualization
-- **CSS3** - Styling with custom design tokens
+- **Lucide React** - Icon library
+- **GSAP & Motion** - Animations
+- **CSS3** - Custom design tokens (`tokens.css`, `fonts.css`)
 
-### Development Tools
+### Backend & Services
 
-- **ESLint** - Code linting
-- **Vite HMR** - Hot module replacement
-- **Git** - Version control
-
-### APIs & Services
-
-- **RESTful APIs** - Backend communication
-- **Webhook System** - Event-driven notifications
-- **OAuth 2.0** - Authentication (planned)
+- **Supabase** - Backend-as-a-Service (Auth, Database, RLS)
+- **Vercel Analytics** - Usage and performance tracking
+- **RESTful APIs** - External integration support
 
 ---
 
@@ -412,24 +411,20 @@ npm run lint
 Create a `.env` file in the root directory:
 
 ```env
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_anon_key
 VITE_API_BASE_URL=https://api.privyid.com/v1
 VITE_SANDBOX_API_URL=https://sandbox-api.privyid.com/v1
 VITE_APP_ENV=production
 ```
 
-### Build & Deploy
+> [!IMPORTANT]
+> Ensure `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` are set for both local development and in your Vercel/Hosting provider settings.
 
-1. **Build the application**
+### Deployment Platforms
 
-   ```bash
-   npm run build
-   ```
-
-2. **Deploy the `dist` folder** to your hosting service:
-   - Vercel
-   - Netlify
-   - AWS S3 + CloudFront
-   - GitHub Pages
+- **Vercel**: Recommended for primary deployment. The UI is optimized for Vercel's root path.
+- **GitHub Pages**: Supported via `npm run deploy`. The application automatically handles the `/privyid/` base path prefix when hosted on GitHub.
 
 ### Recommended Hosting
 
