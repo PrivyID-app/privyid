@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import VerificationTable from "../../../shared/components/VerificationTable";
 import FilterDropdown from "../../../shared/components/FilterDropdown";
@@ -6,6 +7,7 @@ import { supabase } from "../../../shared/services/supabase";
 import { formatVerificationData } from "../../../shared/utils/dashboardUtils";
 
 const History = () => {
+  const { merchantId: urlId } = useParams();
   const [verifications, setVerifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
@@ -16,28 +18,22 @@ const History = () => {
   const [merchantId, setMerchantId] = useState(null);
 
   useEffect(() => {
-    const getMerchantId = async () => {
-      const { data: userData } = await supabase.auth.getUser();
-      if (userData?.user) {
-        setMerchantId(viewingAsMerchant || userData.user.id);
-      }
-    };
-    getMerchantId();
     fetchHistory();
-  }, [filter, viewingAsMerchant]);
+  }, [filter, viewingAsMerchant, urlId]);
 
   const fetchHistory = async () => {
     setLoading(true);
     try {
-      const { data: userData } = await supabase.auth.getUser();
-      if (!userData?.user) return;
+      const { data: sessionData } = await supabase.auth.getSession();
+      const mId = urlId || viewingAsMerchant || sessionData?.session?.user?.id;
+      if (!mId) return;
 
-      const merchantId = viewingAsMerchant || userData.user.id;
+      setMerchantId(mId);
 
       let query = supabase
         .from("verifications")
         .select("*")
-        .eq("merchant_id", merchantId)
+        .eq("merchant_id", mId)
         .order("created_at", { ascending: false });
 
       if (filter !== "all") {
@@ -47,6 +43,10 @@ const History = () => {
       const { data, error } = await query;
       if (error) throw error;
 
+      console.log(
+        `[History] Fetched ${data?.length || 0} records for merchant:`,
+        merchantId,
+      );
       setVerifications(formatVerificationData(data || []));
     } catch (error) {
       console.error("Error fetching history:", error);

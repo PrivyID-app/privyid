@@ -1,6 +1,7 @@
 import { Outlet, useParams } from "react-router-dom";
 import "../merchant-combined.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";
+import AdminIdentityBar from "../../../shared/components/AdminIdentityBar";
 
 const MerchantCombinedLayout = () => {
   const { merchantId } = useParams();
@@ -63,6 +64,7 @@ const MerchantCombinedLayout = () => {
 
   return (
     <section className="merchant_combined_layout">
+      <AdminIdentityBar />
       <Sidebar
         companyName="PrivyID"
         slogan="Combined Flow"

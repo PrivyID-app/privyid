@@ -13,16 +13,26 @@ const VerificationLinkSettings = () => {
     localStorage.getItem("admin_viewing_merchant_id"),
   );
 
-  const getMerchantId = async () => {
-    const { data: userData } = await supabase.auth.getUser();
-    return viewingAsMerchant || userData?.user?.id || "unknown";
-  };
+  const { merchantId: paramId } = useParams();
+  const [activeMerchantId, setActiveMerchantId] = useState(
+    paramId || "unknown",
+  );
 
-  const { merchantId } = useParams();
+  useEffect(() => {
+    const fetchId = async () => {
+      const { data: userData } = await supabase.auth.getSession();
+      const id = paramId || viewingAsMerchant || userData?.session?.user?.id;
+      if (id && id !== "unknown") {
+        setActiveMerchantId(id);
+      }
+    };
+    fetchId();
+  }, [viewingAsMerchant, paramId]);
+
   const origin = window.location.origin;
-  const base = import.meta.env.BASE_URL;
+  const base = import.meta.env.BASE_URL || "/";
   const cleanBase = base.endsWith("/") ? base : base + "/";
-  const url = `${origin}${cleanBase}#/mobile-verification?merchant_id=${merchantId}`;
+  const url = `${origin}${cleanBase}#/mobile-verification?merchant_id=${activeMerchantId}`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(url).then(() => {

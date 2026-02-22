@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "../../../shared/services/supabase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import CustomSelect from "../../../shared/components/CustomSelect";
 import VerificationTable from "../../../shared/components/VerificationTable";
@@ -30,6 +30,7 @@ import "../../../shared/styles/extra-pages.css";
 
 const DashboardOverview = () => {
   const navigate = useNavigate();
+  const { merchantId: urlMerchantId } = useParams();
   const [timeframe, setTimeframe] = useState("this_month");
   const [performanceQuarter, setPerformanceQuarter] = useState("this_year");
   const [loading, setLoading] = useState(true);
@@ -43,21 +44,24 @@ const DashboardOverview = () => {
     rejected: 0,
   });
 
-  const [viewingAsMerchant, setViewingAsMerchant] = useState(
+  const [viewingAsMerchant] = useState(
     localStorage.getItem("admin_viewing_merchant_id"),
   );
 
   useEffect(() => {
     fetchDashboardData();
-  }, []);
+  }, [viewingAsMerchant, urlMerchantId]);
 
   const fetchDashboardData = async () => {
     setLoading(true);
     try {
-      const { data: userData } = await supabase.auth.getUser();
-      if (!userData?.user) return;
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
 
-      const mId = viewingAsMerchant || userData.user.id;
+      const mId = urlMerchantId || viewingAsMerchant || session?.user?.id;
+      if (!mId) return;
+
       setMerchantId(mId);
 
       // 1. Fetch All Verifications for Stats and Chart (Combined)
@@ -70,6 +74,10 @@ const DashboardOverview = () => {
 
       setStats(calculateStats(vAll));
       setLineChartData(aggregateMonthlyData(vAll));
+      console.log(
+        `[Combined Dashboard] Fetched ${vAll?.length || 0} total records for merchant:`,
+        mId,
+      );
 
       // 2. Fetch Recent Verifications
       const { data: vRecent, error: vError } = await supabase

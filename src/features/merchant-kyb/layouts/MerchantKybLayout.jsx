@@ -1,6 +1,7 @@
 import { Outlet, useParams } from "react-router-dom";
 import "../merchant-kyb.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";
+import AdminIdentityBar from "../../../shared/components/AdminIdentityBar";
 
 const MerchantKybLayout = () => {
   const { merchantId } = useParams();
@@ -53,6 +54,7 @@ const MerchantKybLayout = () => {
 
   return (
     <section className="merchant_kyb_layout">
+      <AdminIdentityBar />
       <Sidebar
         companyName="PrivyID"
         slogan="Merchant KYB Flow"

@@ -233,19 +233,24 @@ const MobileVerificationPage = () => {
 
     try {
       const merchantId = merchantIdFromUrl || null;
+      console.log(
+        "[MobileVerification] Submitting with merchantId:",
+        merchantId,
+      );
+      if (!merchantId) {
+        console.warn(
+          "[MobileVerification] WARNING: No merchant_id found in URL!",
+        );
+      }
 
       // ── Insert verification record ────────────
-      // File uploads are skipped for the unauthenticated mobile flow —
-      // Supabase Storage RLS blocks anon inserts. File names and a
-      // selfie_captured flag are stored in metadata instead.
-      // TODO: wire up actual file storage once auth context is available.
       setProcessingStatus("Submitting verification…");
       const { error: dbError } = await supabase.from("verifications").insert([
         {
           merchant_id: merchantId,
           customer_name: `${form.firstName} ${form.lastName}`.trim(),
-          verification_type: form.verificationType,
-          type: "kyc",
+          verification_type: "kyc", // This allows it to show up in KYC filters
+          type: form.verificationType.toUpperCase(), // Document type (National ID, etc.)
           status: "pending",
           source: "mobile_link",
           metadata: {
@@ -257,6 +262,7 @@ const MobileVerificationPage = () => {
             selfie_captured: capturedDataUrl !== null,
             submitted_at: new Date().toISOString(),
             source: "mobile_link",
+            merchant_id: merchantId, // Extra safety in metadata
           },
         },
       ]);

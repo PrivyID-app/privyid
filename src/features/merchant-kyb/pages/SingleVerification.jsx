@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import VerticalStepIndicator from "../../../shared/components/VerticalStepIndicator";
 import "../../merchant-kyc/pages/SingleVerification.css";
@@ -17,6 +17,7 @@ import { VerificationService } from "../../../shared/services/verification.servi
 import { useGlobal } from "../../../app/GlobalContext";
 
 const SingleVerification = () => {
+  const { merchantId: urlId } = useParams();
   const { showToast } = useGlobal();
   const [currentStep, setCurrentStep] = useState(0);
   const [verifying, setVerifying] = useState(false);
@@ -34,13 +35,14 @@ const SingleVerification = () => {
 
   useEffect(() => {
     const getMerchantId = async () => {
-      const { data: userData } = await supabase.auth.getUser();
-      if (userData?.user) {
-        setMerchantId(viewingAsMerchant || userData.user.id);
+      const { data: sessionData } = await supabase.auth.getSession();
+      const mId = urlId || viewingAsMerchant || sessionData?.session?.user?.id;
+      if (mId) {
+        setMerchantId(mId);
       }
     };
     getMerchantId();
-  }, [viewingAsMerchant]);
+  }, [viewingAsMerchant, urlId]);
 
   const steps = [
     {
@@ -74,11 +76,9 @@ const SingleVerification = () => {
   const performVerification = async () => {
     setVerifying(true);
     try {
-      const { data: userData } = await supabase.auth.getUser();
-      if (!userData?.user) throw new Error("Not logged in");
-
-      const merchantId =
-        localStorage.getItem("admin_viewing_merchant_id") || userData.user.id;
+      const { data: sessionData } = await supabase.auth.getSession();
+      const mId = urlId || viewingAsMerchant || sessionData?.session?.user?.id;
+      if (!mId) throw new Error("Not logged in");
 
       const result = await VerificationService.processSingleVerification({
         merchant_id: merchantId,

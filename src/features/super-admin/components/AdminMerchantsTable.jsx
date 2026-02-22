@@ -120,12 +120,12 @@ const AdminMerchantsTable = ({ filter = "all" }) => {
     localStorage.setItem("admin_viewing_merchant_id", merchant.id);
 
     const serviceMap = {
-      kyc: "/merchant-kyc",
-      kyb: "/merchant-kyb",
-      combined: "/merchant-combined",
+      kyc: `/m/${merchant.id}/kyc`,
+      kyb: `/m/${merchant.id}/kyb`,
+      combined: `/m/${merchant.id}/combined`,
     };
 
-    navigate(serviceMap[merchant.serviceType] || "/merchant-combined");
+    navigate(serviceMap[merchant.serviceType] || `/m/${merchant.id}/combined`);
   };
 
   const totalPages = Math.ceil(merchants.length / itemsPerPage);

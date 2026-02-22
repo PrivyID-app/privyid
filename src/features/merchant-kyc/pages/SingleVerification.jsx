@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import VerticalStepIndicator from "../../../shared/components/VerticalStepIndicator";
 import "./SingleVerification.css";
@@ -15,6 +16,7 @@ import { VerificationService } from "../../../shared/services/verification.servi
 import { useGlobal } from "../../../app/GlobalContext";
 
 const SingleVerification = () => {
+  const { merchantId: urlId } = useParams();
   const { showToast } = useGlobal();
   const [currentStep, setCurrentStep] = useState(0);
   const [verifying, setVerifying] = useState(false);
@@ -32,13 +34,14 @@ const SingleVerification = () => {
 
   useEffect(() => {
     const getMerchantId = async () => {
-      const { data: userData } = await supabase.auth.getUser();
-      if (userData?.user) {
-        setMerchantId(viewingAsMerchant || userData.user.id);
+      const { data: sessionData } = await supabase.auth.getSession();
+      const mId = urlId || viewingAsMerchant || sessionData?.session?.user?.id;
+      if (mId) {
+        setMerchantId(mId);
       }
     };
     getMerchantId();
-  }, [viewingAsMerchant]);
+  }, [viewingAsMerchant, urlId]);
 
   const steps = [
     {

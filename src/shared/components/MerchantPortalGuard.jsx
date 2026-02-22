@@ -65,7 +65,8 @@ const MerchantPortalGuard = () => {
   }
 
   // Enforce that the merchantId in the URL matches the logged-in user
-  if (merchantId && merchantId !== session.user.id) {
+  // Skip this check for Super Admins
+  if (merchantId && merchantId !== session.user.id && !merchant?.is_admin) {
     // If they try to access another merchant's ID, redirect to their own portal
     return (
       <Navigate

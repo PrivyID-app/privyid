@@ -1,6 +1,7 @@
 import { Outlet, useParams } from "react-router-dom";
 import "../merchant-kyc.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";
+import AdminIdentityBar from "../../../shared/components/AdminIdentityBar";
 import UserProfile from "../pages/UserProfile";
 import Notifications from "../pages/Notifications";
 
@@ -55,6 +56,7 @@ const MerchantKycLayout = () => {
 
   return (
     <section className="merchant_kyc_layout">
+      <AdminIdentityBar />
       <Sidebar
         companyName="PrivyID"
         slogan="Merchant KYC Flow"

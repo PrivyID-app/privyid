@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { supabase } from "../../../shared/services/supabase";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import VerificationTable from "../../../shared/components/VerificationTable";
 import FilterDropdown from "../../../shared/components/FilterDropdown";
 
 const History = () => {
+  const { merchantId: urlId } = useParams();
   const [verifications, setVerifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
@@ -15,23 +17,17 @@ const History = () => {
   );
 
   useEffect(() => {
-    const getMerchantId = async () => {
-      const { data: userData } = await supabase.auth.getUser();
-      if (userData?.user) {
-        setMerchantId(viewingAsMerchant || userData.user.id);
-      }
-    };
-    getMerchantId();
     fetchHistory();
-  }, [filter, viewingAsMerchant]);
+  }, [filter, viewingAsMerchant, urlId]);
 
   const fetchHistory = async () => {
     setLoading(true);
     try {
-      const { data: userData } = await supabase.auth.getUser();
-      if (!userData?.user) return;
+      const { data: sessionData } = await supabase.auth.getSession();
+      const mId = urlId || viewingAsMerchant || sessionData?.session?.user?.id;
+      if (!mId) return;
 
-      const mId = viewingAsMerchant || userData.user.id;
+      setMerchantId(mId);
 
       let query = supabase
         .from("verifications")
@@ -46,6 +42,10 @@ const History = () => {
       const { data, error } = await query;
       if (error) throw error;
 
+      console.log(
+        `[Combined History] Fetched ${data?.length || 0} records for merchant:`,
+        mId,
+      );
       const { formatVerificationData } =
         await import("../../../shared/utils/dashboardUtils");
       setVerifications(formatVerificationData(data || []));

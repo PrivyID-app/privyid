@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import VerificationTable from "../../../shared/components/VerificationTable";
 import FileDropzone from "../../../shared/components/FileDropzone";
@@ -8,6 +8,7 @@ import { supabase } from "../../../shared/services/supabase";
 import { useGlobal } from "../../../app/GlobalContext";
 
 const BatchVerification = () => {
+  const { merchantId: urlId } = useParams();
   const { showToast } = useGlobal();
   const [verifications, setVerifications] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,28 +22,22 @@ const BatchVerification = () => {
   );
 
   useEffect(() => {
-    const getMerchantId = async () => {
-      const { data: userData } = await supabase.auth.getUser();
-      if (userData?.user) {
-        setMerchantId(viewingAsMerchant || userData.user.id);
-      }
-    };
-    getMerchantId();
     fetchVerifications();
-  }, [statusFilter, viewingAsMerchant]);
+  }, [statusFilter, viewingAsMerchant, urlId]);
 
   const fetchVerifications = async () => {
     setLoading(true);
     try {
-      const { data: userData } = await supabase.auth.getUser();
-      if (!userData?.user) throw new Error("Not logged in");
+      const { data: sessionData } = await supabase.auth.getSession();
+      const mId = urlId || viewingAsMerchant || sessionData?.session?.user?.id;
+      if (!mId) throw new Error("Not logged in");
 
-      const merchantId = viewingAsMerchant || userData.user.id;
+      setMerchantId(mId);
 
       let query = supabase
         .from("verifications")
         .select("*")
-        .eq("merchant_id", merchantId)
+        .eq("merchant_id", mId)
         .order("created_at", { ascending: false });
 
       if (statusFilter !== "all") {
@@ -81,10 +76,9 @@ const BatchVerification = () => {
     showToast(`Uploading ${file.name}...`, "info");
 
     try {
-      const { data: userData } = await supabase.auth.getUser();
-      if (!userData?.user) throw new Error("Not logged in");
-
-      const merchantId = viewingAsMerchant || userData.user.id;
+      const { data: sessionData } = await supabase.auth.getSession();
+      const mId = urlId || viewingAsMerchant || sessionData?.session?.user?.id;
+      if (!mId) throw new Error("Not logged in");
 
       const { data: batch, error: batchError } = await supabase
         .from("batches")

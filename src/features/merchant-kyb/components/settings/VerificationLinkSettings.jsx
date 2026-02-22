@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+import { useParams } from "react-router-dom";
+import { supabase } from "../../../../shared/services/supabase";
 import "../../pages/SettingsPage.css";
 import Toast from "../../../../shared/components/Toast";
 
@@ -7,11 +8,29 @@ const VerificationLinkSettings = () => {
   const [uploadedFileName, setUploadedFileName] = useState("");
   const [toast, setToast] = useState(null);
   const fileInputRef = useRef(null);
-  const { merchantId } = useParams();
+
+  const [viewingAsMerchant] = React.useState(
+    localStorage.getItem("admin_viewing_merchant_id"),
+  );
+
+  const { merchantId: paramId } = useParams();
+  const [activeMerchantId, setActiveMerchantId] = React.useState(
+    paramId || "unknown",
+  );
+
+  React.useEffect(() => {
+    const fetchId = async () => {
+      const { data: userData } = await supabase.auth.getSession();
+      const id = paramId || viewingAsMerchant || userData?.session?.user?.id;
+      if (id) setActiveMerchantId(id);
+    };
+    fetchId();
+  }, [viewingAsMerchant, paramId]);
+
   const origin = window.location.origin;
-  const base = import.meta.env.BASE_URL;
+  const base = import.meta.env.BASE_URL || "/";
   const cleanBase = base.endsWith("/") ? base : base + "/";
-  const url = `${origin}${cleanBase}#/mobile-verification?merchant_id=${merchantId}`;
+  const url = `${origin}${cleanBase}#/mobile-verification?merchant_id=${activeMerchantId}`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(url).then(() => {
