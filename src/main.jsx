@@ -9,6 +9,7 @@ import "./styles/tailwind.css";
 
 import App from "./app/App.jsx";
 import { AppProvider } from "./context/AppContext";
+import { Analytics } from "@vercel/analytics/react";
 
 console.log("BOOT: Imports completed, attempting render...");
 
@@ -20,6 +21,7 @@ if (rootElement) {
       <StrictMode>
         <AppProvider>
           <App />
+          <Analytics />
         </AppProvider>
       </StrictMode>,
     );
