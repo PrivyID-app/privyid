@@ -9,8 +9,10 @@ const VerificationLinkSettings = () => {
   const [toast, setToast] = useState(null);
   const fileInputRef = useRef(null);
   const { merchantId } = useParams();
-  const baseUrl = `${window.location.protocol}//${window.location.host}${import.meta.env.BASE_URL}`;
-  const url = `${baseUrl}#/mobile-verification?merchant_id=${merchantId}`;
+  const origin = window.location.origin;
+  const base = import.meta.env.BASE_URL;
+  const cleanBase = base.endsWith("/") ? base : base + "/";
+  const url = `${origin}${cleanBase}#/mobile-verification?merchant_id=${merchantId}`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(url).then(() => {

@@ -5,10 +5,10 @@ const supabaseUrl =
 const supabaseAnonKey =
   import.meta.env.VITE_SUPABASE_ANON_KEY || "placeholder-anon-key";
 
-if (
-  !import.meta.env.VITE_SUPABASE_URL ||
-  !import.meta.env.VITE_SUPABASE_ANON_KEY
-) {
+const isMissingCreds =
+  !import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+if (isMissingCreds) {
   console.warn(
     "⚠️ Supabase credentials missing! Create a .env file with:\n" +
       "VITE_SUPABASE_URL=your_supabase_url\n" +
@@ -16,4 +16,24 @@ if (
   );
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Create client but handle errors gracefully
+let supabaseClient;
+try {
+  supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
+} catch (err) {
+  console.error("Failed to initialize Supabase client:", err);
+  // Fallback to a proxy that logs errors instead of crashing
+  supabaseClient = new Proxy(
+    {},
+    {
+      get: (target, prop) => {
+        return () => {
+          console.error(`Supabase not initialized. Cannot call: ${prop}`);
+          return { data: null, error: new Error("Supabase not initialized") };
+        };
+      },
+    },
+  );
+}
+
+export const supabase = supabaseClient;
