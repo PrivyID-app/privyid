@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import SpecialButton from "./SpecialButton";
 import SecondaryButton from "./SecondaryButton";
 import "./cta-section.css";
@@ -17,6 +18,9 @@ const CtaSection = ({
   showSecondaryButton = true,
   showImage = true,
 }) => {
+  const isExternal = (url) =>
+    url.startsWith("http") || url.startsWith("mailto:");
+
   return (
     <section className="lp-cta-section">
       <div className="lp-container">
@@ -28,8 +32,11 @@ const CtaSection = ({
               <div className="lp-cta-buttons">
                 {showPrimaryButton && (
                   <SpecialButton
-                    as="a"
-                    href={primaryButtonTo}
+                    as={isExternal(primaryButtonTo) ? "a" : Link}
+                    {...{
+                      [isExternal(primaryButtonTo) ? "href" : "to"]:
+                        primaryButtonTo,
+                    }}
                     icon={primaryButtonIcon}
                   >
                     {primaryButtonText}
@@ -37,7 +44,13 @@ const CtaSection = ({
                 )}
 
                 {showSecondaryButton && (
-                  <SecondaryButton as="a" href={secondaryButtonTo}>
+                  <SecondaryButton
+                    as={isExternal(secondaryButtonTo) ? "a" : Link}
+                    {...{
+                      [isExternal(secondaryButtonTo) ? "href" : "to"]:
+                        secondaryButtonTo,
+                    }}
+                  >
                     {secondaryButtonText}
                     <span className="material-symbols-outlined">
                       arrow_forward_ios
