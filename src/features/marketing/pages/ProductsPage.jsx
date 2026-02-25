@@ -124,6 +124,7 @@ const ProductsPage = () => {
           title="Ready to secure your platform?"
           subtitle="Join hundreds of companies trusting PrivyID for their identity needs."
           primaryButtonText="Sign Up Now"
+          showSecondaryButton={false}
           showImage={false}
         />
       </main>

@@ -13,6 +13,8 @@ const CtaSection = ({
   primaryButtonIcon = "vpn_key",
   secondaryButtonText = "View documentation",
   secondaryButtonTo = "/documentation",
+  showPrimaryButton = true,
+  showSecondaryButton = true,
   showImage = true,
 }) => {
   return (
@@ -22,22 +24,28 @@ const CtaSection = ({
           <div className="lp-cta-header">
             <p className="lp-cta-title">{title}</p>
             <p className="lp-cta-subtitle">{subtitle}</p>
-            <div className="lp-cta-buttons">
-              <SpecialButton
-                as="a"
-                href={primaryButtonTo}
-                icon={primaryButtonIcon}
-              >
-                {primaryButtonText}
-              </SpecialButton>
+            {(showPrimaryButton || showSecondaryButton) && (
+              <div className="lp-cta-buttons">
+                {showPrimaryButton && (
+                  <SpecialButton
+                    as="a"
+                    href={primaryButtonTo}
+                    icon={primaryButtonIcon}
+                  >
+                    {primaryButtonText}
+                  </SpecialButton>
+                )}
 
-              <SecondaryButton as="a" href={secondaryButtonTo}>
-                {secondaryButtonText}
-                <span className="material-symbols-outlined">
-                  arrow_forward_ios
-                </span>
-              </SecondaryButton>
-            </div>
+                {showSecondaryButton && (
+                  <SecondaryButton as="a" href={secondaryButtonTo}>
+                    {secondaryButtonText}
+                    <span className="material-symbols-outlined">
+                      arrow_forward_ios
+                    </span>
+                  </SecondaryButton>
+                )}
+              </div>
+            )}
           </div>
           {showImage && (
             <div className="lp-cta-image">

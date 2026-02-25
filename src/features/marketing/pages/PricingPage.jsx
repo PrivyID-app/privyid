@@ -278,6 +278,15 @@ const PricingPage = () => {
             </div>
           </div>
         </section>
+
+        <CtaSection
+          title="Looking for a custom plan?"
+          subtitle="Our team is ready to help you find the right solution for your business."
+          primaryButtonText="Contact Sales"
+          primaryButtonTo="mailto:sales@privyid.com"
+          primaryButtonIcon="mail"
+          showSecondaryButton={false}
+        />
       </main>
       <Footer />
     </div>
