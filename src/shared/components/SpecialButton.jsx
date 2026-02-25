@@ -18,7 +18,7 @@ const SpecialButton = ({
       onClick={onClick}
       {...props}
     >
-      {children}
+      <span className="btn_text">{children}</span>
       {icon &&
         (typeof icon === "string" ? (
           <span className="material-symbols-outlined">{icon}</span>
