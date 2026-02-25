@@ -1,5 +1,6 @@
 .special_button {
   display: inline-flex;
+  column-gap: 0.5rem;
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-10, 0.625rem);
@@ -47,6 +48,7 @@
   background: var(--bg-white-0, #ffffff);
   color: var(--text-strong-950, #0e121b);
   border: 1px solid #cacfd8;
+  padding: 0 1.5rem;
   box-shadow: 0 1px 2px 0 rgba(10, 13, 20, 0.03);
 }
 

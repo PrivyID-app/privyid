@@ -380,7 +380,7 @@
 .lp-tab-content {
   width: 100%;
   border-radius: 0 0 1rem 1rem;
-  background-image: url("../../../../legacy/images/ver-code-img.svg");
+  background-image: url("../../../public/legacy/images/ver-code-img.svg");
   background-position: top center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -707,7 +707,7 @@
   min-width: 18rem;
   width: 18rem;
   border-radius: 1rem;
-  background-image: url("../../../../legacy/images/Image.png");
+  background-image: url("../../../public/legacy/images/Image.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -1143,6 +1143,11 @@
     padding: 2.5rem 1.5rem;
     border-radius: 1.25rem;
   }
+  .lp-cta-buttons{
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1156,11 +1161,15 @@
   }
   .lp-cta-buttons {
     flex-direction: column;
+    row-gap: 1rem;
     width: 100%;
   }
   .lp-cta-buttons > * {
     width: 100%;
     justify-content: center;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;  
   }
   .lp-tabs-cards {
     overflow-x: auto;

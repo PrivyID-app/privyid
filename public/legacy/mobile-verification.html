@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrivyID - Mobile Verification</title>
+    <link rel="icon" type="image/svg+xml" href="./images/Logo Icon black.svg">
+    <meta name="description" content="PrivyID mobile identity verification flow.">
+    <link rel="stylesheet" href="mobile-verification.css">
+</head>
+
+<body>
+
+    <!-- Desktop wrapper: centers the mobile frame -->
+    <div class="mvf_outer">
+        <div class="mvf_device">
+
+            <!-- Step Progress Bar -->
+            <div class="mvf_progress_bar">
+                <div class="mvf_progress_fill" id="mvf_progress_fill"></div>
+            </div>
+
+            <!-- Steps Container -->
+            <div class="mvf_steps_container">
+
+                <!-- ======================== -->
+                <!-- STEP 1: ENTER DETAILS    -->
+                <!-- ======================== -->
+                <div class="mvf_step active" id="step_1">
+                    <div class="mvf_header">
+                        <div class="mvf_logo">
+                            <img src="./images/Logo black.svg" alt="PrivyID logo" />
+                        </div>
+                        <div class="mvf_step_label">Step 1 of 4</div>
+                    </div>
+
+                    <div class="mvf_body">
+                        <h2 class="mvf_title">Enter Your Details</h2>
+                        <p class="mvf_subtitle">Please provide your information to begin verification.</p>
+
+                        <div class="mvf_alert mvf_alert_error" id="step1_error">
+                            <span class="mvf_alert_icon">&#9888;</span>
+                            Please fill all required fields correctly.
+                        </div>
+
+                        <div class="mvf_form_group">
+                            <label class="mvf_label" for="first_name">First Name <span
+                                    class="mvf_required">*</span></label>
+                            <input class="mvf_input" id="first_name" type="text" placeholder="e.g. John" />
+                        </div>
+
+                        <div class="mvf_form_group">
+                            <label class="mvf_label" for="last_name">Last Name <span
+                                    class="mvf_required">*</span></label>
+                            <input class="mvf_input" id="last_name" type="text" placeholder="e.g. Doe" />
+                        </div>
+
+                        <div class="mvf_form_group">
+                            <label class="mvf_label" for="verification_type">Verification Type <span
+                                    class="mvf_required">*</span></label>
+                            <select class="mvf_select" id="verification_type">
+                                <option value="">Select Verification Type</option>
+                                <option value="national_id">National ID</option>
+                                <option value="passport">Passport</option>
+                                <option value="drivers_license">Driver's License</option>
+                            </select>
+                        </div>
+
+                        <div class="mvf_form_group">
+                            <label class="mvf_label" for="id_number">ID Number <span
+                                    class="mvf_required">*</span></label>
+                            <input class="mvf_input" id="id_number" type="text" placeholder="e.g. AYHUIN3779NBK" />
+                        </div>
+                    </div>
+
+                    <div class="mvf_actions">
+                        <button class="secondary_button" onclick="cancelFlow()">Cancel</button>
+                        <button class="primary_button" onclick="goToStep(2)">Next &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- ======================== -->
+                <!-- STEP 2: UPLOAD DOCUMENTS -->
+                <!-- ======================== -->
+                <div class="mvf_step" id="step_2">
+                    <div class="mvf_header">
+                        <div class="mvf_logo">
+                            <img src="./images/Logo black.svg" alt="PrivyID logo" />
+                        </div>
+                        <div class="mvf_step_label">Step 2 of 4</div>
+                    </div>
+
+                    <div class="mvf_body">
+                        <h2 class="mvf_title">Upload Documents</h2>
+                        <p class="mvf_subtitle">Upload clear photos of your ID document.</p>
+
+                        <div class="mvf_alert mvf_alert_error" id="step2_error">
+                            <span class="mvf_alert_icon">&#9888;</span>
+                            Please upload both document pages before proceeding.
+                        </div>
+
+                        <div class="mvf_form_group">
+                            <label class="mvf_label">Front Page <span class="mvf_required">*</span></label>
+                            <div class="mvf_upload_box" id="upload_front_box" onclick="triggerUpload('upload_front')">
+                                <input type="file" id="upload_front" accept="image/*" hidden
+                                    onchange="handleFileUpload(this, 'upload_front_box', 'upload_front_name')" />
+                                <span class="material-symbols-outlined mvf_upload_icon">upload_file</span>
+                                <div class="mvf_upload_text">
+                                    <span class="mvf_upload_link">Click to Upload</span>
+                                    <span class="mvf_upload_hint">JPG, PNG &bull; Max 5MB</span>
+                                </div>
+                                <span class="mvf_file_name" id="upload_front_name"></span>
+                            </div>
+                        </div>
+
+                        <div class="mvf_form_group">
+                            <label class="mvf_label">Back Page <span class="mvf_required">*</span></label>
+                            <div class="mvf_upload_box" id="upload_back_box" onclick="triggerUpload('upload_back')">
+                                <input type="file" id="upload_back" accept="image/*" hidden
+                                    onchange="handleFileUpload(this, 'upload_back_box', 'upload_back_name')" />
+                                <span class="material-symbols-outlined mvf_upload_icon">upload_file</span>
+                                <div class="mvf_upload_text">
+                                    <span class="mvf_upload_link">Click to Upload</span>
+                                    <span class="mvf_upload_hint">JPG, PNG &bull; Max 5MB</span>
+                                </div>
+                                <span class="mvf_file_name" id="upload_back_name"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mvf_actions">
+                        <button class="secondary_button" onclick="goToStep(1)">&larr; Back</button>
+                        <button class="primary_button" onclick="validateStep2()">Next &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- ========================== -->
+                <!-- STEP 3: SELFIE INSTRUCTIONS-->
+                <!-- ========================== -->
+                <div class="mvf_step" id="step_3">
+                    <div class="mvf_header">
+                        <div class="mvf_logo">
+                            <img src="./images/Logo black.svg" alt="PrivyID logo" />
+                        </div>
+                        <div class="mvf_step_label">Step 3 of 4</div>
+                    </div>
+
+                    <div class="mvf_body">
+                        <h2 class="mvf_title">Selfie Verification</h2>
+                        <p class="mvf_subtitle">Before you take a selfie, please read the instructions below:</p>
+
+                        <div class="mvf_instructions_list">
+                            <div class="mvf_instruction_item">
+                                <div class="mvf_instruction_icon">&#128064;</div>
+                                <p>Look straight at the camera</p>
+                            </div>
+                            <div class="mvf_instruction_item">
+                                <div class="mvf_instruction_icon">&#9728;</div>
+                                <p>Make sure you're in a well-lit area</p>
+                            </div>
+                            <div class="mvf_instruction_item">
+                                <div class="mvf_instruction_icon">&#128082;</div>
+                                <p>Remove hats, glasses, and face coverings</p>
+                            </div>
+                            <div class="mvf_instruction_item">
+                                <div class="mvf_instruction_icon">&#128247;</div>
+                                <p>Keep your face fully within the frame</p>
+                            </div>
+                            <div class="mvf_instruction_item">
+                                <div class="mvf_instruction_icon">&#128683;</div>
+                                <p>Avoid blur or sudden movement</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mvf_actions">
+                        <button class="secondary_button" onclick="goToStep(2)">&larr; Back</button>
+                        <button class="primary_button" onclick="goToStep(4, true)">Open Camera &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- ======================== -->
+                <!-- STEP 4: SELFIE CAPTURE   -->
+                <!-- ======================== -->
+                <div class="mvf_step" id="step_4">
+                    <div class="mvf_header">
+                        <div class="mvf_logo">
+                            <img src="./images/Logo black.svg" alt="PrivyID logo" />
+                        </div>
+                        <div class="mvf_step_label">Step 4 of 4</div>
+                    </div>
+
+                    <div class="mvf_body mvf_body_camera">
+                        <h2 class="mvf_title mvf_title_center">Position your face in the frame</h2>
+
+                        <!-- Live camera feed -->
+                        <div class="mvf_camera_wrapper">
+                            <video id="mvf_camera_video" autoplay playsinline muted></video>
+                            <canvas id="mvf_camera_canvas" hidden></canvas>
+                            <div class="mvf_camera_overlay">
+                                <div class="mvf_camera_oval"></div>
+                            </div>
+                            <!-- Captured preview (hidden initially) -->
+                            <img id="mvf_captured_preview" class="mvf_captured_img" src="" alt="Captured selfie"
+                                hidden />
+                        </div>
+
+                        <div class="mvf_alert mvf_alert_success" id="selfie_success_alert">
+                            &#10003; Selfie captured successfully!
+                        </div>
+                        <div class="mvf_alert mvf_alert_error" id="selfie_error_alert">
+                            &#9888; Camera access denied. Please allow camera permission and try again.
+                        </div>
+                    </div>
+
+                    <div class="mvf_actions mvf_actions_camera">
+                        <button class="secondary_button" id="btn_retake" onclick="retakeSelfie()" hidden>&larr;
+                            Retake</button>
+                        <button class="primary_button" id="btn_capture" onclick="captureSelfie()">&#9679;
+                            Capture</button>
+                        <button class="primary_button" id="btn_submit" onclick="submitVerification()" hidden>Submit
+                            &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- ========================== -->
+                <!-- STEP 5: SUCCESS / FAILED   -->
+                <!-- ========================== -->
+                <div class="mvf_step" id="step_success">
+                    <div class="mvf_header">
+                        <div class="mvf_logo">
+                            <img src="./images/Logo black.svg" alt="PrivyID logo" />
+                        </div>
+                    </div>
+
+                    <div class="mvf_body mvf_body_result">
+                        <div class="mvf_result_icon mvf_result_success" id="result_icon">
+                            <span>&#10003;</span>
+                        </div>
+                        <h2 class="mvf_result_title" id="result_title">Verification Successful</h2>
+                        <p class="mvf_result_msg" id="result_msg">Your identity has been verified. You may now close
+                            this window.</p>
+                    </div>
+
+                    <div class="mvf_actions">
+                        <button class="primary_button mvf_btn_full" onclick="window.close()">Close</button>
+                    </div>
+                </div>
+
+            </div><!-- /mvf_steps_container -->
+        </div><!-- /mvf_device -->
+    </div><!-- /mvf_outer -->
+
+    <!-- Google Material Symbols (for upload icon) -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+    <script src="mobile-verification.js"></script>
+</body>
+
+</html>

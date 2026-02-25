@@ -6,7 +6,7 @@ import SpecialButton from "../../../shared/components/SpecialButton";
 import SecondaryButton from "../../../shared/components/SecondaryButton";
 import "../../../app/pages/LandingPage.css";
 
-const LEGACY = "../../../legacy/images/";
+const LEGACY = `${import.meta.env.BASE_URL}legacy/images/`;
 
 const ProductsPage = () => {
   return (

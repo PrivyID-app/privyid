@@ -11,7 +11,8 @@ import logoDark from "../../../../assets/images/Logo dark.svg";
 import Footer from "../../../../shared/components/Footer";
 
 // Legacy images — referenced via relative path from /legacy/images/
-const LEGACY = "../../../../legacy/images/";
+// Legacy images — referenced via public/legacy/ images/
+const LEGACY = `${import.meta.env.BASE_URL}legacy/images/`;
 
 // Trusted-by logos — doubled for seamless marquee loop
 const BRAND_LOGOS = [
@@ -683,6 +684,7 @@ export default function PrivyIdHomepage() {
                   >
                     Generate API Keys
                   </SpecialButton>
+                  
                   <SecondaryButton as={Link as any} to="/documentation">
                     View documentation
                     <span className="material-symbols-outlined">
