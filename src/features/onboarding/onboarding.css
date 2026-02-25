@@ -956,7 +956,7 @@ body {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 0 2rem;
+  
 }
 
 .card_icon {
@@ -1028,7 +1028,7 @@ body {
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
-  padding: 0 4rem;
+  
 }
 
 .ul_list_item {

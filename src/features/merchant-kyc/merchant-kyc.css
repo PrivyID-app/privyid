@@ -178,8 +178,15 @@
   color: var(--text-white-0);
 }
 
-.merchant_kyc_layout .active_tab .tab-link .icon_title span.material-symbols-outlined,
-.merchant_kyc_layout .active_tab .tab-link span.material-symbols-outlined.arrow_icon {
+.merchant_kyc_layout
+  .active_tab
+  .tab-link
+  .icon_title
+  span.material-symbols-outlined,
+.merchant_kyc_layout
+  .active_tab
+  .tab-link
+  span.material-symbols-outlined.arrow_icon {
   color: var(--text-white-0);
 }
 
@@ -253,10 +260,15 @@
 }
 
 .merchant_kyc_layout .avatar {
+  width: 3rem;
+  height: 3rem;
   min-width: 3rem;
   min-height: 3rem;
+  max-width: 3rem;
+  max-height: 3rem;
   border-radius: 50%;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .merchant_kyc_layout .avatar img {

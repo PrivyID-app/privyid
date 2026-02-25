@@ -238,10 +238,15 @@
 }
 
 .super_admin_layout .avatar {
+  width: 3rem;
+  height: 3rem;
   min-width: 3rem;
   min-height: 3rem;
+  max-width: 3rem;
+  max-height: 3rem;
   border-radius: 50%;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .super_admin_layout .avatar img {
