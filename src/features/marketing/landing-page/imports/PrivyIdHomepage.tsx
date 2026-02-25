@@ -9,6 +9,7 @@ import "../../../../app/pages/LandingPage.css";
 // Assets (from src/assets/images)
 import logoDark from "../../../../assets/images/Logo dark.svg";
 import Footer from "../../../../shared/components/Footer";
+import CtaSection from "../../../../shared/components/CtaSection";
 
 // Legacy images — referenced via relative path from /legacy/images/
 // Legacy images — referenced via public/legacy/ images/
@@ -668,37 +669,7 @@ export default function PrivyIdHomepage() {
         </div>
 
         {/* ======== CTA ======== */}
-        <section className="lp-cta-section">
-          <div className="lp-container">
-            <div className="lp-cta-box">
-              <div className="lp-cta-header">
-                <p className="lp-cta-title">Ready to integrate?</p>
-                <p className="lp-cta-subtitle">
-                  Sign up for a free account and start verifying users today.
-                </p>
-                <div className="lp-cta-buttons">
-                  <SpecialButton
-                    as={Link as any}
-                    to="/onboarding?mode=signup"
-                    icon="vpn_key"
-                  >
-                    Generate API Keys
-                  </SpecialButton>
-                  
-                  <SecondaryButton as={Link as any} to="/documentation">
-                    View documentation
-                    <span className="material-symbols-outlined">
-                      arrow_forward_ios
-                    </span>
-                  </SecondaryButton>
-                </div>
-              </div>
-              <div className="lp-cta-image">
-                <img src={`${LEGACY}cta-image.svg`} alt="" aria-hidden="true" />
-              </div>
-            </div>
-          </div>
-        </section>
+        <CtaSection />
       </main>
 
       <Footer />

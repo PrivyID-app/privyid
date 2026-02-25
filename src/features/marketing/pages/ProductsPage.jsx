@@ -4,6 +4,7 @@ import WebNav from "../../../shared/components/WebNav";
 import Footer from "../../../shared/components/Footer";
 import SpecialButton from "../../../shared/components/SpecialButton";
 import SecondaryButton from "../../../shared/components/SecondaryButton";
+import CtaSection from "../../../shared/components/CtaSection";
 import "../../../app/pages/LandingPage.css";
 
 const LEGACY = `${import.meta.env.BASE_URL}legacy/images/`;
@@ -119,24 +120,12 @@ const ProductsPage = () => {
           </div>
         </section>
 
-        <section className="lp-cta-section">
-          <div className="lp-container">
-            <div className="lp-cta-box">
-              <div className="lp-cta-header">
-                <p className="lp-cta-title">Ready to secure your platform?</p>
-                <p className="lp-cta-subtitle">
-                  Join hundreds of companies trusting PrivyID for their identity
-                  needs.
-                </p>
-                <div className="lp-cta-buttons">
-                  <SpecialButton as={Link} to="/onboarding?mode=signup">
-                    Sign Up Now
-                  </SpecialButton>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <CtaSection
+          title="Ready to secure your platform?"
+          subtitle="Join hundreds of companies trusting PrivyID for their identity needs."
+          primaryButtonText="Sign Up Now"
+          showImage={false}
+        />
       </main>
       <Footer />
     </div>
