@@ -1,0 +1,6 @@
+﻿C:\Users\USER\Downloads\PrivyID\app-privyid\src\features\marketing\landing-page\app\components\ui\carousel.tsx
+C:\Users\USER\Downloads\PrivyID\app-privyid\src\features\marketing\landing-page\app\components\ui\sidebar.tsx
+C:\Users\USER\Downloads\PrivyID\app-privyid\src\features\marketing\landing-page\app\components\ui\use-mobile.ts
+C:\Users\USER\Downloads\PrivyID\app-privyid\src\features\merchant-kyb\components\settings\VerificationLinkSettings.jsx
+C:\Users\USER\Downloads\PrivyID\app-privyid\src\features\merchant-kyb\pages\SingleVerification.jsx
+C:\Users\USER\Downloads\PrivyID\app-privyid\src\shared\components\NotificationDetail.jsx

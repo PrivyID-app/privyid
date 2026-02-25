@@ -1,3 +1,4 @@
+import React from "react";
 import { Outlet, useParams } from "react-router-dom";
 import "../merchant-kyc.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";

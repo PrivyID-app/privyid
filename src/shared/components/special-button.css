@@ -1,8 +1,5 @@
 .special_button {
-  width: fit-content;
-  display: flex;
-  flex-direction: row;
-  column-gap: 1rem;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-10, 0.625rem);
@@ -21,8 +18,9 @@
     0 0 0 1px #242628;
   color: var(--text-white-0);
   font-size: 1rem;
-  font-weight: 400;
-  padding: 1rem 1.5rem;
+  line-height: 1;
+  height: 3.25rem;
+  padding: 0 1.5rem;
   cursor: pointer;
   transition:
     transform 0.2s ease,

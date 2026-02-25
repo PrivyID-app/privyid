@@ -1,3 +1,4 @@
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { supabase } from "../../../../shared/services/supabase";
 import "../../pages/SettingsPage.css";
@@ -9,16 +10,16 @@ const VerificationLinkSettings = () => {
   const [toast, setToast] = useState(null);
   const fileInputRef = useRef(null);
 
-  const [viewingAsMerchant] = React.useState(
+  const [viewingAsMerchant] = useState(
     localStorage.getItem("admin_viewing_merchant_id"),
   );
 
   const { merchantId: paramId } = useParams();
-  const [activeMerchantId, setActiveMerchantId] = React.useState(
+  const [activeMerchantId, setActiveMerchantId] = useState(
     paramId || "unknown",
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchId = async () => {
       const { data: userData } = await supabase.auth.getSession();
       const id = paramId || viewingAsMerchant || userData?.session?.user?.id;
