@@ -1,0 +1,24 @@
+:root {
+    --marketing-blue: #2563eb;
+    --text-dark: #1e293b;
+}
+
+body.marketing_flow { margin: 0; font-family: 'Inter', sans-serif; color: var(--text-dark); }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+.marketing_header { height: 80px; display: flex; align-items: center; border-bottom: 1px solid #eee; }
+
+.marketing_header nav { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+
+.btn_primary { background: var(--marketing-blue); color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; }
+
+.hero { padding: 100px 0; text-align: center; background: #f8fafc; }
+
+.hero h1 { font-size: 3rem; margin-bottom: 20px; }
+
+.btn_hero { background: var(--marketing-blue); color: white; padding: 15px 30px; border-radius: 8px; font-size: 1.2rem; text-decoration: none; }
+
+.feature_grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 50px; }
+
+.feature_item { padding: 30px; border: 1px solid #eee; border-radius: 10px; }

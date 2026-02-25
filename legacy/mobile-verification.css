@@ -1,0 +1,624 @@
+@import url("fonts.css");
+@import url("tokens.css");
+
+/* =========================================
+   RESET & BASE
+   ========================================= */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  caret-color: transparent;
+}
+
+input,
+textarea,
+select,
+[contenteditable="true"] {
+  caret-color: auto;
+}
+
+body {
+  font-family:
+    "MADE TOMMY",
+    system-ui,
+    -apple-system,
+    sans-serif;
+  background-color: #f0f2f5;
+  color: var(--text-strong-950, #0e121b);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================================
+   OUTER WRAPPER - centers the phone "device"
+   ========================================= */
+.mvf_outer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+/* =========================================
+   DEVICE FRAME - the mobile phone shape
+   ========================================= */
+.mvf_device {
+  width: 390px;
+  min-height: 780px;
+  max-height: 90vh;
+  background: #ffffff;
+  border-radius: 40px;
+  box-shadow:
+    0 0 0 10px #1a1d2e,
+    0 0 0 12px #2d3151,
+    0 30px 80px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Notch simulation */
+.mvf_device::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 28px;
+  background: #1a1d2e;
+  border-radius: 0 0 18px 18px;
+  z-index: 100;
+}
+
+/* =========================================
+   PROGRESS BAR
+   ========================================= */
+.mvf_progress_bar {
+  height: 4px;
+  background: #e8eaf0;
+  width: 100%;
+  margin-top: 28px; /* clears the notch */
+  flex-shrink: 0;
+}
+
+.mvf_progress_fill {
+  height: 100%;
+  background: linear-gradient(90deg, #171b34, #4a4f7a);
+  border-radius: 0 2px 2px 0;
+  width: 25%;
+  transition: width 0.4s ease;
+}
+
+/* =========================================
+   STEPS CONTAINER
+   ========================================= */
+.mvf_steps_container {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+/* =========================================
+   INDIVIDUAL STEP
+   ========================================= */
+.mvf_step {
+  display: none;
+  flex-direction: column;
+  height: 100%;
+  padding: 0 0 1rem 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+}
+
+.mvf_step::-webkit-scrollbar {
+  display: none;
+}
+
+.mvf_step.active {
+  display: flex;
+}
+
+/* =========================================
+   STEP HEADER (logo + step label)
+   ========================================= */
+.mvf_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.5rem 0.5rem;
+  flex-shrink: 0;
+}
+
+.mvf_logo img {
+  height: 36px;
+  display: block;
+}
+
+.mvf_step_label {
+  font-size: 0.72rem;
+  font-weight: 300;
+  color: var(--text-soft-400, #717784);
+  background: #f0f2f5;
+  padding: 4px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.02em;
+}
+
+/* =========================================
+   STEP BODY
+   ========================================= */
+.mvf_body {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.mvf_body_camera {
+  gap: 1rem;
+  align-items: center;
+}
+
+.mvf_body_result {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 1.5rem;
+}
+
+/* =========================================
+   TYPOGRAPHY
+   ========================================= */
+.mvf_title {
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--text-strong-950, #0e121b);
+  margin-bottom: 0.35rem;
+  line-height: 1.3;
+}
+
+.mvf_title_center {
+  text-align: center;
+}
+
+.mvf_subtitle {
+  font-size: 0.875rem;
+  color: var(--text-soft-400, #717784);
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+/* =========================================
+   ALERTS
+   ========================================= */
+.mvf_alert {
+  display: none;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 0.78rem;
+  margin-bottom: 1rem;
+  align-items: center;
+  gap: 8px;
+}
+
+.mvf_alert.visible {
+  display: flex;
+}
+
+.mvf_alert_error {
+  background: #fff5f5;
+  color: #c0392b;
+  border: 1px solid #ffc9c9;
+}
+
+.mvf_alert_success {
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
+}
+
+.mvf_alert_icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* =========================================
+   FORM ELEMENTS
+   ========================================= */
+.mvf_form_group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 1rem;
+}
+
+.mvf_label {
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: var(--text-strong-950, #0e121b);
+}
+
+.mvf_required {
+  color: #e53e3e;
+  margin-left: 2px;
+}
+
+.mvf_input,
+.mvf_select {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #e1e4ea;
+  font-size: 0.85rem;
+  font-family: inherit;
+  color: var(--text-strong-950, #0e121b);
+  background: #fff;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  appearance: none;
+}
+
+.mvf_input:focus,
+.mvf_select:focus {
+  border-color: #171b34;
+  box-shadow: 0 0 0 3px rgba(23, 27, 52, 0.08);
+}
+
+.mvf_input::placeholder {
+  color: #9ca3af;
+}
+
+.mvf_select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23717784' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+/* =========================================
+   UPLOAD BOXES
+   ========================================= */
+.mvf_upload_box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 1rem;
+  border: 1.5px dashed #c8ccd8;
+  border-radius: 12px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+  background: #fafafa;
+}
+
+.mvf_upload_box:hover {
+  border-color: #171b34;
+  background: #f5f5f8;
+}
+
+.mvf_upload_box.uploaded {
+  border-color: #16a34a;
+  background: #f0fdf4;
+}
+
+.mvf_upload_icon {
+  font-size: 1.8rem;
+  color: #717784;
+  flex-shrink: 0;
+  font-family: "Material Symbols Outlined";
+}
+
+.mvf_upload_text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.mvf_upload_link {
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: #171b34;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.mvf_upload_hint {
+  font-size: 0.72rem;
+  color: #9ca3af;
+}
+
+.mvf_file_name {
+  font-size: 0.72rem;
+  color: #16a34a;
+  font-weight: 400;
+  max-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: none;
+}
+
+.mvf_upload_box.uploaded .mvf_file_name {
+  display: block;
+}
+
+/* =========================================
+   SELFIE INSTRUCTIONS
+   ========================================= */
+.mvf_instructions_list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.mvf_instruction_item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0.8rem 1rem;
+  background: #f8f9fb;
+  border-radius: 12px;
+  border: 1px solid #e8eaf0;
+}
+
+.mvf_instruction_icon {
+  font-size: 1.4rem;
+  width: 36px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.mvf_instruction_item p {
+  font-size: 0.82rem;
+  color: var(--text-strong-950, #0e121b);
+  line-height: 1.4;
+}
+
+/* =========================================
+   CAMERA
+   ========================================= */
+.mvf_camera_wrapper {
+  position: relative;
+  width: 260px;
+  height: 320px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #0e121b;
+  box-shadow:
+    0 0 0 4px #e8eaf0,
+    0 8px 32px rgba(0, 0, 0, 0.18);
+  flex-shrink: 0;
+}
+
+#mvf_camera_video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1); /* Mirror for selfie feel */
+  border-radius: 50%;
+}
+
+.mvf_camera_overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.mvf_camera_oval {
+  width: 200px;
+  height: 250px;
+  border: 3px dashed rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  animation: mvf_pulse 2s ease-in-out infinite;
+}
+
+@keyframes mvf_pulse {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+.mvf_captured_img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.mvf_actions_camera {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+#btn_retake,
+#btn_capture{
+  flex: 1 1 calc(50% - 1rem);
+}
+
+#btn_submit{
+  width: 100%;
+}
+
+
+/* =========================================
+   RESULT / SUCCESS SCREEN
+   ========================================= */
+.mvf_result_icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.8rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.mvf_result_success {
+  background: #f0fdf4;
+  border: 3px solid #16a34a;
+  color: #16a34a;
+}
+
+.mvf_result_failed {
+  background: #fff5f5;
+  border: 3px solid #e53e3e;
+  color: #e53e3e;
+}
+
+.mvf_result_title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-strong-950, #0e121b);
+}
+
+.mvf_result_msg {
+  font-size: 0.82rem;
+  color: var(--text-soft-400, #717784);
+  line-height: 1.6;
+  max-width: 260px;
+}
+
+/* =========================================
+   ACTIONS / BUTTONS
+   ========================================= */
+.mvf_actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem 1.5rem;
+  flex-shrink: 0;
+  border-top: 1px solid #f0f2f5;
+}
+
+/* Standard button styles matching the design system */
+.primary_button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #171b34;
+  color: #ffffff;
+  border: none;
+  padding: 0.8rem 1.4rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.1s ease,
+    box-shadow 0.2s ease;
+  flex: 1;
+}
+
+.primary_button:hover {
+  background: #2d3151;
+  box-shadow: 0 4px 14px rgba(23, 27, 52, 0.25);
+}
+
+.primary_button:active {
+  transform: scale(0.98);
+}
+
+.secondary_button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: transparent;
+  color: #525866;
+  border: 1.5px solid #e1e4ea;
+  padding: 0.8rem 1.2rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background 0.2s,
+    transform 0.1s;
+  flex: 1;
+}
+
+.secondary_button:hover {
+  border-color: #171b34;
+  background: #f5f5f8;
+}
+
+.secondary_button:active {
+  transform: scale(0.98);
+}
+
+.mvf_btn_full {
+  width: 100%;
+  flex: none;
+}
+
+/* =========================================
+   ON REAL MOBILE DEVICE - full screen flow
+   ========================================= */
+@media (max-width: 480px) {
+  body {
+    background: #ffffff;
+    align-items: flex-start;
+    padding: 0;
+  }
+
+  .mvf_outer {
+    padding: 0;
+    min-height: 100dvh;
+    align-items: flex-start;
+  }
+
+  .mvf_device {
+    width: 100vw;
+    min-height: 100dvh;
+    max-height: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .mvf_device::before {
+    display: none; /* No notch on real devices - use native one */
+  }
+
+  .mvf_progress_bar {
+    margin-top: 0;
+  }
+}
