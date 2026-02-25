@@ -1,6 +1,7 @@
 import React from "react";
 import WebNav from "../../../shared/components/WebNav";
 import ApiDeveloperContent from "../../../shared/components/ApiDeveloperContent";
+import Footer from "../../../shared/components/Footer";
 import styles from "./MarketingPage.module.css";
 
 const DocumentationPage = () => {
@@ -29,31 +30,7 @@ const DocumentationPage = () => {
         </div>
       </main>
 
-      <footer className={styles.footer}>
-        <div className={styles.footer_content}>
-          <div className={styles.footer_logo}>
-            <h3>PrivyID</h3>
-            <p>The identity infrastructure for the modern web.</p>
-          </div>
-          <div className={styles.footer_links}>
-            <div className={styles.link_group}>
-              <h4>Product</h4>
-              <a href="#">Verification</a>
-              <a href="#">API Reference</a>
-              <a href="#">Pricing</a>
-            </div>
-            <div className={styles.link_group}>
-              <h4>Company</h4>
-              <a href="#">About</a>
-              <a href="#">Careers</a>
-              <a href="#">Privacy</a>
-            </div>
-          </div>
-        </div>
-        <div className={styles.footer_bottom}>
-          <p>© 2026 PrivyID Inc. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

@@ -8,7 +8,7 @@ import "../../../../app/pages/LandingPage.css";
 
 // Assets (from src/assets/images)
 import logoDark from "../../../../assets/images/Logo dark.svg";
-import logoWhite from "../../../../assets/images/Logo White.svg";
+import Footer from "../../../../shared/components/Footer";
 
 // Legacy images — referenced via relative path from /legacy/images/
 const LEGACY = "../../../../legacy/images/";
@@ -699,81 +699,7 @@ export default function PrivyIdHomepage() {
         </section>
       </main>
 
-      {/* ======== FOOTER ======== */}
-      <footer className="lp-footer">
-        <div className="lp-footer-inner">
-          <div className="lp-footer-brand">
-            <img src={logoWhite} alt="PrivyID" className="lp-footer-logo" />
-            <p className="lp-footer-tagline">
-              Scalable KYC and KYB solutions for your business.
-            </p>
-            <SecondaryButton
-              as={Link as any}
-              to="/onboarding?mode=signup"
-              style={{ alignSelf: "flex-start" }}
-            >
-              Get Started Free
-              <span className="material-symbols-outlined">arrow_outward</span>
-            </SecondaryButton>
-          </div>
-
-          <div className="lp-footer-links-group">
-            <div className="lp-footer-col">
-              <p className="lp-footer-col-title">Product</p>
-              <div className="lp-footer-link-group">
-                <a href="#" className="lp-footer-link">
-                  Features
-                </a>
-                <a href="#" className="lp-footer-link">
-                  Pricing
-                </a>
-                <a href="#" className="lp-footer-link">
-                  Security
-                </a>
-              </div>
-            </div>
-
-            <div className="lp-footer-col">
-              <p className="lp-footer-col-title">Developers</p>
-              <div className="lp-footer-link-group">
-                <Link to="/documentation" className="lp-footer-link">
-                  Documentation
-                </Link>
-                <a href="#" className="lp-footer-link">
-                  API Reference
-                </a>
-                <a href="#" className="lp-footer-link">
-                  API Status
-                </a>
-              </div>
-            </div>
-
-            <div className="lp-footer-col">
-              <p className="lp-footer-col-title">Social Media</p>
-              <div className="lp-footer-link-group">
-                <a href="#" className="lp-footer-link">
-                  Twitter
-                  <span className="material-symbols-outlined">
-                    arrow_outward
-                  </span>
-                </a>
-                <a href="#" className="lp-footer-link">
-                  LinkedIn
-                  <span className="material-symbols-outlined">
-                    arrow_outward
-                  </span>
-                </a>
-                <a href="#" className="lp-footer-link">
-                  GitHub
-                  <span className="material-symbols-outlined">
-                    arrow_outward
-                  </span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

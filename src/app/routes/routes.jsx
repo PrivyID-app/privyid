@@ -5,6 +5,9 @@ import LandingPage from "../../features/marketing/landing-page/imports/PrivyIdHo
 import LoginPage from "../pages/LoginPage";
 import MarketingPage from "../../features/marketing/pages/MarketingPage";
 import DocumentationPage from "../../features/marketing/pages/DocumentationPage";
+import ProductsPage from "../../features/marketing/pages/ProductsPage";
+import DevelopersPage from "../../features/marketing/pages/DevelopersPage";
+import PricingPage from "../../features/marketing/pages/PricingPage";
 
 import NotFound from "../../shared/components/NotFound";
 import ProtectedRoute from "../../shared/components/ProtectedRoute";
@@ -197,6 +200,18 @@ const router = createHashRouter([
   {
     path: "/marketing",
     element: <MarketingPage />,
+  },
+  {
+    path: "/products",
+    element: <ProductsPage />,
+  },
+  {
+    path: "/developers",
+    element: <DevelopersPage />,
+  },
+  {
+    path: "/pricing",
+    element: <PricingPage />,
   },
   {
     path: "*",

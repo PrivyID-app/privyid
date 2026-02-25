@@ -28,8 +28,8 @@ const WebNav = () => {
           </button>
 
           <div className={`nav_links ${isMenuOpen ? "active" : ""}`}>
-            <a
-              href="#"
+            <Link
+              to="/products"
               className="nav_link"
               onClick={() => setIsMenuOpen(false)}
             >
@@ -37,9 +37,9 @@ const WebNav = () => {
               <span className="material-symbols-outlined">
                 keyboard_arrow_down
               </span>
-            </a>
+            </Link>
             <Link
-              to="/documentation"
+              to="/developers"
               className="nav_link"
               onClick={() => setIsMenuOpen(false)}
             >
@@ -48,13 +48,13 @@ const WebNav = () => {
                 keyboard_arrow_down
               </span>
             </Link>
-            <a
-              href="#"
+            <Link
+              to="/pricing"
               className="nav_link"
               onClick={() => setIsMenuOpen(false)}
             >
               Pricing
-            </a>
+            </Link>
           </div>
         </div>
 
