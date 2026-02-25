@@ -35,7 +35,7 @@ const PricingPage = () => {
               >
                 <div className="lp-hero-chip">Startup</div>
                 <h3 style={{ fontSize: "2.5rem", margin: "1.5rem 0" }}>
-                  $0
+                  ₦0
                   <span
                     style={{ fontSize: "1rem", color: "var(--text-soft-400)" }}
                   >
@@ -125,7 +125,7 @@ const PricingPage = () => {
                   Growth
                 </div>
                 <h3 style={{ fontSize: "3rem", margin: "1.5rem 0" }}>
-                  $99
+                  ₦150
                   <span
                     style={{ fontSize: "1rem", color: "var(--text-soft-400)" }}
                   >

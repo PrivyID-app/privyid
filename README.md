@@ -206,54 +206,42 @@ npm run preview
 
 **Route**: `/`
 
-Multi-step onboarding process for new merchants:
+The gateway for new businesses entering the PrivyID ecosystem. This is a multi-step, state-managed journey:
 
-- Login/Signup
-- Email Verification
-- Welcome Screen
-- Account Type Selection
-- Service Type Selection (KYC/KYB/Both)
-- Business Verification
-- Integration Setup
+- **Identity Foundation**: Secure login/signup with mandatory email verification.
+- **Business Profiling**: Selection between individual and corporate account types.
+- **Service Tailoring**: Choosing specific verification modules (KYC, KYB, or Combined) which dynamically configures the dashboard.
+- **The "Zero" Verification**: A one-time business verification to establish trust before the merchant can verify others.
 
-### 2. Merchant KYC
+### 2. Merchant KYC (Know Your Customer)
 
 **Route**: `/merchant-kyc`
 
-Individual identity verification module:
+Dedicated to individual identity verification. This module transforms complex legal requirements into a streamlined digital experience.
 
-- **Dashboard**: Overview of verification metrics
-- **Single Verification**: Verify one customer at a time
-- **Batch Verification**: Upload CSV for bulk processing
-- **History**: View all verification records
-- **API**: API documentation and testing
-- **Tokens**: Manage API tokens
-- **Settings**: Configure account preferences
-- **Support**: Contact support and view tickets
-- **User Profile**: Manage account details
-- **Notifications**: View system notifications
+- **The Control Center (Dashboard)**: Real-time health metrics including approval rates, volume trends, and processing speeds.
+- **Verification Engine**:
+  - **Direct Entry**: Manually initiate a check for high-touch customer onboarding.
+  - **Bulk Processing**: Upload a CSV file to trigger hundreds of verifications simultaneously—ideal for migrating legacy customer bases.
+- **Audit & History**: A permanent, searchable archive of every verification attempt, supporting compliance and dispute resolution.
 
-### 3. Merchant KYB
+### 3. Merchant KYB (Know Your Business)
 
 **Route**: `/merchant-kyb`
 
-Business verification module with similar features to KYC but tailored for business entities.
+Optimized for B2B relationships. While similar to KYC, it includes specialized data fields for company registration numbers, tax IDs, and ownership structures.
 
 ### 4. Merchant Combined
 
 **Route**: `/merchant-combined`
 
-Unified module for merchants handling both KYC and KYB verifications:
-
-- All KYC features
-- All KYB features
-- Unified dashboard and analytics
+The ultimate enterprise solution. This module provides a unified interface for merchants who need to verify both people and corporations, featuring aggregated analytics and cross-module reporting.
 
 ### 5. Super Admin
 
 **Route**: `/super-admin`
 
-Comprehensive platform management:
+The platform's command-and-control suite. Designed for high-level oversight and system-wide management.
 
 #### Pages (9 Total)
 
