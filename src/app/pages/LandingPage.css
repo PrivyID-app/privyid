@@ -205,7 +205,7 @@
 .lp-marquee-wrapper {
   position: relative;
   overflow: hidden;
-  width: 100%;
+  width: 60%;
 }
 
 .lp-marquee-wrapper::before,
