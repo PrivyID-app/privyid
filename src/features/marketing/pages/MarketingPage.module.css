@@ -66,6 +66,11 @@
   margin: 0;
 }
 
+.highlight{
+  font: var(--font-accent);
+  color: var(--color-primary);
+}
+
 .hero_subtitle {
   font-size: 1.25rem;
   color: var(--text-soft-400);

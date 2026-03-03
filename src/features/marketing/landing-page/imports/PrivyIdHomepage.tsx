@@ -189,7 +189,7 @@ export default function PrivyIdHomepage() {
             </div>
 
             <h1 className="lp-hero-title">
-              Identity Infrastructure without Data Custody
+              Identity <span className="lp-hero-title-highlight">Infrastructure</span> without Data Custody
             </h1>
 
             <p className="lp-hero-subtitle">

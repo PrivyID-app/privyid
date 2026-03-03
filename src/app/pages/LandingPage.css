@@ -169,6 +169,11 @@
   max-width: 800px;
 }
 
+.lp-hero-title-highlight{
+  font-family: var(--font-accent);
+  color: var(--state-stable-base);
+}
+
 .lp-hero-subtitle {
   font-size: 1.35rem;
   font-weight: 300;

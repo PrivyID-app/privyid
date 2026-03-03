@@ -21,7 +21,7 @@ const MarketingPage = () => {
           </div>
 
           <h1 className={styles.hero_title}>
-            Identity infrastructure <br />
+            Identity <span className={styles.highlight}>Infrastructure</span> <br />
             without data custody
           </h1>
 
