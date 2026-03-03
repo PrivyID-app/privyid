@@ -4,6 +4,9 @@ import WebNav from "../../../shared/components/WebNav";
 import SpecialButton from "../../../shared/components/SpecialButton";
 import styles from "./MarketingPage.module.css";
 
+// asset imports
+import heroCheckVector from "../../../assets/images/hero-check-vector.svg";
+
 const MarketingPage = () => {
   return (
     <div className={styles.marketing_container}>
@@ -33,8 +36,9 @@ const MarketingPage = () => {
 
           <div className={styles.hero_check_vector}>
             <img
-              src="../../../../public/assets/images/hero-check-vector.svg"
+              src={heroCheckVector}
               alt="Hero Check Vector"
+              className={styles.hero_check_img}
             />
           </div>
 
