@@ -22,8 +22,10 @@ const SetupStep = ({ onBack }) => {
   const [modalTitle, setModalTitle] = useState("");
   const [modalDescription, setModalDescription] = useState("");
   const [loading, setLoading] = useState(false);
+  // sandbox key is provided to the merchant after signing up;
+  // do not hard‑code real credentials in source control.
   const [apiKeys, setApiKeys] = useState({
-    sandbox: "sk_test_51Hxxxxxx",
+    sandbox: import.meta.env.VITE_SANDBOX_KEY || "",
     production: "Production Key Not Found",
   });
 

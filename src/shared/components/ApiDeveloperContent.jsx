@@ -120,7 +120,7 @@ const QuickStartTab = () => (
           </div>
           <pre>
             {`const privy = new PrivyID({
-  apiKey: 'pk_test_...'
+  apiKey: process.env.VITE_PUBLISHABLE_KEY || 'pk_test_YOUR_KEY'
 });
 
 await privy.verify({
@@ -195,7 +195,7 @@ const ApiKeysTab = () => {
               <input
                 className={styles.input}
                 type="text"
-                value="pk_test_4eC39HqLyjWDarjtT1zdp7dc"
+                value={import.meta.env.VITE_PUBLISHABLE_KEY || "pk_test_YOUR_KEY"}
                 readOnly
               />
               <button className={styles.copyButton}>
@@ -212,7 +212,7 @@ const ApiKeysTab = () => {
               <input
                 className={styles.input}
                 type="password"
-                value="sk_test_************************"
+                value={import.meta.env.VITE_SECRET_KEY ? "••••••••••••••••••" : ""}
                 readOnly
               />
               <button className={styles.copyButton}>

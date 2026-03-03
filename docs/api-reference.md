@@ -11,7 +11,7 @@ This document serves as a reference for external KYC, KYB, and Identity Verifica
 - **Sample Request**:
   ```bash
   curl https://api.stripe.com/v1/identity/verification_sessions \
-    -u sk_test_...: \
+    -u <YOUR_STRIPE_KEY>: \
     -d type=document \
     -d "options[document][require_id_number]"=true
   ```
