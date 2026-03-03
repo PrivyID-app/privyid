@@ -189,7 +189,7 @@ export default function PrivyIdHomepage() {
             </div>
 
             <h1 className="lp-hero-title">
-              Identity <span className="lp-hero-title-highlight">Infrastructure</span> without Data Custody
+              Identity <span className="lp-hero-title-highlight">Infrastructure</span> <br /> without Data Custody
             </h1>
 
             <p className="lp-hero-subtitle">
@@ -322,7 +322,7 @@ export default function PrivyIdHomepage() {
                 Performance
               </div>
               <h2 className="lp-section-title">
-                Identity verification at infrastructure scale
+                Identity <span className="lp-hero-title-highlight">Verification</span> <br /> at infrastructure scale
               </h2>
               <p className="lp-section-subtitle">
                 Reduce compliance overhead and breach risk so your team can
@@ -393,7 +393,7 @@ export default function PrivyIdHomepage() {
               <h2 className="lp-section-title">
                 Remove risk. Ship faster.
                 <br />
-                Stay compliant.
+                <span className="lp-hero-title-highlight">Stay compliant.</span>
               </h2>
             </div>
 
@@ -487,7 +487,7 @@ export default function PrivyIdHomepage() {
                 How it works?
               </div>
               <h2 className="lp-section-title">
-                How identity verification should work
+                How Identity <span className="lp-hero-title-highlight">Verification</span> <br /> should work
               </h2>
               <p className="lp-section-subtitle">
                 PrivyID manages verification end-to-end, so your team gets
@@ -542,7 +542,7 @@ export default function PrivyIdHomepage() {
                 Fast teams without risk
               </div>
               <h2 className="lp-section-title">
-                Real results from teams using PrivyID
+                Real <span className="lp-hero-title-highlight">Results</span> from <br /> Teams using  PrivyID
               </h2>
               <p className="lp-section-subtitle">
                 See how fintechs and platforms verified users faster, reduced
@@ -632,7 +632,7 @@ export default function PrivyIdHomepage() {
                 <span className="material-symbols-outlined">help</span>
                 FAQ
               </div>
-              <h2 className="lp-section-title">Frequently Asked Questions</h2>
+              <h2 className="lp-section-title">Frequently Asked <span className="lp-hero-title-highlight">Questions</span></h2>
               <p className="lp-section-subtitle">
                 Everything you need to know about PrivyID and how it works.
               </p>

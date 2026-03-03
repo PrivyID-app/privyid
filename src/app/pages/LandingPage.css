@@ -172,6 +172,7 @@
 .lp-hero-title-highlight{
   font-family: var(--font-accent);
   color: var(--state-stable-base);
+  font-size: 3.5rem;
 }
 
 .lp-hero-subtitle {
