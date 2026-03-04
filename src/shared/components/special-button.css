@@ -65,3 +65,27 @@
 .special_button .material-symbols-outlined {
   font-size: 1.25rem;
 }
+
+@media (max-width: 1024px) {
+  .special_button {
+    width: fit-content;
+    padding: 1rem;
+  }
+
+
+  .special_button.secondary {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .special_button {
+    width: fit-content;
+    padding: 1rem;
+  }
+
+
+  .special_button.secondary {
+    width: 100%;
+  }
+}
