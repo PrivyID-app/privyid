@@ -975,6 +975,9 @@
   .lp-hero-title {
     font-size: 2rem;
   }
+  .lp-hero-title-highlight{
+  font-size: 1rem;
+}
   .lp-hero-subtitle {
     font-size: 1rem;
   }
