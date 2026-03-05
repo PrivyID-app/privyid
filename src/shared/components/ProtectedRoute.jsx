@@ -1,22 +1,32 @@
-import React, { useEffect, useState } from "react";
-import { Navigate, Outlet } from "react-router-dom";
 import { supabase } from "../services/supabase";
+import LogoAdmin from "../../assets/images/privyid-admin.svg";
 
 const ProtectedRoute = ({ redirectPath = "/super-admin/login" }) => {
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let mounted = true;
+
     // Check current session
-    supabase.auth
-      .getSession()
-      .then(({ data: { session } }) => {
-        setSession(session);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
+    const checkSession = async () => {
+      try {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        if (mounted) {
+          setSession(session);
+        }
+      } catch (err) {
+        console.error("Auth session check failed:", err);
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    checkSession();
 
     // Listen for auth changes
     const {
@@ -42,7 +52,7 @@ const ProtectedRoute = ({ redirectPath = "/super-admin/login" }) => {
         }}
       >
         <img
-          src="/src/assets/images/privyid-admin.svg"
+          src={LogoAdmin}
           alt="PrivyID Logo"
           style={{ width: "140px", animation: "pulse 2s infinite ease-in-out" }}
         />

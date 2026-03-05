@@ -22,18 +22,36 @@ try {
   supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
 } catch (err) {
   console.error("Failed to initialize Supabase client:", err);
-  // Fallback to a proxy that logs errors instead of crashing
-  supabaseClient = new Proxy(
-    {},
-    {
-      get: (target, prop) => {
-        return () => {
-          console.error(`Supabase not initialized. Cannot call: ${prop}`);
-          return { data: null, error: new Error("Supabase not initialized") };
-        };
+
+  // Recursive proxy that returns async mock functions
+  const createMockProxy = (path = "") => {
+    return new Proxy(
+      {},
+      {
+        get: (target, prop) => {
+          const currentPath = path ? `${path}.${String(prop)}` : String(prop);
+
+          // If it's a known non-function property that we can predict, return a mock object
+          if (prop === "auth") return createMockProxy(currentPath);
+
+          // Default: Return an async function that logs and returns an error
+          return async () => {
+            console.error(
+              `Supabase not initialized (missing API keys). Cannot call: ${currentPath}`,
+            );
+            return {
+              data: { session: null, user: null },
+              error: new Error(
+                `Supabase not initialized. Path: ${currentPath}`,
+              ),
+            };
+          };
+        },
       },
-    },
-  );
+    );
+  };
+
+  supabaseClient = createMockProxy();
 }
 
 export const supabase = supabaseClient;
