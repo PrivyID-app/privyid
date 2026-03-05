@@ -11,24 +11,29 @@ const MerchantPortalGuard = () => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      setSession(session);
+      try {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        setSession(session);
 
-      if (session) {
-        // Fetch merchant profile to check service_type
-        const { data, error } = await supabase
-          .from("merchants")
-          .select("id, service_type")
-          .eq("id", session.user.id)
-          .single();
+        if (session) {
+          // Fetch merchant profile to check service_type
+          const { data, error } = await supabase
+            .from("merchants")
+            .select("id, service_type")
+            .eq("id", session.user.id)
+            .single();
 
-        if (!error) {
-          setMerchant(data);
+          if (!error) {
+            setMerchant(data);
+          }
         }
+      } catch (err) {
+        console.error("MerchantPortalGuard check failed:", err);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     checkAuth();

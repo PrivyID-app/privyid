@@ -30,40 +30,45 @@ export const AppProvider = ({ children }) => {
   // Fetch from Supabase on mount/auth change
   useEffect(() => {
     const fetchMerchantData = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
+      try {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
 
-      if (session) {
-        const { data: merchant, error } = await supabase
-          .from("merchants")
-          .select("*")
-          .eq("id", session.user.id)
-          .single();
+        if (session) {
+          const { data: merchant, error } = await supabase
+            .from("merchants")
+            .select("*")
+            .eq("id", session.user.id)
+            .single();
 
-        if (!error && merchant) {
-          const userData = {
-            id: session.user.id,
-            name:
-              merchant.contact_name ||
-              session.user.user_metadata?.full_name ||
-              "Merchant",
-            email: session.user.email,
-            avatar: merchant.avatar_url || DefaultAvatar,
-            role: "Admin",
-          };
-          const companyData = {
-            name: merchant.company_name || "PrivyID",
-            slogan: merchant.slogan || "Merchant KYC Flow",
-            logo: merchant.logo_url || DefaultLogo,
-          };
-          setUser(userData);
-          setCompany(companyData);
-          localStorage.setItem("user_data", JSON.stringify(userData));
-          localStorage.setItem("company_data", JSON.stringify(companyData));
+          if (!error && merchant) {
+            const userData = {
+              id: session.user.id,
+              name:
+                merchant.contact_name ||
+                session.user.user_metadata?.full_name ||
+                "Merchant",
+              email: session.user.email,
+              avatar: merchant.avatar_url || DefaultAvatar,
+              role: "Admin",
+            };
+            const companyData = {
+              name: merchant.company_name || "PrivyID",
+              slogan: merchant.slogan || "Merchant KYC Flow",
+              logo: merchant.logo_url || DefaultLogo,
+            };
+            setUser(userData);
+            setCompany(companyData);
+            localStorage.setItem("user_data", JSON.stringify(userData));
+            localStorage.setItem("company_data", JSON.stringify(companyData));
+          }
         }
+      } catch (err) {
+        console.error("AppContext initialization failed:", err);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchMerchantData();

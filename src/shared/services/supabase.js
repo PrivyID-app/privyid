@@ -23,7 +23,7 @@ try {
 } catch (err) {
   console.error("Failed to initialize Supabase client:", err);
 
-  // Recursive proxy that returns async mock functions
+  // Recursive proxy that returns appropriate mock functions
   const createMockProxy = (path = "") => {
     return new Proxy(
       {},
@@ -31,16 +31,37 @@ try {
         get: (target, prop) => {
           const currentPath = path ? `${path}.${String(prop)}` : String(prop);
 
-          // If it's a known non-function property that we can predict, return a mock object
-          if (prop === "auth") return createMockProxy(currentPath);
+          // Handle nested objects
+          if (["auth", "storage", "from"].includes(prop)) {
+            return createMockProxy(currentPath);
+          }
 
-          // Default: Return an async function that logs and returns an error
+          // Handle onAuthStateChange synchronously
+          if (prop === "onAuthStateChange") {
+            return () => {
+              console.warn(
+                `Supabase: Mocking synchronous call to ${currentPath}`,
+              );
+              return {
+                data: {
+                  subscription: { unsubscribe: () => {} },
+                },
+                error: null,
+              };
+            };
+          }
+
+          // Default: Return an async function that logs and returns a mock response
           return async () => {
             console.error(
               `Supabase not initialized (missing API keys). Cannot call: ${currentPath}`,
             );
             return {
-              data: { session: null, user: null },
+              data: {
+                session: null,
+                user: null,
+                publicUrl: "",
+              },
               error: new Error(
                 `Supabase not initialized. Path: ${currentPath}`,
               ),
