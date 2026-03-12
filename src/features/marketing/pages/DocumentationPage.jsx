@@ -1,6 +1,7 @@
 import React from "react";
 import WebNav from "../../../shared/components/WebNav";
 import ApiDeveloperContent from "../../../shared/components/ApiDeveloperContent";
+import CtaSection from "../../../shared/components/CtaSection";
 import Footer from "../../../shared/components/Footer";
 import styles from "./MarketingPage.module.css";
 
@@ -28,6 +29,7 @@ const DocumentationPage = () => {
         >
           <ApiDeveloperContent />
         </div>
+        <CtaSection />
       </main>
 
       <Footer />
