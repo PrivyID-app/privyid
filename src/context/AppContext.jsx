@@ -29,20 +29,21 @@ export const AppProvider = ({ children }) => {
 
   // Fetch from Supabase on mount/auth change
   useEffect(() => {
-    const fetchMerchantData = async () => {
+    const fetchUserData = async () => {
       try {
         const {
           data: { session },
         } = await supabase.auth.getSession();
 
         if (session) {
-          const { data: merchant, error } = await supabase
+          // 1. Try fetching from merchants table
+          const { data: merchant, error: mError } = await supabase
             .from("merchants")
             .select("*")
             .eq("id", session.user.id)
             .single();
 
-          if (!error && merchant) {
+          if (!mError && merchant) {
             const userData = {
               id: session.user.id,
               name:
@@ -51,7 +52,7 @@ export const AppProvider = ({ children }) => {
                 "Merchant",
               email: session.user.email,
               avatar: merchant.avatar_url || DefaultAvatar,
-              role: "Admin",
+              role: "Merchant",
             };
             const companyData = {
               name: merchant.company_name || "PrivyID",
@@ -62,6 +63,29 @@ export const AppProvider = ({ children }) => {
             setCompany(companyData);
             localStorage.setItem("user_data", JSON.stringify(userData));
             localStorage.setItem("company_data", JSON.stringify(companyData));
+            return;
+          }
+
+          // 2. Try fetching from super_admins table
+          const { data: admin, error: aError } = await supabase
+            .from("super_admins")
+            .select("*")
+            .eq("id", session.user.id)
+            .single();
+
+          if (!aError && admin) {
+            const userData = {
+              id: session.user.id,
+              name:
+                admin.full_name ||
+                session.user.user_metadata?.full_name ||
+                "Super Admin",
+              email: session.user.email,
+              avatar: admin.avatar_url || DefaultAvatar,
+              role: "Super Admin",
+            };
+            setUser(userData);
+            localStorage.setItem("user_data", JSON.stringify(userData));
           }
         }
       } catch (err) {
@@ -71,7 +95,7 @@ export const AppProvider = ({ children }) => {
       }
     };
 
-    fetchMerchantData();
+    fetchUserData();
   }, []);
 
   const updateUser = async (newData) => {
@@ -81,13 +105,23 @@ export const AppProvider = ({ children }) => {
 
     // Persist to Supabase if applicable
     if (user?.id) {
-      await supabase
-        .from("merchants")
-        .update({
-          contact_name: updatedUser.name,
-          avatar_url: updatedUser.avatar,
-        })
-        .eq("id", user.id);
+      if (user.role === "Super Admin") {
+        await supabase
+          .from("super_admins")
+          .update({
+            full_name: updatedUser.name,
+            avatar_url: updatedUser.avatar,
+          })
+          .eq("id", user.id);
+      } else {
+        await supabase
+          .from("merchants")
+          .update({
+            contact_name: updatedUser.name,
+            avatar_url: updatedUser.avatar,
+          })
+          .eq("id", user.id);
+      }
     }
   };
 
@@ -97,7 +131,7 @@ export const AppProvider = ({ children }) => {
     localStorage.setItem("company_data", JSON.stringify(updatedCompany));
 
     // Persist to Supabase if applicable
-    if (user?.id) {
+    if (user?.id && user.role !== "Super Admin") {
       await supabase
         .from("merchants")
         .update({
