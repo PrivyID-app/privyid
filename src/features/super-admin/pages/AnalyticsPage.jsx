@@ -20,6 +20,10 @@ import {
 } from "recharts";
 import TopPerformingMerchantsTable from "../components/TopPerformingMerchantsTable";
 import CustomSelect from "../../../shared/components/CustomSelect";
+import BuildingLineIcon from "../../../assets/images/building-line.svg";
+import QrScanLineIcon from "../../../assets/images/qr-scan-line.svg";
+import CurrencyNairaIcon from "../../../assets/images/tabler_currency-naira.svg";
+import TimeLine2Icon from "../../../assets/images/time-line-2.svg";
 import "../super-admin.css";
 
 const AnalyticsPage = () => {
@@ -209,28 +213,28 @@ const AnalyticsPage = () => {
 
   const metricsCards = [
     {
-      icon: "tabler_currency-naira.svg",
+      icon: CurrencyNairaIcon,
       value: stats.totalRevenue,
       title: "Total Revenue",
       rate: "+0.0%",
       trend: "up",
     },
     {
-      icon: "building-line.svg",
+      icon: BuildingLineIcon,
       value: stats.activeMerchants,
       title: "Active Merchants",
       rate: "Live",
       trend: "up",
     },
     {
-      icon: "qr-scan-line.svg",
+      icon: QrScanLineIcon,
       value: stats.successRate,
       title: "Success Rate",
       rate: "+0.0%",
       trend: "up",
     },
     {
-      icon: "time-line-2.svg",
+      icon: TimeLine2Icon,
       value: stats.uptime,
       title: "API Uptime",
       rate: "+0.0%",
@@ -254,7 +258,7 @@ const AnalyticsPage = () => {
               <div className="card_top_area">
                 <div className="overview_card_icon">
                   <img
-                    src={`/src/assets/images/${card.icon}`}
+                    src={card.icon}
                     alt={`${card.title} Icon`}
                   />
                 </div>

@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import AdminVerificationsTable from "../components/AdminVerificationsTable";
 import { supabase } from "../../../shared/services/supabase";
+import BuildingLineIcon from "../../../assets/images/building-line.svg";
+import QrScanLineIcon from "../../../assets/images/qr-scan-line.svg";
+import CurrencyNairaIcon from "../../../assets/images/tabler_currency-naira.svg";
+import TimeLine2Icon from "../../../assets/images/time-line-2.svg";
 import "../super-admin.css";
 
 const VerificationsPage = () => {
@@ -45,28 +49,28 @@ const VerificationsPage = () => {
 
   const overviewCards = [
     {
-      icon: "building-line.svg",
+      icon: BuildingLineIcon,
       value: stats.totalMerchants,
       title: "Total Merchants",
       rate: "Live",
       trend: "up",
     },
     {
-      icon: "qr-scan-line.svg",
+      icon: QrScanLineIcon,
       value: stats.totalVerifications,
       title: "Total Verifications",
       rate: "+0.0%",
       trend: "up",
     },
     {
-      icon: "tabler_currency-naira.svg",
+      icon: CurrencyNairaIcon,
       value: stats.totalRevenue,
       title: "Total Revenue MDT",
       rate: "+0.0%",
       trend: "up",
     },
     {
-      icon: "time-line-2.svg",
+      icon: TimeLine2Icon,
       value: stats.avgResponseTime,
       title: "Average Response Time",
       rate: "+0.0%",
@@ -89,7 +93,7 @@ const VerificationsPage = () => {
               <div className="card_top_area">
                 <div className="overview_card_icon">
                   <img
-                    src={`/src/assets/images/${card.icon}`}
+                    src={card.icon}
                     alt={`${card.title} Icon`}
                   />
                 </div>

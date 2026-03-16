@@ -4,6 +4,10 @@ import AdminMerchantsTable from "../components/AdminMerchantsTable";
 import CustomSelect from "../../../shared/components/CustomSelect";
 import AddMerchantModal from "../components/AddMerchantModal";
 import { supabase } from "../../../shared/services/supabase";
+import BuildingLineIcon from "../../../assets/images/building-line.svg";
+import QrScanLineIcon from "../../../assets/images/qr-scan-line.svg";
+import CurrencyNairaIcon from "../../../assets/images/tabler_currency-naira.svg";
+import TimeLine2Icon from "../../../assets/images/time-line-2.svg";
 import "../super-admin.css";
 
 const MerchantsPage = () => {
@@ -51,28 +55,28 @@ const MerchantsPage = () => {
 
   const overviewCards = [
     {
-      icon: "building-line.svg",
+      icon: BuildingLineIcon,
       value: stats.totalMerchants,
       title: "Total Merchants",
       rate: "Live",
       trend: "up",
     },
     {
-      icon: "qr-scan-line.svg",
+      icon: QrScanLineIcon,
       value: stats.totalVerifications,
       title: "Total Verifications",
       rate: "0.0%",
       trend: "up",
     },
     {
-      icon: "tabler_currency-naira.svg",
+      icon: CurrencyNairaIcon,
       value: stats.totalRevenue,
       title: "Total Revenue",
       rate: "0.0%",
       trend: "up",
     },
     {
-      icon: "time-line-2.svg",
+      icon: TimeLine2Icon,
       value: stats.activeRate,
       title: "Active Merchants",
       rate: "0.0%",
@@ -100,7 +104,7 @@ const MerchantsPage = () => {
               <div className="card_top_area">
                 <div className="overview_card_icon">
                   <img
-                    src={`/src/assets/images/${card.icon}`}
+                    src={card.icon}
                     alt={`${card.title} Icon`}
                   />
                 </div>
