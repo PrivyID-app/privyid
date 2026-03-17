@@ -8,11 +8,13 @@ import { AppProvider } from "../context/AppContext";
 function App() {
   return (
     <div className="App">
-      <GlobalProvider>
-        <OnboardingProvider>
-          <AppRoutes />
-        </OnboardingProvider>
-      </GlobalProvider>
+      <AppProvider>
+        <GlobalProvider>
+          <OnboardingProvider>
+            <AppRoutes />
+          </OnboardingProvider>
+        </GlobalProvider>
+      </AppProvider>
     </div>
   );
 }

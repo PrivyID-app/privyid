@@ -52,6 +52,7 @@ const LoginStep = ({ onNext, onSignupClick, onLoginSuccess }) => {
 
       if (adminData) {
         showToast("Welcome back, Super Admin!", "success");
+        onLoginSuccess({ user, admin: adminData });
         navigate("/super-admin");
         return;
       }

@@ -29,73 +29,89 @@ export const AppProvider = ({ children }) => {
 
   // Fetch from Supabase on mount/auth change
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchUserData = async (session) => {
+      if (!session) {
+        setUser(null);
+        setCompany(null);
+        localStorage.removeItem("user_data");
+        localStorage.removeItem("company_data");
+        setLoading(false);
+        return;
+      }
+
       try {
-        const {
-          data: { session },
-        } = await supabase.auth.getSession();
+        setLoading(true);
+        // 1. Try fetching from merchants table
+        const { data: merchant, error: mError } = await supabase
+          .from("merchants")
+          .select("*")
+          .eq("id", session.user.id)
+          .single();
 
-        if (session) {
-          // 1. Try fetching from merchants table
-          const { data: merchant, error: mError } = await supabase
-            .from("merchants")
-            .select("*")
-            .eq("id", session.user.id)
-            .single();
+        if (!mError && merchant) {
+          const userData = {
+            id: session.user.id,
+            name:
+              merchant.contact_name ||
+              session.user.user_metadata?.full_name ||
+              "Merchant",
+            email: session.user.email,
+            avatar: merchant.avatar_url || DefaultAvatar,
+            role: "Merchant",
+          };
+          const companyData = {
+            name: merchant.company_name || "PrivyID",
+            slogan: merchant.slogan || "Merchant KYC Flow",
+            logo: merchant.logo_url || DefaultLogo,
+          };
+          setUser(userData);
+          setCompany(companyData);
+          localStorage.setItem("user_data", JSON.stringify(userData));
+          localStorage.setItem("company_data", JSON.stringify(companyData));
+          return;
+        }
 
-          if (!mError && merchant) {
-            const userData = {
-              id: session.user.id,
-              name:
-                merchant.contact_name ||
-                session.user.user_metadata?.full_name ||
-                "Merchant",
-              email: session.user.email,
-              avatar: merchant.avatar_url || DefaultAvatar,
-              role: "Merchant",
-            };
-            const companyData = {
-              name: merchant.company_name || "PrivyID",
-              slogan: merchant.slogan || "Merchant KYC Flow",
-              logo: merchant.logo_url || DefaultLogo,
-            };
-            setUser(userData);
-            setCompany(companyData);
-            localStorage.setItem("user_data", JSON.stringify(userData));
-            localStorage.setItem("company_data", JSON.stringify(companyData));
-            return;
-          }
+        // 2. Try fetching from super_admins table
+        const { data: admin, error: aError } = await supabase
+          .from("super_admins")
+          .select("*")
+          .eq("id", session.user.id)
+          .single();
 
-          // 2. Try fetching from super_admins table
-          const { data: admin, error: aError } = await supabase
-            .from("super_admins")
-            .select("*")
-            .eq("id", session.user.id)
-            .single();
-
-          if (!aError && admin) {
-            const userData = {
-              id: session.user.id,
-              name:
-                admin.full_name ||
-                session.user.user_metadata?.full_name ||
-                "Super Admin",
-              email: session.user.email,
-              avatar: admin.avatar_url || DefaultAvatar,
-              role: "Super Admin",
-            };
-            setUser(userData);
-            localStorage.setItem("user_data", JSON.stringify(userData));
-          }
+        if (!aError && admin) {
+          const userData = {
+            id: session.user.id,
+            name:
+              admin.full_name ||
+              session.user.user_metadata?.full_name ||
+              "Super Admin",
+            email: session.user.email,
+            avatar: admin.avatar_url || DefaultAvatar,
+            role: "Super Admin",
+          };
+          setUser(userData);
+          localStorage.setItem("user_data", JSON.stringify(userData));
         }
       } catch (err) {
-        console.error("AppContext initialization failed:", err);
+        console.error("AppContext fetching failed:", err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchUserData();
+    // Initial check
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      fetchUserData(session);
+    });
+
+    // Listen for auth changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      fetchUserData(session);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   const updateUser = async (newData) => {
