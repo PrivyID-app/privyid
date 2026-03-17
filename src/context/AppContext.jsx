@@ -41,7 +41,32 @@ export const AppProvider = ({ children }) => {
 
       try {
         setLoading(true);
-        // 1. Try fetching from merchants table
+        // 1. First check if the user is an admin in the 'users' table
+        const { data: adminRecord, error: adminError } = await supabase
+          .from("users")
+          .select("*")
+          .eq("id", session.user.id)
+          .single();
+
+        if (!adminError && adminRecord && adminRecord.is_admin) {
+          console.log("AppContext: Admin detected", adminRecord);
+          const userData = {
+            id: session.user.id,
+            name:
+              adminRecord.full_name ||
+              session.user.user_metadata?.full_name ||
+              "Super Admin",
+            email: session.user.email,
+            avatar: adminRecord.avatar_url || DefaultAvatar,
+            role: "Super Admin",
+          };
+          setUser(userData);
+          localStorage.setItem("user_data", JSON.stringify(userData));
+          setLoading(false);
+          return;
+        }
+
+        // 2. If not admin, try fetching from merchants table
         const { data: merchant, error: mError } = await supabase
           .from("merchants")
           .select("*")
@@ -49,6 +74,7 @@ export const AppProvider = ({ children }) => {
           .single();
 
         if (!mError && merchant) {
+          console.log("AppContext: Merchant detected", merchant);
           const userData = {
             id: session.user.id,
             name:
@@ -68,29 +94,11 @@ export const AppProvider = ({ children }) => {
           setCompany(companyData);
           localStorage.setItem("user_data", JSON.stringify(userData));
           localStorage.setItem("company_data", JSON.stringify(companyData));
-          return;
-        }
-
-        // 2. Try fetching from users table for admin role
-        const { data: admin, error: aError } = await supabase
-          .from("users")
-          .select("*")
-          .eq("id", session.user.id)
-          .single();
-
-        if (!aError && admin && admin.is_admin) {
-          const userData = {
-            id: session.user.id,
-            name:
-              admin.full_name ||
-              session.user.user_metadata?.full_name ||
-              "Super Admin",
-            email: session.user.email,
-            avatar: admin.avatar_url || DefaultAvatar,
-            role: "Super Admin",
-          };
-          setUser(userData);
-          localStorage.setItem("user_data", JSON.stringify(userData));
+        } else {
+          console.warn("AppContext: No merchant or admin record found", {
+            mError,
+            adminError,
+          });
         }
       } catch (err) {
         console.error("AppContext fetching failed:", err);
@@ -115,40 +123,77 @@ export const AppProvider = ({ children }) => {
   }, []);
 
   const updateUser = async (newData) => {
+    if (!user?.id) {
+      console.warn("AppContext: Cannot update user, no ID found");
+      return;
+    }
+
+    // Capture previous state for rollback
+    const previousUser = user;
     const updatedUser = { ...user, ...newData };
+
+    // Optimistic UI update
     setUser(updatedUser);
     localStorage.setItem("user_data", JSON.stringify(updatedUser));
 
-    // Persist to Supabase if applicable
-    if (user?.id) {
-      if (user.role === "Super Admin") {
-        await supabase
+    console.log("AppContext: Persisting update for role:", user.role);
+
+    try {
+      let error;
+      // We use the role FROM THE COMPONENT STATE (user.role)
+      // but double check it's defined
+      const currentRole = user.role;
+
+      if (currentRole === "Super Admin") {
+        const { error: updateError } = await supabase
           .from("users")
           .update({
             full_name: updatedUser.name,
             avatar_url: updatedUser.avatar,
           })
           .eq("id", user.id);
+        error = updateError;
       } else {
-        await supabase
+        const { error: updateError } = await supabase
           .from("merchants")
           .update({
             contact_name: updatedUser.name,
             avatar_url: updatedUser.avatar,
           })
           .eq("id", user.id);
+        error = updateError;
       }
+
+      if (error) {
+        console.error("AppContext: Persistence failed", error);
+        // Rollback
+        setUser(previousUser);
+        localStorage.setItem("user_data", JSON.stringify(previousUser));
+
+        // Use a generic alert if GlobalContext isn't available here, 
+        // but AppContext is wrapped by GlobalProvider usually
+        alert(`Failed to save changes: ${error.message || "Unknown error"}`);
+      } else {
+        console.log("AppContext: Persistence successful");
+      }
+    } catch (err) {
+      console.error("AppContext: Exception in updateUser", err);
+      setUser(previousUser);
+      localStorage.setItem("user_data", JSON.stringify(previousUser));
+      alert(`Critical error saving changes. See console.`);
     }
   };
 
   const updateCompany = async (newData) => {
+    if (!user?.id || user.role === "Super Admin") return;
+
+    const previousCompany = company;
     const updatedCompany = { ...company, ...newData };
     setCompany(updatedCompany);
     localStorage.setItem("company_data", JSON.stringify(updatedCompany));
 
-    // Persist to Supabase if applicable
-    if (user?.id && user.role !== "Super Admin") {
-      await supabase
+    try {
+      const { error } = await supabase
         .from("merchants")
         .update({
           company_name: updatedCompany.name,
@@ -156,6 +201,14 @@ export const AppProvider = ({ children }) => {
           logo_url: updatedCompany.logo,
         })
         .eq("id", user.id);
+
+      if (error) {
+        console.error("AppContext: Company update failed:", error);
+        setCompany(previousCompany);
+        localStorage.setItem("company_data", JSON.stringify(previousCompany));
+      }
+    } catch (err) {
+      console.error("AppContext: Error in updateCompany:", err);
     }
   };
 
