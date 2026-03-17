@@ -45,9 +45,10 @@ const LoginStep = ({ onNext, onSignupClick, onLoginSuccess }) => {
 
       // 1. Check if Super Admin
       const { data: adminData } = await supabase
-        .from("super_admins")
+        .from("users")
         .select("*")
         .eq("id", user.id)
+        .eq("is_admin", true)
         .single();
 
       if (adminData) {

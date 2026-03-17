@@ -71,14 +71,14 @@ export const AppProvider = ({ children }) => {
           return;
         }
 
-        // 2. Try fetching from super_admins table
+        // 2. Try fetching from users table for admin role
         const { data: admin, error: aError } = await supabase
-          .from("super_admins")
+          .from("users")
           .select("*")
           .eq("id", session.user.id)
           .single();
 
-        if (!aError && admin) {
+        if (!aError && admin && admin.is_admin) {
           const userData = {
             id: session.user.id,
             name:
@@ -123,7 +123,7 @@ export const AppProvider = ({ children }) => {
     if (user?.id) {
       if (user.role === "Super Admin") {
         await supabase
-          .from("super_admins")
+          .from("users")
           .update({
             full_name: updatedUser.name,
             avatar_url: updatedUser.avatar,

@@ -7,25 +7,11 @@ import AdminLogo from "../../../assets/images/privyid-admin-2.png";
 import WhiteRectangle from "../../../assets/images/white-rectangle.svg";
 import "../super-admin.css";
 
+import { useAppContext } from "../../../context/appContextHooks";
+
 const SuperAdminLayout = () => {
   const navigate = useNavigate();
-  const [adminUser, setAdminUser] = useState({
-    name: "Admin",
-    email: "admin@privyid.com",
-    avatar: AdminAvatar,
-  });
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        setAdminUser({
-          name: session.user.email.split("@")[0],
-          email: session.user.email,
-          avatar: AdminAvatar,
-        });
-      }
-    });
-  }, []);
+  const { user } = useAppContext();
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -84,7 +70,7 @@ const SuperAdminLayout = () => {
         companyName="PrivyID Admin"
         slogan="Secure KYC & KYB"
         links={adminLinks}
-        user={adminUser}
+        user={user}
         onLogout={handleLogout}
         logo={AdminLogo}
         activeIndicator={WhiteRectangle}

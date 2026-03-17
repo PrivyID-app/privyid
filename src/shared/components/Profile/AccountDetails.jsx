@@ -11,6 +11,10 @@ const AccountDetails = () => {
   const { showToast } = useGlobal();
   const [formData, setFormData] = useState({ ...user });
 
+  React.useEffect(() => {
+    setFormData({ ...user });
+  }, [user]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));

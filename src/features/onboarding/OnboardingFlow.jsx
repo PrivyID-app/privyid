@@ -37,9 +37,15 @@ const OnboardingFlow = () => {
 
   const handleLoginSuccess = useCallback(
     (data) => {
-      const { user, merchant } = data;
+      const { user, merchant, admin } = data;
 
-      if (merchant.onboarding_step === "completed") {
+      // If it's a super admin, they should have already been navigated by LoginStep
+      // but we handle it here just in case to prevent crashes on merchant access.
+      if (admin || user?.role === "Super Admin") {
+        return;
+      }
+
+      if (merchant?.onboarding_step === "completed") {
         const serviceMap = {
           kyc: `/m/${user.id}/kyc`,
           kyb: `/m/${user.id}/kyb`,
@@ -48,6 +54,8 @@ const OnboardingFlow = () => {
         navigate(serviceMap[merchant.service_type] || `/m/${user.id}/combined`);
         return;
       }
+
+      if (!merchant) return;
 
       // Resume Onboarding
       showToast("Resuming your onboarding flow...", "info");
