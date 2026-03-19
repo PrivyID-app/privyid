@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import WebNav from "../../../../shared/components/WebNav";
 import SpecialButton from "../../../../shared/components/SpecialButton";
 import PrimaryButton from "../../../../shared/components/PrimaryButton";
 import SecondaryButton from "../../../../shared/components/SecondaryButton";
 import "../../../../app/pages/LandingPage.css";
+
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger);
 
 // Assets (from src/assets/images)
 import logoDark from "../../../../assets/images/Logo dark.svg";
@@ -137,6 +142,113 @@ export default function PrivyIdHomepage() {
   const [activeTab, setActiveTab] = useState(0);
   const [testimonialIndex, setTestimonialIndex] = useState(0);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const mainRef = useRef<HTMLDivElement>(null);
+
+  // Animation logic
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // 1. Hero Entrance
+      const heroTl = gsap.timeline({ defaults: { ease: "power3.out", duration: 1 } });
+      heroTl
+        .from(".lp-hero-chip", { y: -20, opacity: 0, duration: 0.8 }, 0.2)
+        .from(".lp-hero-title", { y: 30, opacity: 0 }, "-=0.6")
+        .from(".lp-hero-subtitle", { y: 20, opacity: 0 }, "-=0.7")
+        .from(".lp-hero-buttons", { y: 10, opacity: 0 }, "-=0.8")
+        .from(".lp-hero-pattern", { scale: 1.1, opacity: 0, duration: 2 }, 0);
+
+      // 2. Bento Grid Animation (ScrollTrigger)
+      gsap.from(".lp-bento-card", {
+        scrollTrigger: {
+          trigger: ".lp-bento-grid",
+          start: "top 80%",
+        },
+        y: 60,
+        opacity: 0,
+        stagger: 0.1,
+        duration: 0.8,
+        ease: "power2.out",
+      });
+
+      // 3. Stats Section Horizontal Stagger
+      gsap.from(".lp-stats-row", {
+        scrollTrigger: {
+          trigger: ".lp-stats-table",
+          start: "top 85%",
+        },
+        x: -30,
+        opacity: 0,
+        stagger: 0.15,
+        duration: 1,
+        ease: "power2.out",
+      });
+
+      // 4. Numbers Counter (Optional/Flashy)
+      // Note: This targets elements with the number class
+      const statsElements = document.querySelectorAll(".lp-stat-number");
+      statsElements.forEach((el) => {
+        const targetValue = el.textContent || "";
+        if (targetValue.includes("M") || targetValue.includes("<")) {
+          // Complex values might need more logic, but simple fade-in is safe
+          gsap.from(el, {
+            scrollTrigger: {
+              trigger: el,
+              start: "top 90%",
+            },
+            scale: 0.8,
+            duration: 0.5,
+            ease: "back.out(1.7)",
+          });
+        }
+      });
+
+      // 5. How It Works - Staggered entrance
+      gsap.from(".lp-hiw-card", {
+        scrollTrigger: {
+          trigger: ".lp-hiw-grid",
+          start: "top 85%",
+        },
+        y: 40,
+        opacity: 0,
+        stagger: 0.2,
+        duration: 0.8,
+        ease: "power2.out",
+      });
+
+      // 6. Section Headers - Staggered entrance for all section headers
+      const sectionHeaders = document.querySelectorAll(".lp-section-header");
+      sectionHeaders.forEach((header) => {
+        gsap.from(header.children, {
+          scrollTrigger: {
+            trigger: header,
+            start: "top 85%",
+          },
+          y: 30,
+          opacity: 0,
+          stagger: 0.1,
+          duration: 0.8,
+          ease: "power2.out",
+        });
+      });
+    }, mainRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  // FAQ Smooth Transition - Triggered by state change
+  useEffect(() => {
+    if (openFaq !== null) {
+      const activeAnswer = document.querySelectorAll(".lp-faq-answer")[openFaq];
+      if (activeAnswer) {
+        gsap.fromTo(
+          activeAnswer,
+          { height: 0, opacity: 0 },
+          { height: "auto", opacity: 1, duration: 0.4, ease: "power2.out" }
+        );
+      }
+    }
+    // Close other FAQs happens via React state rendering classes, 
+    // but GSAP can handle the opening height more smoothly than max-height.
+  }, [openFaq]);
 
   // SEO Integration
   React.useEffect(() => {
@@ -167,7 +279,7 @@ export default function PrivyIdHomepage() {
   const current = TESTIMONIALS[testimonialIndex];
 
   return (
-    <div className="lp-body">
+    <div className="lp-body" ref={mainRef}>
       <WebNav />
 
       <main className="lp-main">

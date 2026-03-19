@@ -928,9 +928,7 @@
 .lp-faq-answer {
   overflow: hidden;
   max-height: 0;
-  transition:
-    max-height 0.35s ease,
-    padding 0.2s;
+  /* transition: max-height 0.35s ease, padding 0.2s; */
   padding: 0;
 }
 
