@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet, useParams } from "react-router-dom";
 import "../merchant-kyc.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";
@@ -8,6 +8,7 @@ import Notifications from "../pages/Notifications";
 
 const MerchantKycLayout = () => {
   const { merchantId } = useParams();
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   const kycLinks = [
     {
@@ -57,8 +58,30 @@ const MerchantKycLayout = () => {
 
   return (
     <section className="merchant_kyc_layout">
+      {/* Mobile Header Top Bar (Hidden on Desktop via CSS) */}
+      <div className="mobile_top_bar">
+        <div className="mobile_logo_wrapper">
+          <span className="mobile_title">PrivyID</span>
+        </div>
+        <button
+          className="mobile_menu_trigger"
+          onClick={() => setIsMobileSidebarOpen(true)}
+        >
+          <span className="material-symbols-outlined">menu</span>
+        </button>
+      </div>
+
+      {/* Sidebar Overlay (Visible only when sidebar is open on mobile) */}
+      {isMobileSidebarOpen && (
+        <div
+          className="sidebar_overlay"
+          onClick={() => setIsMobileSidebarOpen(false)}
+        />
+      )}
+
       <AdminIdentityBar />
       <Sidebar
+        className={isMobileSidebarOpen ? "open" : ""}
         companyName="PrivyID"
         slogan="Merchant KYC Flow"
         links={kycLinks}

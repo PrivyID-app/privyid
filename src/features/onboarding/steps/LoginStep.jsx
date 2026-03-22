@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { supabase } from "../../../shared/services/supabase";
 import { useGlobal } from "../../../app/GlobalContext";
 import { useNavigate } from "react-router-dom";
@@ -16,18 +16,7 @@ const LoginStep = ({ onNext, onSignupClick, onLoginSuccess }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const isMobile =
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent,
-      );
-    if (isMobile) {
-      showToast(
-        "Please use a laptop or desktop for a better experience.",
-        "info",
-      );
-    }
-  }, [showToast]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();

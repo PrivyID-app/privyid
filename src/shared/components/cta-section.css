@@ -87,6 +87,9 @@
 }
 
 @media (max-width: 480px) {
+  .lp-cta-box {
+    padding: 2rem 1rem;
+  }
   .lp-cta-buttons {
     flex-direction: column;
     row-gap: 1rem;
@@ -95,8 +98,9 @@
   .lp-cta-buttons > * {
     width: 100%;
     justify-content: center;
+    white-space: nowrap;
     display: flex;
-    flex-direction: column;
-    row-gap: 1rem;
+    flex-direction: row;
+    align-items: center;
   }
 }

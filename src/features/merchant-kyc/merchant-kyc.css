@@ -862,3 +862,144 @@
   flex: 1 1 100%;
   width: 100%;
 }
+
+/* Responsive Mobile Sidebar Layout */
+@media screen and (min-width: 769px) {
+  .merchant_kyc_layout .mobile_top_bar {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .merchant_kyc_layout {
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .merchant_kyc_layout .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 80%;
+    max-width: 300px;
+    z-index: 100;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    border-radius: 0;
+    padding-top: 1rem;
+    height: 100vh;
+  }
+
+  .merchant_kyc_layout .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .merchant_kyc_layout .sidebar_overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 90;
+    display: block;
+  }
+
+  .merchant_kyc_layout .mobile_top_bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--bg-white-0);
+    border-bottom: 1px solid var(--stroke-sub-300);
+    z-index: 40;
+  }
+
+  .merchant_kyc_layout .mobile_logo_wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .merchant_kyc_layout .mobile_title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-strong-950);
+  }
+
+  .merchant_kyc_layout .mobile_menu_trigger {
+    background: none;
+    border: none;
+    color: var(--text-strong-950);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0.25rem;
+  }
+  
+  .merchant_kyc_layout .mobile_menu_trigger .material-symbols-outlined {
+    font-size: 1.5rem;
+  }
+
+  .merchant_kyc_layout .main_content {
+    border-radius: 0;
+    padding: 1rem 0.5rem;
+    height: calc(100vh - 4.5rem); 
+    width: 100%;
+  }
+
+  .quick_actions, .page_title_actions_wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .filter_wrapper {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .overview_wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 1rem;
+  }
+
+  .overview_card {
+    width: 100%;
+    min-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .chart_wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+    overflow: hidden;
+  }
+
+  .line_chart_area, .bar_chart_area {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .recent_verifications {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto; 
+    display: block;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .merchant_table {
+    min-width: 800px;
+    display: block;
+  }
+  
+  .merchant_table_wrapper {
+    width: 100%;
+    overflow-x: auto;
+  }
+}

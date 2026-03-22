@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet, useParams } from "react-router-dom";
 import "../merchant-combined.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";
@@ -6,6 +6,7 @@ import AdminIdentityBar from "../../../shared/components/AdminIdentityBar";
 
 const MerchantCombinedLayout = () => {
   const { merchantId } = useParams();
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   const combinedLinks = [
     {
@@ -65,8 +66,30 @@ const MerchantCombinedLayout = () => {
 
   return (
     <section className="merchant_combined_layout">
+      {/* Mobile Header Top Bar (Hidden on Desktop via CSS) */}
+      <div className="mobile_top_bar">
+        <div className="mobile_logo_wrapper">
+          <span className="mobile_title">PrivyID</span>
+        </div>
+        <button
+          className="mobile_menu_trigger"
+          onClick={() => setIsMobileSidebarOpen(true)}
+        >
+          <span className="material-symbols-outlined">menu</span>
+        </button>
+      </div>
+
+      {/* Sidebar Overlay (Visible only when sidebar is open on mobile) */}
+      {isMobileSidebarOpen && (
+        <div
+          className="sidebar_overlay"
+          onClick={() => setIsMobileSidebarOpen(false)}
+        />
+      )}
+
       <AdminIdentityBar />
       <Sidebar
+        className={isMobileSidebarOpen ? "open" : ""}
         companyName="PrivyID"
         slogan="Combined Flow"
         links={combinedLinks}

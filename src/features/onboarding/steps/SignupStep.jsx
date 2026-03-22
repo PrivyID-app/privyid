@@ -58,18 +58,7 @@ const SignupStep = ({ onNext, onLoginClick }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  React.useEffect(() => {
-    const isMobile =
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent,
-      );
-    if (isMobile) {
-      showToast(
-        "Please use a laptop or desktop for a better experience.",
-        "info",
-      );
-    }
-  }, [showToast]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();

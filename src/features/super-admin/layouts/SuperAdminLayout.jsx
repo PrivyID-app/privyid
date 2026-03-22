@@ -12,6 +12,7 @@ import { useAppContext } from "../../../context/appContextHooks";
 const SuperAdminLayout = () => {
   const navigate = useNavigate();
   const { user } = useAppContext();
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -66,7 +67,30 @@ const SuperAdminLayout = () => {
 
   return (
     <section className="super_admin_layout">
+      {/* Mobile Header Top Bar (Hidden on Desktop via CSS) */}
+      <div className="mobile_top_bar">
+        <div className="mobile_logo_wrapper">
+          <img src={AdminLogo} alt="PrivyID Logo" className="mobile_logo" />
+          <span className="mobile_title">PrivyID Admin</span>
+        </div>
+        <button
+          className="mobile_menu_trigger"
+          onClick={() => setIsMobileSidebarOpen(true)}
+        >
+          <span className="material-symbols-outlined">menu</span>
+        </button>
+      </div>
+
+      {/* Sidebar Overlay (Visible only when sidebar is open on mobile) */}
+      {isMobileSidebarOpen && (
+        <div
+          className="sidebar_overlay"
+          onClick={() => setIsMobileSidebarOpen(false)}
+        />
+      )}
+
       <Sidebar
+        className={isMobileSidebarOpen ? "open" : ""}
         companyName="PrivyID Admin"
         slogan="Secure KYC & KYB"
         links={adminLinks}

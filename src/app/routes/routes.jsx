@@ -12,7 +12,6 @@ import PricingPage from "../../features/marketing/pages/PricingPage";
 import NotFound from "../../shared/components/NotFound";
 import ProtectedRoute from "../../shared/components/ProtectedRoute";
 import MerchantPortalGuard from "../../shared/components/MerchantPortalGuard";
-import MobileDeviceWarning from "../../shared/components/MobileDeviceWarning";
 import MobileVerificationPage from "../../features/mobile-verification/MobileVerificationPage";
 
 // Merchant KYC Imports
@@ -222,7 +221,6 @@ const router = createHashRouter([
 const AppRoutes = () => {
   return (
     <>
-      <MobileDeviceWarning />
       <RouterProvider router={router} />
     </>
   );
