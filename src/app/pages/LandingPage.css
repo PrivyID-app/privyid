@@ -10,11 +10,16 @@
   background-color: #f6f6f6;
   font-family: inherit;
   scroll-behavior: smooth;
+  overflow-y: auto !important;
+  height: auto !important;
 }
 
 /* ---- Fixed nav offset ---- */
 .lp-main {
   padding-top: 4.5rem; /* compensate for fixed web_nav */
+  flex: 1;
+  width: 100%;
+  overflow-y: visible !important;
 }
 
 /* ---- Section Container ---- */

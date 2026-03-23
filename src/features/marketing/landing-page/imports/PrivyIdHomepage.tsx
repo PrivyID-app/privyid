@@ -280,6 +280,24 @@ export default function PrivyIdHomepage() {
 
   return (
     <div className="lp-body" ref={mainRef}>
+      <style>{`
+        html, body, #root, .App, .lp-body {
+          overflow-y: auto !important;
+          overflow-x: hidden !important;
+          height: auto !important;
+          min-height: 100vh !important;
+        }
+        .lp-body {
+          display: flex;
+          flex-direction: column;
+        }
+        .lp-main {
+          display: block !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+          flex: 1;
+        }
+      `}</style>
       <WebNav />
 
       <main className="lp-main">
